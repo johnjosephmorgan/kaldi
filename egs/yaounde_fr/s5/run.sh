@@ -16,10 +16,9 @@ set u
 # Do not change tmpdir, other scripts under local depend on it
 tmpdir=data/local/tmp
 
-# The speech corpus is on openslr.org
-#speech="http://www.openslr.org/resources/46/Tunisian_MSA.tar.gz"
-speech=/mnt/yaounde_data
-
+# Some of the speech corpora are on openslr.org
+# location of corpora
+yaounde_corpus=/mnt/disk01/yaounde_data
 # We use the cmusphinx lexicon.
 lex='https://sourceforge.net/projects/cmusphinx/files/Acoustic and Language Models/French/fr.dict/download'
 
@@ -34,13 +33,13 @@ if [ $stage -le 1 ]; then
 
   local/subs_download.sh $subs_src
 fi
-exit
+
 # preparation stages will store files under data/
 # Delete the entire data directory when restarting.
 if [ $stage -le 2 ]; then
-  local/prepare_data.sh
+  local/prepare_data.sh $yaounde_corpus
 fi
-
+exit
 if [ $stage -le 3 ]; then
   mkdir -p $tmpdir/dict
   local/qcri_buckwalter2utf8.sh > $tmpdir/dict/qcri_utf8.txt
