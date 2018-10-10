@@ -1,6 +1,5 @@
 #!/bin/bash 
 
-# Trains on 11 hours of speech
 # Uses the cmusphinx French lexicon.
 
 . ./cmd.sh
@@ -31,7 +30,7 @@ if [ $stage -le 1 ]; then
 
   local/cmusphinx_fr_lexicon_download.sh $lex
 
-  local/subs_download.sh $subs_src
+  local/subs/download.sh $subs_src
 fi
 
 # preparation stages will store files under data/
@@ -39,53 +38,50 @@ fi
 if [ $stage -le 2 ]; then
   local/prepare_data.sh $yaounde_corpus
 fi
-exit
+
 if [ $stage -le 3 ]; then
   mkdir -p $tmpdir/dict
-  local/qcri_buckwalter2utf8.sh > $tmpdir/dict/qcri_utf8.txt
+
+  local/prepare_dict.sh ./fr.dict
 fi
 
 if [ $stage -le 4 ]; then
-  local/prepare_dict.sh $tmpdir/dict/qcri_utf8.txt
-fi
-
-if [ $stage -le 5 ]; then
   # prepare the lang directory
   utils/prepare_lang.sh data/local/dict "<UNK>" data/local/lang data/lang
 fi
 
-if [ $stage -le 6 ]; then
+if [ $stage -le 5 ]; then
   echo "Preparing the subs data for lm training."
-  local/subs_prepare_data.pl 
+  local/subs/prepare_data.pl 
 fi
 
-if [ $stage -le 7 ]; then
+if [ $stage -le 6 ]; then
   echo "lm training."
   local/prepare_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
 fi
 
-if [ $stage -le 8 ]; then
+if [ $stage -le 7 ]; then
   echo "Making grammar fst."
   utils/format_lm.sh \
     data/lang data/local/lm/trigram.arpa.gz data/local/dict/lexicon.txt \
     data/lang_test
 fi
 
-if [ $stage -le 9 ]; then
+if [ $stage -le 8 ]; then
   # extract acoustic features
-  for fld in devtest train test; do
-    steps/make_mfcc.sh data/$fld exp/make_mfcc/$fld mfcc
-    utils/fix_data_dir.sh data/$fld
-    steps/compute_cmvn_stats.sh data/$fld exp/make_mfcc mfcc
-    utils/fix_data_dir.sh data/$fld
+  for f in dev train test; do
+    steps/make_mfcc.sh --cmd "$train_cmd" --nj 9 data/$f exp/make_mfcc/$f mfcc
+    utils/fix_data_dir.sh data/$f
+    steps/compute_cmvn_stats.sh data/$f exp/make_mfcc mfcc
+    utils/fix_data_dir.sh data/$f
   done
 fi
 
-if [ $stage -le 10 ]; then
+if [ $stage -le 9 ]; then
   echo "$0: monophone training"
-  steps/train_mono.sh  data/train data/lang exp/mono
+  steps/train_mono.sh  --cmd "$train_cmd" --nj 10 data/train data/lang exp/mono
 fi
-
+exit
 if [ $stage -le 11 ]; then
   # monophone evaluation
   (
