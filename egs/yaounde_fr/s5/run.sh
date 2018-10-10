@@ -82,105 +82,116 @@ if [ $stage -le 9 ]; then
   steps/train_mono.sh  --cmd "$train_cmd" --nj 10 data/train data/lang exp/mono
 fi
 exit
-if [ $stage -le 11 ]; then
+if [ $stage -le 10 ]; then
   # monophone evaluation
   (
     # make decoding graph for monophones
     utils/mkgraph.sh data/lang_test exp/mono exp/mono/graph
 
     # test monophones
-    for x in devtest test; do
+    for x in dev test; do
       nspk=$(wc -l < data/$x/spk2utt)
-      steps/decode.sh  --nj $nspk exp/mono/graph data/$x exp/mono/decode_${x}
+      steps/decode.sh  --cmd "$decode_cmd" --nj $nspk exp/mono/graph data/$x \
+      exp/mono/decode_${x}
     done
   ) &
 fi
 
-if [ $stage -le 12 ]; then
+if [ $stage -le 11 ]; then
   # align with monophones
-  steps/align_si.sh  data/train data/lang exp/mono exp/mono_ali
+    steps/align_si.sh  --cmd "$train_cmd" --nj 10 data/train data/lang exp/mono \
+      exp/mono_ali
 fi
 
-if [ $stage -le 13 ]; then
+if [ $stage -le 12 ]; then
   echo "$0: Starting  triphone training in exp/tri1"
   steps/train_deltas.sh \
+    --cmd "$train_cmd" --nj 10 \
     --boost-silence 1.25 1000 6000 data/train data/lang exp/mono_ali exp/tri1
 fi
 
 wait
 
-if [ $stage -le 14 ]; then
+if [ $stage -le 13 ]; then
   # test cd gmm hmm models
   # make decoding graphs for tri1
   (
     utils/mkgraph.sh data/lang_test exp/tri1 exp/tri1/graph
 
     # decode test data with tri1 models
-    for x in devtest test; do
+    for x in dev test; do
       nspk=$(wc -l < data/$x/spk2utt)
-      steps/decode.sh --nj $nspk exp/tri1/graph data/$x exp/tri1/decode_${x}
+      steps/decode.sh --cmd "$decode_cmd" --nj $nspk exp/tri1/graph data/$x \
+        exp/tri1/decode_${x}
     done
   ) &
 fi
 
-if [ $stage -le 15 ]; then
+if [ $stage -le 14 ]; then
   # align with triphones
-  steps/align_si.sh  data/train data/lang exp/tri1 exp/tri1_ali
+    steps/align_si.sh  --cmd "$train_cmd" --nj 10 data/train data/lang exp/tri1 \
+      exp/tri1_ali
 fi
 
-if [ $stage -le 16 ]; then
+if [ $stage -le 15 ]; then
   echo "$0: Starting (lda_mllt) triphone training in exp/tri2b"
   steps/train_lda_mllt.sh \
+    --cmd "$train_cmd" --nj 10 \
     --splice-opts "--left-context=3 --right-context=3" 500 5000 \
     data/train data/lang exp/tri1_ali exp/tri2b
 fi
 
 wait
 
-if [ $stage -le 17 ]; then
+if [ $stage -le 16 ]; then
   (
     #  make decoding FSTs for tri2b models
     utils/mkgraph.sh data/lang_test exp/tri2b exp/tri2b/graph
 
     # decode  test with tri2b models
-    for x in devtest test; do
+    for x in dev test; do
       nspk=$(wc -l < data/$x/spk2utt)
-      steps/decode.sh --nj $nspk exp/tri2b/graph data/$x exp/tri2b/decode_${x}
+      steps/decode.sh --cmd "$decode_cmd" --nj $nspk exp/tri2b/graph data/$x \
+        exp/tri2b/decode_${x}
     done
   ) &
 fi
 
-if [ $stage -le 18 ]; then
+if [ $stage -le 17 ]; then
   # align with lda and mllt adapted triphones
-  steps/align_si.sh \
-    --use-graphs true data/train data/lang exp/tri2b exp/tri2b_ali
+    steps/align_si.sh \
+      --cmd "$train_cmd" --nj 10 \
+      --use-graphs true data/train data/lang exp/tri2b exp/tri2b_ali
+fi
+
+if [ $stage -le 18 ]; then
+  echo "$0: Starting (SAT) triphone training in exp/tri3b"
+  steps/train_sat.sh --cmd "$train_cmd" --nj 10 800 8000 data/train data/lang \
+    exp/tri2b_ali exp/tri3b
 fi
 
 if [ $stage -le 19 ]; then
-  echo "$0: Starting (SAT) triphone training in exp/tri3b"
-  steps/train_sat.sh 800 8000 data/train data/lang exp/tri2b_ali exp/tri3b
-fi
-
-if [ $stage -le 20 ]; then
   (
     # make decoding graphs for SAT models
     utils/mkgraph.sh data/lang_test exp/tri3b exp/tri3b/graph
 
     # decode test sets with tri3b models
-    for x in devtest test; do
+    for x in dev test; do
       nspk=$(wc -l < data/$x/spk2utt)
-      steps/decode_fmllr.sh --nj $nspk exp/tri3b/graph data/$x exp/tri3b/decode_${x}
+      steps/decode_fmllr.sh --cmd "$train_cmd" --nj $nspk \
+        exp/tri3b/graph data/$x exp/tri3b/decode_${x}
     done
   ) &
 fi
 
-if [ $stage -le 21 ]; then
+if [ $stage -le 20 ]; then
   # align with tri3b models
   echo "$0: Starting exp/tri3b_ali"
-  steps/align_fmllr.sh data/train data/lang exp/tri3b exp/tri3b_ali
+  steps/align_fmllr.sh --cmd "$train_cmd" --nj 10 data/train data/lang \
+    exp/tri3b exp/tri3b_ali
 fi
 
-if [ $stage -le 22 ]; then
+if [ $stage -le 21 ]; then
   # train and test chain models
   local/chain/run_tdnn.sh
 fi
