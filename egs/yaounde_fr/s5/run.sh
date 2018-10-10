@@ -81,7 +81,7 @@ if [ $stage -le 9 ]; then
   echo "$0: monophone training"
   steps/train_mono.sh  --cmd "$train_cmd" --nj 10 data/train data/lang exp/mono
 fi
-exit
+
 if [ $stage -le 10 ]; then
   # monophone evaluation
   (
@@ -106,10 +106,10 @@ fi
 if [ $stage -le 12 ]; then
   echo "$0: Starting  triphone training in exp/tri1"
   steps/train_deltas.sh \
-    --cmd "$train_cmd" --nj 10 \
+    --cmd "$train_cmd" \
     --boost-silence 1.25 1000 6000 data/train data/lang exp/mono_ali exp/tri1
 fi
-
+exit
 wait
 
 if [ $stage -le 13 ]; then
