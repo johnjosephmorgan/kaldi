@@ -10,15 +10,15 @@ fi
 
 yaounde_corpus=$1
 
-local/gabon_conv/prepare_data.sh $yaounde_corpus
-local/gabon_read/prepare_data.sh $yaounde_corpus
-local/niger/prepare_data.sh $yaounde_corpus
+local/ca16_conv/prepare_data.sh $yaounde_corpus
+local/ca16_read/prepare_data.sh $yaounde_corpus
+local/ca16_test/prepare_data.sh $yaounde_corpus
+local/niger_dev/prepare_data.sh $yaounde_corpus
 local/yaounde/prepare_data.sh $yaounde_corpus
-local/central_accord/prepare_data.sh $yaounde_corpus
 
 echo "$0: Consolidating training data lists"
 mkdir -p data/train
-for c in gabonread gp niger yaounde gabonconv; do
+for c in  ca16conv ca16read yaounde; do
   for x in wav.scp text utt2spk; do
     cat data/local/tmp/$c/lists/$x >> data/train/$x
   done
