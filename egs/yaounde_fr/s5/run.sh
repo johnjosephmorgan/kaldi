@@ -109,7 +109,7 @@ if [ $stage -le 12 ]; then
     --cmd "$train_cmd" \
     --boost-silence 1.25 1000 6000 data/train data/lang exp/mono_ali exp/tri1
 fi
-exit
+
 wait
 
 if [ $stage -le 13 ]; then
@@ -136,7 +136,7 @@ fi
 if [ $stage -le 15 ]; then
   echo "$0: Starting (lda_mllt) triphone training in exp/tri2b"
   steps/train_lda_mllt.sh \
-    --cmd "$train_cmd" --nj 10 \
+    --cmd "$train_cmd" \
     --splice-opts "--left-context=3 --right-context=3" 500 5000 \
     data/train data/lang exp/tri1_ali exp/tri2b
 fi
@@ -160,13 +160,13 @@ fi
 if [ $stage -le 17 ]; then
   # align with lda and mllt adapted triphones
     steps/align_si.sh \
-      --cmd "$train_cmd" --nj 10 \
+      --cmd "$train_cmd" \
       --use-graphs true data/train data/lang exp/tri2b exp/tri2b_ali
 fi
 
 if [ $stage -le 18 ]; then
   echo "$0: Starting (SAT) triphone training in exp/tri3b"
-  steps/train_sat.sh --cmd "$train_cmd" --nj 10 800 8000 data/train data/lang \
+  steps/train_sat.sh --cmd "$train_cmd" 800 8000 data/train data/lang \
     exp/tri2b_ali exp/tri3b
 fi
 
