@@ -3,18 +3,7 @@
 # run_cnn_tdnn_1a.sh is modified from run_tdnn_1h.sh, but adding CNN layers
 #  near the beginning.
 
-# local/chain/compare_wer.sh --online exp/chain/tdnn1h_sp exp/chain/cnn_tdnn1a_sp
-# System                tdnn1h_sp cnn_tdnn1a_sp
-#WER dev_clean_2 (tgsmall)      12.09     11.15
-#             [online:]         12.11     11.17
-#WER dev_clean_2 (tglarge)       8.59      7.79
-#             [online:]          8.76      7.80
-# Final train prob        -0.0493   -0.0467
-# Final valid prob        -0.0805   -0.0789
-# Final train prob (xent)   -1.1730   -1.0767
-# Final valid prob (xent)   -1.3872   -1.3070
-# Num-params                 5207856   4492816
-
+# Later run: local/chain/compare_wer.sh 
 # Set -e here so that we catch if any executable fails immediately
 set -euo pipefail
 
@@ -22,8 +11,8 @@ set -euo pipefail
 # (some of which are also used in this script directly).
 stage=0
 decode_nj=10
-train_set=train_clean_5
-test_sets=dev_clean_2
+train_set=train
+test_sets="dev test"
 gmm=tri3b
 nnet3_affix=
 
