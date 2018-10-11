@@ -53,13 +53,13 @@ mkdir -p $tmp_tunis
 
 # for recited speech
 # the data collection laptops had names like CTELLONE CTELLTWO ...
-for machine in CTELLONE CTELLTWO CTELLTHREE CTELLFOUR CTELLFIVE; do
+for machine in CTELLONE; do
   find $data_dir/speech/train/$machine -type f -name "*.wav" | grep Recordings \
   >> $tmp_tunis/recordings_wav.txt
 done
 
 # get file names for Answers 
-for machine in CTELLONE CTELLTWO CTELLTHREE CTELLFOUR CTELLFIVE; do
+for machine in CTELLONE; do
   find $data_dir/speech/train/$machine -type f \
     -name "*.wav" \
     | grep Answers >> $tmp_tunis/answers_wav.txt
