@@ -52,6 +52,7 @@ fi
 
 if [ $stage -le 5 ]; then
   echo "Preparing the subs data for lm training."
+  # Subs prep depends on previous steps. 
   local/subs/prepare_data.pl 
 fi
 
