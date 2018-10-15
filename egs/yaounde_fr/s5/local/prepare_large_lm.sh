@@ -47,6 +47,6 @@ fi
 
 
 ngram-count -order 3 -interpolate -unk -map-unk "<UNK>" \
-    -limit-vocab -text data/local/lm/train.txt -lm data/local/lm/tglarge.arpa || exit 1;
+    -limit-vocab -text data/local/lm/train_large.txt -lm data/local/lm/tglarge.arpa || exit 1;
 
 gzip -f data/local/lm/tglarge.arpa
