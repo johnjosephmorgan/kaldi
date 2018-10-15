@@ -24,7 +24,7 @@ if [ ! -f $corpus ]; then
 fi
 
 perl -MList::Util=shuffle -e 'print shuffle(<STDIN>);' < $corpus | \
-     head -n $nsegs > data/local/lm/train.txt
+     head -n $nsegs > data/local/lm/train_large.txt
 
 if ! command ngram-count >/dev/null; then
   if uname -a | grep darwin >/dev/null; then # For MACOSX...
@@ -47,6 +47,6 @@ fi
 
 
 ngram-count -order 3 -interpolate -unk -map-unk "<UNK>" \
-    -limit-vocab -text data/local/lm/train.txt -lm data/local/lm/trigram.arpa || exit 1;
+    -limit-vocab -text data/local/lm/train.txt -lm data/local/lm/tglarge.arpa || exit 1;
 
-gzip -f data/local/lm/trigram.arpa
+gzip -f data/local/lm/tglarge.arpa
