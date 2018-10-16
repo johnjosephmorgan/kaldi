@@ -200,10 +200,10 @@ if [ $stage -le 16 ]; then
 fi
 
 if [ $stage -le 17 ]; then
-  # align with lda and mllt adapted triphones
-    steps/align_si.sh \
-      --cmd "$train_cmd" \
-      --use-graphs true data/train data/lang_nosp exp/tri2b exp/tri2b_ali
+  echo "$0: aligning with lda and mllt adapted triphones"
+  steps/align_si.sh  --nj 10 \
+    --cmd "$train_cmd" \
+    --use-graphs true data/train data/lang_nosp exp/tri2b exp/tri2b_ali
 fi
 
 if [ $stage -le 18 ]; then
