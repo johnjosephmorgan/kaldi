@@ -275,11 +275,11 @@ fi
 
 if [ $stage -le 27 ]; then
   # Test the tri3b system with the silprobs and pron-probs.
-
+  for l in tgsmall tgmed; do
   utils/format_lm.sh \
-    data/lang data/local/lm/tgsmall.arpa.gz data/local/dict/lexicon.txt \
-    data/lang_test_tgsmall
-
+    data/lang data/local/lm/${l}.arpa.gz data/local/dict/lexicon.txt \
+    data/lang_test_${l}
+  done
   # decode using the tri3b model
   utils/mkgraph.sh data/lang_test_tgsmall \
                    exp/tri3b exp/tri3b/graph_tgsmall
