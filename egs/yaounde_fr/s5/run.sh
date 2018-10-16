@@ -235,7 +235,6 @@ if [ $stage -le 19 ]; then
 fi
 
 if [ $stage -le 20 ]; then
-  # align with tri3b models
   echo "$0: Starting exp/tri3b_ali"
   steps/align_fmllr.sh --cmd "$train_cmd" --nj 10 data/train data/lang_nosp \
     exp/tri3b exp/tri3b_ali
@@ -246,25 +245,35 @@ fi
 if [ $stage -le 21 ]; then
   steps/get_prons.sh --cmd "$train_cmd" \
     data/train data/lang_nosp exp/tri3b
+fi
 
+if [ $stage -le 22 ]; then
   utils/dict_dir_add_pronprobs.sh --max-normalize true \
     data/local/dict_nosp \
     exp/tri3b/pron_counts_nowb.txt exp/tri3b/sil_counts_nowb.txt \
     exp/tri3b/pron_bigram_counts_nowb.txt data/local/dict
+fi
 
+if [ $stage -le 23 ]; then
   utils/prepare_lang.sh data/local/dict \
     "<UNK>" data/local/lang_tmp data/lang
+fi
 
+if [ $stage -le 24 ]; then
   local/format_lms.sh --src-dir data/lang data/local/lm
+fi
 
+if [ $stage -le 25 ]; then
   utils/build_const_arpa_lm.sh \
     data/local/lm/lm_tglarge.arpa.gz data/lang data/lang_test_tglarge
+fi
 
+if [ $stage -le 26 ]; then
   steps/align_fmllr.sh --nj 5 --cmd "$train_cmd" \
     data/train data/lang exp/tri3b exp/tri3b_ali_train
 fi
 
-if [ $stage -le 22 ]; then
+if [ $stage -le 27 ]; then
   # Test the tri3b system with the silprobs and pron-probs.
 
   # decode using the tri3b model
@@ -285,7 +294,7 @@ if [ $stage -le 22 ]; then
   done
 fi
 
-if [ $stage -le 23 ]; then
+if [ $stage -le 28 ]; then
   # train and test chain models
   local/chain/run_tdnn.sh
 fi
