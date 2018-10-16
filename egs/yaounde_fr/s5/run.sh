@@ -165,7 +165,7 @@ if [ $stage -le 14 ]; then
     steps/align_si.sh  --cmd "$train_cmd" --nj 10 data/train data/lang_nosp \
       exp/tri1 exp/tri1_ali
 fi
-exit
+
 if [ $stage -le 15 ]; then
   echo "$0: Starting (lda_mllt) triphone training in exp/tri2b"
   steps/train_lda_mllt.sh \
