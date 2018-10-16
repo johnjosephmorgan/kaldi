@@ -265,7 +265,7 @@ fi
 
 if [ $stage -le 25 ]; then
   utils/build_const_arpa_lm.sh \
-    data/local/lm/lm_tglarge.arpa.gz data/lang data/lang_test_tglarge
+    data/local/lm/tglarge.arpa.gz data/lang data/lang_test_tglarge
 fi
 
 if [ $stage -le 26 ]; then
