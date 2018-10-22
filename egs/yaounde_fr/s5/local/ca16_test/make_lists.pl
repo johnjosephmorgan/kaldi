@@ -33,7 +33,7 @@ system "mkdir -p $tmpdir/lists";
 my $w = "$tmpdir/wav_list.txt";
 
 # output temporary wav.scp files
-my $o = "$tmpdir/lists/wav.scp";
+my $o = "$tmpdir/lists/wav.scp_raw";
 
 # output temporary utt2spk files
 my $u = "$tmpdir/lists/utt2spk_raw";

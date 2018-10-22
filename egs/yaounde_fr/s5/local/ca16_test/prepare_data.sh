@@ -15,6 +15,7 @@ find $datadir -type f -name "*.wav" > $tmpdir/wav_list.txt
 local/ca16_test/make_lists.pl $datadir
 sort $tmpdir/lists/utt2spk_raw | expand | tr -s [:blank:] > $tmpdir/lists/utt2spk
 sort $tmpdir/lists/text_raw | expand | tr -s [:blank:] > $tmpdir/lists/text
+sort $tmpdir/lists/wav.scp | expand | tr -s [:blank:] > $tmpdir/lists/wav.scp
 utils/utt2spk_to_spk2utt.pl $tmpdir/lists/utt2spk > $tmpdir/lists/spk2utt
 
 mkdir -p data/test
