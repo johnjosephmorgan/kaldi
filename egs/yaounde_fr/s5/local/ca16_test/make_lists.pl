@@ -36,10 +36,10 @@ my $w = "$tmpdir/wav_list.txt";
 my $o = "$tmpdir/lists/wav.scp";
 
 # output temporary utt2spk files
-my $u = "$tmpdir/lists/utt2spk";
+my $u = "$tmpdir/lists/utt2spk_raw";
 
 # output temporary text files
-my $t = "$tmpdir/lists/text";
+my $t = "$tmpdir/lists/text_raw";
 
 # initialize hash for prompts
 my %p = ();
@@ -50,6 +50,12 @@ open my $P, '<', $p or croak "problem with $p $!";
 LINEA: while ( my $line = <$P> ) {
     chomp $line;
     my ($j,$sent) = split /\s/, $line, 2;
+    # down case
+    $sent = lc $sent;
+    # no punctuation
+    $sent =~ s/[\.,;:]//g;
+    # tokenize apostrophes
+    $sent =~ s/([cdjls]')(.+)/$1 $2/g;
     my $bn = basename $j, ".wav";
     $p{$bn} = $sent;
 }
