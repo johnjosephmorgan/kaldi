@@ -56,7 +56,7 @@ LINEA: while ( my $line = <$P> ) {
     $sent =~ s/[\.,;:]//g;
     # tokenize apostrophes
     $sent =~ s/([cdjlns])(')(.+?)/$1$2 $3/g;
-    $sent =~ s/(qu')(.+)/$1 $2/g;
+    $sent =~ s/(qu')(.+?)/$1 $2/g;
     my $bn = basename $j, ".wav";
     $p{$bn} = $sent;
 }
