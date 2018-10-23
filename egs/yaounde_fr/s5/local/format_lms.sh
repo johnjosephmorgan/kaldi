@@ -49,7 +49,7 @@ for lm_suffix in tgsmall tgmed; do
   test=${src_dir}_test_${lm_suffix}
   mkdir -p $test
   cp -r ${src_dir}/* $test
-  gunzip -c $lm_dir/lm_${lm_suffix}.arpa.gz | \
+  gunzip -c $lm_dir/${lm_suffix}.arpa.gz | \
     arpa2fst --disambig-symbol=#0 \
              --read-symbol-table=$test/words.txt - $test/G.fst
   utils/validate_lang.pl --skip-determinization-check $test || exit 1;
