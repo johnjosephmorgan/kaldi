@@ -48,7 +48,8 @@ if ( -e $filtered ) {
       # opening punctuation go away
       $line =~ s/(\p{Open_Punctuation}+|\p{Initial_Punctuation}+|[	 ]+)/ /msxg;
       # quotes?
-      $line =~ s/\p{Quotation_Mark}+//g;
+      #$line =~ s/\p{Quotation_Mark}+//g;
+      $line =~ s/"//g;
       # dashes ?
       $line =~ s/(\w)(\p{dash_punctuation}+?)/$1 $2/g;
       #convert tabs to white space
