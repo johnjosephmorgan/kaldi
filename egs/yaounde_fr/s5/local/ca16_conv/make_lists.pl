@@ -56,6 +56,8 @@ LINEA: while ( my $line = <$P> ) {
     my $b = basename $file, '.tdf';
     my ($x,$d,$s,$y,$i) = split /\_/, $b, 5;
     my $bn = 'gabonconv_' . $s . '_' . $i;
+    # dashes?
+    $sent =~ s/(\w)(\p{dash_punctuation}+?)/$1 $2/g;
     $p{$bn} = $sent;
 }
 close $P;
@@ -78,9 +80,9 @@ open my $T, '+>', $t or croak "problem with $t $!";
      # only work with utterances in transcript file
      if ( exists $p{$bn} ) {
 	 my $fn = $bn . ".wav";
-	 print $T "$bn\t$p{$bn}\n";
-	 print $O "$bn\tsox $line -t .wav - |\n";
-	 print $U "$bn\tgabonconv_${s}\n";
+	 print $T "$bn $p{$bn}\n";
+	 print $O "$bn sox $line -t .wav - |\n";
+	 print $U "$bn gabonconv_${s}\n";
      } else {
 	 # warn "no transcript for $line";
      }

@@ -42,7 +42,15 @@ if ( -e $filtered ) {
       next LINE if ( ($#tokens < $low_bound) or ($#tokens > $up_bound ));
 
       # remove punctuation
-      $line =~ s/(\p{Punctuation}+|\p{Dash_Punctuation}+|\p{Close_Punctuation}+|\p{Open_Punctuation}+|\p{Initial_Punctuation}+|\p{Final_Punctuation}+|\p{Connector_Punctuation}+|\p{Other_Punctuation}+|[	 ]+)/ /msxg;
+      #$line =~ s/(\p{Punctuation}+|\p{Dash_Punctuation}+|\p{Close_Punctuation}+|\p{Open_Punctuation}+|\p{Initial_Punctuation}+|\p{Final_Punctuation}+|\p{Connector_Punctuation}+|\p{Other_Punctuation}+|[	 ]+)/ /msxg;
+      # closing punctuation go away
+      $line =~ s/(\p{Close_Punctuation}+|\p{Term}+|\p{Final_Punctuation}+|[	 ]+)/ /msxg;
+      # opening punctuation go away
+      $line =~ s/(\p{Open_Punctuation}+|\p{Initial_Punctuation}+|[	 ]+)/ /msxg;
+      # quotes?
+      $line =~ s/\p{Quotation_Mark}+//g;
+      # dashes ?
+      $line =~ s/(\w)(\p{dash_punctuation}+?)/$1 $2/g;
       #convert tabs to white space
       $line =~ s/\t/ /g;
       #hard to soft space

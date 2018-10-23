@@ -55,6 +55,8 @@ LINEA: while ( my $line = <$P> ) {
     my $bn = basename $j, ".wav";
     my ($x,$y,$s,$i) = split /\_/, $j, 4;
     my $sent = join " ", @sent;
+    # dashes?
+    $sent =~ s/(\w)(\p{dash_punctuation}+?)/$1 $2/g;
     $p{$bn} = $sent;
 }
 close $P;
@@ -74,9 +76,9 @@ open my $T, '+>', $t or croak "problem with $t $!";
      # only work with utterances in transcript file
      if ( exists $p{$r} ) {
 	 my $fn = $r . ".wav";
-	 print $T "$r\t$p{$r}\n";
-	 print $O "$r\tsox $line -t .wav - |\n";
-	 print $U "$r\t$speaker\n";
+	 print $T "$r $p{$r}\n";
+	 print $O "$r sox $line -t .wav - |\n";
+	 print $U "$r $speaker\n";
      } else {
 	 warn "no transcript for $line";
      }

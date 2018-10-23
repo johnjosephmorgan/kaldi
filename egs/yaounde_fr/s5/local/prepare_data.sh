@@ -20,7 +20,7 @@ echo "$0: Consolidating training data lists"
 mkdir -p data/train
 for c in  ca16conv ca16read yaounde; do
   for x in wav.scp text utt2spk; do
-    cat data/local/tmp/$c/lists/$x >> data/train/$x
+    cat data/local/tmp/$c/lists/$x | tr "	" " " >> data/train/$x
   done
 done
 

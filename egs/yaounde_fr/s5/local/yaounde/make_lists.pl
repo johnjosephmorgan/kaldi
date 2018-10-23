@@ -58,6 +58,8 @@ LINEA: while ( my $line = <$P> ) {
     my $bn = basename $file, ".wav";
     my ($x,$s,$i) = split /\-/, $bn, 3;
     my $k = 'yaounde-' . $s . '-' . $mode . '-' . $i;
+    # dashes?
+    $sent =~ s/(\w)(\p{dash_punctuation}+?)/$1 $2/g;
     $p{$k} = $sent;
 }
 close $P;
@@ -78,9 +80,9 @@ open my $T, '+>', $t or croak "problem with $t $!";
      my $sd = 'yaounde-' . $s;
      my $bn = $sd . '-' . $mode . '-' . $i;
      my $fn = $bn . ".wav";
-     print $T "$bn\t$p{$bn}\n";
-     print $O "$bn\tsox $line -t .wav - |\n";
-     print $U "$bn\t$sd\n";
+     print $T "$bn $p{$bn}\n";
+     print $O "$bn sox $line -t .wav - |\n";
+     print $U "$bn $sd\n";
 }
 close $T;
 close $O;

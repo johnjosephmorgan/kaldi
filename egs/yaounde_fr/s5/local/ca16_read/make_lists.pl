@@ -30,10 +30,10 @@ my $p = "$d/transcripts/train/ca16_read/conditioned.txt";
 system "mkdir -p $tmpdir/lists";
 
 # input wav file list
-my $w = "$tmpdir/wav_list.txt";
+my $wav_list = "$tmpdir/wav_list.txt";
 
 # output temporary wav.scp files
-my $o = "$tmpdir/lists/wav.scp";
+my $wav_scp = "$tmpdir/lists/wav.scp";
 
 # output temporary utt2spk files
 my $u = "$tmpdir/lists/utt2spk";
@@ -54,16 +54,18 @@ LINEA: while ( my $line = <$P> ) {
 
     my ($x,$d,$s,$y,$i) = split /\_/, $j, 5;
     my $bn = 'gabonread_' . $s . '_' . $i;
+    # dashes?
+    $sent =~ s/(\w)(\p{dash_punctuation}+?)/$1 $2/g;
     $p{$bn} = $sent;
 }
 close $P;
 
-open my $W, '<', $w or croak "problem with $w $!";
-open my $O, '+>', $o or croak "problem with $o $!";
+open my $WAVLIST, '<', $wav_list or croak "problem with $wav_list $!";
+open my $WAVSCP, '+>', $wav_scp or croak "problem with $wav_scp $!";
 open my $U, '+>', $u or croak "problem with $u $!";
 open my $T, '+>', $t or croak "problem with $t $!";
 
- LINE: while ( my $line = <$W> ) {
+ LINE: while ( my $line = <$WAVLIST> ) {
      chomp $line;
      my ($volume,$directories,$file) = File::Spec->splitpath( $line );
      my @dirs = split /\//, $directories;
@@ -76,14 +78,14 @@ open my $T, '+>', $t or croak "problem with $t $!";
      # only work with utterances in transcript file
      if ( exists $p{$bn} ) {
 	 my $fn = $bn . ".wav";
-	 print $T "$bn\t$p{$bn}\n";
-	 print $O "$bn\tsox $line -t .wav - |\n";
-	 print $U "$bn\tgabonread_${s}\n";
+	 print $T "$bn $p{$bn}\n";
+	 print $WAVSCP "$bn sox $line -t .wav - |\n";
+	 print $U "$bn gabonread_${s}\n";
      } else {
 	 # warn "no transcript for $line";
      }
 }
 close $T;
-close $O;
+close $WAVSCP;
 close $U;
-close $W;
+close $WAVLIST;

@@ -57,6 +57,8 @@ LINEA: while ( my $line = <$P> ) {
     # tokenize apostrophes
     $sent =~ s/([cdjlns])(')(.+?)/$1$2 $3/g;
     $sent =~ s/(qu')(.+?)/$1 $2/g;
+    # dashes
+    $sent =~ s/(\w)(\p{Dash_Punctuation}+)/$1 $2/g;
     my $bn = basename $j, ".wav";
     $p{$bn} = $sent;
 }
@@ -75,9 +77,9 @@ open my $T, '+>', $t or croak "problem with $t $!";
      my $speaker = $dirs[-1];
      # only work with utterances in transcript file
      if ( exists $p{$r} ) {
-	 print $T "$r\t$p{$r}\n";
-	 print $O "$r\tsox $line -t .wav - |\n";
-	 print $U "$r\t$speaker\n";
+	 print $T "$r $p{$r}\n";
+	 print $O "$r sox $line -t .wav - |\n";
+	 print $U "$r $speaker\n";
      } else {
 	 warn "no transcript for $line";
      }
