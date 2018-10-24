@@ -25,7 +25,7 @@ my $tmpdir = "data/local/tmp/niger";
 
 my ($d) = @ARGV;
 
-my $p = "$d/transcripts/dev/niger_west_african_fr/wav_file_name.txt";
+my $p = "$d/transcripts/dev/niger_west_african_fr/transcripts.txt";
 
 system "mkdir -p $tmpdir/lists";
 

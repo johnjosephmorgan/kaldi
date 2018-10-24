@@ -4,7 +4,7 @@
 # Apache 2.0.
 
 # make_lists.pl - write lists for acoustic model training
-# writes files under data/local/tmp/ca16read/lists
+# writes files under data/local/tmp/ca16read_train/lists
 
 use strict;
 use warnings;
@@ -21,7 +21,7 @@ use File::Spec;
 use File::Copy;
 use File::Basename;
 
-my $tmpdir = "data/local/tmp/ca16read";
+my $tmpdir = "data/local/tmp/ca16read_train";
 
 my ($d) = @ARGV;
 
