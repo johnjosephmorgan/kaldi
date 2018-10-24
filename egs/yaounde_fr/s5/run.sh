@@ -17,7 +17,10 @@ tmpdir=data/local/tmp
 
 # Some of the speech corpora are on openslr.org
 # location of corpora
-yaounde_corpus=/mnt/disk01/yaounde_data
+# The speech corpus is on openslr.org
+speech="http://www.openslr.org/resources/57/aafr.tar.gz"
+
+yaounde_corpus=African_Accented_French
 # We use the cmusphinx lexicon.
 lex='https://sourceforge.net/projects/cmusphinx/files/Acoustic and Language Models/French/fr.dict/download'
 
@@ -26,11 +29,11 @@ subs_src="http://opus.nlpl.eu/download.php?f=OpenSubtitles2018/mono/OpenSubtitle
 
 if [ $stage -le 1 ]; then
   # Downloads archive to this script's directory
-  #local/yaounde_fr_download.sh $speech
+  #local/aafr_download.sh $speech
 
   local/cmusphinx_fr_lexicon_download.sh $lex
 
-  local/subs/download.sh $subs_src
+  #local/subs/download.sh $subs_src
 fi
 
 # preparation stages will store files under data/
@@ -53,7 +56,7 @@ fi
 if [ $stage -le 5 ]; then
   echo "Preparing the subs data for lm training."
   # Subs prep depends on previous steps. 
-  local/subs/prepare_data.pl 
+  #local/subs/prepare_data.pl 
 fi
 
 if [ $stage -le 6 ]; then
@@ -65,9 +68,9 @@ if [ $stage -le 6 ]; then
 
   local/prepare_small_lm.sh  $tmpdir/yaounde/lm/train.txt
 
-  local/prepare_medium_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
+  #local/prepare_medium_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
 
-  local/prepare_large_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
+  #local/prepare_large_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
 fi
 
 if [ $stage -le 7 ]; then
