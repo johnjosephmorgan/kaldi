@@ -6,7 +6,7 @@
 # yaounde  prep
 
 yaounde_datadir=$1
-datadir=$yaounde_datadir/speech
+datadir=$yaounde_datadir/speech/train/yaounde
 tmpdir=data/local/tmp/yaounde
 mkdir -p $tmpdir
 
