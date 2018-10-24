@@ -17,7 +17,7 @@ tmpdir=data/local/tmp
 
 # location of corpora
 # The speech corpus is on openslr.org
-speech="http://www.openslr.org/resources/57/African_AccentedFrench.tar.gz"
+speech="http://www.openslr.org/resources/57/African_Accented_French.tar.gz"
 
 datadir=African_Accented_French
 
