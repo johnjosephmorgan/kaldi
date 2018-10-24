@@ -15,12 +15,12 @@ set u
 # Do not change tmpdir, other scripts under local depend on it
 tmpdir=data/local/tmp
 
-# Some of the speech corpora are on openslr.org
 # location of corpora
 # The speech corpus is on openslr.org
-speech="http://www.openslr.org/resources/57/aafr.tar.gz"
+speech="http://www.openslr.org/resources/57/African_AccentedFrench.tar.gz"
 
-yaounde_corpus=African_Accented_French
+datadir=African_Accented_French
+
 # We use the cmusphinx lexicon.
 lex='https://sourceforge.net/projects/cmusphinx/files/Acoustic and Language Models/French/fr.dict/download'
 
@@ -39,7 +39,7 @@ fi
 # preparation stages will store files under data/
 # Delete the entire data directory when restarting.
 if [ $stage -le 2 ]; then
-  local/prepare_data.sh $yaounde_corpus
+  local/prepare_data.sh $datadir
 fi
 
 if [ $stage -le 3 ]; then
@@ -100,7 +100,7 @@ if [ $stage -le 8 ]; then
   utils/subset_data_dir.sh --shortest data/train 500 data/train_500short
 
 fi
-exit
+
 if [ $stage -le 9 ]; then
   echo "$0: monophone training"
   steps/train_mono.sh  --cmd "$train_cmd" --nj 10 data/train_500short \

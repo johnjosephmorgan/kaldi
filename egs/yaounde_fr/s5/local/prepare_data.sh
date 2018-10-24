@@ -4,18 +4,24 @@
 # Apache 2.0.
 
 if [ $# != 1 ]; then
-  echo "usage: $0 <YAOUNDE_CORPUS_DIRECTORY>";
+  echo "usage: $0 <CORPUS_DIRECTORY>
+example:
+$0 African_AccentedFrench";
   exit 1
 fi
 
-yaounde_corpus=$1
+datadir=$1
 
-local/ca16_conv/prepare_data.sh $yaounde_corpus
-local/ca16_read_devtest/prepare_data.sh $yaounde_corpus
-local/ca16_read_train/prepare_data.sh $yaounde_corpus
-local/ca16_test/prepare_data.sh $yaounde_corpus
-local/niger_dev/prepare_data.sh $yaounde_corpus
-local/yaounde/prepare_data.sh $yaounde_corpus
+if [ ! -d $datadir ]; then
+  echo "$0: Missing directory $datadir"
+fi
+
+local/ca16_conv/prepare_data.sh $datadir
+local/ca16_read_devtest/prepare_data.sh $datadir
+local/ca16_read_train/prepare_data.sh $datadir
+local/ca16_test/prepare_data.sh $datadir
+local/niger_dev/prepare_data.sh $datadir
+local/yaounde/prepare_data.sh $datadir
 
 echo "$0: Consolidating training data lists"
 mkdir -p data/train
@@ -24,7 +30,5 @@ for c in  ca16conv ca16read_train yaounde; do
     cat data/local/tmp/$c/lists/$x | tr "	" " " >> data/train/$x
   done
 done
-
 utils/utt2spk_to_spk2utt.pl data/train/utt2spk > data/train/spk2utt
-
 utils/fix_data_dir.sh data/train

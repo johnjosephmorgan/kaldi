@@ -5,15 +5,22 @@
 
 # yaounde  prep
 
-yaounde_datadir=$1
-datadir=$yaounde_datadir/speech/train/yaounde
+if [ $# != 1 ]; then
+  echo "usage: $0 <CORPUS_DIRECTORY>
+example:
+$0 African_AccentedFrench";
+  exit 1
+fi
+
+# set variables
+datadir=$1
+speech_datadir=$datadir/speech/train/yaounde
 tmpdir=data/local/tmp/yaounde
+# done setting variables
+
 mkdir -p $tmpdir
-
 #get a list of the yaounde .wav files
-find $datadir -type f -name "*.wav" > $tmpdir/wav_list.txt
-
+find $speech_datadir -type f -name "*.wav" > $tmpdir/wav_list.txt
 #  make yaounde lists
-local/yaounde/make_lists.pl $yaounde_datadir
-
+local/yaounde/make_lists.pl $datadir
 utils/fix_data_dir.sh $tmpdir/lists
