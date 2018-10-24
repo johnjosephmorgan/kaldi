@@ -88,7 +88,7 @@ fi
 
 if [ $stage -le 8 ]; then
   # extract acoustic features
-  for f in dev train test; do
+  for f in devtest dev train test; do
     steps/make_mfcc.sh --cmd "$train_cmd" --nj 9 data/$f exp/make_mfcc/$f mfcc
     utils/fix_data_dir.sh data/$f
     steps/compute_cmvn_stats.sh data/$f exp/make_mfcc mfcc
@@ -100,7 +100,7 @@ if [ $stage -le 8 ]; then
   utils/subset_data_dir.sh --shortest data/train 500 data/train_500short
 
 fi
-
+exit
 if [ $stage -le 9 ]; then
   echo "$0: monophone training"
   steps/train_mono.sh  --cmd "$train_cmd" --nj 10 data/train_500short \
@@ -115,7 +115,7 @@ if [ $stage -le 10 ]; then
         exp/mono/graph_nosp_tgsmall
 
     # test monophones
-    for x in dev test; do
+    for x in devtest dev test; do
       nspk=$(wc -l < data/$x/spk2utt)
       steps/decode.sh  --cmd "$decode_cmd" --nj $nspk \
         exp/mono/graph_nosp_tgsmall data/$x exp/mono/decode_nosp_tgsmall_${x}
@@ -148,7 +148,7 @@ if [ $stage -le 13 ]; then
         exp/tri1/graph_nosp_tgsmall
 
     # decode test data with tri1 models
-    for x in dev test; do
+    for x in devtest dev test; do
       nspk=$(wc -l < data/$x/spk2utt)
       steps/decode.sh --cmd "$decode_cmd" --nj $nspk exp/tri1/graph_nosp_tgsmall \
         data/$x exp/tri1/decode_nosp_tgsmall_${x}
@@ -186,7 +186,7 @@ if [ $stage -le 16 ]; then
         exp/tri2b/graph_nosp_tgsmall
 
     # decode  test with tri2b models
-    for x in dev test; do
+    for x in devtest dev dev test; do
       nspk=$(wc -l < data/$x/spk2utt)
       steps/decode.sh --cmd "$decode_cmd" --nj $nspk \
         exp/tri2b/graph_nosp_tgsmall data/$x exp/tri2b/decode_nosp_tgsmall_${x}
@@ -222,7 +222,7 @@ if [ $stage -le 19 ]; then
         exp/tri3b/graph_nosp_tgsmall
 
     # decode test sets with tri3b models
-    for x in dev test; do
+    for x in devtest dev test; do
       nspk=$(wc -l < data/$x/spk2utt)
       steps/decode_fmllr.sh --cmd "$decode_cmd" --nj $nspk \
         exp/tri3b/graph_nosp_tgsmall data/$x exp/tri3b/decode_nosp_tgsmall_${x}
