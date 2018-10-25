@@ -20,6 +20,7 @@ local/ca16_conv/prepare_data.sh $datadir
 local/ca16_read_devtest/prepare_data.sh $datadir
 local/ca16_read_train/prepare_data.sh $datadir
 local/ca16_test/prepare_data.sh $datadir
+exit
 local/niger_dev/prepare_data.sh $datadir
 local/yaounde/prepare_data.sh $datadir
 

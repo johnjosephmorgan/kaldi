@@ -6,7 +6,7 @@
 # set variables
 datadir=$1
 speech_datadir=$datadir/speech/train/ca16
-tmpdir=data/local/tmp/ca16conv
+tmpdir=data/local/tmp/ca16conv_train
 # end  setting variables
 
 mkdir -p $tmpdir

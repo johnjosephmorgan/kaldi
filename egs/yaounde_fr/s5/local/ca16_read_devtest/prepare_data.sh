@@ -8,7 +8,7 @@
 if [ $# != 1 ]; then
   echo "usage: $0 <CORPUS_DIRECTORY>
 example:
-$0 African_AccentedFrench";
+$0 African_Accented_French";
   exit 1
 fi
 

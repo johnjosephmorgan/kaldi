@@ -25,19 +25,14 @@ my ($d) = @ARGV;
 # initialize variables
 my $tmpdir = "data/local/tmp/ca16read_devtest";
 my $p = "$d/transcripts/devtest/ca16_read/conditioned.txt";
-
 # input wav file list
 my $wav_list = "$tmpdir/wav_list.txt";
-
 # output temporary wav.scp files
 my $wav_scp = "$tmpdir/lists/wav.scp";
-
 # output temporary utt2spk files
 my $u = "$tmpdir/lists/utt2spk";
-
 # output temporary text files
 my $t = "$tmpdir/lists/text";
-
 # initialize hash for prompts
 my %p = ();
 # done setting variables
