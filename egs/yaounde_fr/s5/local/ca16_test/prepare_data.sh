@@ -28,3 +28,4 @@ mkdir -p data/test
 for x in spk2utt text utt2spk wav.scp; do
   cp $tmpdir/lists/$x data/test/
 done
+utils/fix_data_dir.sh data/test
