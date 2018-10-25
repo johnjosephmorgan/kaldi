@@ -44,7 +44,6 @@ fi
 
 if [ $stage -le 3 ]; then
   mkdir -p $tmpdir/dict
-
   local/prepare_dict.sh ./fr.dict
 fi
 
@@ -61,15 +60,10 @@ fi
 
 if [ $stage -le 6 ]; then
   echo "lm training."
-
   mkdir -p $tmpdir/yaounde/lm
-
   cut -f 2- data/train/text > $tmpdir/yaounde/lm/train.txt
-
   local/prepare_small_lm.sh  $tmpdir/yaounde/lm/train.txt
-
   local/prepare_medium_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
-
   local/prepare_large_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
 fi
 
@@ -218,7 +212,7 @@ fi
 if [ $stage -le 19 ]; then
   (
     # make decoding graphs for SAT models
-      utils/mkgraph.sh data/lang_test_nosp_tgsmall exp/tri3b \
+      utils/mkgraph.sh data/lang_nosp_test_tgsmall exp/tri3b \
         exp/tri3b/graph_nosp_tgsmall
 
     # decode test sets with tri3b models
