@@ -22,8 +22,7 @@ use File::Copy;
 use File::Basename;
 
 my ($d) = @ARGV;
-# Initialize var
-iables
+# Initialize variables
 my $tmpdir = "data/local/tmp/ca16read_train";
 my $p = "$d/transcripts/train/ca16_read/conditioned.txt";
 # input wav file list
