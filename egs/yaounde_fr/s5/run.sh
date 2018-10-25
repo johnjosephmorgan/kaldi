@@ -167,7 +167,7 @@ if [ $stage -le 15 ]; then
   echo "$0: Starting (lda_mllt) triphone training in exp/tri2b"
   steps/train_lda_mllt.sh \
     --cmd "$train_cmd" \
-    --splice-opts "--left-context=3 --right-context=3" 4000 20000 \
+    --splice-opts "--left-context=3 --right-context=3" 3500 16000 \
     data/train data/lang_nosp exp/tri1_ali exp/tri2b
 fi
 
