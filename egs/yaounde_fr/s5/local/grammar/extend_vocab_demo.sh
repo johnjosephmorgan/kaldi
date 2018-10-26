@@ -160,13 +160,13 @@ if [ $stage -le 8 ]; then
   # OK, now we actually decode the test data.  For reference, the command which was used to
   # decode the test data in the current (at the time of writing) chain TDNN system
   # local/chain/run_tdnn.sh (as figured out by running it from that stage), was:
-  # steps/nnet3/decode.sh --acwt 1.0 --post-decode-acwt 10.0 --frames-per-chunk 140 --nj 38 \
+  # steps/nnet3/decode.sh --acwt 1.0 --post-decode-acwt 10.0 --frames-per-chunk 140 --nj 23 \
   #   --cmd "queue.pl --mem 4G --num-threads 4" --online-ivector-dir exp/nnet3/ivectors_dev_clean_2_hires \
   #   exp/chain/tree_sp/graph_tgsmall data/dev_clean_2_hires exp/chain/tdnn1h_sp/decode_tgsmall_dev_clean_2
 
   # We just replace the graph with the one in $treedir/extvocab_nosp_combined.
 
-  steps/nnet3/decode.sh --acwt 1.0 --post-decode-acwt 10.0 --frames-per-chunk 140 --nj 38 \
+  steps/nnet3/decode.sh --acwt 1.0 --post-decode-acwt 10.0 --frames-per-chunk 140 --nj 23 \
     --cmd "run.pl --mem 4G --num-threads 4" --online-ivector-dir exp/nnet3/ivectors_dev_hires \
     exp/chain/tree_sp/extvocab_nosp_combined data/dev_hires exp/chain/tdnn1a_sp/decode_tgsmall_dev_ev_nosp_comb
 
@@ -182,6 +182,6 @@ if [ $stage -le 8 ]; then
 fi
 
 if [ $stage -le 9 ]; then
-  steps/nnet3/decode_grammar.sh --acwt 1.0 --post-decode-acwt 10.0 --frames-per-chunk 140 --nj 38 \
+  steps/nnet3/decode_grammar.sh --acwt 1.0 --post-decode-acwt 10.0 --frames-per-chunk 140 --nj 23 \
     --cmd "run.pl --mem 4G --num-threads 4" --online-ivector-dir exp/nnet3/ivectors_dev_hires \
     exp/chain/tree_sp/extvocab_nosp_combined data/dev_hires exp/chain/tdnn1a_sp/decode_tgsmall_dev_ev_nosp_comb_gra
