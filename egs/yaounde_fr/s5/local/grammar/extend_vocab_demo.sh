@@ -99,7 +99,7 @@ if [ $stage -le 4 ]; then
     cat <<EOF >$tree_dir/extvocab_nosp_lexicon//lexicon.lex
 abalone	0.962436	aa bb aa ll oo nn
 babaganoush	0.162048	bb aa bb aa gg aa nn ou ch
-cabalistique	0.133349	kkb aa ll ii ss tt ii kk
+cabalistique	0.133349	kk aa bb aa ll ii ss tt ii kk
 EOF
   fi
 
