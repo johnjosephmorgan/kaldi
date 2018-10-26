@@ -222,6 +222,10 @@ if [ $stage -le 15 ]; then
   utils/mkgraph.sh \
     --self-loop-scale 1.0 data/lang_test_tgsmall \
     $tree_dir $tree_dir/graph_tgsmall || exit 1;
+
+  utils/mkgraph.sh \
+    --self-loop-scale 1.0 data/lang_test_tgmed \
+    $tree_dir $tree_dir/graph_tgmed || exit 1;
 fi
 
 if [ $stage -le 16 ]; then
@@ -232,14 +236,20 @@ if [ $stage -le 16 ]; then
     (
       nspk=$(wc -l <data/${data}_hires/spk2utt)
       steps/nnet3/decode.sh \
-          --acwt 1.0 --post-decode-acwt 10.0 \
-          --frames-per-chunk $frames_per_chunk \
-          --nj $nspk --cmd "$decode_cmd"  --num-threads 4 \
-          --online-ivector-dir exp/nnet3${nnet3_affix}/ivectors_${data}_hires \
-          $tree_dir/graph_tgsmall data/${data}_hires ${dir}/decode_tgsmall_${data} || exit 1
+        --acwt 1.0 --post-decode-acwt 10.0 \
+        --frames-per-chunk $frames_per_chunk \
+        --nj $nspk --cmd "$decode_cmd"  --num-threads 4 \
+        --online-ivector-dir exp/nnet3${nnet3_affix}/ivectors_${data}_hires \
+        $tree_dir/graph_tgsmall data/${data}_hires ${dir}/decode_tgsmall_${data} || exit 1
+      steps/nnet3/decode.sh \
+        --acwt 1.0 --post-decode-acwt 10.0 \
+        --frames-per-chunk $frames_per_chunk \
+        --nj $nspk --cmd "$decode_cmd"  --num-threads 4 \
+        --online-ivector-dir exp/nnet3${nnet3_affix}/ivectors_${data}_hires \
+        $tree_dir/graph_tgmed data/${data}_hires ${dir}/decode_tgmed_${data} || exit 1
       steps/lmrescore_const_arpa.sh --cmd "$decode_cmd" \
         data/lang_test_{tgsmall,tglarge} \
-       data/${data}_hires ${dir}/decode_{tgsmall,tglarge}_${data} || exit 1
+        data/${data}_hires ${dir}/decode_{tgsmall,tglarge}_${data} || exit 1
     ) || touch $dir/.error &
   done
   wait
@@ -268,9 +278,16 @@ if $test_online_decoding && [ $stage -le 17 ]; then
         --acwt 1.0 --post-decode-acwt 10.0 \
         --nj $nspk --cmd "$decode_cmd" \
         $tree_dir/graph_tgsmall data/${data} ${dir}_online/decode_tgsmall_${data} || exit 1
+      steps/online/nnet3/decode.sh \
+        --acwt 1.0 --post-decode-acwt 10.0 \
+        --nj $nspk --cmd "$decode_cmd" \
+        $tree_dir/graph_tgmed data/${data} ${dir}_online/decode_tgmed_${data} || exit 1
       steps/lmrescore_const_arpa.sh --cmd "$decode_cmd" \
         data/lang_test_{tgsmall,tglarge} \
-       data/${data}_hires ${dir}_online/decode_{tgsmall,tglarge}_${data} || exit 1
+        data/${data}_hires ${dir}_online/decode_{tgsmall,tglarge}_${data} || exit 1
+      steps/lmrescore_const_arpa.sh --cmd "$decode_cmd" \
+        data/lang_test_{tgmed,tglarge} \
+        data/${data}_hires ${dir}_online/decode_{tgmed,tglarge}_${data} || exit 1
     ) || touch $dir/.error &
   done
   wait
