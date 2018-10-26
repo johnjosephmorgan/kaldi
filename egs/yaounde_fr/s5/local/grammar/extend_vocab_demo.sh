@@ -60,7 +60,7 @@ if [ $stage -le 1 ]; then
 
   nonterm_unk=$(grep '#nonterm:unk' $lang_base/words.txt | awk '{print $2}')
 
-  gunzip -c  data/local/lm/lm_tgsmall.arpa.gz | \
+  gunzip -c  data/local/lm/tgsmall.arpa.gz | \
     sed 's/<UNK>/#nonterm:unk/g' | \
     arpa2fst --disambig-symbol=#0 \
              --read-symbol-table=$lang_base/words.txt - | \
