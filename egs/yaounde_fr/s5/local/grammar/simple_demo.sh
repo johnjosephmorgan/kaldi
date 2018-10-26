@@ -117,8 +117,8 @@ if [ $stage -le 4 ]; then
   cat <<EOF | fstcompile --isymbols=$lang/words.txt --osymbols=$lang/words.txt | \
      fstarcsort --sort_type=ilabel > $lang/G.fst
 0    1    #nonterm_begin <eps>
-1    2    ONE  ONE    0.69314718055994
-1    2    TWO  TWO    0.69314718055994
+1    2    un  un    0.69314718055994
+1    2    deux   deux    0.69314718055994
 1    2    <eps>  <eps>  5.0
 2    3    #nonterm_end <eps>
 3
