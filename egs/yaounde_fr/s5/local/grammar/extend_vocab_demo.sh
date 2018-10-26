@@ -9,7 +9,7 @@
 # thing might take too much time.  The code itself allows you to construct these
 # GrammarFst objects in lightweight way and decode using them.
 
-# Unfortunately the filenames here are not very well through through.  I hope to
+# Unfortunately the filenames here are not very well thought through.  I hope to
 # rework this when I have time.
 
 stage=0
