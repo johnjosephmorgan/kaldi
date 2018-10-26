@@ -89,10 +89,10 @@ if [ $stage -le 3 ]; then
   lang=data/lang_nosp_grammar2a
   cat <<EOF | fstcompile --isymbols=$lang/words.txt --osymbols=$lang/words.txt | \
      fstarcsort --sort_type=ilabel >$lang/G.fst
-0    1    GROUP   GROUP
+0    1    groupe   groupe
 0    1    <eps>   <eps>  4.0
 1    2    #nonterm:contact_list  <eps>
-2    3    ASSIST   ASSIST  0.69314718055994
+2    3    assister   assister  0.69314718055994
 2  0.69314718055994
 3
 EOF
