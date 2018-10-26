@@ -185,3 +185,4 @@ if [ $stage -le 9 ]; then
   steps/nnet3/decode_grammar.sh --acwt 1.0 --post-decode-acwt 10.0 --frames-per-chunk 140 --nj 23 \
     --cmd "run.pl --mem 4G --num-threads 4" --online-ivector-dir exp/nnet3/ivectors_dev_hires \
     exp/chain/tree_sp/extvocab_nosp_combined data/dev_hires exp/chain/tdnn1a_sp/decode_tgsmall_dev_ev_nosp_comb_gra
+fi
