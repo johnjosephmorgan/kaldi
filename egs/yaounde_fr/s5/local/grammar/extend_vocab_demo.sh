@@ -90,7 +90,7 @@ if [ $stage -le 4 ]; then
   # First find a list of words in the test set that are out of vocabulary.
   # Of course this is totally cheating.
   awk -v w=data/lang/words.txt 'BEGIN{while(getline <w) seen[$1] = $1} {for(n=2;n<=NF;n++) if(!($n in seen)) oov[$n] = 1}
-                                END{ for(k in oov) print k;}' < data/dev_clean_2/text > $tree_dir/extvocab_nosp_lexicon/words
+                                END{ for(k in oov) print k;}' < data/dev/text > $tree_dir/extvocab_nosp_lexicon/words
   echo "$0: generating g2p entries for $(wc -l <$tree_dir/extvocab_nosp_lexicon/words) words"
 
   if $run_g2p; then
