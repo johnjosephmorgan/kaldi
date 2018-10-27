@@ -20,8 +20,7 @@ cut -f2- -d " " $l | tr -s '[:space:]' '[\n*]' | grep -v SPN | \
 expand -t 1 $l | sort -u | \
     sed s/\([23456789]\)// | \
     sed s/\(1[0123456789]\)// | \
-    
-    sed "1d" > data/local/dict_nosp/lexicon.txt
+    sed "1d" | sort -u > data/local/dict_nosp/lexicon.txt
 
 echo "<UNK> SPN" >> data/local/dict_nosp/lexicon.txt
 
