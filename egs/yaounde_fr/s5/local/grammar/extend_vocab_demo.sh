@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -x
 
 # This script demonstrates how to use the grammar-decoding framework to build
 # graphs made out of more than one part.  It demonstrates using `fstequivalent`
@@ -76,7 +76,8 @@ fi
 if [ $stage -le 3 ] && $run_g2p; then
   # you may have to do some stuff manually to install sequitur, to get this to work.
   dict=data/local/dict_nosp_basevocab
-  steps/dict/train_g2p.sh --silence-phones $dict/silence_phones.txt $dict/lexicon.txt  $tree_dir/extvocab_nosp_g2p
+  #steps/dict/train_g2p.sh --silence-phones $dict/silence_phones.txt $dict/lexicon.txt  $tree_dir/extvocab_nosp_g2p
+  local/g2p/train_g2p.sh --silence-phones $dict/silence_phones.txt $dict/lexicon.txt  $tree_dir/extvocab_nosp_g2p
 fi
 
 
