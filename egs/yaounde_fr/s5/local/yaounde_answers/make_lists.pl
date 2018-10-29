@@ -25,7 +25,7 @@ use File::Basename;
 my ($d) = @ARGV;
 
 # Initialize variables
-my $tmpdir = "data/local/tmp/yaounde/answers";
+my $tmpdir = "data/local/tmp/yaounde_answers";
 my $transcripts_file = "$d/transcripts/train/yaounde/answers/transcripts.txt";
 # input wav file list
 my $w = "$tmpdir/wav_list.txt";

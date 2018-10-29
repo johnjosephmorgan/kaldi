@@ -15,7 +15,7 @@ fi
 # set variables
 datadir=$1
 speech_datadir=$datadir/speech/train/yaounde/answers
-tmpdir=data/local/tmp/yaounde/answers
+tmpdir=data/local/tmp/yaounde_answers
 # done setting variables
 
 mkdir -p $tmpdir
