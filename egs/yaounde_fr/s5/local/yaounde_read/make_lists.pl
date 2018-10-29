@@ -4,7 +4,7 @@
 # Apache 2.0.
 
 # make_lists.pl - write lists for acoustic model training
-# writes files under data/local/tmp/yaounde/lists
+# writes files under data/local/tmp/yaounde/read/lists
 
 use strict;
 use warnings;
@@ -23,8 +23,8 @@ use File::Basename;
 my ($d) = @ARGV;
 
 # Initialize variables
-my $tmpdir = "data/local/tmp/yaounde";
-my $transcripts_file = "$d/transcripts/train/yaounde/transcripts.txt";
+my $tmpdir = "data/local/tmp/yaounde/read";
+my $transcripts_file = "$d/transcripts/train/yaounde/read/transcripts.txt";
 # input wav file list
 my $w = "$tmpdir/wav_list.txt";
 # output temporary wav.scp file
