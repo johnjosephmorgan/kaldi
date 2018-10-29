@@ -24,59 +24,63 @@ my ($d) = @ARGV;
 
 # Initialize variables
 my $tmpdir = "data/local/tmp/yaounde";
-my $p = "$d/transcripts/train/yaounde/fn_text.txt";
+my $transcripts_file = "$d/transcripts/train/yaounde/transcripts.txt";
 # input wav file list
 my $w = "$tmpdir/wav_list.txt";
 # output temporary wav.scp file
-my $o = "$tmpdir/lists/wav.scp";
+my $wav_scp = "$tmpdir/lists/wav.scp";
 # output temporary utt2spk file
-my $u = "$tmpdir/lists/utt2spk";
+my $utt_to_spk = "$tmpdir/lists/utt2spk";
 # output temporary text file
-my $t = "$tmpdir/lists/text";
-# initialize hash for prompts
-my %p = ();
+my $txt_out = "$tmpdir/lists/text";
+# initialize hash for transcripts
+my %transcript = ();
 # done setting variables
 
+# This script looks at 2 files.
+# One containing text transcripts and another containing file names for .wav files.
+# It associates a text transcript with a .wav file name.
+
 system "mkdir -p $tmpdir/lists";
-open my $P, '<', $p or croak "problem with $p $!";
-# store prompts in hash
+open my $P, '<', $transcripts_file or croak "problem with $transcripts_file $!";
+# store transcripts in hash
 LINEA: while ( my $line = <$P> ) {
   chomp $line;
-  my ($j,$sent) = split /\s/, $line, 2;
-  my ($volume,$directories,$file) = File::Spec->splitpath( $j );
-  my @dirs = split /\//, $directories;
-  my $mode = "$dirs[4]";
-  my $speaker = $dirs[-1];
+  my ($utt_path,$sent) = split /\s/, $line, 2;
+  my ($volume,$directories,$file) = File::Spec->splitpath( $utt_path );
   my $bn = basename $file, ".wav";
-  my ($x,$s,$i) = split /\-/, $bn, 3;
-  my $k = 'yaounde-' . $s . '-' . $mode . '-' . $i;
+  my ($machine,$spk,$utt) = split /\-/, $bn, 3;
+  my $utt_id = 'yaounde-' . $spk . '-' . $utt;
   # dashes?
   $sent =~ s/(\w)(\p{dash_punctuation}+?)/$1 $2/g;
-  $p{$k} = $sent;
+  $transcript{$utt_id} = $sent;
 }
 close $P;
 
 open my $W, '<', $w or croak "problem with $w $!";
-open my $O, '+>', $o or croak "problem with $o $!";
-open my $U, '+>', $u or croak "problem with $u $!";
-open my $T, '+>', $t or croak "problem with $t $!";
+open my $WAVSCP, '+>', $wav_scp or croak "problem with $wav_scp $!";
+open my $UTTSPK, '+>', $utt_to_spk or croak "problem with $utt_to_spk $!";
+open my $TXT, '+>', $txt_out or croak "problem with $txt_out $!";
 
 LINE: while ( my $line = <$W> ) {
   chomp $line;
   my ($volume,$directories,$file) = File::Spec->splitpath( $line );
   my @dirs = split /\//, $directories;
   my $mode = $dirs[4];
-  my $r = basename $line, ".wav";
-  my ($x,$s,$i) = split /\-/, $r, 3;
-  my $speaker = $dirs[-1];
-  my $sd = 'yaounde-' . $s;
-  my $bn = $sd . '-' . $mode . '-' . $i;
-  my $fn = $bn . ".wav";
-  print $T "$bn $p{$bn}\n";
-  print $O "$bn sox $line -t .wav - |\n";
-  print $U "$bn $sd\n";
+  warn "Processing a $mode file.";
+  my $base = basename $line, ".wav";
+  my ($maquina,$spk,$utt) = split /\-/, $base, 3;
+  my $utt_id = 'yaounde-' . $spk . '-' . $utt;
+  my $speaker = 'yaounde' . '-' . $spk;
+  if ( defined $transcript{$utt_id} ) {
+    print $TXT "$utt_id $transcript{$utt_id}\n";
+    print $WAVSCP "$utt_id sox $line -t .wav - |\n";
+    print $UTTSPK "$utt_id $speaker\n";
+  } else {
+      croak "Problem with $utt_id and $line";
+  }
 }
-close $T;
-close $O;
-close $U;
+close $TXT;
+close $WAVSCP;
+close $UTTSPK;
 close $W;
