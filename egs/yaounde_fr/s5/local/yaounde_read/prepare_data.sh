@@ -3,7 +3,7 @@
 # Copyright 2018 John Morgan
 # Apache 2.0.
 
-# yaounde  prep
+# yaounde  read prep
 
 if [ $# != 1 ]; then
   echo "usage: $0 <CORPUS_DIRECTORY>
@@ -14,13 +14,13 @@ fi
 
 # set variables
 datadir=$1
-speech_datadir=$datadir/speech/train/yaounde
-tmpdir=data/local/tmp/yaounde
+speech_datadir=$datadir/speech/train/yaounde/read
+tmpdir=data/local/tmp/yaounde/read
 # done setting variables
 
 mkdir -p $tmpdir
 #get a list of the yaounde .wav files
 find $speech_datadir -type f -name "*.wav" > $tmpdir/wav_list.txt
-#  make yaounde lists
+#  make yaounde read lists
 local/yaounde/make_lists.pl $datadir
 utils/fix_data_dir.sh $tmpdir/lists
