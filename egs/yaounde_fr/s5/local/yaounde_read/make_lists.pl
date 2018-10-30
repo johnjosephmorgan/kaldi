@@ -53,6 +53,9 @@ LINEA: while ( my $line = <$P> ) {
   my $utt_id = 'yaounde-' . $spk . '-' . $utt;
   # dashes?
   $sent =~ s/(\w)(\p{dash_punctuation}+?)/$1 $2/g;
+  # a dangling quote?
+  $sent =~ s/ ' / /g;
+  warn "$sent";
   $transcript{$utt_id} = $sent;
 }
 close $P;

@@ -44,14 +44,19 @@ fi
 
 if [ $stage -le 3 ]; then
   mkdir -p $tmpdir/dict
-  local/prepare_dict.sh ./fr.dict
+  local/prepare_dict.sh ./fr.dict data/local/dict_nosp
+  local/g2p/train_g2p.sh data/local/dict_nosp data/local/tmp/g2p
+  local/g2p/apply_g2p.sh data/local/tmp/g2p/model.fst data/local/tmp/dict data/local/dict_nosp/lexicon.txt data/local/tmp/dict/lexicon.txt
+  local/prepare_dict.sh data/local/tmp/dict/lexicon.txt data/local/dict_nosp_expanded
+  echo "<UNK> SPN" >> data/local/dict_nosp_expanded/lexicon.txt
 fi
 
 if [ $stage -le 4 ]; then
   # prepare the lang directory
-  utils/prepare_lang.sh data/local/dict_nosp "<UNK>" data/local/lang_tmp_nosp data/lang_nosp
+  utils/prepare_lang.sh data/local/dict_nosp_expanded "<UNK>" \
+  data/local/lang_tmp_nosp_expanded data/lang_nosp_expanded
 fi
-
+exit
 if [ $stage -le 5 ]; then
   echo "Preparing the subs data for lm training."
   # Subs prep depends on previous steps. 
