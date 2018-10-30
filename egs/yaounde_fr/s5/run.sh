@@ -171,25 +171,17 @@ if [ $stage -le 17 ]; then
       nspk=$(wc -l < data/$x/spk2utt)
       steps/decode.sh --cmd "$decode_cmd" --nj $nspk exp/tri1/graph_nosp_tgsmall \
         data/$x exp/tri1/decode_nosp_tgsmall_${x}
-    done
-  )&
-fi
 
-if [ $stage -le 18 ]; then
-  echo "$0: testing with cd gmm hmm tgmed and tglarge models"
-  (
-    # make decoding graphs for tri1
-    utils/mkgraph.sh data/lang_nosp_test_tgmed exp/tri1 \
-      exp/tri1/graph_nosp_tgmed
+      echo "$0: testing with cd gmm hmm tgmed and tglarge models"
+      # make decoding graphs for tri1
+      utils/mkgraph.sh data/lang_nosp_test_tgmed exp/tri1 \
+        exp/tri1/graph_nosp_tgmed
 
-    echo "Decoding test data with tri1 tgmed an tglarge dmodels."
-    for x in devtest dev test; do
+      echo "Decoding test data with tri1 tgmed an tglarge dmodels."
       nspk=$(wc -l < data/$x/spk2utt)
       steps/decode.sh --cmd "$decode_cmd" --nj $nspk exp/tri1/graph_nosp_tgmed \
         data/$x exp/tri1/decode_nosp_tgmed_${x}
-    done
 
-    for x in devtest dev test; do
       steps/lmrescore.sh --cmd "$decode_cmd" data/lang_nosp_test_{tgsmall,tgmed} \
         data/$x exp/tri1/decode_nosp_{tgsmall,tgmed}_$x
 
@@ -200,13 +192,13 @@ if [ $stage -le 18 ]; then
   ) &
 fi
 
-if [ $stage -le 19 ]; then
+if [ $stage -le 18 ]; then
   # align with triphones
   steps/align_si.sh  --cmd "$train_cmd" --nj 10 data/train data/lang_nosp \
     exp/tri1 exp/tri1_ali
 fi
 
-if [ $stage -le 20 ]; then
+if [ $stage -le 19 ]; then
   echo "$0: Starting (lda_mllt) triphone training in exp/tri2b"
   steps/train_lda_mllt.sh \
     --cmd "$train_cmd" --splice-opts "--left-context=3 --right-context=3" \
@@ -216,46 +208,44 @@ fi
 
 wait
 
-if [ $stage -le 21 ]; then
+if [ $stage -le 20 ]; then
   (
     echo "$0: Making decoding FSTs for tri2b models."
-      utils/mkgraph.sh data/lang_nosp_test_tgsmall exp/tri2b \
-        exp/tri2b/graph_nosp_tgsmall
+    utils/mkgraph.sh data/lang_nosp_test_tgsmall exp/tri2b \
+      exp/tri2b/graph_nosp_tgsmall
     # decode  test with tri2b models
     for x in devtest dev dev test; do
       nspk=$(wc -l < data/$x/spk2utt)
       steps/decode.sh --cmd "$decode_cmd" --nj $nspk \
         exp/tri2b/graph_nosp_tgsmall data/$x exp/tri2b/decode_nosp_tgsmall_${x}
+
+      steps/lmrescore.sh --cmd "$decode_cmd" \
+        data/lang_nosp_test_{tgsmall,tgmed} data/$x \
+        exp/tri2b/decode_nosp_{tgsmall,tgmed}_$x
+
+      steps/lmrescore_const_arpa.sh \
+        --cmd "$decode_cmd" data/lang_nosp_test_{tgsmall,tglarge} \
+        data/$x exp/tri2b/decode_nosp_{tgsmall,tglarge}_$x
     done
   )&
 fi
 
-if [ $stage -le 22 ]; then
-  for x in devtest dev dev test; do
-    steps/lmrescore.sh --cmd "$decode_cmd" \
-      data/lang_nosp_test_{tgsmall,tgmed} data/$x \
-      exp/tri2b/decode_nosp_{tgsmall,tgmed}_$x
-
-    steps/lmrescore_const_arpa.sh \
-      --cmd "$decode_cmd" data/lang_nosp_test_{tgsmall,tglarge} \
-      data/$x exp/tri2b/decode_nosp_{tgsmall,tglarge}_$x
-  done
-fi
-
-if [ $stage -le 23 ]; then
+if [ $stage -le 21 ]; then
   echo "$0: aligning with lda and mllt adapted triphones"
   steps/align_si.sh  --nj 10 \
     --cmd "$train_cmd" \
     --use-graphs true data/train data/lang_nosp exp/tri2b exp/tri2b_ali
 fi
 
-if [ $stage -le 24 ]; then
+if [ $stage -le 22 ]; then
   echo "$0: Starting (SAT) triphone training in exp/tri3b"
   steps/train_sat.sh --cmd "$train_cmd" 4000 20000 data/train data/lang_nosp \
     exp/tri2b_ali exp/tri3b
 fi
 
-if [ $stage -le 25 ]; then
+wait
+
+if [ $stage -le 23 ]; then
   (
     echo "$0: making decoding graph for SAT models."
     utils/mkgraph.sh data/lang_nosp_test_tgsmall exp/tri3b \
@@ -264,88 +254,82 @@ if [ $stage -le 25 ]; then
       echo "Decoding $x with sat and tgsmall models."
       nspk=$(wc -l < data/$x/spk2utt)
       steps/decode_fmllr.sh --cmd "$decode_cmd" --nj $nspk \
-      exp/tri3b/graph_nosp_tgsmall data/$x exp/tri3b/decode_nosp_tgsmall_${x}
+        exp/tri3b/graph_nosp_tgsmall data/$x exp/tri3b/decode_nosp_tgsmall_${x}
+
+      steps/lmrescore.sh --cmd "$decode_cmd" \
+        data/lang_nosp_test_{tgsmall,tgmed} data/$x exp/tri3b/decode_nosp_{tgsmall,tgmed}_$x
+      steps/lmrescore_const_arpa.sh \
+        --cmd "$decode_cmd" data/lang_nosp_test_{tgsmall,tglarge} \
+        data/$x exp/tri3b/decode_nosp_{tgsmall,tglarge}_$x
     done
   )&
 fi
 
-if [ $stage -le 26 ]; then
-  for x in devtest dev dev test; do
-    steps/lmrescore.sh --cmd "$decode_cmd" \
-      data/lang_nosp_test_{tgsmall,tgmed} data/$x exp/tri3b/decode_nosp_{tgsmall,tgmed}_$x
-    steps/lmrescore_const_arpa.sh \
-      --cmd "$decode_cmd" data/lang_nosp_test_{tgsmall,tglarge} \
-      data/$x exp/tri3b/decode_nosp_{tgsmall,tglarge}_$x
-  done
-fi
-
-if [ $stage -le 27 ]; then
+if [ $stage -le 24 ]; then
   echo "$0: Starting exp/tri3b_ali"
   steps/align_fmllr.sh --cmd "$train_cmd" --nj 10 data/train data/lang_nosp \
     exp/tri3b exp/tri3b_ali
 fi
 
-if [ $stage -le 28 ]; then
+if [ $stage -le 25 ]; then
   #  compute the pronunciation and silence probabilities from training data,
   #and re-create the lang directory.
   steps/get_prons.sh --cmd "$train_cmd" \
     data/train data/lang_nosp exp/tri3b
 fi
 
-if [ $stage -le 29 ]; then
+if [ $stage -le 26 ]; then
   utils/dict_dir_add_pronprobs.sh --max-normalize true \
     data/local/dict_nosp \
     exp/tri3b/pron_counts_nowb.txt exp/tri3b/sil_counts_nowb.txt \
     exp/tri3b/pron_bigram_counts_nowb.txt data/local/dict
 fi
 
-if [ $stage -le 30 ]; then
+if [ $stage -le 27 ]; then
   utils/prepare_lang.sh data/local/dict \
     "<UNK>" data/local/lang_tmp data/lang
 fi
 
-if [ $stage -le 31 ]; then
+if [ $stage -le 28 ]; then
   utils/format_lm.sh data/lang data/local/lm/tgsmall.arpa.gz \
     data/local/dict/lexicon.txt data/lang_test_tgsmall
 fi
 
-if [ $stage -le 32 ]; then
+if [ $stage -le 29 ]; then
   utils/format_lm.sh data/lang data/local/lm/tgmed.arpa.gz \
     data/local/dict/lexicon.txt data/lang_test_tgmed
 fi
 
-if [ $stage -le 33 ]; then
+if [ $stage -le 30 ]; then
   utils/build_const_arpa_lm.sh \
     data/local/lm/tglarge.arpa.gz data/lang data/lang_test_tglarge
 fi
 
-if [ $stage -le 34 ]; then
-  # Test the tri3b system with the silprobs and pron-probs.
+if [ $stage -le 31 ]; then
+  echo "$0: Testing the tri3b system with the silprobs and pron-probs."
   # decode using the tri3b and tgsmall model
-  utils/mkgraph.sh data/lang_test_tgsmall \
-    exp/tri3b exp/tri3b/graph_tgsmall
-  for x in dev test; do
-    steps/decode_fmllr.sh --nj 10 --cmd "$decode_cmd" \
-      exp/tri3b/graph_tgsmall data/$x \
-      exp/tri3b/decode_tgsmall_$x
-  done
+  (
+    utils/mkgraph.sh data/lang_test_tgsmall \
+      exp/tri3b exp/tri3b/graph_tgsmall
+    for x in dev test; do
+      steps/decode_fmllr.sh --nj 10 --cmd "$decode_cmd" \
+        exp/tri3b/graph_tgsmall data/$x \
+        exp/tri3b/decode_tgsmall_$x
+
+      steps/lmrescore.sh --cmd "$decode_cmd" data/lang_test_{tgsmall,tgmed} \
+        data/$x exp/tri3b/decode_{tgsmall,tgmed}_$x
+      steps/lmrescore_const_arpa.sh \
+        --cmd "$decode_cmd" data/lang_test_{tgsmall,tglarge} \
+        data/$x exp/tri3b/decode_{tgsmall,tglarge}_$x
+    done
+  )&
 fi
 
-if [ $stage -le 35 ]; then
-  for x in devtest dev dev test; do
-    steps/lmrescore.sh --cmd "$decode_cmd" data/lang_test_{tgsmall,tgmed} \
-      data/$x exp/tri3b/decode_{tgsmall,tgmed}_$x
-    steps/lmrescore_const_arpa.sh \
-      --cmd "$decode_cmd" data/lang_test_{tgsmall,tglarge} \
-      data/$x exp/tri3b/decode_{tgsmall,tglarge}_$x
-  done
-fi
-
-if [ $stage -le 36 ]; then
+if [ $stage -le 32 ]; then
   # train and test chain models
   local/chain/run_tdnn.sh
 fi
 
-if [ $stage -le 37 ]; then
+if [ $stage -le 33 ]; then
   local/grammar/simple_demo.sh
 fi
