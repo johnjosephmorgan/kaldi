@@ -180,7 +180,7 @@ if [ $stage -le 18 ]; then
   (
     # make decoding graphs for tri1
     utils/mkgraph.sh data/lang_nosp_test_tgmed exp/tri1 \
-      exp/tri1/graph_nosp_tgtgmed
+      exp/tri1/graph_nosp_tgmed
 
     echo "Decoding test data with tri1 tgmed an tglarge dmodels."
     for x in devtest dev test; do
