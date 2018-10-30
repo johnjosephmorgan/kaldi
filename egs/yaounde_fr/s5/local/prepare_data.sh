@@ -36,8 +36,3 @@ for c in  ca16conv_train ca16read_train yaounde_read; do
 done
 utils/utt2spk_to_spk2utt.pl data/train/utt2spk > data/train/spk2utt
 utils/fix_data_dir.sh data/train
-
-# make a list of the training vocabulary
-mkdir -p $tmpdir/train
-cat data/train/text | cut -d " " -f 2- \
-    | tr " " "\n" | sort -u > $tmpdir/train/vocab.txt
