@@ -10,7 +10,10 @@ $0 African_AccentedFrench";
   exit 1
 fi
 
+# set variables
 datadir=$1
+tmpdir=data/local/tmp
+# done setting variables 
 
 if [ ! -d $datadir ]; then
   echo "$0: Missing directory $datadir"
@@ -26,10 +29,15 @@ local/yaounde_read/prepare_data.sh $datadir
 
 echo "$0: Consolidating training data lists"
 mkdir -p data/train
-for c in  ca16conv_train ca16read_train yaounde_answers yaounde_read; do
+for c in  ca16conv_train ca16read_train yaounde_read; do
   for x in wav.scp text utt2spk; do
-    cat data/local/tmp/$c/lists/$x | tr "	" " " >> data/train/$x
+    cat $tmpdir/$c/lists/$x | tr "	" " " >> data/train/$x
   done
 done
 utils/utt2spk_to_spk2utt.pl data/train/utt2spk > data/train/spk2utt
 utils/fix_data_dir.sh data/train
+
+# make a list of the training vocabulary
+mkdir -p $tmpdir/train
+cat data/train/text | cut -d " " -f 2- \
+    | tr " " "\n" | sort -u > $tmpdir/train/vocab.txt
