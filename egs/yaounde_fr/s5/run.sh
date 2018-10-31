@@ -107,7 +107,7 @@ if [ $stage -le 11 ]; then
     utils/fix_data_dir.sh data/$f
   done
 fi
-exit
+
 if [ $stage -le 12 ]; then
   # Get the shortest 500 utterances first because those are more likely
   # to have accurate alignments.
