@@ -23,11 +23,7 @@ workdir=$2
 lexicon=$3
 outlexicon=$4
 
-inlexicondir=$(dirname $lexicon)
-outlexicondir=$(dirname $outlexicon)
 mkdir -p $workdir
-cp -R $inlexicondir $outlexicondir
-touch $outlexicon
 
 # awk command from http://stackoverflow.com/questions/2626274/print-all-but-the-first-three-columns
 echo 'Gathering missing words...'

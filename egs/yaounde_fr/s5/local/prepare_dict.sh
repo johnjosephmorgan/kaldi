@@ -23,7 +23,7 @@ cut -f2- -d " " $l | tr -s '[:space:]' '[\n*]' | grep -v SPN | \
 expand -t 1 $l | sort -u | \
     sed s/\([23456789]\)// | \
     sed s/\(1[0123456789]\)// | \
-    sed "1d" | sort -u > $dir/lexicon.txt
+    sort -u > $dir/lexicon.txt
 
 # silence phones, one per line.
 {

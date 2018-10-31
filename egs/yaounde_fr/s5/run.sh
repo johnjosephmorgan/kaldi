@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash 
 
 # Uses the cmusphinx French lexicon.
 
@@ -43,41 +43,42 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ]; then
+  echo "$0: Preparing initial dictionary."
   mkdir -p $tmpdir/dict
   local/prepare_dict.sh ./fr.dict data/local/dict_nosp
-  local/g2p/train_g2p.sh data/local/dict_nosp $tmpdir/g2p
-  local/g2p/apply_g2p.sh $tmpdir/g2p/model.fst $tmpdir/dict data/local/dict_nosp/lexicon.txt $tmpdir/dict/lexicon.txt
-  local/prepare_dict.sh $tmpdir/dict/lexicon.txt data/local/dict_nosp_expanded
-  echo "<UNK> SPN" >> data/local/dict_nosp/lexicon.txt
 fi
 
 if [ $stage -le 4 ]; then
-  # prepare the lang directory
-    echo "<UNK> SPN" >> data/local/dict_nosp_expanded/lexicon.txt
-    echo "<UNK> 1.0 SPN" >> data/local/dict_nosp_expanded/lexiconp.txt
-  utils/prepare_lang.sh data/local/dict_nosp_expanded "<UNK>" \
-  data/local/lang_tmp_nosp_expanded data/lang_nosp_expanded
+  echo "$0: Training g2p model."
+  local/g2p/train_g2p.sh data/local/dict_nosp $tmpdir/g2p
 fi
 
 if [ $stage -le 5 ]; then
-  echo "Preparing the subs data for lm training."
-  # Subs prep depends on previous steps. 
-  local/subs/prepare_data.pl 
+  local/g2p/apply_g2p.sh $tmpdir/g2p/model.fst $tmpdir/dict data/local/dict_nosp/lexicon.txt $tmpdir/dict/lexicon.txt
 fi
 
 if [ $stage -le 6 ]; then
+  local/prepare_dict.sh $tmpdir/dict/lexicon.txt data/local/dict_nosp_expanded
+  echo "<UNK> SPN" >> data/local/dict_nosp/lexicon.txt
+  echo "<UNK> SPN" >> data/local/dict_nosp_expanded/lexicon.txt
+fi
+
+if [ $stage -le 7 ]; then
+  # prepare the lang directory
+  utils/prepare_lang.sh data/local/dict_nosp_expanded "<UNK>" \
+  data/local/lang_tmp_nosp_expanded data/lang_nosp_expanded
+fi
+exit
+if [ $stage -le 8 ]; then
+  echo "Preparing the subs data for lm training."
+  # Subs prep depends on previous steps. 
+  local/subs/prepare_data.pl 
   echo "lm training."
   mkdir -p $tmpdir/lm
   cut -f 2- data/train/text > $tmpdir/lm/train.txt
   local/prepare_small_lm.sh  $tmpdir/lm/train.txt
-fi
-
-if [ $stage -le 7 ]; then
   local/prepare_medium_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
   local/prepare_large_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
-fi
-
-if [ $stage -le 8 ]; then
   echo "Making small G.fst."
   mkdir -p data/lang_nosp_expanded_test_tgsmall
   utils/format_lm.sh data/lang_nosp_expanded data/local/lm/tgsmall.arpa.gz \
