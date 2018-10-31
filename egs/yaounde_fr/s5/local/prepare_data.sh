@@ -3,6 +3,8 @@
 # Copyright 2018 John Morgan
 # Apache 2.0.
 
+. ./utils/parse_options.sh
+
 if [ $# != 1 ]; then
   echo "usage: $0 <CORPUS_DIRECTORY>
 example:
