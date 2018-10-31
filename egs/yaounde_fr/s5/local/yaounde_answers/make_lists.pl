@@ -69,7 +69,6 @@ LINE: while ( my $line = <$W> ) {
   my ($volume,$directories,$file) = File::Spec->splitpath( $line );
   my @dirs = split /\//, $directories;
   my $mode = $dirs[4];
-  warn "Processing a $mode file.";
   my $base = basename $line, ".wav";
   my ($maquina,$spk,$utt) = split /\-/, $base, 3;
   my $utt_id = 'yaounde-' . $spk . '-' . $utt;

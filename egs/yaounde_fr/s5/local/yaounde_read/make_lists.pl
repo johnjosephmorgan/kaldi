@@ -55,7 +55,6 @@ LINEA: while ( my $line = <$P> ) {
   $sent =~ s/(\w)(\p{dash_punctuation}+?)/$1 $2/g;
   # a dangling quote?
   $sent =~ s/ ' / /g;
-  warn "$sent";
   $transcript{$utt_id} = $sent;
 }
 close $P;
@@ -70,7 +69,6 @@ LINE: while ( my $line = <$W> ) {
   my ($volume,$directories,$file) = File::Spec->splitpath( $line );
   my @dirs = split /\//, $directories;
   my $mode = $dirs[4];
-  warn "Processing a $mode file.";
   my $base = basename $line, ".wav";
   my ($maquina,$spk,$utt) = split /\-/, $base, 3;
   my $utt_id = 'yaounde-' . $spk . '-' . $utt;
