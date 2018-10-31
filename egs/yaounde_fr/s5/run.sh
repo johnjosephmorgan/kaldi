@@ -68,17 +68,12 @@ if [ $stage -le 7 ]; then
   utils/prepare_lang.sh data/local/dict_nosp_expanded "<UNK>" \
   data/local/lang_tmp_nosp_expanded data/lang_nosp_expanded
 fi
-exit
+
 if [ $stage -le 8 ]; then
-  echo "Preparing the subs data for lm training."
-  # Subs prep depends on previous steps. 
-  local/subs/prepare_data.pl 
-  echo "lm training."
+  echo "Small lm training."
   mkdir -p $tmpdir/lm
   cut -f 2- data/train/text > $tmpdir/lm/train.txt
   local/prepare_small_lm.sh  $tmpdir/lm/train.txt
-  local/prepare_medium_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
-  local/prepare_large_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
   echo "Making small G.fst."
   mkdir -p data/lang_nosp_expanded_test_tgsmall
   utils/format_lm.sh data/lang_nosp_expanded data/local/lm/tgsmall.arpa.gz \
@@ -86,13 +81,18 @@ if [ $stage -le 8 ]; then
 fi
 
 if [ $stage -le 9 ]; then
+  echo "Preparing the subs data for larger lm training."
+  # Subs prep depends on previous steps. 
+  local/subs/prepare_data.pl 
+  local/prepare_medium_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
+  local/prepare_large_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
+fi
+
+if [ $stage -le 10 ]; then
   echo "Prepare medium size lang directory."
   mkdir -p data/lang_nosp_expanded_test_tgmed
   utils/format_lm.sh data/lang_nosp_expanded data/local/lm/tgmed.arpa.gz \
     data/local/dict_nosp_expanded/lexicon.txt data/lang_nosp_expanded_test_tgmed
-fi
-
-if [ $stage -le 10 ]; then
   # Create ConstArpaLm format language model for full 3-gram and 4-gram LMs
   utils/build_const_arpa_lm.sh data/local/lm/tglarge.arpa.gz \
     data/lang_nosp_expanded data/lang_nosp_expanded_test_tglarge
@@ -107,7 +107,7 @@ if [ $stage -le 11 ]; then
     utils/fix_data_dir.sh data/$f
   done
 fi
-
+exit
 if [ $stage -le 12 ]; then
   # Get the shortest 500 utterances first because those are more likely
   # to have accurate alignments.
