@@ -45,14 +45,16 @@ fi
 if [ $stage -le 3 ]; then
   mkdir -p $tmpdir/dict
   local/prepare_dict.sh ./fr.dict data/local/dict_nosp
-  local/g2p/train_g2p.sh data/local/dict_nosp data/local/tmp/g2p
-  local/g2p/apply_g2p.sh data/local/tmp/g2p/model.fst data/local/tmp/dict data/local/dict_nosp/lexicon.txt data/local/tmp/dict/lexicon.txt
-  local/prepare_dict.sh data/local/tmp/dict/lexicon.txt data/local/dict_nosp_expanded
-  echo "<UNK> SPN" >> data/local/dict_nosp_expanded/lexicon.txt
+  local/g2p/train_g2p.sh data/local/dict_nosp $tmpdir/g2p
+  local/g2p/apply_g2p.sh $tmpdir/g2p/model.fst $tmpdir/dict data/local/dict_nosp/lexicon.txt $tmpdir/dict/lexicon.txt
+  local/prepare_dict.sh $tmpdir/dict/lexicon.txt data/local/dict_nosp_expanded
+  echo "<UNK> SPN" >> data/local/dict_nosp/lexicon.txt
 fi
 
 if [ $stage -le 4 ]; then
   # prepare the lang directory
+    echo "<UNK> SPN" >> data/local/dict_nosp_expanded/lexicon.txt
+    echo "<UNK> 1.0 SPN" >> data/local/dict_nosp_expanded/lexiconp.txt
   utils/prepare_lang.sh data/local/dict_nosp_expanded "<UNK>" \
   data/local/lang_tmp_nosp_expanded data/lang_nosp_expanded
 fi
@@ -81,7 +83,7 @@ if [ $stage -le 8 ]; then
   utils/format_lm.sh data/lang_nosp_expanded data/local/lm/tgsmall.arpa.gz \
     data/local/dict_nosp_expanded/lexicon.txt data/lang_nosp_expanded_test_tgsmall
 fi
-exit
+
 if [ $stage -le 9 ]; then
   echo "Prepare medium size lang directory."
   mkdir -p data/lang_nosp_expanded_test_tgmed
