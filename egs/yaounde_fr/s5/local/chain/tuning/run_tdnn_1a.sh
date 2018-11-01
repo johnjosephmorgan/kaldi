@@ -2,7 +2,18 @@
 
 # a re-tuned model based on resnet-style TDNN-F layers with bypass connections.
 
-# Later run local/chain/compare_wer.sh
+# ./local/chain/compare_wer.sh --online exp/chain/tdnn1a_sp
+# System                tdnn1a_sp
+#WER dev (tgsmall)      24.02
+#             [online:]         24.21
+#WER dev (tglarge)      20.14
+#             [online:]         19.67
+# Final train prob        -0.0847
+# Final valid prob        -0.0853
+# Final train prob (xent)   -3.3073
+# Final valid prob (xent)   -3.3128
+# Num-params                 5270002
+
 
 #| model | dev tgsmall | test tgsmall | devtest tgsmall | dev tgmed | test tgmed | devtest tgmed | dev tglarge | test tglarge | devtest tglarge |
 #| mono | 54.58 | 25.67 | 7.86 | 76.18 | 69.64 | 52.09| | | |
