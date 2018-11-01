@@ -8,7 +8,7 @@ set -e
 . ./path.sh
 . $KALDI_ROOT/tools/env.sh
 stage=0
-nsegs=200000;  # limit the number of training segments
+nsegs=10000;  # limit the number of training segments
 
 . ./utils/parse_options.sh
 
