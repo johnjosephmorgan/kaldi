@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -x
+#!/usr/bin/env bash
 
 # This script demonstrates how to use the grammar-decoding framework to build
 # graphs made out of more than one part.  It demonstrates using `fstequivalent`
