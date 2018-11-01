@@ -22,7 +22,7 @@ if [ "$1" == "--looped" ]; then
   include_looped=true
   shift
 fi
-include_online=true
+include_online=false
 if [ "$1" == "--online" ]; then
   include_online=true
   shift
