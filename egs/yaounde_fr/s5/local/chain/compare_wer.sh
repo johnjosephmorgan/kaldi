@@ -22,7 +22,7 @@ if [ "$1" == "--looped" ]; then
   include_looped=true
   shift
 fi
-include_online=false
+include_online=true
 if [ "$1" == "--online" ]; then
   include_online=true
   shift
@@ -79,7 +79,7 @@ for n in 0 1 2; do
    echo
    if $include_looped; then
      echo -n "#             [looped:]    "
-     for x in $*; do
+final     for x in $*; do
        set_names $x  # sets $dirname and $epoch_infix
        wer=$(cat $dirname/decode_looped_${decode_names[$n]}/wer_* | utils/best_wer.sh | awk '{print $2}')
        printf "% 10s" $wer
