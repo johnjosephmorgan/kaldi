@@ -72,7 +72,7 @@ fi
 if [ $stage -le 8 ]; then
   echo "Small lm training."
   mkdir -p $tmpdir/lm
-  cut -f 2- data/train/text > $tmpdir/lm/train.txt
+  cut -d " " -f 2- data/train/text > $tmpdir/lm/train.txt
   local/prepare_small_lm.sh  $tmpdir/lm/train.txt
   echo "Making small G.fst."
   mkdir -p data/lang_nosp_expanded_test_tgsmall
