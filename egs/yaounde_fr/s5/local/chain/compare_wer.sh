@@ -63,23 +63,22 @@ for x in $*; do   printf "% 10s" " $(basename $x)";   done
 echo
 
 strings=(
-  "#WER dev (tgsmall) "
-  "#WER dev (tgmed) "
-  "#WER dev (tglarge) ")
+  "#WER dev_clean_2 (tgsmall) "
+  "#WER dev_clean_2 (tglarge) ")
 
-for n in 0 1 2; do
+for n in 0 1; do
    echo -n "${strings[$n]}"
    for x in $*; do
      set_names $x  # sets $dirname and $epoch_infix
-    decode_names=(tgsmall_dev tgmed_dev tglarge_dev)
+    decode_names=(tgsmall_dev_clean_2 tglarge_dev_clean_2)
 
-    wer=$(cat $dirname/decode_${decode_names[$n]}/wer_* | utils/best_wer.sh | awk '{print $2}')
+     wer=$(cat $dirname/decode_${decode_names[$n]}/wer_* | utils/best_wer.sh | awk '{print $2}')
      printf "% 10s" $wer
    done
    echo
    if $include_looped; then
      echo -n "#             [looped:]    "
-final     for x in $*; do
+     for x in $*; do
        set_names $x  # sets $dirname and $epoch_infix
        wer=$(cat $dirname/decode_looped_${decode_names[$n]}/wer_* | utils/best_wer.sh | awk '{print $2}')
        printf "% 10s" $wer
