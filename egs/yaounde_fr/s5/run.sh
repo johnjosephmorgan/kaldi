@@ -342,5 +342,8 @@ if [ $stage -le 32 ]; then
 fi
 
 if [ $stage -le 33 ]; then
+  # Run grammar decoding demos
   local/grammar/simple_demo.sh
+
+  local/grammar/extend_vocab_demo.sh
 fi
