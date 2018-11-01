@@ -179,7 +179,6 @@ if [ $stage -le 17 ]; then
       nspk=$(wc -l < data/$x/spk2utt)
       steps/decode.sh --cmd "$decode_cmd" --nj $nspk exp/tri1/graph_nosp_expanded_tgsmall \
         data/$x exp/tri1/decode_nosp_expanded_tgsmall_${x}
-
       echo "$0: testing with cd gmm hmm tgmed and tglarge models"
       # make decoding graphs for tri1
       utils/mkgraph.sh data/lang_nosp_expanded_test_tgmed exp/tri1 \
