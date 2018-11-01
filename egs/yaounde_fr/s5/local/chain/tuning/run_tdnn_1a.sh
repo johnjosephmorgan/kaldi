@@ -20,7 +20,7 @@ set -euo pipefail
 stage=0
 decode_nj=10
 train_set=train
-test_sets="devtest dev test"
+test_sets="devtest dev test unsup"
 gmm=tri3b
 nnet3_affix=
 
