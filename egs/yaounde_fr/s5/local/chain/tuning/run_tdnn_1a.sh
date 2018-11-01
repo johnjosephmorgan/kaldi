@@ -6,6 +6,8 @@
 # System                tdnn1a_sp
 #WER dev (tgsmall)      24.02
 #             [online:]         24.21
+#WER dev (tgmed)      22.30
+#             [online:]         22.26
 #WER dev (tglarge)      20.14
 #             [online:]         19.67
 # Final train prob        -0.0847
