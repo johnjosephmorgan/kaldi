@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash -x
 
 . ./cmd.sh
 . ./path.sh
@@ -17,17 +17,17 @@ tmpdir=data/local/tmp/westpoint_russian
 if [ $stage -le 1 ]; then
   # make the temporary working data directory
   mkdir -p data/local/tmp/westpoint_russian
+  for fld in test train; do
+  #get a list of the .raw waveform files
+    local/get_raw_list_${fld}.sh $datadir
+  done
 
   # get a file containing a map from filename to transcript
   local/get_train_transcripts.sh $datadir
 
-  for fld in test train; do
-    get a list of the .raw waveform files
-    ocal/get_raw_list_${fld}.sh $datadir
-
 	# convert the waveform files to .wav
 	local/raw2wav_${fld}.pl
-	done
+
 fi
 exit
 if [ $stage -le 2 ]; then
