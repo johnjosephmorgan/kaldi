@@ -10,27 +10,25 @@ set -e
 set -o pipefail
 set u
 
-datadir=/mnt/corpora/westpoint_russian
-tmpdir=data/local/tmp/westpoint_russian
+datadir=/mnt/disk01/westpoint_russian
+tmpdir=data/local/tmp/ru
 lex='https://sourceforge.net/projects/cmusphinx/files/Acoustic and Language Models/Russian/cmusphinx-ru-5.2.tar.gz'
 if [ $stage -le 1 ]; then
     local/cmusphinx_download.sh $lex
 fi
-exit
+
 if [ $stage -le 2 ]; then
   # make the temporary working data directory
-  mkdir -p data/local/tmp/westpoint_russian
-    # make a dictionary
-    if [ -d data/local/dict ]; then
-	rm -Rf data/local/dict
-    fi
-
-    mkdir -p data/local/dict
-
-    local/prepare_dict.sh
+  mkdir -p data/local/tmp/ru
+  for f in train test_native test_nonnative; do
+    local/prepare_data_${f}.sh $datadir
+  done
 fi
 
 if [ $stage -le 3 ]; then
+    mkdir -p data/local/dict
+
+    local/prepare_dict.sh
     # prepare the lang directory
     utils/prepare_lang.sh \
 	data/local/dict \
