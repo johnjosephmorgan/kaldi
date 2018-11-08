@@ -13,8 +13,10 @@ set u
 datadir=/mnt/disk01/westpoint_russian
 tmpdir=data/local/tmp/ru
 lex='https://sourceforge.net/projects/cmusphinx/files/Acoustic and Language Models/Russian/cmusphinx-ru-5.2.tar.gz'
+lexdir=cmusphinx-ru-5.2
+
 if [ $stage -le 1 ]; then
-    local/cmusphinx_download.sh $lex
+  local/cmusphinx_download.sh $lex
 fi
 
 if [ $stage -le 2 ]; then
@@ -26,18 +28,16 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ]; then
-    mkdir -p data/local/dict
+  mkdir -p data/local/tmp/ru/dict_nosp
+  local/prepare_dict.sh $lexdir/ru.dic data/local/tmp/ru/dict_nosp
+fi
 
-    local/prepare_dict.sh
-    # prepare the lang directory
-    utils/prepare_lang.sh \
+if [ $stage -le 4 ]; then
+  utils/prepare_lang.sh \
 	data/local/dict \
 	"<UNK>" \
 	data/local/lang \
 	data/lang   || exit 1;
-fi
-
-if [ $stage -le 4 ]; then
     for fld in test train; do
 	# get acoustic model training and testing lists
 	mkdir -p data/$fld
