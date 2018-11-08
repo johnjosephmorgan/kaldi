@@ -33,6 +33,10 @@ if [ $stage -le 3 ]; then
 fi
 
 if [ $stage -le 4 ]; then
+      echo "$0: Training g2p model."
+  local/g2p/train_g2p.sh data/local/tmp/ru/dict_nosp $tmpdir/g2p
+fi
+exit
   utils/prepare_lang.sh \
 	data/local/dict \
 	"<UNK>" \

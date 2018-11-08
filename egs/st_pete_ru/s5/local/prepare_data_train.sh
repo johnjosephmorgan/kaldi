@@ -24,3 +24,8 @@ find $speech_datadir -type f -name "*.wav" > $tmpdir/wav_list.txt
 #  make  lists
 local/make_lists_train.pl $datadir
 utils/fix_data_dir.sh $tmpdir/lists
+mkdir -p data/train
+for x in wav.scp utt2spk text spk2utt; do
+    cp $tmpdir/lists/$x data/train/$x
+done
+
