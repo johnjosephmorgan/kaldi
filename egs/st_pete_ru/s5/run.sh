@@ -1,8 +1,7 @@
-#!/bin/bash -x
+#!/bin/bash 
 
 . ./cmd.sh
 . ./path.sh
-
 stage=0
 
 . ./utils/parse_options.sh
@@ -13,24 +12,14 @@ set u
 
 datadir=/mnt/corpora/westpoint_russian
 tmpdir=data/local/tmp/westpoint_russian
-
+lex='https://sourceforge.net/projects/cmusphinx/files/Acoustic and Language Models/Russian/cmusphinx-ru-5.2.tar.gz'
 if [ $stage -le 1 ]; then
-  # make the temporary working data directory
-  mkdir -p data/local/tmp/westpoint_russian
-  for fld in test train; do
-  #get a list of the .raw waveform files
-    local/get_raw_list_${fld}.sh $datadir
-  done
-
-  # get a file containing a map from filename to transcript
-  local/get_train_transcripts.sh $datadir
-
-	# convert the waveform files to .wav
-	local/raw2wav_${fld}.pl
-
+    local/cmusphinx_download.sh $lex
 fi
 exit
 if [ $stage -le 2 ]; then
+  # make the temporary working data directory
+  mkdir -p data/local/tmp/westpoint_russian
     # make a dictionary
     if [ -d data/local/dict ]; then
 	rm -Rf data/local/dict
