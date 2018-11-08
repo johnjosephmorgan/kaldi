@@ -22,16 +22,14 @@ fi
 if [ $stage -le 2 ]; then
   # make the temporary working data directory
   mkdir -p data/local/tmp/ru
-  for f in train test_native test_nonnative; do
-    local/prepare_data_${f}.sh $datadir
-  done
+  local/prepare_data.sh $datadir
 fi
 
 if [ $stage -le 3 ]; then
   mkdir -p data/local/tmp/ru/dict_nosp
   local/prepare_dict.sh $lexdir/ru.dic data/local/tmp/ru/dict_nosp
 fi
-
+exit
 if [ $stage -le 4 ]; then
       echo "$0: Training g2p model."
   local/g2p/train_g2p.sh data/local/tmp/ru/dict_nosp $tmpdir/g2p
