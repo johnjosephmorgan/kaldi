@@ -14,8 +14,11 @@ datadir=/mnt/disk01/westpoint_russian
 tmpdir=data/local/tmp/ru
 lex='https://sourceforge.net/projects/cmusphinx/files/Acoustic and Language Models/Russian/cmusphinx-ru-5.2.tar.gz'
 lexdir=cmusphinx-ru-5.2
+subs_src="http://opus.nlpl.eu/download.php?f=OpenSubtitles2018/mono/OpenSubtitles2018.ru.gz"
 
 if [ $stage -le 1 ]; then
+  local/subs/download.sh $subs_src
+
   local/cmusphinx_download.sh $lex
 fi
 
@@ -31,17 +34,17 @@ if [ $stage -le 3 ]; then
 fi
 
 if [ $stage -le 4 ]; then
-      echo "$0: Training g2p model."
+  echo "$0: Training g2p model."
   local/g2p/train_g2p.sh data/local/tmp/ru/dict_nosp $tmpdir/g2p
 fi
 
 if [ $stage -le 5 ]; then
-  local/g2p/apply_g2p.sh $tmpdir/g2p/model.fst $tmpdir/dict data/local/dict_nosp/lexicon.txt $tmpdir/dict/lexicon.txt
+  local/g2p/apply_g2p.sh $tmpdir/g2p/model.fst $tmpdir/dict $tmpdir/dict_nosp/lexicon.txt $tmpdir/dict/lexicon.txt
 fi
 
 if [ $stage -le 6 ]; then
   local/prepare_dict.sh $tmpdir/dict/lexicon.txt data/local/dict_nosp_expanded
-  echo "<UNK> SPN" >> data/local/dict_nosp/lexicon.txt
+  echo "<UNK> SPN" >> $tmpdir/dict_nosp/lexicon.txt
   echo "<UNK> SPN" >> data/local/dict_nosp_expanded/lexicon.txt
 fi
 
@@ -82,7 +85,7 @@ fi
 
 if [ $stage -le 11 ]; then
   # extract acoustic features
-  for f in devtest dev train test unsup; do
+  for f in train test; do
     steps/make_mfcc.sh --cmd "$train_cmd" --nj 9 data/$f exp/make_mfcc/$f mfcc
     utils/fix_data_dir.sh data/$f
     steps/compute_cmvn_stats.sh data/$f exp/make_mfcc mfcc
@@ -108,7 +111,7 @@ if [ $stage -le 13 ]; then
       exp/mono/graph_nosp_expanded_tgsmall
 
     # test monophones
-    for x in devtest dev test unsup; do
+    for x in  test; do
       nspk=$(wc -l < data/$x/spk2utt)
       steps/decode.sh  --cmd "$decode_cmd" --nj $nspk \
         exp/mono/graph_nosp_expanded_tgsmall data/$x exp/mono/decode_nosp_expanded_tgsmall_${x}
@@ -124,7 +127,7 @@ if [ $stage -le 14 ]; then
       exp/mono/graph_nosp_expanded_tgmed
 
     # test monophones
-    for x in devtest dev test unsup; do
+    for x in test; do
       nspk=$(wc -l < data/$x/spk2utt)
       steps/decode.sh  --cmd "$decode_cmd" --nj $nspk \
         exp/mono/graph_nosp_expanded_tgmed data/$x exp/mono/decode_nosp_expanded_tgmed_${x}
@@ -157,7 +160,7 @@ if [ $stage -le 17 ]; then
       exp/tri1/graph_nosp_expanded_tgsmall
 
     echo "Decoding test data with tri1 an tgsmall dmodels."
-    for x in devtest dev test unsup; do
+    for x in test; do
       nspk=$(wc -l < data/$x/spk2utt)
       steps/decode.sh --cmd "$decode_cmd" --nj $nspk exp/tri1/graph_nosp_expanded_tgsmall \
         data/$x exp/tri1/decode_nosp_expanded_tgsmall_${x}
@@ -203,7 +206,7 @@ if [ $stage -le 20 ]; then
     utils/mkgraph.sh data/lang_nosp_expanded_test_tgsmall exp/tri2b \
       exp/tri2b/graph_nosp_expanded_tgsmall
     # decode  test with tri2b models
-    for x in devtest dev dev test unsup; do
+    for x in test; do
       nspk=$(wc -l < data/$x/spk2utt)
       steps/decode.sh --cmd "$decode_cmd" --nj $nspk \
         exp/tri2b/graph_nosp_expanded_tgsmall data/$x exp/tri2b/decode_nosp_expanded_tgsmall_${x}
@@ -240,7 +243,7 @@ if [ $stage -le 23 ]; then
     echo "$0: making decoding graph for SAT models."
     utils/mkgraph.sh data/lang_nosp_expanded_test_tgsmall exp/tri3b \
       exp/tri3b/graph_nosp_expanded_tgsmall
-    for x in devtest dev test unsup; do
+    for x in  test; do
       echo "Decoding $x with sat and tgsmall models."
       nspk=$(wc -l < data/$x/spk2utt)
       steps/decode_fmllr.sh --cmd "$decode_cmd" --nj $nspk \
@@ -303,7 +306,7 @@ if [ $stage -le 31 ]; then
   (
     utils/mkgraph.sh data/lang_test_tgsmall \
       exp/tri3b exp/tri3b/graph_tgsmall
-    for x in dev devtest test unsup; do
+    for x in test; do
       steps/decode_fmllr.sh --nj 10 --cmd "$decode_cmd" \
         exp/tri3b/graph_tgsmall data/$x \
         exp/tri3b/decode_tgsmall_$x
