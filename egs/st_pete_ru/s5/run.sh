@@ -11,7 +11,7 @@ set -o pipefail
 set u
 
 datadir=/mnt/disk01/westpoint_russian
-tmpdir=data/local/tmp/ru
+tmpdir=data/local/tmp
 lex='https://sourceforge.net/projects/cmusphinx/files/Acoustic and Language Models/Russian/cmusphinx-ru-5.2.tar.gz'
 lexdir=cmusphinx-ru-5.2
 subs_src="http://opus.nlpl.eu/download.php?f=OpenSubtitles2018/mono/OpenSubtitles2018.ru.gz"
@@ -24,27 +24,27 @@ fi
 
 if [ $stage -le 2 ]; then
   # make the temporary working data directory
-  mkdir -p data/local/tmp/ru
+  mkdir -p $tmpdir/ru
   local/prepare_data.sh $datadir
 fi
 
 if [ $stage -le 3 ]; then
-  mkdir -p data/local/tmp/ru/dict_nosp
-  local/prepare_dict.sh $lexdir/ru.dic data/local/tmp/ru/dict_nosp
+  mkdir -p $tmpdir/ru/dict_nosp
+  local/prepare_dict.sh $lexdir/ru.dic $tmpdir/ru/dict_nosp
 fi
 
 if [ $stage -le 4 ]; then
   echo "$0: Training g2p model."
-  local/g2p/train_g2p.sh data/local/tmp/ru/dict_nosp $tmpdir/g2p
+  local/g2p/train_g2p.sh $tmpdir/ru/dict_nosp $tmpdir/ru/g2p
 fi
 
 if [ $stage -le 5 ]; then
-  local/g2p/apply_g2p.sh $tmpdir/g2p/model.fst $tmpdir/dict $tmpdir/dict_nosp/lexicon.txt $tmpdir/dict/lexicon.txt
+  local/g2p/apply_g2p.sh $tmpdir/ru/g2p/model.fst $tmpdir/ru/dict $tmpdir/ru/dict_nosp/lexicon.txt $tmpdir/ru/dict/lexicon.txt
 fi
 
 if [ $stage -le 6 ]; then
-  local/prepare_dict.sh $tmpdir/dict/lexicon.txt data/local/dict_nosp_expanded
-  echo "<UNK> SPN" >> $tmpdir/dict_nosp/lexicon.txt
+  local/prepare_dict.sh $tmpdir/ru/dict/lexicon.txt data/local/dict_nosp_expanded
+  echo "<UNK> SPN" >> $tmpdir/ru/dict_nosp/lexicon.txt
   echo "<UNK> SPN" >> data/local/dict_nosp_expanded/lexicon.txt
 fi
 
@@ -56,9 +56,9 @@ fi
 
 if [ $stage -le 8 ]; then
   echo "Small lm training."
-  mkdir -p $tmpdir/lm
-  cut -d " " -f 2- data/train/text > $tmpdir/lm/train.txt
-  local/prepare_small_lm.sh  $tmpdir/lm/train.txt
+  mkdir -p $tmpdir/ru/lm
+  cut -d " " -f 2- data/train/text > $tmpdir/ru/lm/train.txt
+  local/prepare_small_lm.sh  $tmpdir/ru/lm/train.txt
   echo "Making small G.fst."
   mkdir -p data/lang_nosp_expanded_test_tgsmall
   utils/format_lm.sh data/lang_nosp_expanded data/local/lm/tgsmall.arpa.gz \
