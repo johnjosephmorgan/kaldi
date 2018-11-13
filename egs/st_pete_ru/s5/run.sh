@@ -69,11 +69,11 @@ if [ $stage -le 9 ]; then
   echo "Preparing the subs data for larger lm training."
   # Subs prep depends on previous steps. 
   local/subs/prepare_data.pl 
-  local/prepare_medium_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
-  local/prepare_large_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
 fi
 
 if [ $stage -le 10 ]; then
+  local/prepare_medium_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
+  local/prepare_large_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
   echo "Prepare medium size lang directory."
   mkdir -p data/lang_nosp_expanded_test_tgmed
   utils/format_lm.sh data/lang_nosp_expanded data/local/lm/tgmed.arpa.gz \
