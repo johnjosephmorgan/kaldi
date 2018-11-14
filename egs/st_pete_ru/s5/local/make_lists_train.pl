@@ -24,7 +24,7 @@ my ($d) = @ARGV;
 
 # Initialize variables
 my $tmpdir = "data/local/tmp/ru/train";
-my $transcripts_file = "$d/transcription/fn2text.txt";
+my $transcripts_file = "$d/transcription/fn2text_lc.txt";
 # input wav file list
 my $w = "$tmpdir/wav_list.txt";
 # output temporary wav.scp file
@@ -49,6 +49,7 @@ LINEA: while ( my $line = <$TR> ) {
   my ($utt_path,$sent) = split /\s/, $line, 2;
   my ($volume,$directories,$file) = File::Spec->splitpath( $utt_path );
   my ($spk,$utt,$mode) = split /\-/, $file, 3;
+  $sent = lc $sent;
   $transcript{$file} = $sent;
 }
 close $TR;
