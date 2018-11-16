@@ -27,7 +27,7 @@ if [ $stage -le 2 ]; then
   mkdir -p $tmpdir/ru
   local/prepare_data.sh $datadir
 fi
-
+exit
 if [ $stage -le 3 ]; then
   mkdir -p $tmpdir/ru/dict_nosp
   local/prepare_dict.sh $lexdir/ru.dic $tmpdir/ru/dict_nosp
