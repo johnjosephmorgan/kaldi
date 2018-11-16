@@ -236,7 +236,7 @@ if [ $stage -le 20 ]; then
         exp/tri3b/decode_{tgsmall,tgmed}_$x
       steps/lmrescore_const_arpa.sh \
         --cmd "$decode_cmd" data/lang_test_{tgsmall,tglarge} \
-        data/$x exp/tri3b/decode_nosp_{expanded_tgsmall,tglarge}_$x
+        data/$x exp/tri3b/decode_{tgsmall,tglarge}_$x
     done
   )&
 fi
