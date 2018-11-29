@@ -128,7 +128,9 @@ for (my $x = 1; $x <= 2; $x++) { # This for-loop is to
     if ($jobstart < 0) {
       croak "run.pl: invalid job range $ARGV[0], start must be strictly positive.";
     }
+    shift;
   }
+  shift;
 }
 
 if (@ARGV < 2) {
