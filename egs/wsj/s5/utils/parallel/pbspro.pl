@@ -130,7 +130,6 @@ for (my $x = 1; $x <= 2; $x++) { # This for-loop is to
     }
     shift;
   }
-  shift;
 }
 
 if (@ARGV < 2) {
@@ -268,9 +267,10 @@ if ($array_job == 1 && $logfile !~ m/$jobname/
 # always work.
 #
 my $cmd = "";
-
+croak "@ARGV";
 foreach my $x (@ARGV) {
-  if ($x =~ m/^\S+$/) { $cmd .= $x . " "; } # If string contains no spaces, take
+
+  if ($x =~ /^\S+$/) { $cmd .= $x . " "; } # If string contains no spaces, take
                                             # as-is.
   elsif ($x =~ m:\":) { $cmd .= "'$x' "; } # else if no dbl-quotes, use single
   else { $cmd .= "\"$x\" "; }  # else use double.
