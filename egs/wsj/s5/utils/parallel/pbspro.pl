@@ -114,6 +114,7 @@ for (my $x = 1; $x <= 2; $x++) { # This for-loop is to
   }
   if ( $jobstart == 0 and $jobend == 1 ) {
       $array_job = 0;
+      $jobstart=1;
       shift;
   }
   if ($ARGV[0] =~ /^JOB=(\d+):(\d+)$/) { # e.g. JOB=1:20
@@ -247,7 +248,6 @@ for my $option (keys %cli_options) {
 my $cwd = getcwd();
 my @remaining_commandline = @ARGV;
 my $logfile = shift @ARGV;
-warn "hola\t$logfile";
 if ($array_job == 1 && $logfile !~ m/$jobname/
     && $jobend > $jobstart) {
   warn "pbspro.pl: you are trying to run a parallel job but "
@@ -330,7 +330,6 @@ system("rm $queue_logfile $syncfile 2>/dev/null");
 #
 # Write to the script file, and then close it.
 #
-warn "hello\t$cmd";
 open my $Q, '>', $queue_scriptfile or croak "Failed to write to $queue_scriptfile $!";
 
 print $Q "#!/bin/bash\n";
