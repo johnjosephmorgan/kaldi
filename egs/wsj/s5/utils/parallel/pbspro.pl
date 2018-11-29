@@ -113,9 +113,10 @@ for (my $x = 1; $x <= 2; $x++) { # This for-loop is to
     }
   }
   if ( $jobstart == 0 and $jobend == 1 ) {
-    $array_job = 0;
+      $array_job = 0;
+      shift;
   }
-  if ($ARGV[0] =~ m/^JOB=(\d+):(\d+)$/) { # e.g. JOB=1:20
+  if ($ARGV[0] =~ /^JOB=(\d+):(\d+)$/) { # e.g. JOB=1:20
     $array_job = 1;
     #$jobname = $1;
     # I am fixing $jobname to be JOB
@@ -128,10 +129,8 @@ for (my $x = 1; $x <= 2; $x++) { # This for-loop is to
     if ($jobstart < 0) {
       croak "run.pl: invalid job range $ARGV[0], start must be strictly positive.";
     }
-    shift;
   }
 }
-
 if (@ARGV < 2) {
   print_usage();
 }
@@ -247,7 +246,6 @@ for my $option (keys %cli_options) {
 
 my $cwd = getcwd();
 my $logfile = shift @ARGV;
-
 if ($array_job == 1 && $logfile !~ m/$jobname/
     && $jobend > $jobstart) {
   warn "pbspro.pl: you are trying to run a parallel job but "
@@ -267,13 +265,14 @@ if ($array_job == 1 && $logfile !~ m/$jobname/
 # always work.
 #
 my $cmd = "";
-croak "@ARGV";
 foreach my $x (@ARGV) {
-
-  if ($x =~ /^\S+$/) { $cmd .= $x . " "; } # If string contains no spaces, take
-                                            # as-is.
-  elsif ($x =~ m:\":) { $cmd .= "'$x' "; } # else if no dbl-quotes, use single
-  else { $cmd .= "\"$x\" "; }  # else use double.
+  if ($x =~ /^\S+$/) {
+    $cmd .= $x . " " 
+  } elsif ($x =~ m:\":) {
+    $cmd .= "'$x' ";
+  }   else {
+    $cmd .= "\"$x\" ";
+  }
 }
 
 #
