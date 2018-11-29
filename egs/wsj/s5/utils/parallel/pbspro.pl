@@ -245,7 +245,9 @@ for my $option (keys %cli_options) {
 }
 
 my $cwd = getcwd();
+my @remaining_commandline = @ARGV;
 my $logfile = shift @ARGV;
+warn "hola\t$logfile";
 if ($array_job == 1 && $logfile !~ m/$jobname/
     && $jobend > $jobstart) {
   warn "pbspro.pl: you are trying to run a parallel job but "
@@ -265,7 +267,7 @@ if ($array_job == 1 && $logfile !~ m/$jobname/
 # always work.
 #
 my $cmd = "";
-foreach my $x (@ARGV) {
+foreach my $x (@remaining_commandline) {
   if ($x =~ /^\S+$/) {
     $cmd .= $x . " " 
   } elsif ($x =~ m:\":) {
@@ -328,6 +330,7 @@ system("rm $queue_logfile $syncfile 2>/dev/null");
 #
 # Write to the script file, and then close it.
 #
+warn "hello\t$cmd";
 open my $Q, '>', $queue_scriptfile or croak "Failed to write to $queue_scriptfile $!";
 
 print $Q "#!/bin/bash\n";
