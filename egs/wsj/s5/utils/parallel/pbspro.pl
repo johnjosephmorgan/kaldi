@@ -24,43 +24,10 @@ use Carp;
 # This version of queue.pl uses the task array functionality
 # of PBS.  
 # The script now supports configuring the queue system using a config file
-# (default in conf/pbspro.conf; but can be passed specified with --config option)
-# and a set of command line options.
-# The current script handles:
-# 1) Normal configuration arguments
-# For e.g. a command line option of "--gpu 1" could be converted into the option
-# "-q debug -l ngpus=1" to qsub. How the CLI option is handled is determined by a
-# line in the config file like
-# gpu=* -q debug -l ngpus=$0
-# $0 here in the line is replaced with the argument read from the CLI and the
-# resulting string is passed to qsub.
-# 2) Special arguments to options such as
-# gpu=0
-# If --gpu 0 is given in the command line, then no special "-q" is given.
-# 3) Default argument
-# default gpu=0
-# If --gpu option is not passed in the command line, then the script behaves as
-# if --gpu 0 was passed since 0 is specified as the default argument for that
-# option
-# 4) Arbitrary options and arguments.
-# Any command line option starting with '--' and its argument would be handled
-# as long as its defined in the config file.
-# 5) Default behavior
-# If the config file that is passed using is not readable, then the script
-# behaves as if the queue has the following config file:
-# $ cat conf/pbspro.conf
-# # Default configuration
-# command qsub -v PATH -S /bin/bash  
-# default gpu=0
-# option ngpus=0 -q debug
-# option gpu=* -l ngpus=$0 -q debug
+# (default in conf/pbspro.confmy $qsub_opts = "".
 
-my $qsub_opts = "";
 my $gpu = 0;
-
 my $config = "conf/pbspro.conf";
-
-my %cli_options = ();
 
 my $jobname = 'JOB';
 my $jobstart = 0;
@@ -68,181 +35,17 @@ my $jobend = 1;
 my $job_stepping_factor = 1;
 my $array_job = 0;
 
-sub print_usage() {
-  print STDERR "
-Usage: pbspro.pl [options] [JOB=1:n] log-file command-line arguments...\n" .
-"e.g.: pbspro.pl foo.log echo baz\n" .
-" (which will echo \"baz\", with stdout and stderr directed to foo.log)\n" .
-"or: pbspro.pl -q all.q\@xyz foo.log echo bar \| sed s/bar/baz/ \n" .
-" (which is an example of using a pipe; you can provide other escaped bash constructs)\n" .
-"or: pbspro.pl -q all.q\@qyz JOB=1:10 foo.JOB.log echo JOB \n" .
-" (which illustrates the mechanism to submit parallel jobs;" .
-" It uses qstat to work out when the job finished\n" .
-"Options:\n" .
-"  --config <config-file> (default: $config)\n" .
-"  --gpu <0|1> (default: $gpu)\n";
-  exit 1;
+if ( $jobstart == 0 and $jobend == 1 ) {
+  $array_job = 0;
+  $jobstart=1;
+  shift;
 }
 
-if (@ARGV < 2) {
-  print_usage();
-}
-
-for (my $x = 1; $x <= 2; $x++) { # This for-loop is to
-  # allow the JOB=1:n option to be interleaved with the
-  # options to qsub.
-  while (@ARGV >= 2 && $ARGV[0] =~ m:^-:) {
-    my $switch = shift @ARGV;
-    if ($switch eq "-V") {
-      $qsub_opts .= "-V ";
-    } else {
-      my $argument = shift @ARGV;
-      if ($argument =~ m/^--/) {
-        print STDERR "pbspro.pl: Warning: suspicious argument '$argument' to $switch; starts with '-'\n";
-      }
-      if ($switch =~ m/^--/) { # Config options
-        # Convert CLI option to variable name
-        # by removing '--' from the switch and replacing any
-        # '-' with a '_'
-        $switch =~ s/^--//;
-        $switch =~ s/-/_/g;
-        $cli_options{$switch} = $argument;
-      } else {  # Other qsub options - passed as is
-        $qsub_opts .= "$switch $argument ";
-      }
-    }
-  }
-  if ( $jobstart == 0 and $jobend == 1 ) {
-      $array_job = 0;
-      $jobstart=1;
-      shift;
-  }
-  if ($ARGV[0] =~ /^JOB=(\d+):(\d+)$/) { # e.g. JOB=1:20
-    $array_job = 1;
-    #$jobname = $1;
-    # I am fixing $jobname to be JOB
-    $jobstart = $1;
-    $jobend = $2;
-    shift;
-    if ($jobstart > $jobend) {
-      croak "pbspro.pl: invalid job range $ARGV[0]";
-    }
-    if ($jobstart < 0) {
-      croak "run.pl: invalid job range $ARGV[0], start must be strictly positive.";
-    }
-  }
-}
-if (@ARGV < 2) {
-  print_usage();
-}
-
-if (exists $cli_options{"config"}) {
-  $config = $cli_options{"config"};
-}
-
-my $default_config_file = <<'EOF';
-# Default configuration
-command qsub -V -v PATH -S /bin/bash  
-default gpu=0
-option gpu=0
-option gpu=* -l ngpus=$0
-EOF
-
-# Here the configuration options specified by the user on the command line
-# (e.g. --mem 2G) are converted to options to the qsub system as defined in
-# the config file. (e.g. if the config file has the line
-# "option mem=* -l ram_free=$0,mem_free=$0"
-# and the user has specified '--mem 2G' on the command line, the options
-# passed to queue system would be "-l ram_free=2G,mem_free=2G
-# A more detailed description of the ways the options would be handled is at
-# the top of this file.
-
-my $opened_config_file = 1;
-
-open CONFIG, "<$config" or $opened_config_file = 0;
-
-my %cli_config_options = ();
-my %cli_default_options = ();
-
-if ($opened_config_file == 0 && exists($cli_options{"config"})) {
-  print STDERR "Could not open config file $config\n";
-  exit(1);
-} elsif ($opened_config_file == 0 && !exists($cli_options{"config"})) {
-  # Open the default config file instead
-  open (CONFIG, "echo '$default_config_file' |") or die "Unable to open pipe\n";
-  $config = "Default config";
-}
-
-my $qsub_cmd = "";
-my $read_command = 0;
-
-while(<CONFIG>) {
-  chomp;
-  my $line = $_;
-  $_ =~ s/\s*#.*//g;
-  if ($_ eq "") { next; }
-  if ($_ =~ /^command (.+)/) {
-    $read_command = 1;
-    $qsub_cmd = $1 . " ";
-  } elsif ($_ =~ m/^option ([^=]+)=\* (.+)$/) {
-    # Config option that needs replacement with parameter value read from CLI
-    # e.g.: option mem=* -l mem_free=$0,ram_free=$0
-    my $option = $1;     # mem
-    my $arg= $2;         # -l mem_free=$0,ram_free=$0
-    if ($arg !~ m:\$0:) {
-      die "Unable to parse line '$line' in config file ($config)\n";
-    }
-    if (exists $cli_options{$option}) {
-      # Replace $0 with the argument read from command line.
-      # e.g. "-l mem_free=$0,ram_free=$0" -> "-l mem_free=2G,ram_free=2G"
-      $arg =~ s/\$0/$cli_options{$option}/g;
-      $cli_config_options{$option} = $arg;
-    }
-  } elsif ($_ =~ m/^option ([^=]+)=(\S+)\s?(.*)$/) {
-    # Config option that does not need replacement
-    # e.g. option gpu=0 -q debug
-    my $option = $1;      # gpu
-    my $value = $2;       # 0
-    my $arg = $3;         # -q debug
-    if (exists $cli_options{$option}) {
-      $cli_default_options{($option,$value)} = $arg;
-    }
-  } elsif ($_ =~ m/^default (\S+)=(\S+)/) {
-    # Default options. Used for setting default values to options i.e. when
-    # the user does not specify the option on the command line
-    # e.g. default gpu=0
-    my $option = $1;  # gpu
-    my $value = $2;   # 0
-    if (!exists $cli_options{$option}) {
-      # If the user has specified this option on the command line, then we
-      # don't have to do anything
-      $cli_options{$option} = $value;
-    }
-  } else {
-    print STDERR "pbspro.pl: unable to parse line '$line' in config file ($config)\n";
-    exit(1);
-  }
-}
-
-close(CONFIG);
-
-if ($read_command != 1) {
-  print STDERR "pbspro.pl: config file ($config) does not contain the line \"command .*\"\n";
-  exit(1);
-}
-
-for my $option (keys %cli_options) {
-  if ($option eq "config") { next; }
-  my $value = $cli_options{$option};
-
-  if (exists $cli_default_options{($option,$value)}) {
-    $qsub_opts .= "$cli_default_options{($option,$value)} ";
-  } elsif (exists $cli_config_options{$option}) {
-    $qsub_opts .= "$cli_config_options{$option} ";
-  } else {
-    if ($opened_config_file == 0) { $config = "default config file"; }
-    warn "pbspro.pl: Command line option $option not described in $config (or value '$value' not allowed)\n";
-  }
+if ($ARGV[0] =~ /^JOB=(\d+):(\d+)$/) { # e.g. JOB=1:20
+  $array_job = 1;
+  $jobstart = $1;
+  $jobend = $2;
+  shift;
 }
 
 my $cwd = getcwd();
@@ -544,7 +347,7 @@ else { # we failed.
   if (@logfiles == 1) {
     if (defined $jobname) { $logfile =~ s/\$PBS_ARRAY_INDEX/$jobstart/g; }
     print STDERR "pbspro.pl: job failed with status $status, log is in $logfile\n";
-    if ($logfile =~ m/JOB/) {
+    if ($logfile =~ /JOB/) {
       print STDERR "pbspro.pl: probably you forgot to put JOB=1:\$nj in your script.\n";
     }
   } else {
