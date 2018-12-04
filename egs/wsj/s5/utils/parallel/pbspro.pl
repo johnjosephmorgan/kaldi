@@ -122,7 +122,6 @@ warn "command\t$cmd\tlog file$logfile";
 my $queue_scriptfile = $queue_logfile;
 
 ($queue_scriptfile =~ s/\.[a-zA-Z]{1,5}$/.sh/) || ($queue_scriptfile .= ".sh");
-croak "script file\t$queue_scriptfile";
 if ($queue_scriptfile !~ m:^/:) {
   $queue_scriptfile = $cwd . "/" . $queue_scriptfile; # just in case.
 }
@@ -133,7 +132,7 @@ if ($queue_scriptfile !~ m:^/:) {
 # in it that we need (although we also source ./path.sh)
 
 my $syncfile = "$qdir/done.$$";
-
+croak "$syncfile";
 system("rm $queue_logfile $syncfile 2>/dev/null");
 #
 # Write to the script file, and then close it.
