@@ -25,7 +25,7 @@ use Carp;
 # of PBS.  
 # The script now supports configuring the queue system using a config file
 # (default in conf/pbspro.conf
-my $qsub_opts = "".
+my $qsub_opts = "";
 
 my $gpu = 0;
 my $config = "conf/pbspro.conf";
