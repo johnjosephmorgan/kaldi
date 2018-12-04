@@ -15,6 +15,7 @@ my $jobend = 1;
 my $job_stepping_factor = 1;
 my $array_job = 0;
 my $cmd = "";
+my $conf = "conf/pbspro.conf";
 
 my ($job_spec,$logfile,$command,@remaining_commandline) = @ARGV;
 $job_spec =~ /^JOB=(\d+):(\d+)$/;
@@ -112,7 +113,11 @@ if ($array_job == 0) { # not an array job
 print $Q "exit \$[\$ret ? 1 : 0]\n"; # avoid status 100 which grid-engine
 print $Q "## submitted with:\n";
 
-my $qsub_cmd .= "qsub -o $queue_logfile $queue_array_opt $queue_scriptfile >>$queue_logfile 2>&1";
+open my $CFG, '<', $conf or croak "Problems with $conf $!";
+my $qsub_cmd = <$CFG>;
+close $CFG or croak "Problems with $conf $!";
+chomp $qsub_cmd;
+$qsub_cmd .= "-o $queue_logfile $queue_array_opt $queue_scriptfile >>$queue_logfile 2>&1";
 
 print $Q "# $qsub_cmd\n";
 close $Q or croak "Problems closing file $!";
@@ -196,9 +201,6 @@ foreach my $f (@syncfiles) {
         # time to make sure it is not just delayed creation of the syncfile.
 
         sleep(3);
-        # Sometimes NFS gets confused and thinks it's transmitted the directory
-        # but it hasn't, due to timestamp issues.  Changing something in the
-        # directory will usually fix that.
         system("touch $qdir/.kick");
         system("rm $qdir/.kick 2>/dev/null");
         if ( -f $f ) { next; }   #syncfile appeared, ok
