@@ -133,7 +133,7 @@ if ($queue_scriptfile !~ m:^/:) {
 
 my $syncfile = "$qdir/done.$$";
 system("rm $queue_logfile $syncfile 2>/dev/null");
-croak "$PBS_ARRAY_INDEX";
+croak "hello";
 #
 # Write to the script file, and then close it.
 #
