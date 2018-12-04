@@ -18,9 +18,15 @@ my $cmd = "";
 my $conf = "conf/pbspro.conf";
 
 my ($job_spec,$logfile,$command,@remaining_commandline) = @ARGV;
-$job_spec =~ /^JOB=(\d+):(\d+)$/;
-$jobstart = $1;
-$jobend = $2;
+if ( $job_spec =~ /JOB=1/ ) {
+  $jobstart = 1;
+  $jobend = 1;
+  $array_job = 0;
+} elsif ( $job_spec =~ /^JOB=(\d+):(\d+)$/ ) {
+  $jobstart = $1
+      $jobend = $2;
+}
+
 if ( defined $jobend and $jobend > 1 ) {
   $array_job = 1;
 }
