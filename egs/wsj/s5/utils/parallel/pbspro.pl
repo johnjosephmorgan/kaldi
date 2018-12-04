@@ -105,7 +105,7 @@ if (! -d "$qdir") {
 }
 
 my $queue_array_opt = "";
-croak "hello\t$array_job";
+
 if ($array_job == 1) {
   $queue_array_opt = "-J $jobstart-$jobend";
   $logfile =~ s/$jobname/\$PBS_ARRAY_INDEX/g;
