@@ -81,7 +81,6 @@ foreach my $x (@remaining_commandline) {
   }
 }
 
-croak "hello\t$cmd";
 # Work out the location of the script file, and open it for writing.
 #
 my $dir = dirname $logfile;
@@ -90,8 +89,12 @@ my $qdir = "$dir/q";
 $qdir =~ s:/(log|LOG)/*q:/q:; # If qdir ends in .../log/q, make it just .../q.
 my $queue_logfile = "$qdir/$base";
 
-if (!-d $dir) { system "mkdir -p $dir 2>/dev/null"; } # another job may be doing this...
-if (!-d $dir) { die "Cannot make the directory $dir\n"; }
+if (!-d $dir) {
+  system "mkdir -p $dir 2>/dev/null";
+} # another job may be doing this...
+if (!-d $dir) {
+  croak "Cannot make the directory $dir\n";
+}
 # make a directory called "q",
 # where we will put the log created by qsub... normally this doesn't contain
 # anything interesting, evertyhing goes to $logfile.
@@ -105,6 +108,7 @@ if (! -d "$qdir") {
 }
 
 my $queue_array_opt = "";
+croak "hello\t$array_job";
 if ($array_job == 1) {
   $queue_array_opt = "-J $jobstart-$jobend";
   $logfile =~ s/$jobname/\$PBS_ARRAY_INDEX/g;
