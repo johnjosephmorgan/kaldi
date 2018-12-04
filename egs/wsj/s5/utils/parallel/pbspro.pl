@@ -116,7 +116,7 @@ if ($array_job == 1) {
 # is for the queue to put its log, and this doesn't need the task array subscript
   # so we remove it.
 }
-warn "command\t$cmd\tlog file$logfile";
+
 # queue_scriptfile is as $queue_logfile [e.g. dir/q/foo.log] but
 # with the suffix .sh.
 my $queue_scriptfile = $queue_logfile;
@@ -156,14 +156,15 @@ print $Q "echo '#' Finished at \`date\` with status \$ret >>$logfile\n";
 print $Q "[ \$ret -eq 137 ] && exit 100;\n";
 # If process was killed (e.g. oom) it will exit with status 137;
 # let the script return with status 100 which will put it to E state; more easily rerunnable.
-croak "hello";
+
 if ($array_job == 0) { # not an array job
   print $Q "touch $syncfile\n"; # so we know it's done.
 } else {
   print $Q "touch $syncfile.\$PBS_ARRAY_INDEX\n"; # touch a bunch of sync-files.
 }
 print $Q "exit \$[\$ret ? 1 : 0]\n"; # avoid status 100 which grid-engine
-print $Q "## submitted with:\n";       # treats specially.
+print $Q "## submitted with:\n";
+croak "hello";
 my $qsub_cmd .= "-o $queue_logfile $qsub_opts $queue_array_opt $queue_scriptfile >>$queue_logfile 2>&1";
 
 print $Q "# $qsub_cmd\n";
