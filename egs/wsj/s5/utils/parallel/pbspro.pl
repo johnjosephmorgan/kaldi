@@ -25,7 +25,7 @@ if ( defined $jobend and $jobend > 1 ) {
 }
 shift;
 my $cwd = getcwd();
-croak "hello\t@remaining_commandline"
+croak "hello\t@remaining_commandline";
 foreach my $x (@remaining_commandline) {
   if ($x =~ /^\S+$/) {
     $cmd .= $x . " " 
