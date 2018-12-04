@@ -25,7 +25,6 @@ use Carp;
 # of PBS.  
 # The script now supports configuring the queue system using a config file
 # (default in conf/pbspro.conf
-my $qsub_opts = "";
 
 my $gpu = 0;
 my $config = "conf/pbspro.conf";
@@ -136,7 +135,7 @@ system("rm $queue_logfile $syncfile 2>/dev/null");
 
 # Write to the script file, and then close it.
 
-open my $Q, '>', $queue_scriptfile or croak "problems with  $queue_scriptfile $!";
+open my $Q, '+>', $queue_scriptfile or croak "problems with  $queue_scriptfile $!";
 
 print $Q "#!/bin/bash\n";
 print $Q "cd $cwd\n";
@@ -144,8 +143,10 @@ print $Q ". ./path.sh\n";
 print $Q "( echo '#' Running on \`hostname\`\n";
 print $Q "  echo '#' Started at \`date\`\n";
 print $Q "  echo -n '# '; cat <<EOF\n";
-print $Q "$cmd\n"; # this is a way of echoing the command into a comment in the log file,
-print $Q "EOF\n"; # without having to escape things like "|" and quote characters.
+print $Q "$cmd\n";
+# this is a way of echoing the command into a comment in the log file,
+# without having to escape things like "|" and quote characters.
+print $Q "EOF\n";
 print $Q ") >$logfile\n";
 print $Q "time1=\`date +\"%s\"\`\n";
 print $Q " ( $cmd ) 2>>$logfile >>$logfile\n";
@@ -165,10 +166,11 @@ if ($array_job == 0) { # not an array job
 print $Q "exit \$[\$ret ? 1 : 0]\n"; # avoid status 100 which grid-engine
 print $Q "## submitted with:\n";
 
-my $qsub_cmd .= "-o $queue_logfile $qsub_opts $queue_array_opt $queue_scriptfile >>$queue_logfile 2>&1";
+my $qsub_cmd .= "-o $queue_logfile $queue_array_opt $queue_scriptfile >>$queue_logfile 2>&1";
 print $Q "# $qsub_cmd\n";
 close $Q or croak "Problems closing file $!";
 warn "hello\n$qsub_cmd";
+system "chmod 777 $queue_scriptfile";
 my $ret = system $qsub_cmd;
 
 if ($ret != 0) {
