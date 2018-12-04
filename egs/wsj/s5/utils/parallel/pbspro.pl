@@ -36,13 +36,7 @@ my $jobend = 1;
 my $job_stepping_factor = 1;
 my $array_job = 0;
 
-if ( $jobstart == 0 and $jobend == 1 ) {
-  $array_job = 0;
-  $jobstart=1;
-  shift;
-}
-
-if ($ARGV[0] =~ /^JOB=(\d+):(\d+)$/) { # e.g. JOB=1:20
+$ARGV[0] =~ /^JOB=(\d+):(\d+)$/
   $array_job = 1;
   $jobstart = $1;
   $jobend = $2;
@@ -98,6 +92,7 @@ if (!-d $dir) {
 # make a directory called "q",
 # where we will put the log created by qsub... normally this doesn't contain
 # anything interesting, evertyhing goes to $logfile.
+croak "$qdir";
 if (! -d "$qdir") {
   system "mkdir $qdir 2>/dev/null";
   sleep(5); ## This is to fix an issue we encountered in denominator lattice creation,
