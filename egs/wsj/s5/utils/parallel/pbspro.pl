@@ -161,8 +161,8 @@ if ($array_job == 0) { # not an array job
 print $Q "exit \$[\$ret ? 1 : 0]\n"; # avoid status 100 which grid-engine
 print $Q "## submitted with:\n";
 
-#my $qsub_cmd .= "-o $queue_logfile $queue_array_opt $queue_scriptfile >>$queue_logfile 2>&1";
-my $qsub_cmd .= "$queue_array_opt $queue_scriptfile";
+my $qsub_cmd .= "qsub -o $queue_logfile $queue_array_opt $queue_scriptfile >>$queue_logfile 2>&1";
+
 print $Q "# $qsub_cmd\n";
 close $Q or croak "Problems closing file $!";
 
