@@ -5,7 +5,7 @@ use Carp;
 
 warn "hello\t@ARGV";
 BEGIN {
-    @ARGV == 3 or croak "USAGE $0 <JOB_ARRAY_INDICES> <LOGFILE> <SCRIPT>";
+    @ARGV > 2 or croak "USAGE $0 <JOB_ARRAY_INDICES> <LOGFILE> <SCRIPT> ...";
 }
 
 use File::Basename;
@@ -17,16 +17,14 @@ my $job_stepping_factor = 1;
 my $array_job = 0;
 my $cmd = "";
 
-my ($job_sspec,$logfile,$command) = @ARGV;
+my ($job_spec,$logfile,$command) = @ARGV;
 $job_spec =~ /^JOB=(\d+):(\d+)$/;
 $jobstart = $1;
 $jobend = $2;
 if ( defined $jobend and $jobend > 1 ) {
   $array_job = 1;
 }
-
 shift;
-
 my $cwd = getcwd();
 my @remaining_commandline = @ARGV;
 my $logfile = shift @ARGV;
