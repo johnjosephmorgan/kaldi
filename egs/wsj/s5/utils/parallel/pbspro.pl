@@ -25,7 +25,6 @@ if ( defined $jobend and $jobend > 1 ) {
 }
 shift;
 my $cwd = getcwd();
-croak "hello\t@remaining_commandline";
 foreach my $x (@remaining_commandline) {
   if ($x =~ /^\S+$/) {
     $cmd .= $x . " " 
@@ -35,6 +34,7 @@ foreach my $x (@remaining_commandline) {
     $cmd .= "\"$x\" ";
   }
 }
+croak "hi\n$cmd";
 
 # Work out the location of the script file, and open it for writing.
 my $dir = dirname $logfile;
