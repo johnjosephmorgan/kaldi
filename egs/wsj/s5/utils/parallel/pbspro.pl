@@ -24,7 +24,7 @@ $jobend = $2;
 if ( defined $jobend and $jobend > 1 ) {
   $array_job = 1;
 }
-warn "job end\t$jobend";
+
 my $cwd = getcwd();
 $cmd .= $command . " ";
 foreach my $x (@remaining_commandline) {
