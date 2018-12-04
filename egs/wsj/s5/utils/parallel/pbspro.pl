@@ -139,34 +139,30 @@ open my $Q, '+>', $queue_scriptfile or croak "problems with  $queue_scriptfile $
 
 print $Q "#!/bin/bash\n";
 print $Q "cd $cwd\n";
-#print $Q ". ./path.sh\n";
-#print $Q "( echo '#' Running on \`hostname\`\n";
-#print $Q "  echo '#' Started at \`date\`\n";
-#print $Q "  echo -n '# '; cat <<EOF\n";
-#print $Q "$cmd\n";
-# this is a way of echoing the command into a comment in the log file,
-# without having to escape things like "|" and quote characters.
-#print $Q "EOF\n";
-#print $Q ") >$logfile\n";
-#print $Q "time1=\`date +\"%s\"\`\n";
-#print $Q " ( $cmd ) 2>>$logfile >>$logfile\n";
-#print $Q "ret=\$?\n";
-#print $Q "time2=\`date +\"%s\"\`\n";
-#print $Q "echo '#' Accounting: time=\$((\$time2-\$time1)) >>$logfile\n";
-#print $Q "echo '#' Finished at \`date\` with status \$ret >>$logfile\n";
-#print $Q "[ \$ret -eq 137 ] && exit 100;\n";
-# If process was killed (e.g. oom) it will exit with status 137;
-# let the script return with status 100 which will put it to E state; more easily rerunnable.
-
+print $Q ". ./path.sh\n";
+print $Q "( echo '#' Running on \`hostname\`\n";
+print $Q "  echo '#' Started at \`date\`\n";
+print $Q "  echo -n '# '; cat <<EOF\n";
+print $Q "$cmd\n";
+print $Q "EOF\n";
+print $Q ") >$logfile\n";
+print $Q "time1=\`date +\"%s\"\`\n";
+print $Q " ( $cmd ) 2>>$logfile >>$logfile\n";
+print $Q "ret=\$?\n";
+print $Q "time2=\`date +\"%s\"\`\n";
+print $Q "echo '#' Accounting: time=\$((\$time2-\$time1)) >>$logfile\n";
+print $Q "echo '#' Finished at \`date\` with status \$ret >>$logfile\n";
+print $Q "[ \$ret -eq 137 ] && exit 100;\n";
 if ($array_job == 0) { # not an array job
-#  print $Q "touch $syncfile\n"; # so we know it's done.
+  print $Q "touch $syncfile\n"; # so we know it's done.
 } else {
-#  print $Q "touch $syncfile.\$PBS_ARRAY_INDEX\n"; # touch a bunch of sync-files.
+  print $Q "touch $syncfile.\$PBS_ARRAY_INDEX\n"; # touch a bunch of sync-files.
 }
-#print $Q "exit \$[\$ret ? 1 : 0]\n"; # avoid status 100 which grid-engine
-#print $Q "## submitted with:\n";
+print $Q "exit \$[\$ret ? 1 : 0]\n"; # avoid status 100 which grid-engine
+print $Q "## submitted with:\n";
 
-my $qsub_cmd .= "-o $queue_logfile $queue_array_opt $queue_scriptfile >>$queue_logfile 2>&1";
+#my $qsub_cmd .= "-o $queue_logfile $queue_array_opt $queue_scriptfile >>$queue_logfile 2>&1";
+my $qsub_cmd .= "$queue_array_opt $queue_scriptfile";
 print $Q "# $qsub_cmd\n";
 close $Q or croak "Problems closing file $!";
 
