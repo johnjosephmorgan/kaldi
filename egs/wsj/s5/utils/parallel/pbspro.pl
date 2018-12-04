@@ -133,11 +133,10 @@ if ($queue_scriptfile !~ m:^/:) {
 
 my $syncfile = "$qdir/done.$$";
 system("rm $queue_logfile $syncfile 2>/dev/null");
-croak "hello";
-#
+
 # Write to the script file, and then close it.
-#
-open my $Q, '>', $queue_scriptfile or croak "Failed to write to $queue_scriptfile $!";
+
+open my $Q, '>', $queue_scriptfile or croak "problems with  $queue_scriptfile $!";
 
 print $Q "#!/bin/bash\n";
 print $Q "cd $cwd\n";
@@ -154,8 +153,10 @@ print $Q "ret=\$?\n";
 print $Q "time2=\`date +\"%s\"\`\n";
 print $Q "echo '#' Accounting: time=\$((\$time2-\$time1)) >>$logfile\n";
 print $Q "echo '#' Finished at \`date\` with status \$ret >>$logfile\n";
-print $Q "[ \$ret -eq 137 ] && exit 100;\n"; # If process was killed (e.g. oom) it will exit with status 137;
-  # let the script return with status 100 which will put it to E state; more easily rerunnable.
+print $Q "[ \$ret -eq 137 ] && exit 100;\n";
+# If process was killed (e.g. oom) it will exit with status 137;
+# let the script return with status 100 which will put it to E state; more easily rerunnable.
+croak "hello";
 if ($array_job == 0) { # not an array job
   print $Q "touch $syncfile\n"; # so we know it's done.
 } else {
