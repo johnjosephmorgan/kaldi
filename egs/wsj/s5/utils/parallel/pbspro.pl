@@ -168,9 +168,9 @@ print $Q "## submitted with:\n";
 my $qsub_cmd .= "-o $queue_logfile $qsub_opts $queue_array_opt $queue_scriptfile >>$queue_logfile 2>&1";
 print $Q "# $qsub_cmd\n";
 close $Q or croak "Problems closing file $!";
-
+warn "hello\n$qsub_cmd";
 my $ret = system $qsub_cmd;
-croak "hello\t$ret";
+
 if ($ret != 0) {
   print STDERR "pbspro.pl: error submitting jobs to queue (return status was $ret)\n";
   print STDERR "queue log file is $queue_logfile, command was $qsub_cmd\n";
