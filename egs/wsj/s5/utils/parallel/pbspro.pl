@@ -3,7 +3,6 @@ use strict;
 use warnings;
 use Carp;
 
-warn "hello\t@ARGV";
 BEGIN {
     @ARGV > 2 or croak "USAGE $0 <JOB_ARRAY_INDICES> <LOGFILE> <SCRIPT> ...";
 }
@@ -17,7 +16,7 @@ my $job_stepping_factor = 1;
 my $array_job = 0;
 my $cmd = "";
 
-my ($job_spec,$logfile,$command) = @ARGV;
+my ($job_spec,$logfile,$command,@remaining_commandline) = @ARGV;
 $job_spec =~ /^JOB=(\d+):(\d+)$/;
 $jobstart = $1;
 $jobend = $2;
@@ -26,8 +25,7 @@ if ( defined $jobend and $jobend > 1 ) {
 }
 shift;
 my $cwd = getcwd();
-my @remaining_commandline = @ARGV;
-
+croak "hello\t@remaining_commandline"
 foreach my $x (@remaining_commandline) {
   if ($x =~ /^\S+$/) {
     $cmd .= $x . " " 
