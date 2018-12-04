@@ -168,7 +168,6 @@ print $Q "## submitted with:\n";
 my $qsub_cmd .= "-o $queue_logfile $qsub_opts $queue_array_opt $queue_scriptfile >>$queue_logfile 2>&1";
 print $Q "# $qsub_cmd\n";
 close $Q or croak "Problems closing file $!";
-croak "Failed to close the script file (full disk?)";
 
 my $ret = system ($qsub_cmd);
 if ($ret != 0) {
