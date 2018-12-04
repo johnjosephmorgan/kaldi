@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use Carp;
 
+warn "@ARGV";
 BEGIN {
     @ARGV == 3 or croak "USAGE $0 <JOB_ARRAY_INDICES> <LOGFILE> <SCRIPT>";
 }
