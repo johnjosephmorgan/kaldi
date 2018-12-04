@@ -23,8 +23,8 @@ $jobend = $2;
 if ( defined $jobend and $jobend > 1 ) {
   $array_job = 1;
 }
-shift;
 my $cwd = getcwd();
+$cmd .= $command;
 foreach my $x (@remaining_commandline) {
   if ($x =~ /^\S+$/) {
     $cmd .= $x . " " 
@@ -34,7 +34,6 @@ foreach my $x (@remaining_commandline) {
     $cmd .= "\"$x\" ";
   }
 }
-croak "hi\n$cmd";
 
 # Work out the location of the script file, and open it for writing.
 my $dir = dirname $logfile;
