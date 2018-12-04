@@ -36,12 +36,15 @@ my $jobend = 1;
 my $job_stepping_factor = 1;
 my $array_job = 0;
 
-$ARGV[0] =~ /^JOB=(\d+):(\d+)$/
-  $array_job = 1;
-  $jobstart = $1;
-  $jobend = $2;
-  shift;
+$ARGV[0] =~ /^JOB=(\d+):(\d+)$/;
+$jobstart = $1;
+$jobend = $2;
+if ( $jobend > 1 ) {
+    $array_job = 1;
 }
+
+shift;
+
 
 my $cwd = getcwd();
 my @remaining_commandline = @ARGV;
