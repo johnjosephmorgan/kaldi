@@ -1,40 +1,23 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
+use Carp;
 
-# Copyright 2012  Johns Hopkins University (Author: Daniel Povey).
-#           2014  Johns Hopkins University (Author: Vimal Manohar)
-#           2015  Queensland University of Technology (Author: Ahilan Kanagasundaram <a.kanagasundaram@qut.edu.au>)
-# Apache 2.0.
+BEGIN {
+    @ARGV == 3 or croak "USAGE $0 <JOB_ARRAY_INDICES> <LOGFILE> <SCRIPT>";
+}
 
 use File::Basename;
 use Cwd;
-use Getopt::Long;
-use Carp;
 
-# This is a version of the queue.pl modified so that it works under PBS
-# The PBS PRO is one of the several "almost compatible" queueing systems. The
-# command switches and environment variables are different, so we are adding
-# a this script. An optimal solution might probably be to make the variable
-# names and the commands configurable, as similar problems can be expected
-# with Torque, Univa... and who knows what else
-#
-# pbspro.pl has the same functionality as run.pl, except that
-# it runs the job in question on the queue (PBS).
-# This version of queue.pl uses the task array functionality
-# of PBS.  
-# The script now supports configuring the queue system using a config file
-# (default in conf/pbspro.conf
-
-my $gpu = 0;
-my $config = "conf/pbspro.conf";
-
-my $jobname = 'JOB';
 my $jobstart = 0;
 my $jobend = 1;
 my $job_stepping_factor = 1;
 my $array_job = 0;
-$ARGV[0] =~ /^JOB=(\d+):(\d+)$/;
+my $cmd = "";
+
+my ($job_sspec,$logfile,$command) = @ARGV;
+$job_spec =~ /^JOB=(\d+):(\d+)$/;
 $jobstart = $1;
 $jobend = $2;
 if ( defined $jobend and $jobend > 1 ) {
@@ -43,29 +26,10 @@ if ( defined $jobend and $jobend > 1 ) {
 
 shift;
 
-
 my $cwd = getcwd();
 my @remaining_commandline = @ARGV;
 my $logfile = shift @ARGV;
-if ($array_job == 1 && $logfile !~ m/$jobname/
-    && $jobend > $jobstart) {
-  warn "pbspro.pl: you are trying to run a parallel job but "
-    . "you are putting the output into just one log file ($logfile)\n"
-    . "jobname: $jobname";
-}
 
-#
-# Work out the command; quote escaping is done here.
-# Note: the rules for escaping stuff are worked out pretty
-# arbitrarily, based on what we want it to do.  Some things that
-# we pass as arguments to pbspro.pl, such as "|", we want to be
-# interpreted by bash, so we don't escape them.  Other things,
-# such as archive specifiers like 'ark:gunzip -c foo.gz|', we want
-# to be passed, in quotes, to the Kaldi program.  Our heuristic
-# is that stuff with spaces in should be quoted.  This doesn't
-# always work.
-#
-my $cmd = "";
 foreach my $x (@remaining_commandline) {
   if ($x =~ /^\S+$/) {
     $cmd .= $x . " " 
@@ -77,7 +41,6 @@ foreach my $x (@remaining_commandline) {
 }
 
 # Work out the location of the script file, and open it for writing.
-#
 my $dir = dirname $logfile;
 my $base = basename($logfile);
 my $qdir = "$dir/q";
@@ -96,21 +59,17 @@ if (!-d $dir) {
 
 if (! -d "$qdir") {
   system "mkdir $qdir 2>/dev/null";
-  sleep(5); ## This is to fix an issue we encountered in denominator lattice creation,
-  ## where if e.g. the exp/tri2b_denlats/log/15/q directory had just been
-  ## created and the job immediately ran, it would die with an error because nfs
-  ## had not yet synced.  I'm also decreasing the acdirmin and acdirmax in our
-  ## NFS settings to something like 5 seconds.
+  sleep(5);
 }
 
 my $queue_array_opt = "";
 
 if ($array_job == 1) {
   $queue_array_opt = "-J $jobstart-$jobend";
-  $logfile =~ s/\$jobname/\$PBS_ARRAY_INDEX/g;
+  $logfile =~ s/JOB/\$PBS_ARRAY_INDEX/g;
   #  $logfile will get replaced by qsub, in each job, with the job-id.
-  $cmd =~ s/\$jobname/\$\{PBS_ARRAY_INDEX\}/g; # same for the command...
-  $queue_logfile =~ s/\.?$jobname//;
+  $cmd =~ s/JOB/\$\{PBS_ARRAY_INDEX\}/g; # same for the command...
+  $queue_logfile =~ s/\.?JOB//;
   # the log file in the q/ subdirectory
 # is for the queue to put its log, and this doesn't need the task array subscript
   # so we remove it.
@@ -125,10 +84,7 @@ if ($queue_scriptfile !~ m:^/:) {
   $queue_scriptfile = $cwd . "/" . $queue_scriptfile; # just in case.
 }
 
-# We'll write to the standard input of "qsub" (the file-handle Q),
-# the job that we want it to execute.
-# Also keep our current PATH around, just in case there was something
-# in it that we need (although we also source ./path.sh)
+#  write to the standard input of qsub the job that we want it to execute.
 
 my $syncfile = "$qdir/done.$$";
 system("rm $queue_logfile $syncfile 2>/dev/null");
@@ -180,7 +136,6 @@ my $pbs_job_id;
 # need to wait for the jobs to finish.  We wait for the
 # sync-files we "touched" in the script to exist.
 my @syncfiles = ();
-#if (!defined $jobname) { # not an array job.
 if ( $array_job == 0 ) { # not an array job.
   push @syncfiles, $syncfile;
 } else {
@@ -264,7 +219,7 @@ foreach my $f (@syncfiles) {
         if ( -f $f ) { next; }  #syncfile appeared, ok
         $f =~ m/\.(\d+)$/ || die "Bad sync-file name $f";
         my $job_id = $1;
-        if (defined $jobname) {
+        if ( $array_job == 1 ) {
           $logfile =~ s/\$PBS_ARRAY_INDEX/$job_id/g;
         }
         my $last_line = `tail -n 1 $logfile`;
@@ -302,7 +257,7 @@ system("rm $all_syncfiles 2>/dev/null");
 # First work out an array @logfiles of file-locations we need to
 # read (just one, unless it's an array job).
 my @logfiles = ();
-if (!defined $jobname) { # not an array job.
+if ( $array_job == 0 ) { # not an array job.
   push @logfiles, $logfile;
 } else {
   for (my $jobid = $jobstart; $jobid <= $jobend; $jobid++) {
@@ -346,13 +301,13 @@ foreach my $l (@logfiles) {
 if ($num_failed == 0) { exit(0); }
 else { # we failed.
   if (@logfiles == 1) {
-    if (defined $jobname) { $logfile =~ s/\$PBS_ARRAY_INDEX/$jobstart/g; }
+    if ( $array_job == 1 ) { $logfile =~ s/\$PBS_ARRAY_INDEX/$jobstart/g; }
     print STDERR "pbspro.pl: job failed with status $status, log is in $logfile\n";
     if ($logfile =~ /JOB/) {
       print STDERR "pbspro.pl: probably you forgot to put JOB=1:\$nj in your script.\n";
     }
   } else {
-    if (defined $jobname) { $logfile =~ s/\$PBS_ARRAY_INDEX/*/g; }
+    if ($array_job == 1) { $logfile =~ s/\$PBS_ARRAY_INDEX/*/g; }
     my $numjobs = 1 + $jobend - $jobstart;
     print STDERR "pbspro.pl: $num_failed / $numjobs failed, log is in $logfile\n";
   }
