@@ -84,7 +84,7 @@ foreach my $x (@remaining_commandline) {
 #
 # Work out the location of the script file, and open it for writing.
 #
-my $dir = dirname($logfile);
+my $dir = dirname $logfile;
 my $base = basename($logfile);
 my $qdir = "$dir/q";
 $qdir =~ s:/(log|LOG)/*q:/q:; # If qdir ends in .../log/q, make it just .../q.
@@ -107,8 +107,9 @@ if (! -d "$qdir") {
 my $queue_array_opt = "";
 if ($array_job == 1) {
   $queue_array_opt = "-J $jobstart-$jobend";
-  $logfile =~ s/$jobname/\$PBS_ARRAY_INDEX/g; # This variable will get
-  # replaced by qsub, in each job, with the job-id.
+  $logfile =~ s/$jobname/\$PBS_ARRAY_INDEX/g;
+  croak "hello\t$logfile";
+  #  $logfile will get replaced by qsub, in each job, with the job-id.
   $cmd =~ s/$jobname/\$\{PBS_ARRAY_INDEX\}/g; # same for the command...
   $queue_logfile =~ s/\.?$jobname//; # the log file in the q/ subdirectory
   # is for the queue to put its log, and this doesn't need the task array subscript
