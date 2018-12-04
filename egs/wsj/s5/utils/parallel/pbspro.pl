@@ -166,12 +166,9 @@ print $Q "exit \$[\$ret ? 1 : 0]\n"; # avoid status 100 which grid-engine
 print $Q "## submitted with:\n";
 
 my $qsub_cmd .= "-o $queue_logfile $qsub_opts $queue_array_opt $queue_scriptfile >>$queue_logfile 2>&1";
-croak "hello\t$qsub_cmd";
-
 print $Q "# $qsub_cmd\n";
-if (!close $Q) { # close was not successful... || croak "Could not close script file $shfile $!";
-  croak "Failed to close the script file (full disk?)";
-}
+close $Q or croak "Problems closing file $!";
+croak "Failed to close the script file (full disk?)";
 
 my $ret = system ($qsub_cmd);
 if ($ret != 0) {
