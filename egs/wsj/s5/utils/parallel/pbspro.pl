@@ -120,8 +120,9 @@ warn "command\t$cmd\tlog file$logfile";
 # queue_scriptfile is as $queue_logfile [e.g. dir/q/foo.log] but
 # with the suffix .sh.
 my $queue_scriptfile = $queue_logfile;
-croak "$queue_scriptfile";
+
 ($queue_scriptfile =~ s/\.[a-zA-Z]{1,5}$/.sh/) || ($queue_scriptfile .= ".sh");
+croak "script file\t$queue_scriptfile";
 if ($queue_scriptfile !~ m:^/:) {
   $queue_scriptfile = $cwd . "/" . $queue_scriptfile; # just in case.
 }
