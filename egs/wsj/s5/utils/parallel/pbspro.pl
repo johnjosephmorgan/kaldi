@@ -35,12 +35,12 @@ my $jobstart = 0;
 my $jobend = 1;
 my $job_stepping_factor = 1;
 my $array_job = 0;
-
+warn "hi\t$ARGV[0]";
 $ARGV[0] =~ /^JOB=(\d+):(\d+)$/;
 $jobstart = $1;
 $jobend = $2;
 if ( $jobend > 1 ) {
-    $array_job = 1;
+  $array_job = 1;
 }
 
 shift;
