@@ -115,7 +115,7 @@ if ($array_job == 1) {
   # is for the queue to put its log, and this doesn't need the task array subscript
   # so we remove it.
 }
-
+warn "hello\t$cmd\t$logfile";
 # queue_scriptfile is as $queue_logfile [e.g. dir/q/foo.log] but
 # with the suffix .sh.
 my $queue_scriptfile = $queue_logfile;
