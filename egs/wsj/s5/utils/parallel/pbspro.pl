@@ -24,7 +24,8 @@ use Carp;
 # This version of queue.pl uses the task array functionality
 # of PBS.  
 # The script now supports configuring the queue system using a config file
-# (default in conf/pbspro.confmy $qsub_opts = "".
+# (default in conf/pbspro.conf
+my $qsub_opts = "".
 
 my $gpu = 0;
 my $config = "conf/pbspro.conf";
