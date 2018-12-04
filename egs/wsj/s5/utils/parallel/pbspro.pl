@@ -132,8 +132,8 @@ if ($queue_scriptfile !~ m:^/:) {
 # in it that we need (although we also source ./path.sh)
 
 my $syncfile = "$qdir/done.$$";
-croak "$syncfile";
 system("rm $queue_logfile $syncfile 2>/dev/null");
+croak "$PBS_ARRAY_INDEX";
 #
 # Write to the script file, and then close it.
 #
