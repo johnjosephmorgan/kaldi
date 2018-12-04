@@ -25,7 +25,7 @@ if ( defined $jobend and $jobend > 1 ) {
   $array_job = 1;
 }
 my $cwd = getcwd();
-$cmd .= $command;
+$cmd .= $command . " ";
 foreach my $x (@remaining_commandline) {
   if ($x =~ /^\S+$/) {
     $cmd .= $x . " " 
