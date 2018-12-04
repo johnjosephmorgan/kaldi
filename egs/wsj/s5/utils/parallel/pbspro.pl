@@ -81,7 +81,7 @@ foreach my $x (@remaining_commandline) {
   }
 }
 
-croak hello\t"$cmd";
+croak "hello\t$cmd";
 # Work out the location of the script file, and open it for writing.
 #
 my $dir = dirname $logfile;
