@@ -27,7 +27,6 @@ if ( defined $jobend and $jobend > 1 ) {
 shift;
 my $cwd = getcwd();
 my @remaining_commandline = @ARGV;
-my $logfile = shift @ARGV;
 
 foreach my $x (@remaining_commandline) {
   if ($x =~ /^\S+$/) {
