@@ -72,7 +72,7 @@ if ($array_job == 1) {
 
 $logfile =~ s/JOB/\$PBS_ARRAY_INDEX/g;
 my $cmd_job_substitutions = $cmd =~ s/JOB/\$\{PBS_ARRAY_INDEX\}/g;
-warn "PBSPRO: $cmd_job_substitions";
+warn "PBSPRO: $cmd_job_substitutions";
 $queue_logfile =~ s/\.?JOB//;
 
 # queue_scriptfile is as $queue_logfile [e.g. dir/q/foo.log] but
