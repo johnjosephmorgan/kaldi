@@ -66,17 +66,14 @@ if (! -d "$qdir") {
 }
 
 my $queue_array_opt = "";
-
 if ($array_job == 1) {
-  $queue_array_opt = "-J $jobstart-$jobend";
-  $logfile =~ s/JOB/\$PBS_ARRAY_INDEX/g;
-  #  $logfile will get replaced by qsub, in each job, with the job-id.
-  $cmd =~ s/JOB/\$\{PBS_ARRAY_INDEX\}/g; # same for the command...
-  $queue_logfile =~ s/\.?JOB//;
-  # the log file in the q/ subdirectory
-# is for the queue to put its log, and this doesn't need the task array subscript
-  # so we remove it.
+    $queue_array_opt = "-J $jobstart-$jobend";
 }
+
+$logfile =~ s/JOB/\$PBS_ARRAY_INDEX/g;
+my $cmd_job_substitutions = $cmd =~ s/JOB/\$\{PBS_ARRAY_INDEX\}/g;
+warn "PBSPRO: $cmd_job_substitions";
+$queue_logfile =~ s/\.?JOB//;
 
 # queue_scriptfile is as $queue_logfile [e.g. dir/q/foo.log] but
 # with the suffix .sh.
