@@ -69,10 +69,10 @@ my $queue_array_opt = "";
 if ($array_job == 1) {
     $queue_array_opt = "-J $jobstart-$jobend";
 }
-warn "pbs array index:${PBS_ARRAY_INDEX}\t ${PBS_JOBID}";
+
 $logfile =~ s/JOB/\$\{PBS_ARRAY_INDEX\}/g;
-my $cmd_job_substitutions = $cmd =~ s/JOB/\$\{PBS_jobid\}/g;
-warn "PBSPRO: $cmd_job_substitutions";
+my $cmd_job_substitutions = $cmd =~ s/JOB/\$PBS_ARRAY_INDEX/g;
+
 $queue_logfile =~ s/\.?JOB//;
 
 # queue_scriptfile is as $queue_logfile [e.g. dir/q/foo.log] but
