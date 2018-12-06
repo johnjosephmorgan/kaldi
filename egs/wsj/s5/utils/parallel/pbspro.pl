@@ -18,15 +18,19 @@ my $cmd = "";
 my $conf = "conf/pbspro.conf";
 
 my ($job_spec,$logfile,$command,@remaining_commandline) = @ARGV;
-
-if ( $job_spec =~ /^JOB=(\d+):(\d+)$/ ) {
-  $jobstart = $1;
-  $jobend = $2;
-  $array_job = 1;
-} elsif ( $job_spec =~ /JOB=1/ ) {
+# The job range could be a single digit
+if ( $job_spec =~ /JOB=\d/ ) {
+  # then the job is not an array job
   $jobstart = 1;
   $jobend = 1;
   $array_job = 0;
+} 
+# If the JOB range is of the form m:n
+if ( $job_spec =~ /^JOB=(\d+):(\d+)$/ ) {
+  # then it is an array job
+  $jobstart = $1;
+  $jobend = $2;
+  $array_job = 1;
 } 
 if ( defined $jobend and $jobend > 1 ) {
   $array_job = 1;
