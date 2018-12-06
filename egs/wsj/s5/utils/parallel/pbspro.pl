@@ -32,12 +32,10 @@ if ( $job_spec =~ /^JOB=(\d+):(\d+)$/ ) {
   $jobend = $2;
   $array_job = 1;
 } 
-if ( defined $jobend and $jobend > 1 ) {
-  $array_job = 1;
-}
 
 my $cwd = getcwd();
 $cmd .= $command . " ";
+
 foreach my $x (@remaining_commandline) {
   if ($x =~ /^\S+$/) {
     $cmd .= $x . " " 
@@ -76,7 +74,7 @@ if ($array_job == 1) {
 }
 
 $logfile =~ s/JOB/\$\{PBS_ARRAY_INDEX\}/g;
-my $cmd_job_substitutions = $cmd =~ s/JOB/\$PBS_ARRAY_INDEX/g;
+$cmd =~ s/JOB/\${PBS_ARRAY_INDEX}/g;
 
 $queue_logfile =~ s/\.?JOB//;
 
