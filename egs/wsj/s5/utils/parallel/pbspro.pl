@@ -70,7 +70,7 @@ if ($array_job == 1) {
     $queue_array_opt = "-J $jobstart-$jobend";
 }
 
-$logfile =~ s/JOB/\$PBS_ARRAY_INDEX/g;
+$logfile =~ s/JOB/\$\{PBS_ARRAY_INDEX\}/g;
 my $cmd_job_substitutions = $cmd =~ s/JOB/\$\{PBS_ARRAY_INDEX\}/g;
 warn "PBSPRO: $cmd_job_substitutions";
 $queue_logfile =~ s/\.?JOB//;
