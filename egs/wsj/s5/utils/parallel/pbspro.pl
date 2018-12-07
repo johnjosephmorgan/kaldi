@@ -24,9 +24,9 @@ my ($job_spec,$logfile,$command,@remaining_commandline) = @ARGV;
 # The job range could be a single digit
 if ( $job_spec =~ /JOB=\d/ ) {
   # then the job is not an array job
-  $jobstart = 1;
+  $jobstart = 0;
   $jobend = 1;
-  $array_job = 0;
+  $array_job = 1;
 } 
 # If the JOB range is of the form m:n
 if ( $job_spec =~ /^JOB=(\d+):(\d+)$/ ) {
