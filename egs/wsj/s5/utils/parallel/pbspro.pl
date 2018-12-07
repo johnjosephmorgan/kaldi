@@ -4,7 +4,10 @@ use warnings;
 use Carp;
 
 BEGIN {
-    @ARGV > 2 or croak "USAGE $0 <JOB_ARRAY_INDICES> <LOGFILE> <SCRIPT> ...";
+    @ARGV > 2 or croak "USAGE $0 <JOB_ARRAY_INDICES> <LOGFILE> <COMMAND> ...
+For Example:
+$0 JOB=1:4 init.log gmm-init
+";
 }
 
 use File::Basename;
@@ -69,8 +72,9 @@ if (! -d "$qdir") {
 }
 
 my $queue_array_opt = "";
-if ($array_job == 1) {
-    $queue_array_opt = "-J $jobstart-$jobend";
+
+if ( $array_job ) {
+    $queue_array_opt = "-J ${jobstart}-${jobend}";
 }
 
 $logfile =~ s/JOB/\$PBS_ARRAY_INDEX/g;
