@@ -3,6 +3,18 @@
 set -e
 
 # Begin Configuration variables settings
+cmd=run.pl
+stage=0
+# variables to train the Tunisian MSA system
+# Do not change tmpdir, other scripts under local depend on it
+tmpdir=data/local/tmp
+# The speech corpus is on openslr.org
+speech="http://www.openslr.org/resources/46/Tunisian_MSA.tar.gz"
+# We use the QCRI lexicon.
+lex="http://alt.qcri.org/resources/speech/dictionary/ar-ar_lexicon_2014-03-17.txt.bz2"
+# We train the lm on subtitles.
+subs_src="http://opus.nlpl.eu/download.php?f=OpenSubtitles2018/mono/OpenSubtitles2018.ar.gz"
+# Variables for mtl training
 langs=(  librispeech Tunisian_MSA_CTELLONE );  # input languages
 dir=exp/multi_librispeech_Tunisian_MSA;  # working directory
 # directory for consolidated data preparation
@@ -15,8 +27,6 @@ right_context=14;
 samples=300000;  # samples per iteration 
 num_langs=${#langs[@]};
 num_weights=${#lang_weights[@]};
-cmd=run.pl
-stage=0
 megs_dir=$dir/egs
 dropout_schedule='0,0@0.20,0.5@0.50,0'
 # End of Configuration variables settings
@@ -25,6 +35,30 @@ dropout_schedule='0,0@0.20,0.5@0.50,0'
 . ./cmd.sh
 . ./utils/parse_options.sh
 
+if [ $stage -le 1 ]; then
+  # Downloads archive to this script's directory
+  local/tamsa_download.sh $speech
+
+  local/qcri_lexicon_download.sh $lex
+
+  local/subs_download.sh $subs_src
+fi
+
+# preparation stages will store files under data/
+# Delete the entire data directory when restarting.
+if [ $stage -le 2 ]; then
+  local/tamsa_prepare_data.sh
+fi
+
+if [ $stage -le 3 ]; then
+  mkdir -p $tmpdir/dict
+  local/qcri_buckwalter2utf8.sh > $tmpdir/dict/qcri_utf8.txt
+fi
+
+if [ $stage -le 4 ]; then
+  local/prepare_dict.sh $tmpdir/dict/qcri_utf8.txt
+fi
+exit
 # check that link to data/<language>/train exists
 for i in $( seq 0 $[$num_langs-1]); do
     if [ ! -d data/${langs[$i]}/train ]; then
