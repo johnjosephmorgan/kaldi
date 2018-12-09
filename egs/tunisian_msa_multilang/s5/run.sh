@@ -12,6 +12,7 @@ tmpdir=data/local/tmp
 speech="http://www.openslr.org/resources/46/Tunisian_MSA.tar.gz"
 # We use the QCRI lexicon.
 lex="http://alt.qcri.org/resources/speech/dictionary/ar-ar_lexicon_2014-03-17.txt.bz2"
+g2p=0
 # We train the lm on subtitles.
 subs_src="http://opus.nlpl.eu/download.php?f=OpenSubtitles2018/mono/OpenSubtitles2018.ar.gz"
 # Variables for mtl training
@@ -51,14 +52,31 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ]; then
-  mkdir -p $tmpdir/dict
-  local/qcri_buckwalter2utf8.sh > $tmpdir/dict/qcri_utf8.txt
+  mkdir -p $tmpdir/dict_init
+  local/qcri_buckwalter2utf8.sh > $tmpdir/dict_init/qcri_utf8.txt
 fi
 
 if [ $stage -le 4 ]; then
-  local/prepare_dict.sh $tmpdir/dict/qcri_utf8.txt
+  mkdir -p $tmpdir/dict
+  local/prepare_dict.sh $tmpdir/dict_init/qcri_utf8.txt $tmpdir/dict
+fi
+
+if [ $stage -le 5 ]; then
+  echo "$0: Preparing the lang directory."
+  utils/prepare_lang.sh $tmpdir/dict "<UNK>" data/local/lang data/lang
+fi
+
+if [ $stage -le 6 ]; then
+  # extract acoustic features
+  for fld in devtest train test; do
+    steps/make_mfcc.sh data/$fld exp/make_mfcc/$fld mfcc
+    utils/fix_data_dir.sh data/$fld
+    steps/compute_cmvn_stats.sh data/$fld exp/make_mfcc mfcc
+    utils/fix_data_dir.sh data/$fld
+  done
 fi
 exit
+
 # check that link to data/<language>/train exists
 for i in $( seq 0 $[$num_langs-1]); do
     if [ ! -d data/${langs[$i]}/train ]; then

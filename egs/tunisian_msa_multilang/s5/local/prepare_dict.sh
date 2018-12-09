@@ -7,20 +7,23 @@ set -o errexit
 
 [ -f ./path.sh ] && . ./path.sh
 
-if [ ! -d data/local/dict ]; then
-  mkdir -p data/local/dict
+l=$1
+dir=$2
+
+if [ ! -d $dir ]; then
+  mkdir -p $dir
 fi
 
-l=$1
+
 export LC_ALL=C
 
 cut -f2- -d " " $l | tr -s '[:space:]' '[\n*]' | grep -v SPN | \
-    sort -u | tail -n+2 > data/local/dict/nonsilence_phones.txt
+    sort -u > $dir/nonsilence_phones.txt
 
 expand -t 1 $l | sort -u | \
-    sed "1d" > data/local/dict/lexicon.txt
-
-echo "<UNK> SPN" >> data/local/dict/lexicon.txt
+    sed s/\([23456789]\)// | \
+    sed s/\(1[0123456789]\)// | \
+    sort -u > $dir/lexicon.txt
 
 # silence phones, one per line.
 {
@@ -28,16 +31,16 @@ echo "<UNK> SPN" >> data/local/dict/lexicon.txt
     echo SPN;
 } \
     > \
-    data/local/dict/silence_phones.txt
+    $dir/silence_phones.txt
 
-echo SIL > data/local/dict/optional_silence.txt
+echo SIL > $dir/optional_silence.txt
 
 # get the phone list from the lexicon file
 (
-    tr '\n' ' ' < data/local/dict/silence_phones.txt;
+    tr '\n' ' ' < $dir/silence_phones.txt;
     echo;
-    tr '\n' ' ' < data/local/dict/nonsilence_phones.txt;
+    tr '\n' ' ' < $dir/nonsilence_phones.txt;
     echo;
-) >data/local/dict/extra_questions.txt
+) >$dir/extra_questions.txt
 
 echo "$0: Finished dictionary preparation."
