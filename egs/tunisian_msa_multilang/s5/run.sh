@@ -86,7 +86,7 @@ if [ $stage -le 7 ]; then
   # to have accurate alignments.
   utils/subset_data_dir.sh --shortest data/tamsa/train 500 data/tamsa/train_500short
 fi
-exit
+
 if [ $stage -le 8 ]; then
   echo "$0: monophone training"
   steps/train_mono.sh  data/tamsa/train_500short data/tamsa/lang exp/tamsa/mono
@@ -141,10 +141,10 @@ done
 fi
 
 if [ $stage -le 17 ]; then
-  local/download_lm.sh $lm_url $tmpdir/mini_librispeech/lm
+  local/mini_librispeech/download_lm.sh $lm_url $tmpdir/mini_librispeech/lm
 fi
 
-if [ $stage -le 17 ]; then
+if [ $stage -le 18 ]; then
   for part in dev-clean-2 train-clean-5; do
     echo "Formating the $part data as Kaldi data directories."
     # use underscore-separated names in data directories.
@@ -152,78 +152,79 @@ if [ $stage -le 17 ]; then
   done
 fi
 
-if [ $stage -le 18 ]; then
+if [ $stage -le 19 ]; then
   local/mini_librispeech/prepare_dict.sh --stage 3 --nj 4 --cmd "$train_cmd" \
     $tmpdir/mini_librispeech/lm $tmpdir/mini_librispeech/lm $tmpdir/mini_librispeech/dict
 fi
 
-if [ $stage -le 19 ]; then
-  utils/prepare_lang.sh $tmpdir/mini_librispeech/dict \
-    "<UNK>" $tmpdir/mini_librispeech/lang_tmp data/lang_mini_librispeech
-fi
-
 if [ $stage -le 20 ]; then
-  local/mini_librispeech/format_lms.sh --src-dir data/lang_mini_librispeech $tmpdir/mini_librispeech/lm
+  utils/prepare_lang.sh $tmpdir/mini_librispeech/dict \
+    "<UNK>" $tmpdir/mini_librispeech/lang_tmp data/mini_librispeech/lang
 fi
 
 if [ $stage -le 21 ]; then
-  echo "Creating ConstArpaLm format language model for full 3-gram and 4-gram LMs."
-  utils/build_const_arpa_lm.sh $tmpdir/mini_librispeech/lm/lm_tglarge.arpa.gz \
-    data/lang_mini_librispeech data/lang_test_tglarge
+  local/mini_librispeech/format_lms.sh --src-dir data/mini_librispeech/lang $tmpdir/mini_librispeech/lm
 fi
 
 if [ $stage -le 22 ]; then
-  mfccdir=mfcc
-  for part in dev_clean_2 train_clean_5; do
-    steps/make_mfcc.sh --cmd "$train_cmd" --nj 4 data/$part exp/make_mfcc/$part $mfccdir
-    steps/compute_cmvn_stats.sh data/$part exp/make_mfcc/$part $mfccdir
-  done
+  echo "Creating ConstArpaLm format language model for full 3-gram and 4-gram LMs."
+  utils/build_const_arpa_lm.sh $tmpdir/mini_librispeech/lm/lm_tglarge.arpa.gz \
+    data/mini_librispeech/lang data/mini_librispeech/lang_test_tglarge
 fi
 
 if [ $stage -le 23 ]; then
-    echo "Getting the shortest 500 utterances."
-  utils/subset_data_dir.sh --shortest data/train_clean_5 500 data/train_mini_librispeech_500short
+  mfccdir=mfcc_librispeech
+  for part in dev_clean_2 train_clean_5; do
+    steps/make_mfcc.sh --cmd "$train_cmd" --nj 4 data/mini_librispeech/$part exp/mini_librispeech/make_mfcc/$part $mfccdir
+    steps/compute_cmvn_stats.sh data/mini_librispeech/$part exp/mini_librispeech/make_mfcc/$part $mfccdir
+  done
 fi
 
 if [ $stage -le 24 ]; then
-  echo "Training a monophone system."
-  steps/train_mono.sh --boost-silence 1.25 --nj 4 --cmd "$train_cmd" \
-    data/train_mini_librispeech_500short data/lang_mini_librispeech exp/mini_librispeech/mono
+    echo "Getting the shortest 500 utterances."
+  utils/subset_data_dir.sh --shortest data/mini_librispeech/train_clean_5 500 data/_mini_librispeech/train_500short
 fi
 
 if [ $stage -le 25 ]; then
-  steps/align_si.sh --boost-silence 1.25 --nj 4 --cmd "$train_cmd" \
-    data/train_mini_librispeech_500short data/lang_mini_librispeech exp/mini_librispeech/mono exp/mini_librispeech/mono_ali_train_500short
+  echo "Training a monophone system."
+  steps/train_mono.sh --boost-silence 1.25 --nj 4 --cmd "$train_cmd" \
+    data/mini_librispeech/train_500short data/mini_librispeech/lang exp/mini_librispeech/mono
 fi
 
 if [ $stage -le 26 ]; then
-  echo "Training a first delta + delta-delta triphone system."
-  steps/train_deltas.sh --boost-silence 1.25 --cmd "$train_cmd" \
-    1000 6000 data/train_mini_librispeech_500short data/lang_mini_librispeech exp/mini_librispeech/mono_ali_train_500short exp/mini_librispeech/tri1
+  steps/align_si.sh --boost-silence 1.25 --nj 4 --cmd "$train_cmd" \
+    data/mini_librispeech/train_500short data/mini_librispeech/lang exp/mini_librispeech/mono exp/mini_librispeech/mono_ali_train_500short
 fi
 
 if [ $stage -le 27 ]; then
-  steps/align_si.sh --nj 4 --cmd "$train_cmd" \
-    data/train_mini_librispeech_500short  data/lang_mini_librispeech exp/mini_librispeech/tri1 exp/mini_librispeech/tri1_ali_train_500short
+  echo "Training a first delta + delta-delta triphone system."
+  steps/train_deltas.sh --boost-silence 1.25 --cmd "$train_cmd" \
+    1000 6000 data/mini_librispeech/train_500short data/mini_librispeech/lang \
+    exp/mini_librispeech/mono_ali_train_500short exp/mini_librispeech/tri1
 fi
 
 if [ $stage -le 28 ]; then
-  echo "Training an LDA+MLLT system."
-  steps/train_lda_mllt.sh --cmd "$train_cmd" \
-    --splice-opts "--left-context=3 --right-context=3" 1500 10000 \
-    data/train_mini_librispeech_500short data/lang_mini_librispeech exp/mini_librispeech/tri1_ali_train_500short exp/mini_librispeech/tri2b
+  steps/align_si.sh --nj 4 --cmd "$train_cmd" \
+    data/mini_librispeech/train_500short  data/mini_librispeech/lang exp/mini_librispeech/tri1 exp/mini_librispeech/tri1_ali_train_500short
 fi
 
 if [ $stage -le 29 ]; then
-  echo "Aligning utts using the tri2b model."
-  steps/align_si.sh  --nj 4 --cmd "$train_cmd" --use-graphs true \
-    data/train_mini_librispeech_500short data/lang_mini_librispeech exp/mini_librispeech/tri2b exp/mini_librispeech/tri2b_ali_train_500short
+  echo "Training an LDA+MLLT system."
+  steps/train_lda_mllt.sh --cmd "$train_cmd" \
+    --splice-opts "--left-context=3 --right-context=3" 1500 10000 \
+    data/mini_librispeech/train_500short data/mini_librispeech/lang exp/mini_librispeech/tri1_ali_train_500short exp/mini_librispeech/tri2b
 fi
 
 if [ $stage -le 30 ]; then
+  echo "Aligning utts using the tri2b model."
+  steps/align_si.sh  --nj 4 --cmd "$train_cmd" --use-graphs true \
+    data/mini_librispeech/train_500short data/mini_librispeech/lang exp/mini_librispeech/tri2b exp/mini_librispeech/tri2b_ali_train_500short
+fi
+
+if [ $stage -le 31 ]; then
   echo "Training tri3b, which is LDA+MLLT+SAT."
   steps/train_sat.sh --cmd "$train_cmd" 1500 10000 \
-    data/train_mini_librispeech_500short data/lang_mini_librispeech exp/mini_librispeech/tri2b_ali_train_500short exp/mini_librispeech/tri3b
+    data/mini_librispeech/train_500short data/mini_librispeech/lang exp/mini_librispeech/tri2b_ali_train_500short exp/mini_librispeech/tri3b
 fi
 exit
 # check that link to data/<language>/train exists
