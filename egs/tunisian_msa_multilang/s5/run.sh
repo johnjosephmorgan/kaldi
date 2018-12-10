@@ -20,7 +20,9 @@ data=data_librispeech
 data_url=www.openslr.org/resources/31
 lm_url=www.openslr.org/resources/11
 # Variables for mtl training
-langs=(  mini_librispeech tamsa );  # input languages
+# input languages
+langs[0]="mini_librispeech"
+langs[1]="tamsa"
 dir=exp/multi;  # working directory
 # directory for consolidated data preparation
 multi_data_dir=data/multi;
