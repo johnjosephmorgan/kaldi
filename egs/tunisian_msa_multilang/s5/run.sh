@@ -148,7 +148,7 @@ if [ $stage -le 18 ]; then
   for part in dev-clean-2 train-clean-5; do
     echo "Formating the $part data as Kaldi data directories."
     # use underscore-separated names in data directories.
-    local/mini_librispeech/data_prep.sh $data/LibriSpeech/$part data/$(echo $part | sed s/-/_/g)
+    local/mini_librispeech/data_prep.sh $data/LibriSpeech/$part data/mini_librispeech/$(echo $part | sed s/-/_/g)
   done
 fi
 
