@@ -78,7 +78,7 @@ if (! -d "$qdir") {
 
 
 if ( $array_job ) {
-    $queue_array_opt = "-l -J ${jobstart}-${jobend}";
+    $queue_array_opt = "-J ${jobstart}-${jobend}";
 }
 
 $logfile =~ s/JOB/\$PBS_ARRAY_INDEX/g;
