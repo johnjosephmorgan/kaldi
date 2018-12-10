@@ -19,14 +19,15 @@ my $job_stepping_factor = 1;
 my $array_job = 0;
 my $cmd = "";
 my $conf = "conf/pbspro.conf";
+my $queue_array_opt = "";
 
 my ($job_spec,$logfile,$command,@remaining_commandline) = @ARGV;
+
 # The job range could be a single digit
 if ( $job_spec =~ /JOB=\d/ ) {
   # then the job is not an array job
-  $jobstart = 10;
-  $jobend = 10;
-  $array_job = 1;
+  $queue_array_opt = "";
+  $array_job = 0;
 } 
 # If the JOB range is of the form m:n
 if ( $job_spec =~ /^JOB=(\d+):(\d+)$/ ) {
@@ -71,7 +72,7 @@ if (! -d "$qdir") {
   sleep(5);
 }
 
-my $queue_array_opt = "";
+
 
 if ( $array_job ) {
     $queue_array_opt = "-J ${jobstart}-${jobend}";
