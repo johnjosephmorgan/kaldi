@@ -182,7 +182,7 @@ fi
 
 if [ $stage -le 24 ]; then
     echo "Getting the shortest 500 utterances."
-  utils/subset_data_dir.sh --shortest data/mini_librispeech/train_clean_5 500 data/_mini_librispeech/train_500short
+  utils/subset_data_dir.sh --shortest data/mini_librispeech/train_clean_5 500 data/mini_librispeech/train_500short
 fi
 
 if [ $stage -le 25 ]; then
