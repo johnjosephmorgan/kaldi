@@ -43,7 +43,7 @@ for i in `seq 0 $[$num_langs-1]`;do
   # store paths to directories for examples in array
   multi_egs_dirs[$i]=exp/${langs[$i]}/nnet3/egs
   # store  alignment directories in array
-  multi_tri3_alis[$i]=exp/${langs[$i]}/tri3_ali
+  multi_tri3_alis[$i]=exp/${langs[$i]}/tri3b_ali
 done
 # End of Configuration variables settings
 
