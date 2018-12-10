@@ -22,8 +22,18 @@ my $queue_array_opt = "";
 my $project = "ARLAP14877100";
 my $q = "debug";
 my $wt = "00:59:00";
+my $job_spec = "";
+my $logfile = "";
+my $command = "";
+my @remaining_commandline = ();
 
-my ($job_spec,$logfile,$command,@remaining_commandline) = @ARGV;
+if ( $ARGV[0] =~ "JOB" ) {
+    ($job_spec,$logfile,$command,@remaining_commandline) = @ARGV;
+    array_job = 1;
+} else {
+  ($logfile,$command,@remaining_commandline) = @ARGV;
+  array_job = 0;
+}
 
 # The job range could be a single digit
 if ( $job_spec =~ /JOB=\d/ ) {
@@ -79,6 +89,8 @@ if (! -d "$qdir") {
 
 if ( $array_job ) {
     $queue_array_opt = "-J ${jobstart}-${jobend}";
+} else {
+  $queue_array_opt = "";
 }
 
 $logfile =~ s/JOB/\$PBS_ARRAY_INDEX/g;
