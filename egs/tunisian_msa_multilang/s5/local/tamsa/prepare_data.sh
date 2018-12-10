@@ -4,8 +4,8 @@
 # Apache 2.0.
 
 # configuration variables
-tmpdir=data/local/tmp
-download_dir=$(pwd)
+tmpdir=data/local/tmp/tamsa
+download_dir=$(pwd)/data_tamsa
 tmp_tunis=$tmpdir/tunis
 tmp_libyan=$tmpdir/libyan
 data_dir=$download_dir/Tunisian_MSA/data
@@ -22,19 +22,20 @@ for s in devtest/CTELLONE/Recordings_Arabic/6 devtest/CTELLTHREE/Recordings_Arab
   find $data_dir/speech/$s -type f \
   -name "*.wav" | grep Recordings_Arabic > $tmp_tunis/$s/wav.txt
 
-  local/devtest_recordings_make_lists.pl \
+  local/tamsa/devtest_recordings_make_lists.pl \
   $data_dir/transcripts/devtest/recordings.tsv $s tunis
 
-  mkdir -p data/devtest
+  mkdir -p data/tamsa/devtest
 
   for x in wav.scp utt2spk text; do
-    cat     $tmp_tunis/$s/$x | tr "	" " " >> data/devtest/$x
+    cat     $tmp_tunis/$s/$x | tr "	" " " >> data/tamsa/devtest/$x
   done
 done
 
-utils/utt2spk_to_spk2utt.pl data/devtest/utt2spk | sort > data/devtest/spk2utt
+utils/utt2spk_to_spk2utt.pl data/tamsa/devtest/utt2spk | sort > \
+  data/tamsa/devtest/spk2utt
 
-utils/fix_data_dir.sh data/devtest
+utils/fix_data_dir.sh data/tamsa/devtest
 
 # training data consists of 2 parts: answers and recordings (recited)
 answers_transcripts=$data_dir/transcripts/train/answers.tsv
@@ -67,11 +68,11 @@ done
 
 # make separate transcription lists for answers and recordings
 export LC_ALL=en_US.UTF-8
-local/answers_make_lists.pl $answers_transcripts
+local/tamsa/answers_make_lists.pl $answers_transcripts
 
 utils/fix_data_dir.sh $tmp_tunis/answers
 
-local/recordings_make_lists.pl $recordings_transcripts
+local/tamsa/recordings_make_lists.pl $recordings_transcripts
 
 utils/fix_data_dir.sh $tmp_tunis/recordings
 
@@ -86,14 +87,14 @@ done
 utils/fix_data_dir.sh $tmp_tunis/lists
 
 # get training lists
-mkdir -p data/train
+mkdir -p data/tamsa/train
 for x in wav.scp utt2spk text; do
-  sort $tmp_tunis/lists/$x | tr "	" " " > data/train/$x
+  sort $tmp_tunis/lists/$x | tr "	" " " > data/tamsa/train/$x
 done
 
-utils/utt2spk_to_spk2utt.pl data/train/utt2spk | sort > data/train/spk2utt
+utils/utt2spk_to_spk2utt.pl data/tamsa/train/utt2spk | sort > data/tamsa/train/spk2utt
 
-utils/fix_data_dir.sh data/train
+utils/fix_data_dir.sh data/tamsa/train
 
 # process the Libyan MSA data
 mkdir -p $tmp_libyan
@@ -107,7 +108,7 @@ for s in cls lfi srj; do
     | grep recordings > $tmp_libyan/$s/recordings_wav.txt
 
   echo "$0: making recordings list for $s"
-  local/test_recordings_make_lists.pl \
+  local/tamsa/test_recordings_make_lists.pl \
     $libyan_src/$s/data/transcripts/recordings/${s}_recordings.tsv $s libyan
 done
 
@@ -121,21 +122,21 @@ find $data_dir/speech/test/mbt -type f \
   | grep recordings > $tmp_tunis/mbt/recordings_wav.txt
 
 echo "$0: making recordings list for mbt"
-local/test_recordings_make_lists.pl \
+local/tamsa/test_recordings_make_lists.pl \
   $data_dir/transcripts/test/mbt/recordings/mbt_recordings.tsv mbt tunis
 
-mkdir -p data/test
+mkdir -p data/tamsa/test
 # get the Libyan files
 for s in cls lfi srj; do
   for x in wav.scp utt2spk text; do
-    cat     $tmp_libyan/$s/recordings/$x | tr "	" " " >> data/test/$x
+    cat     $tmp_libyan/$s/recordings/$x | tr "	" " " >> data/tamsa/test/$x
   done
 done
 
 for x in wav.scp utt2spk text; do
-  cat     $tmp_tunis/mbt/recordings/$x | tr "	" " " >> data/test/$x
+  cat     $tmp_tunis/mbt/recordings/$x | tr "	" " " >> data/tamsa/test/$x
 done
 
-utils/utt2spk_to_spk2utt.pl data/test/utt2spk | sort > data/test/spk2utt
+utils/utt2spk_to_spk2utt.pl data/tamsa/test/utt2spk | sort > data/tamsa/test/spk2utt
 
-utils/fix_data_dir.sh data/test
+utils/fix_data_dir.sh data/tamsa/test

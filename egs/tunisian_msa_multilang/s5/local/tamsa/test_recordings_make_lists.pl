@@ -24,7 +24,7 @@ my ($tr,$spk,$l) = @ARGV;
 
 open my $I, '<', $tr or croak "problems with $tr";
 
-my $tmp_dir = "data/local/tmp/$l/$spk";
+my $tmp_dir = "data/local/tmp/tamsa/$l/$spk";
 
 system "mkdir -p $tmp_dir/recordings";
 

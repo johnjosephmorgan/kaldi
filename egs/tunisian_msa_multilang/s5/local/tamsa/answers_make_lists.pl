@@ -13,7 +13,7 @@ use File::Spec;
 use File::Copy;
 use File::Basename;
 
-my $tmpdir = 'data/local/tmp/tunis';
+my $tmpdir = 'data/local/tmp/tamsa/tunis';
 
 system "mkdir -p $tmpdir/answers";
 

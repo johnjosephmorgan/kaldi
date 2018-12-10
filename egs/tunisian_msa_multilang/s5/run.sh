@@ -1,13 +1,13 @@
 #!/bin/bash
 . ./cmd.sh
-set -e
+set -euo pipefail
 
 # Begin Configuration variables settings
 cmd=run.pl
 stage=0
-# variables to train the Tunisian MSA system
 # Do not change tmpdir, other scripts under local depend on it
 tmpdir=data/local/tmp
+# variables to train the Tunisian MSA system
 # The speech corpus is on openslr.org
 speech="http://www.openslr.org/resources/46/Tunisian_MSA.tar.gz"
 # We use the QCRI lexicon.
@@ -15,6 +15,10 @@ lex="http://alt.qcri.org/resources/speech/dictionary/ar-ar_lexicon_2014-03-17.tx
 g2p=0
 # We train the lm on subtitles.
 subs_src="http://opus.nlpl.eu/download.php?f=OpenSubtitles2018/mono/OpenSubtitles2018.ar.gz"
+# Variables for mini librispeech
+data=data_librispeech
+data_url=www.openslr.org/resources/31
+lm_url=www.openslr.org/resources/11
 # Variables for mtl training
 langs=(  librispeech Tunisian_MSA_CTELLONE );  # input languages
 dir=exp/multi_librispeech_Tunisian_MSA;  # working directory
@@ -38,7 +42,7 @@ dropout_schedule='0,0@0.20,0.5@0.50,0'
 
 if [ $stage -le 1 ]; then
   # Downloads archive to this script's directory
-  local/tamsa_download.sh $speech
+  local/tamsa/download.sh $speech
 
   local/qcri_lexicon_download.sh $lex
 
@@ -48,35 +52,180 @@ fi
 # preparation stages will store files under data/
 # Delete the entire data directory when restarting.
 if [ $stage -le 2 ]; then
-  local/tamsa_prepare_data.sh
+  local/tamsa/prepare_data.sh
 fi
 
 if [ $stage -le 3 ]; then
-  mkdir -p $tmpdir/dict_init
-  local/qcri_buckwalter2utf8.sh > $tmpdir/dict_init/qcri_utf8.txt
+  mkdir -p $tmpdir/qcri/dict_init
+  local/qcri_buckwalter2utf8.sh > $tmpdir/qcri/dict_init/qcri_utf8.txt
 fi
 
 if [ $stage -le 4 ]; then
-  mkdir -p $tmpdir/dict
-  local/prepare_dict.sh $tmpdir/dict_init/qcri_utf8.txt $tmpdir/dict
+  mkdir -p $tmpdir/tamsa/dict
+  local/tamsa/prepare_dict.sh $tmpdir/qcri/dict_init/qcri_utf8.txt $tmpdir/tamsa/dict
+  echo "<UNK> SPN" >> $tmpdir/tamsa/dict/lexicon.txt
 fi
 
 if [ $stage -le 5 ]; then
   echo "$0: Preparing the lang directory."
-  utils/prepare_lang.sh $tmpdir/dict "<UNK>" data/local/lang data/lang
+  utils/prepare_lang.sh $tmpdir/tamsa/dict "<UNK>" $tmpdir/tamsa/lang data/tamsa/lang
 fi
 
 if [ $stage -le 6 ]; then
   # extract acoustic features
   for fld in devtest train test; do
-    steps/make_mfcc.sh data/$fld exp/make_mfcc/$fld mfcc
-    utils/fix_data_dir.sh data/$fld
-    steps/compute_cmvn_stats.sh data/$fld exp/make_mfcc mfcc
-    utils/fix_data_dir.sh data/$fld
+    steps/make_mfcc.sh data/tamsa/$fld exp/tamsa/make_mfcc/$fld mfcc_tamsa
+    utils/fix_data_dir.sh data/tamsa/$fld
+    steps/compute_cmvn_stats.sh data/tamsa/$fld exp/tamsa/make_mfcc mfcc_tamsa
+    utils/fix_data_dir.sh data/tamsa/$fld
   done
 fi
-exit
 
+if [ $stage -le 7 ]; then
+  # Get the shortest 500 utterances first because those are more likely
+  # to have accurate alignments.
+  utils/subset_data_dir.sh --shortest data/tamsa/train 500 data/tamsa/train_500short
+fi
+exit
+if [ $stage -le 8 ]; then
+  echo "$0: monophone training"
+  steps/train_mono.sh  data/tamsa/train_500short data/tamsa/lang exp/tamsa/mono
+fi
+
+if [ $stage -le 9 ]; then
+  echo "$0: aligning with monophones."
+  steps/align_si.sh  data/tamsa/train_500short data/tamsa/lang exp/tamsa/mono exp/tamsa/mono_ali
+fi
+
+if [ $stage -le 10 ]; then
+  echo "$0: Starting  triphone training in exp/tri1"
+  steps/train_deltas.sh \
+    --boost-silence 1.25 1000 6000 data/tamsa/train_500short data/tamsa/lang exp/tamsa/mono_ali exp/tamsa/tri1
+fi
+
+if [ $stage -le 11 ]; then
+  echo "$0: aligning with triphones."
+  steps/align_si.sh  data/tamsa/train_500short data/tamsa/lang exp/tamsa/tri1 exp/tamsa/tri1_ali
+fi
+
+if [ $stage -le 12 ]; then
+  echo "$0: Starting (lda_mllt) triphone training in exp/tri2b"
+  steps/train_lda_mllt.sh \
+    --splice-opts "--left-context=3 --right-context=3" 500 5000 \
+    data/tamsa/train_500short data/tamsa/lang exp/tamsa/tri1_ali exp/tamsa/tri2b
+fi
+
+if [ $stage -le 13 ]; then
+  echo "$0: aligning with lda and mllt adapted triphones."
+  steps/align_si.sh \
+    --use-graphs true data/tamsa/train_500short data/tamsa/lang exp/tamsa/tri2b exp/tamsa/tri2b_ali
+fi
+
+if [ $stage -le 14 ]; then
+  echo "$0: Starting (SAT) triphone training in exp/tri3b"
+  steps/train_sat.sh 800 8000 data/tamsa/train_500short data/tamsa/lang exp/tamsa/tri2b_ali exp/tamsa/tri3b
+fi
+
+if [ $stage -le 15 ]; then
+  echo "$0: Aligning with tri3b models."
+  steps/align_fmllr.sh data/tamsa/train_500short data/tamsa/lang exp/tamsa/tri3b exp/tamsa/tri3b_ali
+fi
+
+if [ $stage -le 16 ]; then
+  echo "Cooking with mini_librispeech recipe."
+  mkdir -p $data/mini_librispeech/
+
+  for part in dev-clean-2 train-clean-5; do
+    local/mini_librispeech/download_and_untar.sh $data $data_url $part
+done
+fi
+
+if [ $stage -le 17 ]; then
+  local/download_lm.sh $lm_url $tmpdir/mini_librispeech/lm
+fi
+
+if [ $stage -le 17 ]; then
+  for part in dev-clean-2 train-clean-5; do
+    echo "Formating the $part data as Kaldi data directories."
+    # use underscore-separated names in data directories.
+    local/mini_librispeech/data_prep.sh $data/LibriSpeech/$part data/$(echo $part | sed s/-/_/g)
+  done
+fi
+
+if [ $stage -le 18 ]; then
+  local/mini_librispeech/prepare_dict.sh --stage 3 --nj 4 --cmd "$train_cmd" \
+    $tmpdir/mini_librispeech/lm $tmpdir/mini_librispeech/lm $tmpdir/mini_librispeech/dict
+fi
+
+if [ $stage -le 19 ]; then
+  utils/prepare_lang.sh $tmpdir/mini_librispeech/dict \
+    "<UNK>" $tmpdir/mini_librispeech/lang_tmp data/lang_mini_librispeech
+fi
+
+if [ $stage -le 20 ]; then
+  local/mini_librispeech/format_lms.sh --src-dir data/lang_mini_librispeech $tmpdir/mini_librispeech/lm
+fi
+
+if [ $stage -le 21 ]; then
+  echo "Creating ConstArpaLm format language model for full 3-gram and 4-gram LMs."
+  utils/build_const_arpa_lm.sh $tmpdir/mini_librispeech/lm/lm_tglarge.arpa.gz \
+    data/lang_mini_librispeech data/lang_test_tglarge
+fi
+
+if [ $stage -le 22 ]; then
+  mfccdir=mfcc
+  for part in dev_clean_2 train_clean_5; do
+    steps/make_mfcc.sh --cmd "$train_cmd" --nj 4 data/$part exp/make_mfcc/$part $mfccdir
+    steps/compute_cmvn_stats.sh data/$part exp/make_mfcc/$part $mfccdir
+  done
+fi
+
+if [ $stage -le 23 ]; then
+    echo "Getting the shortest 500 utterances."
+  utils/subset_data_dir.sh --shortest data/train_clean_5 500 data/train_mini_librispeech_500short
+fi
+
+if [ $stage -le 24 ]; then
+  echo "Training a monophone system."
+  steps/train_mono.sh --boost-silence 1.25 --nj 4 --cmd "$train_cmd" \
+    data/train_mini_librispeech_500short data/lang_mini_librispeech exp/mini_librispeech/mono
+fi
+
+if [ $stage -le 25 ]; then
+  steps/align_si.sh --boost-silence 1.25 --nj 4 --cmd "$train_cmd" \
+    data/train_mini_librispeech_500short data/lang_mini_librispeech exp/mini_librispeech/mono exp/mini_librispeech/mono_ali_train_500short
+fi
+
+if [ $stage -le 26 ]; then
+  echo "Training a first delta + delta-delta triphone system."
+  steps/train_deltas.sh --boost-silence 1.25 --cmd "$train_cmd" \
+    1000 6000 data/train_mini_librispeech_500short data/lang_mini_librispeech exp/mini_librispeech/mono_ali_train_500short exp/mini_librispeech/tri1
+fi
+
+if [ $stage -le 27 ]; then
+  steps/align_si.sh --nj 4 --cmd "$train_cmd" \
+    data/train_mini_librispeech_500short  data/lang_mini_librispeech exp/mini_librispeech/tri1 exp/mini_librispeech/tri1_ali_train_500short
+fi
+
+if [ $stage -le 28 ]; then
+  echo "Training an LDA+MLLT system."
+  steps/train_lda_mllt.sh --cmd "$train_cmd" \
+    --splice-opts "--left-context=3 --right-context=3" 1500 10000 \
+    data/train_mini_librispeech_500short data/lang_mini_librispeech exp/mini_librispeech/tri1_ali_train_500short exp/mini_librispeech/tri2b
+fi
+
+if [ $stage -le 29 ]; then
+  echo "Aligning utts using the tri2b model."
+  steps/align_si.sh  --nj 4 --cmd "$train_cmd" --use-graphs true \
+    data/train_mini_librispeech_500short data/lang_mini_librispeech exp/mini_librispeech/tri2b exp/mini_librispeech/tri2b_ali_train_500short
+fi
+
+if [ $stage -le 30 ]; then
+  echo "Training tri3b, which is LDA+MLLT+SAT."
+  steps/train_sat.sh --cmd "$train_cmd" 1500 10000 \
+    data/train_mini_librispeech_500short data/lang_mini_librispeech exp/mini_librispeech/tri2b_ali_train_500short exp/mini_librispeech/tri3b
+fi
+exit
 # check that link to data/<language>/train exists
 for i in $( seq 0 $[$num_langs-1]); do
     if [ ! -d data/${langs[$i]}/train ]; then
