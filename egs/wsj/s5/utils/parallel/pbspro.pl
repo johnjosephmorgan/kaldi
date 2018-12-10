@@ -26,7 +26,8 @@ my ($job_spec,$logfile,$command,@remaining_commandline) = @ARGV;
 # The job range could be a single digit
 if ( $job_spec =~ /JOB=\d/ ) {
   # then the job is not an array job
-  $queue_array_opt = "-l -J 1-1";
+    $jobstart = 1;
+    $jobend = 1;
   $array_job = 1;
 } 
 # If the JOB range is of the form m:n
@@ -75,7 +76,7 @@ if (! -d "$qdir") {
 
 
 if ( $array_job ) {
-    $queue_array_opt = "-J ${jobstart}-${jobend}";
+    $queue_array_opt = "-l -J ${jobstart}-${jobend}";
 }
 
 $logfile =~ s/JOB/\$PBS_ARRAY_INDEX/g;
