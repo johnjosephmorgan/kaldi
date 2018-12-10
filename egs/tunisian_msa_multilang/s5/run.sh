@@ -233,18 +233,19 @@ if [ $stage -le 32 ]; then
     data/mini_librispeech/train data/mini_librispeech/lang exp/mini_librispeech/tri3b exp/mini_librispeech/tri3b_ali
 fi
 
-for i in `seq 0 $[$num_langs-1]`;do
-  # store  paths to data/<language>/train in array
-  multi_data_dirs[$i]=data/${langs[$i]}/train
-
-  # store paths to directories for examples in array
-  multi_egs_dirs[$i]=exp/${langs[$i]}/nnet3/egs
-
-  # store  alignment directories in array
-    multi_tri3_alis[$i]=exp/${langs[$i]}/tri3_ali
-done
-
 if [ $stage -le 33 ]; then
+  for i in `seq 0 $[$num_langs-1]`;do
+    # store  paths to data/<language>/train in array
+    multi_data_dirs[$i]=data/${langs[$i]}/train
+
+    # store paths to directories for examples in array
+    multi_egs_dirs[$i]=exp/${langs[$i]}/nnet3/egs
+
+    # store  alignment directories in array
+    multi_tri3_alis[$i]=exp/${langs[$i]}/tri3_ali
+  done
+
+
   echo "$0: combining all data for training initial layers." 
   mkdir -p $multi_data_dir/train
   combine_lang_list=""
