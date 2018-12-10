@@ -127,10 +127,11 @@ print $Q "exit \$[\$ret ? 1 : 0]\n"; # avoid status 100 which grid-engine
 print $Q "## submitted with:\n";
 
 open my $CFG, '<', $conf or croak "Problems with $conf $!";
-my $qsub_cmd = <$CFG>;
+my $qsub_cmd = " $queue_array_opt ";
+$qsub_cmd .= <$CFG>;
 close $CFG or croak "Problems with $conf $!";
 chomp $qsub_cmd;
-$qsub_cmd .= " -o $queue_logfile $queue_array_opt $queue_scriptfile >>$queue_logfile 2>&1";
+$qsub_cmd .= " -o $queue_logfile $queue_scriptfile >>$queue_logfile 2>&1";
 
 print $Q "# $qsub_cmd\n";
 close $Q or croak "Problems closing file $!";
