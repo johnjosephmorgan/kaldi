@@ -226,6 +226,13 @@ if [ $stage -le 31 ]; then
   steps/train_sat.sh --cmd "$train_cmd" 1500 10000 \
     data/mini_librispeech/train_500short data/mini_librispeech/lang exp/mini_librispeech/tri2b_ali_train_500short exp/mini_librispeech/tri3b
 fi
+
+if [ $stage -le 32 ]; then
+  echo "$0: Starting exp/tri3b_ali"
+  steps/align_fmllr.sh --nj 56 --cmd "$train_cmd" \
+    data/mini_librispeech/train_500short data/mini_librispeech/lang exp/mini_librispeech/tri3b exp/mini_librispeech/tri3b_ali_500short
+fi
+
 exit
 # check that link to data/<language>/train exists
 for i in $( seq 0 $[$num_langs-1]); do
