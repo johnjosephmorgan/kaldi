@@ -229,7 +229,7 @@ fi
 
 if [ $stage -le 32 ]; then
   echo "$0: Starting exp/tri3b_ali"
-  steps/align_fmllr.sh --nj 56 --cmd "$train_cmd" \
+  steps/align_fmllr.sh --nj 29 --cmd "$train_cmd" \
     data/mini_librispeech/train_500short data/mini_librispeech/lang exp/mini_librispeech/tri3b exp/mini_librispeech/tri3b_ali_500short
 fi
 
