@@ -7,6 +7,7 @@ speech=$1
 
 # where to put the downloaded speech corpus
 download_dir=$(pwd)/data_tamsa
+mkdir -p $download_dir
 data_dir=$download_dir/Tunisian_MSA/data
 
 # download the corpus from openslr
