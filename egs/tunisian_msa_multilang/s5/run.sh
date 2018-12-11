@@ -378,17 +378,21 @@ fi
 if [ $stage -le 41 ]; then
   mkdir -p data/tamsa/lm
   cut -d " " -f 2- data/tamsa/train/text > data/tamsa/lm/train.txt
-    local/tamsa/prepare_small_lm.sh data/tamsa/lm/train.txt
+  local/tamsa/prepare_small_lm.sh data/tamsa/lm/train.txt
+fi
+
+if [ $stage -le 42 ]; then
   echo "Making grammar fst."
   utils/format_lm.sh data/tamsa/lang data/tamsa/lm/tgsmall.arpa.gz \
     $tmpdir/tamsa/dict/lexicon.txt data/tamsa/lang_test
+fi
 
-
-  # make decoding graphs for tri3b SAT models
+if [ $stage -le 43 ]; then
+f  echo "$0: Making decoding graphs for tri3b SAT models."
   utils/mkgraph.sh data/tamsa/lang_test exp/tamsa/tri3b exp/tamsa/tri3b/graph
-  exit
-  #utils/mkgraph.sh data/mini_librispeech/lang exp/mini_librispeech/tri3b exp/mini_librispeech/tri3b/graph
+fi
 
+if [ $stage -le 44 ]; then
   num_decode_langs=${#decode_langs[@]}
   for i in $(seq 0 $[$num_decode_langs-1]); do
     l=${decode_langs[$i]}
