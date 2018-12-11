@@ -101,7 +101,7 @@ fi
 
 if [ $stage -le 8 ]; then
   echo "$0: monophone training"
-  steps/train_mono.sh  data/tamsa/train_500short data/tamsa/lang exp/tamsa/mono
+  steps/train_mono.sh  data/tamsa/train data/tamsa/lang exp/tamsa/mono
 fi
 
 if [ $stage -le 9 ]; then
