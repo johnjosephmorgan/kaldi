@@ -95,7 +95,8 @@ if [ $stage -le 6 ]; then
 fi
 
 if [ $stage -le 7 ]; then
-  echo "$0: Getting the shortest 500 utterances."  utils/subset_data_dir.sh --shortest data/tamsa/train 500 data/tamsa/train_500short
+  echo "$0: Getting the shortest 500 utterances."
+  utils/subset_data_dir.sh --shortest data/tamsa/train 500 data/tamsa/train_500short
 fi
 
 if [ $stage -le 8 ]; then
