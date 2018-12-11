@@ -376,6 +376,12 @@ if [ $stage -le 40 ]; then
 fi
 
 if [ $stage -le 41 ]; then
+  echo "Making grammar fst."
+  utils/format_lm.sh \
+    data/tamsa/lang data/tamsa/local/lm/trigram.arpa.gz data/local/dict/lexicon.txt \
+    data/lang_test
+fi
+
   # make decoding graphs for tri3b SAT models
   utils/mkgraph.sh data/tamsa/lang exp/tamsa/tri3b exp/tamsa/tri3b/graph
   utils/mkgraph.sh data/mini_librispeech/lang exp/mini_librispeech/tri3b exp/mini_librispeech/tri3b/graph
