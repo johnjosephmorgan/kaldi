@@ -376,7 +376,8 @@ if [ $stage -le 40 ]; then
 fi
 
 if [ $stage -le 41 ]; then
-    cut -d " " -f 2- data/tamsa/train/text > data/tamsa/lm/train.txt
+  mkdir -p data/tamsa/lm
+  cut -d " " -f 2- data/tamsa/train/text > data/tamsa/lm/train.txt
     local/tamsa/prepare_small_lm.sh data/tamsa/lm/train.txt
   echo "Making grammar fst."
   utils/format_lm.sh \
