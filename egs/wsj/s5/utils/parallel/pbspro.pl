@@ -26,6 +26,7 @@ my $job_spec = "";
 my $logfile = "";
 my $command = "";
 my @remaining_commandline = ();
+my $num_threads = 1;
 
 if ( $ARGV[0] =~ /\-\-num\-threads (\d+)/ ) {
   $num_threads = $1;
