@@ -95,9 +95,7 @@ if [ $stage -le 6 ]; then
 fi
 
 if [ $stage -le 7 ]; then
-  # Get the shortest 500 utterances first because those are more likely
-  # to have accurate alignments.
-  utils/subset_data_dir.sh --shortest data/tamsa/train 500 data/tamsa/train_500short
+  echo "$0: Getting the shortest 500 utterances."  utils/subset_data_dir.sh --shortest data/tamsa/train 500 data/tamsa/train_500short
 fi
 
 if [ $stage -le 8 ]; then
@@ -107,41 +105,41 @@ fi
 
 if [ $stage -le 9 ]; then
   echo "$0: aligning with monophones."
-  steps/align_si.sh  data/tamsa/train_500short data/tamsa/lang exp/tamsa/mono exp/tamsa/mono_ali
+  steps/align_si.sh  data/tamsa/train data/tamsa/lang exp/tamsa/mono exp/tamsa/mono_ali
 fi
 
 if [ $stage -le 10 ]; then
   echo "$0: Starting  triphone training in exp/tri1"
   steps/train_deltas.sh \
-    --boost-silence 1.25 1000 6000 data/tamsa/train_500short data/tamsa/lang exp/tamsa/mono_ali exp/tamsa/tri1
+    --boost-silence 1.25 1000 6000 data/tamsa/train data/tamsa/lang exp/tamsa/mono_ali exp/tamsa/tri1
 fi
 
 if [ $stage -le 11 ]; then
   echo "$0: aligning with triphones."
-  steps/align_si.sh  data/tamsa/train_500short data/tamsa/lang exp/tamsa/tri1 exp/tamsa/tri1_ali
+  steps/align_si.sh  data/tamsa/train data/tamsa/lang exp/tamsa/tri1 exp/tamsa/tri1_ali
 fi
 
 if [ $stage -le 12 ]; then
   echo "$0: Starting (lda_mllt) triphone training in exp/tri2b"
   steps/train_lda_mllt.sh \
-    --splice-opts "--left-context=3 --right-context=3" 500 5000 \
-    data/tamsa/train_500short data/tamsa/lang exp/tamsa/tri1_ali exp/tamsa/tri2b
+    --splice-opts "--left-context=3 --right-context=3" 1000 6000 \
+    data/tamsa/train data/tamsa/lang exp/tamsa/tri1_ali exp/tamsa/tri2b
 fi
 
 if [ $stage -le 13 ]; then
   echo "$0: aligning with lda and mllt adapted triphones."
   steps/align_si.sh \
-    --use-graphs true data/tamsa/train_500short data/tamsa/lang exp/tamsa/tri2b exp/tamsa/tri2b_ali
+    --use-graphs true data/tamsa/train data/tamsa/lang exp/tamsa/tri2b exp/tamsa/tri2b_ali
 fi
 
 if [ $stage -le 14 ]; then
   echo "$0: Starting (SAT) triphone training in exp/tri3b"
-  steps/train_sat.sh 800 8000 data/tamsa/train_500short data/tamsa/lang exp/tamsa/tri2b_ali exp/tamsa/tri3b
+  steps/train_sat.sh 1000 6000 data/tamsa/train data/tamsa/lang exp/tamsa/tri2b_ali exp/tamsa/tri3b
 fi
 
 if [ $stage -le 15 ]; then
-  echo "$0: Aligning with tri3b models."
-  steps/align_fmllr.sh data/tamsa/train_500short data/tamsa/lang exp/tamsa/tri3b exp/tamsa/tri3b_ali
+  echo "$0: Aligning tamsa with tri3b models."
+  steps/align_fmllr.sh data/tamsa/train data/tamsa/lang exp/tamsa/tri3b exp/tamsa/tri3b_ali
 fi
 
 if [ $stage -le 16 ]; then
@@ -159,7 +157,7 @@ fi
 
 if [ $stage -le 18 ]; then
   for part in dev-clean-2 train-clean-5; do
-    echo "Formating the $part data as Kaldi data directories."
+    echo "Formatting the $part data as Kaldi data directories."
     # use underscore-separated names in data directories.
     local/mini_librispeech/data_prep.sh $data/LibriSpeech/$part data/mini_librispeech/$(echo $part | sed s/-/_/g)
   done
@@ -188,62 +186,62 @@ fi
 if [ $stage -le 23 ]; then
   mfccdir=mfcc_librispeech
   for part in dev_clean_2 train_clean_5; do
-    steps/make_mfcc.sh --cmd "$train_cmd" --nj 4 data/mini_librispeech/$part exp/mini_librispeech/make_mfcc/$part $mfccdir
+    steps/make_mfcc.sh --cmd "$train_cmd" --nj 40 data/mini_librispeech/$part exp/mini_librispeech/make_mfcc/$part $mfccdir
     steps/compute_cmvn_stats.sh data/mini_librispeech/$part exp/mini_librispeech/make_mfcc/$part $mfccdir
   done
 fi
 
 if [ $stage -le 24 ]; then
     echo "Getting the shortest 500 utterances."
-  utils/subset_data_dir.sh --shortest data/mini_librispeech/train_clean_5 500 data/mini_librispeech/train
+  utils/subset_data_dir.sh --shortest data/mini_librispeech/train_clean_5 500 data/mini_librispeech/train_500short
 fi
 
 if [ $stage -le 25 ]; then
   echo "Training a monophone system."
   steps/train_mono.sh --boost-silence 1.25 --nj 4 --cmd "$train_cmd" \
-    data/mini_librispeech/train data/mini_librispeech/lang exp/mini_librispeech/mono
+    data/mini_librispeech/train_500short data/mini_librispeech/lang exp/mini_librispeech/mono
 fi
 
 if [ $stage -le 26 ]; then
-  steps/align_si.sh --boost-silence 1.25 --nj 4 --cmd "$train_cmd" \
-    data/mini_librispeech/train data/mini_librispeech/lang exp/mini_librispeech/mono exp/mini_librispeech/mono_ali_train
+  steps/align_si.sh --boost-silence 1.25 --nj 40 --cmd "$train_cmd" \
+    data/mini_librispeech/train_clean_5 data/mini_librispeech/lang exp/mini_librispeech/mono exp/mini_librispeech/mono_ali_train
 fi
 
 if [ $stage -le 27 ]; then
   echo "Training a first delta + delta-delta triphone system."
   steps/train_deltas.sh --boost-silence 1.25 --cmd "$train_cmd" \
-    1000 6000 data/mini_librispeech/train data/mini_librispeech/lang \
+    1000 6000 data/mini_librispeech/train_clean_5 data/mini_librispeech/lang \
     exp/mini_librispeech/mono_ali_train exp/mini_librispeech/tri1
 fi
 
 if [ $stage -le 28 ]; then
-  steps/align_si.sh --nj 4 --cmd "$train_cmd" \
-    data/mini_librispeech/train  data/mini_librispeech/lang exp/mini_librispeech/tri1 exp/mini_librispeech/tri1_ali_train
+  steps/align_si.sh --nj 40 --cmd "$train_cmd" \
+    data/mini_librispeech/train_clean_5 data/mini_librispeech/lang exp/mini_librispeech/tri1 exp/mini_librispeech/tri1_ali_train
 fi
 
 if [ $stage -le 29 ]; then
   echo "Training an LDA+MLLT system."
   steps/train_lda_mllt.sh --cmd "$train_cmd" \
     --splice-opts "--left-context=3 --right-context=3" 1500 10000 \
-    data/mini_librispeech/train data/mini_librispeech/lang exp/mini_librispeech/tri1_ali_train exp/mini_librispeech/tri2b
+    data/mini_librispeech/train_clean_5 data/mini_librispeech/lang exp/mini_librispeech/tri1_ali_train exp/mini_librispeech/tri2b
 fi
 
 if [ $stage -le 30 ]; then
   echo "Aligning utts using the tri2b model."
-  steps/align_si.sh  --nj 4 --cmd "$train_cmd" --use-graphs true \
-    data/mini_librispeech/train data/mini_librispeech/lang exp/mini_librispeech/tri2b exp/mini_librispeech/tri2b_ali_train
+  steps/align_si.sh  --nj 40 --cmd "$train_cmd" --use-graphs true \
+    data/mini_librispeech/train_clean_5 data/mini_librispeech/lang exp/mini_librispeech/tri2b exp/mini_librispeech/tri2b_ali_train
 fi
 
 if [ $stage -le 31 ]; then
   echo "Training tri3b, which is LDA+MLLT+SAT."
   steps/train_sat.sh --cmd "$train_cmd" 1500 10000 \
-    data/mini_librispeech/train data/mini_librispeech/lang exp/mini_librispeech/tri2b_ali_train exp/mini_librispeech/tri3b
+    data/mini_librispeech/train_clean_5 data/mini_librispeech/lang exp/mini_librispeech/tri2b_ali_train exp/mini_librispeech/tri3b
 fi
 
 if [ $stage -le 32 ]; then
   echo "$0: Starting exp/tri3b_ali"
   steps/align_fmllr.sh --nj 29 --cmd "$train_cmd" \
-    data/mini_librispeech/train data/mini_librispeech/lang exp/mini_librispeech/tri3b exp/mini_librispeech/tri3b_ali
+    data/mini_librispeech/train_clean_5 data/mini_librispeech/lang exp/mini_librispeech/tri3b exp/mini_librispeech/tri3b_ali
 fi
 
 if [ $stage -le 33 ]; then
@@ -269,19 +267,19 @@ if [ $stage -le 34 ]; then
 
   cat <<EOF > $dir/configs/network.xconfig
   input dim=$feat_dim name=input
-  relu-renorm-layer name=tdnn1 input=Append(input@-2,input@-1,input,input@1,input@2) dim=512
-  relu-renorm-layer name=tdnn2 dim=512
-  relu-renorm-layer name=tdnn3 input=Append(-1,2) dim=512
-  relu-renorm-layer name=tdnn4 input=Append(-3,3) dim=512
-  relu-renorm-layer name=tdnn5 input=Append(-3,3) dim=512
-  relu-renorm-layer name=tdnn6 input=Append(-7,2) dim=512
+  relu-renorm-layer name=tdnn1 input=Append(input@-2,input@-1,input,input@1,input@2) dim=256
+  relu-renorm-layer name=tdnn2 dim=256
+  relu-renorm-layer name=tdnn3 input=Append(-1,2) dim=256
+  relu-renorm-layer name=tdnn4 input=Append(-3,3) dim=256
+  relu-renorm-layer name=tdnn5 input=Append(-3,3) dim=256
+  relu-renorm-layer name=tdnn6 input=Append(-7,2) dim=256
 EOF
 
   for i in $(seq 0 $[$num_langs-1]); do
     lang=${langs[$i]}
     num_targets=$(tree-info ${multi_tri3_alis[$i]}/tree 2>/dev/null | grep num-pdfs | awk '{print $2}')
 
-    echo " relu-renorm-layer name=prefinal-affine-lang-${i} input=tdnn6 dim=512"
+    echo " relu-renorm-layer name=prefinal-affine-lang-${i} input=tdnn6 dim=256"
     echo " output-layer name=output-${i} dim=$num_targets max-change=1.5"
   done >> $dir/configs/network.xconfig
 
@@ -432,5 +430,4 @@ if [ $stage -le 45 ]; then
       data/mini_librispeech/$fld $dir/mini_librispeech/decode_${fld}
   done
 fi
-
 exit 0
