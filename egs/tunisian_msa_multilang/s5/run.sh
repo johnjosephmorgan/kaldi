@@ -27,7 +27,7 @@ dir=exp/multi;  # working directory
 # directory for consolidated data preparation
 multi_data_dir=data/multi;
 decode_langs=( tamsa );   # test data language
-decode_folds = ( devtest test )
+decode_folds=( devtest test );
 lang2weight="0.2,0.8";  # weighting of input languages
 lang_weights=(0.2 0.8 );
 left_context=19;  # context frames
