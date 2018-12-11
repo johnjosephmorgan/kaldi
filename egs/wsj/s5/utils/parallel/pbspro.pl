@@ -31,6 +31,7 @@ my $num_threads = 1;
 if ( $ARGV[0] =~ /\-\-num\-threads (\d+)/ ) {
   $num_threads = $1;
   shift;
+  shift;
 }
 if ( $ARGV[0] =~ "JOB" ) {
     ($job_spec,$logfile,$command,@remaining_commandline) = @ARGV;
