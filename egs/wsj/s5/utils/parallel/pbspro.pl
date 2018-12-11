@@ -27,7 +27,7 @@ my $logfile = "";
 my $command = "";
 my @remaining_commandline = ();
 
-if ( $ARGV[0] =~ /\-\-num-threads (\d+/ ) {
+if ( $ARGV[0] =~ /\-\-num\-threads (\d+)/ ) {
   $num_threads = $1;
   shift;
 }
