@@ -402,7 +402,7 @@ if [ $stage -le 44 ]; then
 
     score_opts="--skip-scoring false"
 
-    for fld in @decode_folds; do
+    for fld in ${decode_folds[@]}; do
       nspk=$(wc -l <data/$l/$fld/spk2utt)
       steps/nnet3/decode.sh --nj $nspk \
         --iter final_adj --stage -1 --beam 16.0 --lattice-beam 8.5 \
