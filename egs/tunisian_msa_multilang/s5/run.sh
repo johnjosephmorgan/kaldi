@@ -26,7 +26,7 @@ langs[1]="tamsa"
 dir=exp/multi;  # working directory
 # directory for consolidated data preparation
 multi_data_dir=data/multi;
-decode_langs=( mini_librispeech tamsa );   # test data language
+decode_langs=( tamsa );   # test data language
 lang2weight="0.2,0.8";  # weighting of input languages
 lang_weights=(0.2 0.8 );
 left_context=19;  # context frames
