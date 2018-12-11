@@ -389,8 +389,15 @@ if [ $stage -le 42 ]; then
 fi
 
 if [ $stage -le 43 ]; then
-f  echo "$0: Making decoding graphs for tri3b SAT models."
+  f  echo "$0: Making decoding graphs for tamsa tri3b SAT models."
   utils/mkgraph.sh data/tamsa/lang_test exp/tamsa/tri3b exp/tamsa/tri3b/graph
+
+  for x in ${decode_folds[@]}; do
+    echo "$0: Decoding $x with tamsa tri3b models."
+    nspk=$(wc -l < data/$x/spk2utt)
+    steps/decode_fmllr.sh --nj $nspk exp/tamsa/tri3b/graph data/tamsa/$x \
+      exp/tamsa/tri3b/decode_${x}
+  done
 fi
 
 if [ $stage -le 44 ]; then
