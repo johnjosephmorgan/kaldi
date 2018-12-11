@@ -401,7 +401,7 @@ if [ $stage -le 44 ]; then
 
     score_opts="--skip-scoring false"
 
-    for fld in dev devtest test; do
+    for fld in devtest test; do
       steps/nnet3/decode.sh \
         --iter final_adj --stage -1 --beam 16.0 --lattice-beam 8.5 \
         exp/$l/tri3b/graph \
