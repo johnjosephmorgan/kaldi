@@ -380,9 +380,8 @@ if [ $stage -le 41 ]; then
   cut -d " " -f 2- data/tamsa/train/text > data/tamsa/lm/train.txt
     local/tamsa/prepare_small_lm.sh data/tamsa/lm/train.txt
   echo "Making grammar fst."
-  utils/format_lm.sh \
-      data/tamsa/lang data/tamsa/lm/tgsmall.arpa.gz \
-      data/local/tamsa/dict/lexicon.txt data/tamsa/lang_test
+  utils/format_lm.sh data/tamsa/lang data/tamsa/lm/tgsmall.arpa.gz \
+    $tmpdir/tamsa/dict/lexicon.txt data/tamsa/lang_test
 
 
   # make decoding graphs for tri3b SAT models
