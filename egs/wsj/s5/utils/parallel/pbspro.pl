@@ -27,6 +27,10 @@ my $logfile = "";
 my $command = "";
 my @remaining_commandline = ();
 
+if ( $ARGV[0] =~ /\-\-num-threads (\d+/ ) {
+  $num_threads = $1;
+  shift;
+}
 if ( $ARGV[0] =~ "JOB" ) {
     ($job_spec,$logfile,$command,@remaining_commandline) = @ARGV;
     array_job = 1;
