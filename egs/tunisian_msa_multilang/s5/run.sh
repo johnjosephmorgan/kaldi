@@ -204,7 +204,7 @@ if [ $stage -le 25 ]; then
 fi
 
 if [ $stage -le 26 ]; then
-  steps/align_si.sh --boost-silence 1.25 --nj 40 --cmd "$train_cmd" \
+  steps/align_si.sh --boost-silence 1.25 --nj 29 --cmd "$train_cmd" \
     data/mini_librispeech/train_clean_5 data/mini_librispeech/lang exp/mini_librispeech/mono exp/mini_librispeech/mono_ali_train
 fi
 
@@ -216,7 +216,7 @@ if [ $stage -le 27 ]; then
 fi
 
 if [ $stage -le 28 ]; then
-  steps/align_si.sh --nj 40 --cmd "$train_cmd" \
+  steps/align_si.sh --nj 29 --cmd "$train_cmd" \
     data/mini_librispeech/train_clean_5 data/mini_librispeech/lang exp/mini_librispeech/tri1 exp/mini_librispeech/tri1_ali_train
 fi
 
@@ -229,7 +229,7 @@ fi
 
 if [ $stage -le 30 ]; then
   echo "Aligning utts using the tri2b model."
-  steps/align_si.sh  --nj 40 --cmd "$train_cmd" --use-graphs true \
+  steps/align_si.sh  --nj 29 --cmd "$train_cmd" --use-graphs true \
     data/mini_librispeech/train_clean_5 data/mini_librispeech/lang exp/mini_librispeech/tri2b exp/mini_librispeech/tri2b_ali_train
 fi
 
