@@ -359,7 +359,7 @@ if [ $stage -le 39 ]; then
   for i in $(seq 0 $[$num_langs-1]);do
     l=$dir/${langs[$i]}
     nnet3-am-init \
-    exp/${langs[$i]}/tri3_ali/final.mdl $dir/final.edited \
+    exp/${langs[$i]}/tri3b_ali/final.mdl $dir/final.edited \
     $l/final.mdl
 
     cp $dir/cmvn_opts $l/cmvn_opts
@@ -387,7 +387,7 @@ if [ $stage -le 41 ]; then
     for fld in dev devtest test; do
       steps/nnet3/decode.sh \
         --iter final_adj --stage -1 --beam 16.0 --lattice-beam 8.5 \
-        exp/$l/tri3/graph \
+        exp/$l/tri3b/graph \
         data/$l/$fld $dir/$l/decode_${fld}
     done
   done
