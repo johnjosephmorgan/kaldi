@@ -394,7 +394,7 @@ if [ $stage -le 43 ]; then
 
   for x in ${decode_folds[@]}; do
     echo "$0: Decoding $x with tamsa tri3b models."
-    nspk=$(wc -l < data/$x/spk2utt)
+    nspk=$(wc -l < data/tamsa/$x/spk2utt)
     steps/decode_fmllr.sh --nj $nspk exp/tamsa/tri3b/graph data/tamsa/$x \
       exp/tamsa/tri3b/decode_${x}
   done
