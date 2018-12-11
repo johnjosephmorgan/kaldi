@@ -26,8 +26,9 @@ langs[1]="tamsa"
 dir=exp/multi;  # working directory
 # directory for consolidated data preparation
 multi_data_dir=data/multi;
-decode_langs=( tamsa );   # test data language
-decode_folds=( devtest test );
+decode_langs=( tamsa mini_librispeech );
+decode_tamsa_folds=( devtest test );
+decode_mini_librispeech_folds=( dev_clean_2 );
 lang2weight="0.2,0.8";  # weighting of input languages
 lang_weights=(0.2 0.8 );
 left_context=19;  # context frames
@@ -391,31 +392,45 @@ fi
 if [ $stage -le 43 ]; then
   echo "$0: Making decoding graphs for tamsa tri3b SAT models."
   utils/mkgraph.sh data/tamsa/lang_test exp/tamsa/tri3b exp/tamsa/tri3b/graph
-
-  for x in ${decode_folds[@]}; do
+  echo "$0: Making decoding graphs for mini librispeech  tri3b SAT models."
+  utils/mkgraph.sh data/mini_librispeech/lang_test_tgsmall \
+    exp/mini_librispeech/tri3b exp/mini_librispeech/tri3b/graph
+  for x in ${decode_tamsa_folds[@]}; do
     echo "$0: Decoding $x with tamsa tri3b models."
     nspk=$(wc -l < data/tamsa/$x/spk2utt)
     steps/decode_fmllr.sh --nj $nspk exp/tamsa/tri3b/graph data/tamsa/$x \
       exp/tamsa/tri3b/decode_${x}
   done
+
+  for x in ${decode_mini_librispeech_folds[@]}; do
+    echo "$0: Decoding $x with mini librispeech tri3b models."
+    nspk=$(wc -l < data/mini_librispeech/$x/spk2utt)
+    steps/decode_fmllr.sh --nj $nspk exp/mini_librispeech/tri3b/graph \
+    data/mini_librispeech/$x exp/mini_librispeech/tri3b/decode_${x}
+  done
 fi
 
 if [ $stage -le 44 ]; then
-  num_decode_langs=${#decode_langs[@]}
-  for i in $(seq 0 $[$num_decode_langs-1]); do
-    l=${decode_langs[$i]}
-    echo "Decoding lang $l"
-    echo "using multilingual hybrid model in $dir"
-
-    score_opts="--skip-scoring false"
-
-    for fld in ${decode_folds[@]}; do
-      nspk=$(wc -l <data/$l/$fld/spk2utt)
-      steps/nnet3/decode.sh --nj $nspk \
-        --iter final_adj --stage -1 --beam 16.0 --lattice-beam 8.5 \
-        exp/$l/tri3b/graph \
-        data/$l/$fld $dir/$l/decode_${fld}
-    done
+  echo "Decoding using multilingual hybrid model in $dir"
+  score_opts="--skip-scoring false"
+  for fld in ${decode_tamsa_folds[@]}; do
+    nspk=$(wc -l <data/tamsa/$fld/spk2utt)
+    steps/nnet3/decode.sh --nj $nspk \
+      --iter final_adj --stage -1 --beam 16.0 --lattice-beam 8.5 \
+      exp/tamsa/tri3b/graph \
+        data/tamsa/$fld $dir/tamsa/decode_${fld}
   done
 fi
+
+if [ $stage -le 45 ]; then
+  score_opts="--skip-scoring false"
+  for fld in ${decode_mini_librispeech_folds[@]}; do
+    nspk=$(wc -l <data/mini_librispeech/$fld/spk2utt)
+    steps/nnet3/decode.sh --nj $nspk \
+      --iter final_adj --stage -1 --beam 16.0 --lattice-beam 8.5 \
+      exp/mini_librispeech/tri3b/graph \
+      data/mini_librispeech/$fld $dir/mini_librispeech/decode_${fld}
+  done
+fi
+
 exit 0
