@@ -377,8 +377,8 @@ fi
 
 if [ $stage -le 41 ]; then
   # make decoding graphs for tri3b SAT models
-  utils/mkgraph.sh data/tamsa/lang_test exp/tamsa/tri3b exp/tamsa/tri3b/graph
-  utils/mkgraph.sh data/mini_librispeech/lang_test exp/mini_librispeech/tri3b exp/mini_librispeech/tri3b/graph
+  utils/mkgraph.sh data/tamsa/lang exp/tamsa/tri3b exp/tamsa/tri3b/graph
+  utils/mkgraph.sh data/mini_librispeech/lang exp/mini_librispeech/tri3b exp/mini_librispeech/tri3b/graph
 
   num_decode_langs=${#decode_langs[@]}
   for i in $(seq 0 $[$num_decode_langs-1]); do
