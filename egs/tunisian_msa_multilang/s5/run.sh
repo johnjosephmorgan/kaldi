@@ -389,7 +389,7 @@ if [ $stage -le 42 ]; then
 fi
 
 if [ $stage -le 43 ]; then
-  f  echo "$0: Making decoding graphs for tamsa tri3b SAT models."
+  echo "$0: Making decoding graphs for tamsa tri3b SAT models."
   utils/mkgraph.sh data/tamsa/lang_test exp/tamsa/tri3b exp/tamsa/tri3b/graph
 
   for x in ${decode_folds[@]}; do
