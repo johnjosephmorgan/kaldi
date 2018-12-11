@@ -27,6 +27,7 @@ dir=exp/multi;  # working directory
 # directory for consolidated data preparation
 multi_data_dir=data/multi;
 decode_langs=( tamsa );   # test data language
+decode_folds = ( devtest test )
 lang2weight="0.2,0.8";  # weighting of input languages
 lang_weights=(0.2 0.8 );
 left_context=19;  # context frames
@@ -401,8 +402,9 @@ if [ $stage -le 44 ]; then
 
     score_opts="--skip-scoring false"
 
-    for fld in devtest test; do
-      steps/nnet3/decode.sh \
+    for fld in @decode_folds; do
+      nspk=$(wc -l <data/$l/$fld/spk2utt)
+      steps/nnet3/decode.sh --nj $nspk \
         --iter final_adj --stage -1 --beam 16.0 --lattice-beam 8.5 \
         exp/$l/tri3b/graph \
         data/$l/$fld $dir/$l/decode_${fld}
