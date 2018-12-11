@@ -4,7 +4,7 @@ use warnings;
 use Carp;
 
 BEGIN {
-    @ARGV > 2 or croak "USAGE $0 <JOB_ARRAY_INDICES> <LOGFILE> <COMMAND> ...
+    @ARGV > 2 or croak "USAGE $0 [--num-threads] [JOB_ARRAY_INDICES] <LOGFILE> <COMMAND> ...
 For Example:
 $0 JOB=1:4 init.log gmm-init
 ";
@@ -34,10 +34,10 @@ if ( $ARGV[0] =~ /\-\-num\-threads (\d+)/ ) {
 }
 if ( $ARGV[0] =~ "JOB" ) {
     ($job_spec,$logfile,$command,@remaining_commandline) = @ARGV;
-    array_job = 1;
+    $array_job = 1;
 } else {
   ($logfile,$command,@remaining_commandline) = @ARGV;
-  array_job = 0;
+  $array_job = 0;
 }
 
 # The job range could be a single digit
