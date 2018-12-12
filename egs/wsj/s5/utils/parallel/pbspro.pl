@@ -34,10 +34,10 @@ if ( $ARGV[0] =~ /threads/ and $ARGV[1] =~ /(\d+)/ ) {
 }
 
 if ( $ARGV[0] =~ "JOB" ) {
-    ($job_spec,$logfile,$command,@remaining_commandline) = @ARGV;
+    ($job_spec,$logfile,@remaining_commandline) = @ARGV;
     $array_job = 1;
 } else {
-  ($logfile,$command,@remaining_commandline) = @ARGV;
+  @remaining_commandline = @ARGV;
   $array_job = 0;
 }
 
@@ -57,7 +57,11 @@ if ( $job_spec =~ /^JOB=(\d+):(\d+)$/ ) {
 } 
 
 my $cwd = getcwd();
-$cmd .= $command . " ";
+
+if ( $remaining_commandline[0] =~ /\S=\S/ ) {
+    $cmd .= $remaining_commandline[0] . " ";
+    shift @remaining_commandline;
+}
 
 foreach my $x (@remaining_commandline) {
   if ($x =~ /^\S+$/) {
