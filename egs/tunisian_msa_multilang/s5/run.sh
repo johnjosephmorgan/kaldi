@@ -302,7 +302,7 @@ if [ $stage -le 35 ]; then
     extra_opts+=(--right-context $right_context )
     local/nnet3/get_egs.sh \
       --cmvn-opts "--norm-means=false --norm-vars=false" \
-      $egs_opts "${extra_opts[@]}" \
+      "${extra_opts[@]}" \
       --samples-per-iter $samples \
       --stage 0 \
       $egs_opts \
