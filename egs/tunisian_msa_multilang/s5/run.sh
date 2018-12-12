@@ -162,7 +162,7 @@ if [ $stage -le 18 ]; then
     # use underscore-separated names in data directories.
     local/mini_librispeech/data_prep.sh $data/LibriSpeech/$part data/mini_librispeech/$(echo $part | sed s/-/_/g)
   done
-  ln -s data/mini_librispeech/train_train_5 data/mini_librispeech/train
+  ln -s data/mini_librispeech/clean_train_5 data/mini_librispeech/train
 fi
 
 if [ $stage -le 19 ]; then
