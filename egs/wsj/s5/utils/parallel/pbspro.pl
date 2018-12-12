@@ -27,12 +27,12 @@ my $logfile = "";
 my $command = "";
 my @remaining_commandline = ();
 my $num_threads = 1;
-
-if ( $ARGV[0] =~ /\-\-num\-threads (\d+)/ ) {
+if ( $ARGV[0] =~ /threads/ and $ARGV[1] =~ /(\d+)/ ) {
   $num_threads = $1;
-  shift;
-  shift;
+  shift @ARGV;
+  shift @ARGV;
 }
+croak "@ARGV";
 if ( $ARGV[0] =~ "JOB" ) {
     ($job_spec,$logfile,$command,@remaining_commandline) = @ARGV;
     $array_job = 1;
