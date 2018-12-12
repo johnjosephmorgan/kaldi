@@ -14,8 +14,10 @@ datadir=$(pwd)
 
 # download the corpus 
 if [ ! -f $downloaddir/qcri.txt.bz2 ]; then
-  wget -O $downloaddir/qcri.txt.bz2 $lex
-elif [ ! -f $downloaddir/qcri.txt ]; then
+    wget -O $downloaddir/qcri.txt.bz2 $lex
+fi
+
+if [ ! -f $downloaddir/qcri.txt ]; then
   (
     cd $downloaddir
     bzcat qcri.txt.bz2 | tail -n+4 > $datadir/qcri.txt
