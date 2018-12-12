@@ -416,7 +416,7 @@ if [ $stage -le 44 ]; then
   for fld in ${decode_tamsa_folds[@]}; do
     nspk=$(wc -l <data/tamsa/$fld/spk2utt)
     steps/nnet3/decode.sh --nj $nspk \
-      --iter final_adj --stage -1 --beam 16.0 --lattice-beam 8.5 \
+      --iter final_adj --stage -1 --beam 20.0 --lattice-beam 8.5 \
       exp/tamsa/tri3b/graph \
         data/tamsa/$fld $dir/tamsa/decode_${fld}
   done
