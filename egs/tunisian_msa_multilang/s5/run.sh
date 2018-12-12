@@ -162,6 +162,7 @@ if [ $stage -le 18 ]; then
     # use underscore-separated names in data directories.
     local/mini_librispeech/data_prep.sh $data/LibriSpeech/$part data/mini_librispeech/$(echo $part | sed s/-/_/g)
   done
+  ln -s data/mini_librispeech/train_dev_5 data/mini_librispeech/train
 fi
 
 if [ $stage -le 19 ]; then
@@ -249,6 +250,7 @@ if [ $stage -le 33 ]; then
   echo "$0: combining all data for training initial layers." 
   mkdir -p $multi_data_dir/train
   combine_lang_list=""
+  
   for i in `seq 0 $[$num_langs-1]`;do
     combine_lang_list="$combine_lang_list data/${langs[$i]}/train"
   done
