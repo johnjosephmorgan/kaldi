@@ -187,7 +187,7 @@ fi
 
 if [ $stage -le 23 ]; then
   mfccdir=mfcc_librispeech
-  for part in dev_clean_2 train_clean_5; do
+  for part in dev_clean_2 train_clean_5 train; do
     steps/make_mfcc.sh --cmd "$train_cmd" --nj 40 data/mini_librispeech/$part exp/mini_librispeech/make_mfcc/$part $mfccdir
     steps/compute_cmvn_stats.sh data/mini_librispeech/$part exp/mini_librispeech/make_mfcc/$part $mfccdir
   done
