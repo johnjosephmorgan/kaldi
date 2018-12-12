@@ -32,7 +32,7 @@ if ( $ARGV[0] =~ /threads/ and $ARGV[1] =~ /(\d+)/ ) {
   shift @ARGV;
   shift @ARGV;
 }
-croak "@ARGV";
+
 if ( $ARGV[0] =~ "JOB" ) {
     ($job_spec,$logfile,$command,@remaining_commandline) = @ARGV;
     $array_job = 1;
