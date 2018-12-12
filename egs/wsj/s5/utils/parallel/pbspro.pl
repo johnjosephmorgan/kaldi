@@ -63,6 +63,11 @@ if ( $remaining_commandline[0] =~ /\S=\S/ ) {
     shift @remaining_commandline;
 }
 
+if ( $remaining_commandline[0] =~ /\.log/ ) {
+  $logfile = $remaining_commandline[0] . " ";
+  shift $remaining_commandline;
+}
+
 foreach my $x (@remaining_commandline) {
   if ($x =~ /^\S+$/) {
     $cmd .= $x . " " 
