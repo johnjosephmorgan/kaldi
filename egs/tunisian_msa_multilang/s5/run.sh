@@ -305,7 +305,6 @@ if [ $stage -le 35 ]; then
       "${extra_opts[@]}" \
       --samples-per-iter $samples \
       --stage 0 \
-      $egs_opts \
       --generate-egs-scp true \
       $data \
       $tri3_ali \
