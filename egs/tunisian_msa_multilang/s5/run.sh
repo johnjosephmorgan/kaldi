@@ -213,9 +213,13 @@ if [ $stage -le 13 ]; then
 fi
 
 if [ $stage -le 14 ]; then
-  echo "Making G.fst."
+  echo "Making G.fst for tamsa."
   utils/format_lm.sh data/tamsa/lang data/tamsa/lm/tgsmall.arpa.gz $tmpdir/tamsa/dict/lexicon.txt \
     data/tamsa/lang_test
+
+  echo "Making G.fst for mini librispeech."
+  utils/format_lm.sh data/min_librispeech/lang data/mini_librispeech/lm/tgsmall.arpa.gz \
+    $tmpdir/mini_librispeech/dict/lexicon.txt data/mini_librispeech/lang_test
 
   echo "$0: Making decoding graphs for tamsa tri3b SAT models."
   utils/mkgraph.sh data/tamsa/lang_test exp/tamsa/tri3b exp/tamsa/tri3b/graph
