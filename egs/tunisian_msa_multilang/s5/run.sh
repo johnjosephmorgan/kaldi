@@ -223,7 +223,7 @@ fi
 
 if [ $stage -le 15 ]; then
   echo "Making G.fst for mini librispeech."
-  utils/format_lm.sh data/min_librispeech/lang data/mini_librispeech/lm/tgsmall.arpa.gz \
+  utils/format_lm.sh data/mini_librispeech/lang data/mini_librispeech/lm/tgsmall.arpa.gz \
     $tmpdir/mini_librispeech/dict/lexicon.txt data/mini_librispeech/lang_test
 
   echo "$0: Making decoding graphs for mini librispeech  tri3b SAT models."
