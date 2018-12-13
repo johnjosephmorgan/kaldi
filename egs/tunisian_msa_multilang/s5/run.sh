@@ -223,9 +223,15 @@ if [ $stage -le 14 ]; then
 
   echo "$0: Making decoding graphs for tamsa tri3b SAT models."
   utils/mkgraph.sh data/tamsa/lang_test exp/tamsa/tri3b exp/tamsa/tri3b/graph
+fi
+
+if [ $stage -le 15 ]; then
   echo "$0: Making decoding graphs for mini librispeech  tri3b SAT models."
   utils/mkgraph.sh data/mini_librispeech/lang_test_tgsmall \
     exp/mini_librispeech/tri3b exp/mini_librispeech/tri3b/graph
+fi
+
+if [ $stage -le 16 ]; then
   for x in ${decode_tamsa_folds[@]}; do
     echo "$0: Decoding $x with tamsa tri3b models."
     nspk=$(wc -l < data/tamsa/$x/spk2utt)
@@ -239,9 +245,6 @@ if [ $stage -le 14 ]; then
     steps/decode_fmllr.sh --nj $nspk exp/mini_librispeech/tri3b/graph \
     data/mini_librispeech/$x exp/mini_librispeech/tri3b/decode_${x}
   done
-fi
-
-if [ $stage -le 15 ]; then
   echo "Decoding using multilingual hybrid model in $dir"
   score_opts="--skip-scoring false"
   for fld in ${decode_tamsa_folds[@]}; do
@@ -252,10 +255,6 @@ if [ $stage -le 15 ]; then
       exp/tamsa/tri3b/graph \
         data/tamsa/$fld $dir/tamsa/decode_${fld}
   done
-fi
-
-if [ $
-     stage -le 16 ]; then
   score_opts="--skip-scoring false"
   for fld in ${decode_mini_librispeech_folds[@]}; do
     nspk=$(wc -l <data/mini_librispeech/$fld/spk2utt)
