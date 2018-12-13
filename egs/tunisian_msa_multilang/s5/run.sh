@@ -227,7 +227,7 @@ if [ $stage -le 15 ]; then
     $tmpdir/mini_librispeech/dict/lexicon.txt data/mini_librispeech/lang_test
 
   echo "$0: Making decoding graphs for mini librispeech  tri3b SAT models."
-  utils/mkgraph.sh data/mini_librispeech/lang_test_tgsmall \
+  utils/mkgraph.sh data/mini_librispeech/lang_test \
     exp/mini_librispeech/tri3b exp/mini_librispeech/tri3b/graph
 fi
 
