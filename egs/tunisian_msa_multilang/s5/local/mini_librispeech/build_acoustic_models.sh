@@ -25,6 +25,11 @@ echo "Cooking with mini_librispeech recipe."
 fi
 
 if [ $stage -le 2 ]; then
+  mkdir -p $tmpdir/mini_librispeech/lm
+  cut -d " " -f 2- data/mini_librispeech/train/text > $tmpdir/mini_librispeech/lm/train.txt
+  local/mini_librispeech/prepare_small_lm.sh $tmpdir/mini_librispeech/lm/train.txt
+  tr " " "\n" < $tmpdir/mini_librispeech/lm/train.txt | sort -u > $tmpdir/mini_librispeech/lm/librispeech-vocab.txt
+
   local/mini_librispeech/prepare_dict.sh $tmpdir/mini_librispeech/dict
   echo "<UNK> SPN" >> $tmpdir/mini_librispeech/dict/lexicon.txt
 fi

@@ -64,7 +64,7 @@ fi
 
 if [ $stage -le 3 ]; then
   echo "Cooking with mini_librispeech recipe."
-  mkdir -p $data/mini_librispeech/
+  mkdir -p $data/mini_librispeech
 
   for part in dev-clean-2 train-clean-5; do
     local/mini_librispeech/download_and_untar.sh $data $data_url $part
@@ -72,17 +72,10 @@ done
 fi
 
 if [ $stage -le 4 ]; then
-  mkdir -p $tmpdir/mini_librispeech/lm
-  cut -d " " -f 2- data/mini_librispeech/train/text > $tmpdir/mini_librispeech/lm/train.txt
-  local/mini_librispeech/prepare_small_lm.sh $tmpdir/mini_librispeech/lm/train.txt
-  tr " " "\n" < $tmpdir/mini_librispeech/lm/train.txt | sort -u > $tmpdir/mini_librispeech/lm/librispeech-vocab.txt
+  local/mini_librispeech/build_acoustic_models.sh
 fi
 
 if [ $stage -le 5 ]; then
-    local/mini_librispeech/build_acoustic_models.sh
-fi
-
-if [ $stage -le 6 ]; then
   echo "$0: combining all data for training initial layers." 
   mkdir -p $multi_data_dir/train
   combine_lang_list=""
@@ -95,7 +88,7 @@ if [ $stage -le 6 ]; then
   utils/validate_data_dir.sh --no-feats $multi_data_dir/train
 fi
 
-if [ $stage -le 7 ]; then
+if [ $stage -le 6 ]; then
   echo "Writing configuration file for neural net training."
   mkdir -p $dir/configs
 
@@ -127,7 +120,7 @@ EOF
     --nnet-edits="rename-node old-name=output-0 new-name=output"
 fi
 
-if [ $stage -le 8 ]; then
+if [ $stage -le 7 ]; then
   echo "$0: Getting examples."
   for i in $(seq 0 $[$num_langs-1]); do
     data=${multi_data_dirs[$i]}
@@ -148,7 +141,7 @@ if [ $stage -le 8 ]; then
   done
 fi
 
-if [ $stage -le 9 ]; then 
+if [ $stage -le 8 ]; then 
   egs_opts="--lang2weight '$lang2weight'"
   common_egs_dir="${multi_egs_dirs[@]} $megs_dir"
 
@@ -157,7 +150,7 @@ if [ $stage -le 9 ]; then
     $egs_opts $num_langs ${common_egs_dir[@]}
 fi
 
-if [ $stage -le 10 ]; then
+if [ $stage -le 9 ]; then
   steps/nnet3/train_raw_dnn.py \
     --cmd="$decode_cmd" \
     --stage=-10 \
@@ -182,7 +175,7 @@ if [ $stage -le 10 ]; then
     --dir=$dir 
 fi
 
-if [ $stage -le 11 ]; then
+if [ $stage -le 10 ]; then
   for i in $(seq 0 $[$num_langs-1]);do
     l=$dir/${langs[$i]}
     mkdir -p  $l
@@ -193,7 +186,7 @@ if [ $stage -le 11 ]; then
   done
 fi
 
-if [ $stage -le 12 ]; then
+if [ $stage -le 11 ]; then
   for i in $(seq 0 $[$num_langs-1]);do
     l=$dir/${langs[$i]}
     nnet3-am-init \
@@ -204,7 +197,7 @@ if [ $stage -le 12 ]; then
   done
 fi
 
-if [ $stage -le 13 ]; then
+if [ $stage -le 12 ]; then
   echo "$0: compute average posterior and readjust priors"
   for i in $(seq 0 $[$num_langs-1]);do
     l=$dir/${langs[$i]}
@@ -213,13 +206,13 @@ if [ $stage -le 13 ]; then
   done
 fi
 
-if [ $stage -le 14 ]; then
+if [ $stage -le 13 ]; then
   mkdir -p data/tamsa/lm
   cut -d " " -f 2- data/tamsa/train/text > data/tamsa/lm/train.txt
   local/tamsa/prepare_small_lm.sh data/tamsa/lm/train.txt
 fi
 
-if [ $stage -le 15 ]; then
+if [ $stage -le 14 ]; then
   echo "$0: Making decoding graphs for tamsa tri3b SAT models."
   utils/mkgraph.sh data/tamsa/lang_test exp/tamsa/tri3b exp/tamsa/tri3b/graph
   echo "$0: Making decoding graphs for mini librispeech  tri3b SAT models."
@@ -240,7 +233,7 @@ if [ $stage -le 15 ]; then
   done
 fi
 
-if [ $stage -le 16 ]; then
+if [ $stage -le 15 ]; then
   echo "Decoding using multilingual hybrid model in $dir"
   score_opts="--skip-scoring false"
   for fld in ${decode_tamsa_folds[@]}; do
@@ -254,7 +247,7 @@ if [ $stage -le 16 ]; then
 fi
 
 if [ $
-     stage -le 17 ]; then
+     stage -le 16 ]; then
   score_opts="--skip-scoring false"
   for fld in ${decode_mini_librispeech_folds[@]}; do
     nspk=$(wc -l <data/mini_librispeech/$fld/spk2utt)
