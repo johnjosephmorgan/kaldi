@@ -25,8 +25,8 @@ echo "Cooking with mini_librispeech recipe."
 fi
 
 if [ $stage -le 2 ]; then
-  local/mini_librispeech/prepare_dict.sh --stage 3 --nj 4 --cmd "$train_cmd" \
-    $tmpdir/mini_librispeech/lm $tmpdir/mini_librispeech/lm $tmpdir/mini_librispeech/dict
+  local/mini_librispeech/prepare_dict.sh $tmpdir/mini_librispeech/dict
+  echo "<UNK> SPN" >> $tmpdir/mini_librispeech/dict/lexicon.txt
 fi
 
 if [ $stage -le 3 ]; then
