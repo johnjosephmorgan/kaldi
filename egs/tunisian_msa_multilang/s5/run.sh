@@ -23,7 +23,7 @@ dir=exp/multi;  # working directory
 # directory for consolidated data preparation
 multi_data_dir=data/multi;
 decode_langs=( tamsa mini_librispeech );
-decode_tamsa_folds=( devtest test );
+decode_tamsa_folds=( devtest test-max2 );
 decode_mini_librispeech_folds=( dev_clean_2 );
 lang2weight="0.2,0.8";  # weighting of input languages
 lang_weights=(0.2 0.8 );

@@ -140,3 +140,5 @@ done
 utils/utt2spk_to_spk2utt.pl data/tamsa/test/utt2spk | sort > data/tamsa/test/spk2utt
 
 utils/fix_data_dir.sh data/tamsa/test
+
+utils/data/modify_speaker_info.sh --utts-per-spk-max 40 --respect-speaker-info false data/tamsa/test data/tamsa/test-max2
