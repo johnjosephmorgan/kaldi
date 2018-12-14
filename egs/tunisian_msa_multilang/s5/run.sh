@@ -185,7 +185,7 @@ if [ $stage -le 9 ]; then
 fi
 
 if [ $stage -le 10 ]; then
-    echo -n "$0: "Initializing models for language "
+    echo -n "$0: Initializing models for language "
   for i in $(seq 0 $[$num_langs-1]);do
     l=$dir/${langs[$i]}
     echo "$l";
@@ -263,6 +263,9 @@ if [ $stage -le 17 ]; then
       exp/tamsa/tri3b/graph \
         data/tamsa/$fld $dir/tamsa/decode_${fld}
   done
+fi
+
+if [ $stage -le 18 ]; then
   score_opts="--skip-scoring false"
   for fld in ${decode_mini_librispeech_folds[@]}; do
     nspk=$(wc -l <data/mini_librispeech/$fld/spk2utt)
