@@ -72,7 +72,7 @@ local/tamsa/nnet3/run_ivector_common.sh --stage $stage \
 
 # Problem: We have removed the "train_" prefix of our training set in
 # the alignment directory names! Bad!
-gmm_dir=exp/$gmm
+gmm_dir=exp/tamsa/$gmm
 ali_dir=exp/tamsa/${gmm}_ali_${train_set}_sp
 tree_dir=exp/tamsa/chain${nnet3_affix}/tree_sp${tree_affix:+_$tree_affix}
 lang=data/tamsa/lang_chain
@@ -82,7 +82,7 @@ train_data_dir=data/tamsa/${train_set}_sp_hires
 lores_train_data_dir=data/tamsa/${train_set}_sp
 train_ivector_dir=exp/tamsa/nnet3${nnet3_affix}/ivectors_${train_set}_sp_hires
 
-for f in $gmm_dir/final.mdl $train_data_dir/feats.scp $train_ivector_dir/ivector_online.scp \
+for f in ,$gmm_dir/final.mdl $train_data_dir/feats.scp $train_ivector_dir/ivector_online.scp \
     $lores_train_data_dir/feats.scp $ali_dir/ali.1.gz; do
   [ ! -f $f ] && echo "$0: expected file $f to exist" && exit 1
 done
