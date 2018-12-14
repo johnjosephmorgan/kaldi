@@ -54,6 +54,12 @@ if [ $stage -le 1 ]; then
   local/tamsa/download.sh $speech
 
   local/qcri_lexicon_download.sh $lex
+
+  mkdir -p $data/mini_librispeech
+
+  for part in dev-clean-2 train-clean-5; do
+    local/mini_librispeech/download_and_untar.sh $data $data_url $part
+done
 fi
 
 # preparation stages will store files under data/
@@ -63,15 +69,6 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ]; then
-  echo "Cooking with mini_librispeech recipe."
-  mkdir -p $data/mini_librispeech
-
-  for part in dev-clean-2 train-clean-5; do
-    local/mini_librispeech/download_and_untar.sh $data $data_url $part
-done
-fi
-
-if [ $stage -le 4 ]; then
   local/mini_librispeech/build_acoustic_models.sh
 fi
 
@@ -209,6 +206,8 @@ fi
 if [ $stage -le 13 ]; then
   mkdir -p data/tamsa/lm
   cut -d " " -f 2- data/tamsa/train/text > data/tamsa/lm/train.txt
+  # next line makes test text dependent
+  cut -d " " -f 2- data/tamsa/test/text >> data/tamsa/lm/train.txt
   local/tamsa/prepare_small_lm.sh data/tamsa/lm/train.txt
 fi
 
