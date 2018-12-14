@@ -72,7 +72,8 @@ if [ $stage -le 3 ]; then
   local/mini_librispeech/build_acoustic_models.sh
 fi
 
-if [ $stage -le 5 ]; then
+if [ $stage -le 4 ]; then
+  echo "$0: Starting Multilang."
   echo "$0: combining all data for training initial layers." 
   mkdir -p $multi_data_dir/train
   combine_lang_list=""
@@ -85,7 +86,7 @@ if [ $stage -le 5 ]; then
   utils/validate_data_dir.sh --no-feats $multi_data_dir/train
 fi
 
-if [ $stage -le 6 ]; then
+if [ $stage -le 5 ]; then
   echo "Writing configuration file for neural net training."
   mkdir -p $dir/configs
 
@@ -117,7 +118,7 @@ EOF
     --nnet-edits="rename-node old-name=output-0 new-name=output"
 fi
 
-if [ $stage -le 7 ]; then
+if [ $stage -le 6 ]; then
   echo "$0: Getting examples."
   for i in $(seq 0 $[$num_langs-1]); do
     data=${multi_data_dirs[$i]}
@@ -138,16 +139,16 @@ if [ $stage -le 7 ]; then
   done
 fi
 
-if [ $stage -le 8 ]; then 
+if [ $stage -le 7 ]; then
+  echo "$0: Combine examples."
   egs_opts="--lang2weight '$lang2weight'"
   common_egs_dir="${multi_egs_dirs[@]} $megs_dir"
-
   mkdir -p $megs_dir/info
   steps/nnet3/multilingual/combine_egs.sh \
     $egs_opts $num_langs ${common_egs_dir[@]}
 fi
 
-if [ $stage -le 9 ]; then
+if [ $stage -le 8 ]; then
   steps/nnet3/train_raw_dnn.py \
     --cmd="$decode_cmd" \
     --stage=-10 \
@@ -172,20 +173,22 @@ if [ $stage -le 9 ]; then
     --dir=$dir 
 fi
 
-if [ $stage -le 10 ]; then
+if [ $stage -le 9 ]; then
+  echo "$0: Fixing names of output nodes."
   for i in $(seq 0 $[$num_langs-1]);do
     l=$dir/${langs[$i]}
     mkdir -p  $l
-
     nnet3-copy \
       --edits="rename-node old-name=output-$i new-name=output" \
       $dir/final.raw $dir/final.edited
   done
 fi
 
-if [ $stage -le 11 ]; then
+if [ $stage -le 10 ]; then
+    echo -n "$0: "Initializing models for language "
   for i in $(seq 0 $[$num_langs-1]);do
     l=$dir/${langs[$i]}
+    echo "$l";
     nnet3-am-init \
     exp/${langs[$i]}/tri3b_ali/final.mdl $dir/final.edited \
     $l/final.mdl
@@ -194,16 +197,17 @@ if [ $stage -le 11 ]; then
   done
 fi
 
-if [ $stage -le 12 ]; then
-  echo "$0: compute average posterior and readjust priors"
+if [ $stage -le 11 ]; then
+  echo -n "$0: compute average posterior and readjust priors for language "
   for i in $(seq 0 $[$num_langs-1]);do
     l=$dir/${langs[$i]}
-    echo "$0:   Adjusting   for ${langs[$i]}."
+    echo "$l";
     steps/nnet3/adjust_priors.sh $l exp/${langs[$i]}/nnet3/egs
   done
 fi
 
-if [ $stage -le 13 ]; then
+if [ $stage -le 12 ]; then
+  echo "$0: Training text dependent tamsa lm." 
   mkdir -p data/tamsa/lm
   cut -d " " -f 2- data/tamsa/train/text > data/tamsa/lm/train.txt
   # next line makes test text dependent
@@ -211,7 +215,7 @@ if [ $stage -le 13 ]; then
   local/tamsa/prepare_small_lm.sh data/tamsa/lm/train.txt
 fi
 
-if [ $stage -le 14 ]; then
+if [ $stage -le 13 ]; then
   echo "Making G.fst for tamsa."
   utils/format_lm.sh data/tamsa/lang data/tamsa/lm/tgsmall.arpa.gz $tmpdir/tamsa/dict/lexicon.txt \
     data/tamsa/lang_test
@@ -220,7 +224,7 @@ if [ $stage -le 14 ]; then
   utils/mkgraph.sh data/tamsa/lang_test exp/tamsa/tri3b exp/tamsa/tri3b/graph
 fi
 
-if [ $stage -le 15 ]; then
+if [ $stage -le 14 ]; then
   echo "Making G.fst for mini librispeech."
   utils/format_lm.sh data/mini_librispeech/lang data/mini_librispeech/lm/tgsmall.arpa.gz \
     $tmpdir/mini_librispeech/dict/lexicon.txt data/mini_librispeech/lang_test
@@ -230,20 +234,25 @@ if [ $stage -le 15 ]; then
     exp/mini_librispeech/tri3b exp/mini_librispeech/tri3b/graph
 fi
 
-if [ $stage -le 16 ]; then
+if [ $stage -le 15 ]; then
   for x in ${decode_tamsa_folds[@]}; do
     echo "$0: Decoding $x with tamsa tri3b models."
     nspk=$(wc -l < data/tamsa/$x/spk2utt)
     steps/decode_fmllr.sh --nj $nspk exp/tamsa/tri3b/graph data/tamsa/$x \
       exp/tamsa/tri3b/decode_${x}
   done
+fi
 
+if [ $stage -le 16 ]; then
   for x in ${decode_mini_librispeech_folds[@]}; do
     echo "$0: Decoding $x with mini librispeech tri3b models."
     nspk=$(wc -l < data/mini_librispeech/$x/spk2utt)
     steps/decode_fmllr.sh --nj $nspk exp/mini_librispeech/tri3b/graph \
     data/mini_librispeech/$x exp/mini_librispeech/tri3b/decode_${x}
   done
+fi
+
+if [ $stage -le 17 ]; then
   echo "Decoding using multilingual hybrid model in $dir"
   score_opts="--skip-scoring false"
   for fld in ${decode_tamsa_folds[@]}; do
