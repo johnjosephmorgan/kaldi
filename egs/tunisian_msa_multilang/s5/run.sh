@@ -23,7 +23,7 @@ dir=exp/multi;  # working directory
 # directory for consolidated data preparation
 multi_data_dir=data/multi;
 decode_langs=( tamsa mini_librispeech );
-decode_tamsa_folds=( devtest test-max2 );
+decode_tamsa_folds=( devtest test-max40 );
 decode_mini_librispeech_folds=( dev_clean_2 );
 lang2weight="0.2,0.8";  # weighting of input languages
 lang_weights=(0.2 0.8 );
@@ -275,5 +275,10 @@ if [ $stage -le 18 ]; then
       exp/mini_librispeech/tri3b/graph \
       data/mini_librispeech/$fld $dir/mini_librispeech/decode_${fld}
   done
+fi
+
+if [ $stage -le 19 ]; then
+  echo "$0: Start chain model training."
+  local/tamsa/chain/run_tdnn.sh
 fi
 exit 0
