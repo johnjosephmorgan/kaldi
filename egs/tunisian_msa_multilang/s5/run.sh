@@ -251,7 +251,7 @@ if [ $stage -le 16 ]; then
     echo "$0: Decoding tamsa $fld."
     nspk=$(wc -l <data/tamsa/$fld/spk2utt)
     steps/nnet3/decode.sh --nj $nspk \
-      --frames-per-chunk 250 \
+      --frames-per-chunk 50 \
       --iter final_adj --stage -1 --beam 16.0 --lattice-beam 8.5 \
       exp/tamsa/tri3b/graph \
         data/tamsa/$fld $dir/tamsa/decode_${fld}
