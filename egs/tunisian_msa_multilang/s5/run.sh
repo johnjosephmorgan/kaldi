@@ -64,13 +64,11 @@ fi
 # preparation stages will store files under data/
 # Delete the entire data directory when restarting.
 if [ $stage -le 2 ]; then
-  (
-    local/tamsa/build_acoustic_models.sh
-  ) &
+  coproc tamsa_build local/tamsa/build_acoustic_models.sh
 fi
 
 if [ $stage -le 3 ]; then
-    local/mini_librispeech/build_acoustic_models.sh
+  coproc mini_librispeech_build local/mini_librispeech/build_acoustic_models.sh
 fi
 
 wait
