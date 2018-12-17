@@ -36,7 +36,7 @@ fi
 
 if [ $stage -le 6 ]; then
   # extract acoustic features
-  for fld in devtest train test test-max2; do
+  for fld in devtest train test test-max40; do
     steps/make_mfcc.sh data/tamsa/$fld exp/tamsa/make_mfcc/$fld mfcc_tamsa
     utils/fix_data_dir.sh data/tamsa/$fld
     steps/compute_cmvn_stats.sh data/tamsa/$fld exp/tamsa/make_mfcc mfcc_tamsa
