@@ -267,18 +267,6 @@ if [ $stage -le 17 ]; then
 fi
 
 if [ $stage -le 18 ]; then
-  score_opts="--skip-scoring false"
-  for fld in ${decode_mini_librispeech_folds[@]}; do
-    nspk=$(wc -l <data/mini_librispeech/$fld/spk2utt)
-    steps/nnet3/decode.sh --nj $nspk \
-      --frames-per-chunk 50 \
-      --iter final_adj --stage -1 --beam 16.0 --lattice-beam 8.5 \
-      exp/mini_librispeech/tri3b/graph \
-      data/mini_librispeech/$fld $dir/mini_librispeech/decode_${fld}
-  done
-fi
-
-if [ $stage -le 19 ]; then
   echo "$0: Start chain model training."
   local/tamsa/chain/run_tdnn.sh
 fi
