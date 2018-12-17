@@ -22,9 +22,8 @@ langs[1]="tamsa"
 dir=exp/multi;  # working directory
 # directory for consolidated data preparation
 multi_data_dir=data/multi;
-decode_langs=( tamsa mini_librispeech );
+decode_langs=( tamsa );
 decode_tamsa_folds=( devtest test-max40 );
-decode_mini_librispeech_folds=( dev_clean_2 );
 lang2weight="0.2,0.8";  # weighting of input languages
 lang_weights=(0.2 0.8 );
 left_context=19;  # context frames
@@ -65,12 +64,16 @@ fi
 # preparation stages will store files under data/
 # Delete the entire data directory when restarting.
 if [ $stage -le 2 ]; then
+  (
     local/tamsa/build_acoustic_models.sh
+  ) &
 fi
 
 if [ $stage -le 3 ]; then
-  local/mini_librispeech/build_acoustic_models.sh
+    local/mini_librispeech/build_acoustic_models.sh
 fi
+
+wait
 
 if [ $stage -le 4 ]; then
   echo "$0: Starting Multilang."
