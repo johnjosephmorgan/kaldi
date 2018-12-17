@@ -245,18 +245,10 @@ if [ $stage -le 15 ]; then
 fi
 
 if [ $stage -le 16 ]; then
-  for x in ${decode_mini_librispeech_folds[@]}; do
-    echo "$0: Decoding $x with mini librispeech tri3b models."
-    nspk=$(wc -l < data/mini_librispeech/$x/spk2utt)
-    steps/decode_fmllr.sh --nj $nspk exp/mini_librispeech/tri3b/graph \
-    data/mini_librispeech/$x exp/mini_librispeech/tri3b/decode_${x}
-  done
-fi
-
-if [ $stage -le 17 ]; then
   echo "Decoding using multilingual hybrid model in $dir"
   score_opts="--skip-scoring false"
   for fld in ${decode_tamsa_folds[@]}; do
+    echo "$0: Decoding tamsa $fld."
     nspk=$(wc -l <data/tamsa/$fld/spk2utt)
     steps/nnet3/decode.sh --nj $nspk \
       --frames-per-chunk 250 \
@@ -266,7 +258,7 @@ if [ $stage -le 17 ]; then
   done
 fi
 
-if [ $stage -le 18 ]; then
+if [ $stage -le 17 ]; then
   echo "$0: Start chain model training."
   local/tamsa/chain/run_tdnn.sh
 fi
