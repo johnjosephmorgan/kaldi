@@ -17,7 +17,7 @@
 stage=0
 decode_nj=10
 train_set=train
-test_sets="devtest test"
+test_sets="devtest test-max40"
 gmm=tri3b
 nnet3_affix=
 
