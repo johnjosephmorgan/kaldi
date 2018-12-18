@@ -65,11 +65,17 @@ ARGUMENT: while ( my $a = <@ARGV>) {
     shift @ARGV;
   }
 
-  if ( $ARGV[0] =~ /threads/ and $ARGV[1] =~ /(\d+)/ ) {
+  if ( defined $ARGV[0] and defined $ARGV[1] and $ARGV[0] =~ /threads/ and $ARGV[1] =~ /(\d+)/ ) {
     $num_threads = $1;
     shift @ARGV;
     shift @ARGV;
     warn "Number of threads: $num_threads.";
+  }
+
+  if (defined $ARGV[0] and  $ARGV[0] =~ /[a-z\/\_-]+/ ) {
+    $cmd .= $ARGV[0] . " ";
+    warn "Appending $ARGV[0] to command line $cmd";
+    shift @ARGV;
   }
 }
 
