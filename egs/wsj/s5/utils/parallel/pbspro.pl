@@ -49,7 +49,7 @@ ARGUMENT: while ( my $a = <@ARGV>) {
     $job_stepping_factor = $4;
     $array_job = 1;
     shift @ARGV;
-    warn "Job specification: ${jobname}=${jobstart}-${jobend}:$job_stepping_factor";
+    warn "Job specification: job name: ${jobname}\njob start:${jobstart}\njob end:${jobend}\njob stepping factor:$job_stepping_factor";
   }
 
   # check for log file
@@ -81,6 +81,12 @@ ARGUMENT: while ( my $a = <@ARGV>) {
 
 $cmd .= @ARGV;
 
+if ( $array_job ) {
+    $queue_array_opt = "-J ${jobstart}-${jobend}";
+} else {
+  $queue_array_opt = "";
+}
+
 my $cwd = getcwd();
 
 # Work out the location of the script file, and open it for writing.
@@ -106,12 +112,6 @@ if (! -d "$qdir") {
 }
 
 
-
-if ( $array_job ) {
-    $queue_array_opt = "-J ${jobstart}-${jobend}";
-} else {
-  $queue_array_opt = "";
-}
 
 $logfile =~ s/JOB/\$PBS_ARRAY_INDEX/g;
 $cmd =~ s/JOB/\$PBS_ARRAY_INDEX/g;
