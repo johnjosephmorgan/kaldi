@@ -49,7 +49,7 @@ ARGUMENT: while ( my $a = <@ARGV>) {
     $job_stepping_factor = $4;
     $array_job = 1;
     shift @ARGV;
-    warn "Job specification: ${jobname}=${jobstart}-${jobend}:$jobstepping_factor";
+    warn "Job specification: ${jobname}=${jobstart}-${jobend}:$job_stepping_factor";
   }
 
   # check for log file
