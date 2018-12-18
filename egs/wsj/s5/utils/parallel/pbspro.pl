@@ -1,10 +1,17 @@
 #!/usr/bin/env perl
+
 use strict;
 use warnings;
 use Carp;
 
 BEGIN {
-    @ARGV > 2 or croak "USAGE $0 [--num-threads] [JOB_ARRAY_INDICES] <LOGFILE> <COMMAND> ...
+    @ARGV > 1 or croak "USAGE $0 <COMMAND> 
+Where <COMMAND> is a command line.
+<COMMAND> can have the following tokens:
+A path to a log file.
+An array job specification.
+A variable assignment.
+A Kaldi program with or without arguments.
 For Example:
 $0 JOB=1:4 init.log gmm-init
 ";
@@ -13,9 +20,11 @@ $0 JOB=1:4 init.log gmm-init
 use File::Basename;
 use Cwd;
 
-my $jobstart = 0;
-my $jobend = 1;
-my $job_stepping_factor = 1;
+# Start setting variables:
+my $jobname = "JOB";
+my $jobstart = "";
+my $jobend = "";
+my $job_stepping_factor = "";
 my $array_job = 0;
 my $cmd = "";
 my $queue_array_opt = "";
@@ -27,56 +36,42 @@ my $logfile = "";
 my $command = "";
 my @remaining_commandline = ();
 my $num_threads = 1;
-if ( $ARGV[0] =~ /threads/ and $ARGV[1] =~ /(\d+)/ ) {
-  $num_threads = $1;
-  shift @ARGV;
-  shift @ARGV;
-}
+# End of variable setting.
 
-if ( $ARGV[0] =~ "JOB" ) {
-    ($job_spec,$logfile,@remaining_commandline) = @ARGV;
+# Loop through the input:
+ARGUMENT: while ( my $a = <@ARGV>) {
+  warn "Processing argument $a in @ARGV";
+  # check for job specification
+  if ( defined $ARGV[0] and $ARGV[0] =~ /(\S+)=(\d+)-*(\d*):*(\d*)/ ) {
+    $jobname = $1;
+    $jobstart = $2;
+    $jobend = $3;
+    $job_stepping_factor = $4;
     $array_job = 1;
-} else {
-  @remaining_commandline = @ARGV;
-  $array_job = 0;
-}
+    shift @ARGV;
+  }
 
-# The job range could be a single digit
-if ( $job_spec =~ /JOB=\d/ ) {
-  # then the job is not an array job
-    $jobstart = 1;
-    $jobend = 1;
-  $array_job = 1;
-} 
-# If the JOB range is of the form m:n
-if ( $job_spec =~ /^JOB=(\d+):(\d+)$/ ) {
-  # then it is an array job
-  $jobstart = $1;
-  $jobend = $2;
-  $array_job = 1;
-} 
+  # check for log file
+  if ( defined $ARGV[0] and $ARGV[0] =~ /log|LOG/ ) {
+    $logfile = $ARGV[0];
+    shift @ARGV;
+  }
 
-my $cwd = getcwd();
+  # Put variable settings in command line.
+  if ( defined $ARGV[0] and $ARGV[0] =~ /(\S+)=(\S+)/ ) {
+    $cmd .= $ARGV[0] . " ";
+    shift @ARGV;
+  }
 
-if ( $remaining_commandline[0] =~ /\S=\S/ ) {
-    $cmd .= $remaining_commandline[0] . " ";
-    shift @remaining_commandline;
-}
-
-if ( $remaining_commandline[0] =~ /\.log/ ) {
-  $logfile = $remaining_commandline[0] . " ";
-  shift @remaining_commandline;
-}
-
-foreach my $x (@remaining_commandline) {
-  if ($x =~ /^\S+$/) {
-    $cmd .= $x . " " 
-  } elsif ($x =~ m:\":) {
-    $cmd .= "'$x' ";
-  }   else {
-    $cmd .= "\"$x\" ";
+  if ( $ARGV[0] =~ /threads/ and $ARGV[1] =~ /(\d+)/ ) {
+    $num_threads = $1;
+    shift @ARGV;
   }
 }
+
+$cmd .= @ARGV;
+
+my $cwd = getcwd();
 
 # Work out the location of the script file, and open it for writing.
 my $dir = dirname $logfile;
