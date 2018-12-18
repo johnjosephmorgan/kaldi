@@ -154,7 +154,7 @@ if [ $stage -le 8 ]; then
     --cmd="$decode_cmd" \
     --stage=-10 \
     --feat.cmvn-opts="--norm-means=false --norm-vars=false" \
-    --trainer.num-epochs 1 \
+    --trainer.num-epochs 2 \
     --trainer.optimization.num-jobs-initial=1 \
     --trainer.optimization.num-jobs-final=1 \
     --trainer.optimization.initial-effective-lrate=0.0015 \
