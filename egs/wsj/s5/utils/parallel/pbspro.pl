@@ -155,7 +155,7 @@ if ($array_job == 0) { # not an array job
 print $Q "exit \$[\$ret ? 1 : 0]\n"; # avoid status 100 which grid-engine
 print $Q "## submitted with:\n";
 
-my $qsub_cmd .= " qsub -V -A $project -q $q -l walltime=$wt -l place=scatter:excl -l select=1:ncpus=40:mpiprocs=40:ngpus=1 $queue_array_opt -o $queue_logfile $queue_scriptfile >>$queue_logfile 2>&1";
+my $qsub_cmd .= " qsub -V -A $project -q $q -l walltime=$wt -l place=scatter:excl $queue_array_opt -l select=1:ncpus=40:mpiprocs=40:ngpus=1 -o $queue_logfile $queue_scriptfile >>$queue_logfile 2>&1";
 
 print $Q "# $qsub_cmd\n";
 close $Q or croak "Problems closing file $!";
@@ -237,7 +237,6 @@ foreach my $f (@syncfiles) {
       if ($ret>>8 == 1) {     # Job does not seem to exist
         # Don't consider immediately missing job as error, first wait some
         # time to make sure it is not just delayed creation of the syncfile.
-
         sleep(3);
         system("touch $qdir/.kick");
         system("rm $qdir/.kick 2>/dev/null");
