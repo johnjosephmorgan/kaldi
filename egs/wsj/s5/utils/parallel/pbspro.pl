@@ -42,19 +42,21 @@ my $num_threads = 1;
 ARGUMENT: while ( my $a = <@ARGV>) {
   warn "Processing argument $a in @ARGV";
   # check for job specification
-  if ( defined $ARGV[0] and $ARGV[0] =~ /(\S+)=(\d+)-*(\d*):*(\d*)/ ) {
+  if ( defined $ARGV[0] and $ARGV[0] =~ /(\S+)=(\d+):*(\d*).*(\d*)/ ) {
     $jobname = $1;
     $jobstart = $2;
     $jobend = $3;
     $job_stepping_factor = $4;
     $array_job = 1;
     shift @ARGV;
+    warn "Job specification: ${jobname}=${jobstart}-${jobend}:$jobstepping_factor";
   }
 
   # check for log file
   if ( defined $ARGV[0] and $ARGV[0] =~ /log|LOG/ ) {
     $logfile = $ARGV[0];
     shift @ARGV;
+    warn "Set log file to $logfile";
   }
 
   # Put variable settings in command line.
@@ -66,6 +68,7 @@ ARGUMENT: while ( my $a = <@ARGV>) {
   if ( $ARGV[0] =~ /threads/ and $ARGV[1] =~ /(\d+)/ ) {
     $num_threads = $1;
     shift @ARGV;
+    warn "Number of threads: $num_threads.";
   }
 }
 
