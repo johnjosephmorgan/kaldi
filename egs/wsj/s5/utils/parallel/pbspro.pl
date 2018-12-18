@@ -43,7 +43,7 @@ ARGUMENT: while ( my $a = <@ARGV>) {
   warn "Processing argument $a in @ARGV";
   # check for job specification
   if ( defined $ARGV[0] and $ARGV[0] =~ /JOB=(\d+):*(\d*).*(\d*)/ ) {
-    $jobname = JOB;
+    $jobname = 'JOB';
     $jobstart = $1;
     $jobend = $2;
     $job_stepping_factor = $3;
