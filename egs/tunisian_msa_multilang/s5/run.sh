@@ -98,19 +98,19 @@ if [ $stage -le 5 ]; then
 
   cat <<EOF > $dir/configs/network.xconfig
   input dim=$feat_dim name=input
-  relu-renorm-layer name=tdnn1 input=Append(input@-2,input@-1,input,input@1,input@2) dim=768
-  relu-renorm-layer name=tdnn2 dim=768
-  relu-renorm-layer name=tdnn3 input=Append(-1,2) dim=768
-  relu-renorm-layer name=tdnn4 input=Append(-3,3) dim=768
-  relu-renorm-layer name=tdnn5 input=Append(-3,3) dim=768
-  relu-renorm-layer name=tdnn6 input=Append(-7,2) dim=768
+  relu-renorm-layer name=tdnn1 input=Append(input@-2,input@-1,input,input@1,input@2) dim=888
+  relu-renorm-layer name=tdnn2 dim=888
+  relu-renorm-layer name=tdnn3 input=Append(-1,2) dim=888
+  relu-renorm-layer name=tdnn4 input=Append(-3,3) dim=888
+  relu-renorm-layer name=tdnn5 input=Append(-3,3) dim=888
+  relu-renorm-layer name=tdnn6 input=Append(-7,2) dim=888
 EOF
 
   for i in $(seq 0 $[$num_langs-1]); do
     lang=${langs[$i]}
     num_targets=$(tree-info ${multi_tri3_alis[$i]}/tree 2>/dev/null | grep num-pdfs | awk '{print $2}')
 
-    echo " relu-renorm-layer name=prefinal-affine-lang-${i} input=tdnn6 dim=768"
+    echo " relu-renorm-layer name=prefinal-affine-lang-${i} input=tdnn6 dim=888"
     echo " output-layer name=output-${i} dim=$num_targets max-change=1.5"
   done >> $dir/configs/network.xconfig
 
