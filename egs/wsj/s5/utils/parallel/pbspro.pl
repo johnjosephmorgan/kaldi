@@ -40,7 +40,6 @@ my $num_threads = 1;
 
 # Loop through the input:
 ARGUMENT: while ( my $a = <@ARGV>) {
-  warn "Processing argument $a in @ARGV";
   # check for job specification
   if ( defined $ARGV[0] and $ARGV[0] =~ /JOB=(\d+):*(\d*).*(\d*)/ ) {
     $jobname = 'JOB';
@@ -48,7 +47,6 @@ ARGUMENT: while ( my $a = <@ARGV>) {
     $jobend = $2;
     $job_stepping_factor = $3;
     $array_job = 1;
-    warn "Job specification: job name: ${jobname}\njob start:${jobstart}\njob end:${jobend}\njob stepping factor:$job_stepping_factor";
     shift @ARGV;
   }
 
@@ -56,7 +54,6 @@ ARGUMENT: while ( my $a = <@ARGV>) {
   if ( defined $ARGV[0] and $ARGV[0] =~ /log|LOG/ ) {
     $logfile = $ARGV[0];
     shift @ARGV;
-    warn "Set log file to $logfile";
   }
 
   # Put variable settings in command line.
@@ -69,20 +66,18 @@ ARGUMENT: while ( my $a = <@ARGV>) {
     $num_threads = $1;
     shift @ARGV;
     shift @ARGV;
-    warn "Number of threads: $num_threads.";
   }
 
   if (defined $ARGV[0] and  $ARGV[0] =~ /[a-z\/\_-]+/ ) {
     $cmd .= $ARGV[0] . " ";
-    warn "Appending $ARGV[0] to command line $cmd";
     shift @ARGV;
   }
 }
 
 $cmd .= @ARGV;
-warn "cmd is $cmd.\narray job is $array_job";
+
 if ( $array_job ) {
-    $queue_array_opt = "-J ${jobstart}-${jobend}";
+  $queue_array_opt = "-J ${jobstart}-${jobend}";
 } else {
   $queue_array_opt = "";
 }
