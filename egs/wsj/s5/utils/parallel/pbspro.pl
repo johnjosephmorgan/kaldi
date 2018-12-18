@@ -80,7 +80,7 @@ ARGUMENT: while ( my $a = <@ARGV>) {
 }
 
 $cmd .= @ARGV;
-
+warn "cmd is $cmd.";
 if ( $array_job ) {
     $queue_array_opt = "-J ${jobstart}-${jobend}";
 } else {
