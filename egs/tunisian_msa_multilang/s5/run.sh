@@ -226,16 +226,6 @@ if [ $stage -le 13 ]; then
 fi
 
 if [ $stage -le 14 ]; then
-  echo "Making G.fst for mini librispeech."
-  utils/format_lm.sh data/mini_librispeech/lang data/mini_librispeech/lm/tgsmall.arpa.gz \
-    $tmpdir/mini_librispeech/dict/lexicon.txt data/mini_librispeech/lang_test
-
-  echo "$0: Making decoding graphs for mini librispeech  tri3b SAT models."
-  utils/mkgraph.sh data/mini_librispeech/lang_test \
-    exp/mini_librispeech/tri3b exp/mini_librispeech/tri3b/graph
-fi
-
-if [ $stage -le 15 ]; then
   for x in ${decode_tamsa_folds[@]}; do
     echo "$0: Decoding $x with tamsa tri3b models."
     nspk=$(wc -l < data/tamsa/$x/spk2utt)
