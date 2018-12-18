@@ -68,6 +68,7 @@ ARGUMENT: while ( my $a = <@ARGV>) {
   if ( $ARGV[0] =~ /threads/ and $ARGV[1] =~ /(\d+)/ ) {
     $num_threads = $1;
     shift @ARGV;
+    shift @ARGV;
     warn "Number of threads: $num_threads.";
   }
 }
