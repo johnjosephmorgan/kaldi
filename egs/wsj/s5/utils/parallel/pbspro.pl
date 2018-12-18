@@ -42,14 +42,14 @@ my $num_threads = 1;
 ARGUMENT: while ( my $a = <@ARGV>) {
   warn "Processing argument $a in @ARGV";
   # check for job specification
-  if ( defined $ARGV[0] and $ARGV[0] =~ /(\S+)=(\d+):*(\d*).*(\d*)/ ) {
-    $jobname = $1;
-    $jobstart = $2;
-    $jobend = $3;
-    $job_stepping_factor = $4;
+  if ( defined $ARGV[0] and $ARGV[0] =~ /JOB=(\d+):*(\d*).*(\d*)/ ) {
+    $jobname = JOB;
+    $jobstart = $1;
+    $jobend = $2;
+    $job_stepping_factor = $3;
     $array_job = 1;
-    shift @ARGV;
     warn "Job specification: job name: ${jobname}\njob start:${jobstart}\njob end:${jobend}\njob stepping factor:$job_stepping_factor";
+    shift @ARGV;
   }
 
   # check for log file
