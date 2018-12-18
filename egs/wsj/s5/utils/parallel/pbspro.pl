@@ -80,7 +80,7 @@ ARGUMENT: while ( my $a = <@ARGV>) {
 }
 
 $cmd .= @ARGV;
-warn "cmd is $cmd.";
+warn "cmd is $cmd.\narray job is $array_job";
 if ( $array_job ) {
     $queue_array_opt = "-J ${jobstart}-${jobend}";
 } else {
@@ -160,7 +160,7 @@ if ($array_job == 0) { # not an array job
 print $Q "exit \$[\$ret ? 1 : 0]\n"; # avoid status 100 which grid-engine
 print $Q "## submitted with:\n";
 
-my $qsub_cmd .= " qsub -V -A $project -q $q -l walltime=$wt -l place=scatter:excl $queue_array_opt -l select=1:ncpus=40:mpiprocs=40:ngpus=1 -o $queue_logfile $queue_scriptfile >>$queue_logfile 2>&1";
+my $qsub_cmd .= " qsub -V -A $project -q $q -l walltime=$wt -l place=scatter:excl -l select=1:ncpus=40:mpiprocs=40:ngpus=1 $queue_array_opt -o $queue_logfile $queue_scriptfile >>$queue_logfile 2>&1";
 
 print $Q "# $qsub_cmd\n";
 close $Q or croak "Problems closing file $!";
