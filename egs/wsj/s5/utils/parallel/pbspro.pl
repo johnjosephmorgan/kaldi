@@ -34,12 +34,12 @@ my $wt = "00:59:00";
 my $job_spec = "";
 my $logfile = "";
 my $command = "";
-my @remaining_commandline = ();
+my @temp_commandline = ();
 my $num_threads = 1;
 # End of variable setting.
 
 # Loop through the input:
-ARGUMENT: while ( my $a = <@ARGV>) {
+ ARGUMENT: while ( my $a = <@ARGV>) {
   # check for job specification
   if ( defined $ARGV[0] and $ARGV[0] =~ /JOB=(\d+):*(\d*).*(\d*)/ ) {
     $jobname = 'JOB';
@@ -56,26 +56,38 @@ ARGUMENT: while ( my $a = <@ARGV>) {
     shift @ARGV;
   }
 
-  # Put variable settings in command line.
-  if ( defined $ARGV[0] and $ARGV[0] =~ /(\S+)=(\S+)/ ) {
-    $cmd .= $ARGV[0] . " ";
-    shift @ARGV;
-  }
-
-  if ( defined $ARGV[0] and defined $ARGV[1] and $ARGV[0] =~ /threads/ and $ARGV[1] =~ /(\d+)/ ) {
+  # threads
+  if ( defined $a and defined $ARGV[1] and $a =~ /threads/ and $ARGV[1] =~ /(\d+)/ ) {
     $num_threads = $1;
     shift @ARGV;
     shift @ARGV;
   }
 
-  if (defined $ARGV[0] and  $ARGV[0] =~ /[a-z\/\_-]+/ ) {
-    $cmd .= $ARGV[0] . " ";
+  # Put variable settings in command line.
+  if ( defined $ARGV[0] and $ARGV[0] =~ /(\S+)=(\S+)/ ) {
+    push @temp_commandline, $a;
+    shift @ARGV;
+  }
+
+  if (defined $a and $a =~ /[a-z\/\_-]+/ ) {
+    push @temp_commandline, $a;
     shift @ARGV;
   }
 }
-
-$cmd .= @ARGV;
-
+croak "@temp_commandline";
+foreach my $x (@temp_commandline) {
+  if ($x =~ /^\S+$/ ) {
+    # If string contains no spaces, take as-is.
+    $cmd .= $x . " ";
+  } elsif ($x =~ /\"/ ) {
+    # else if no dbl-quotes, use single
+    $cmd .= "'$x' ";
+  }  else {
+    # else use double.
+    $cmd .= "\"$x\" ";
+  }
+}
+croak "$cmd";
 if ( $array_job ) {
   $queue_array_opt = "-J ${jobstart}-${jobend}";
 } else {
