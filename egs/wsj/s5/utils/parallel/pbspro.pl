@@ -474,7 +474,7 @@ if (! $sync) { # We're not submitting with -sync y, so we
       # exceeds some hard limit, or in case of a machine shutdown.
       if (($check_pbs_job_ctr++ % 10) == 0) { # Don't run qstat too often, avoid stress on PBS.
         if ( -f $f ) { next; }; #syncfile appeared: OK.
-        $ret = system("qstat -t $pbs_job_id >/dev/null 2>/dev/null");
+        $ret = system("qstat -f $pbs_job_id >/dev/null 2>/dev/null");
         # system(...) : To get the actual exit value, shift $ret right by eight bits.
         if ($ret>>8 == 1) {     # Job does not seem to exist
           # Don't consider immediately missing job as error, first wait some
