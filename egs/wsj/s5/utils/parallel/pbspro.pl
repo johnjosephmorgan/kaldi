@@ -151,10 +151,11 @@ for (my $x = 1; $x <= 2; $x++) { # This for-loop is to
       croak "run.pl: invalid job range $ARGV[0], start must be strictly positive (this is a GridEngine limitation).";
     }
   } elsif ($ARGV[0] =~ m/^([\w_][\w\d_]*)+=(\d+)$/) { # e.g. JOB=1.
-    $array_job = 0;
+      my $nindex = $1 + 1;
+    $array_job = 1;
     $jobname = $1;
     $jobstart = $2;
-    $jobend = $2;
+    $jobend = $nindex;
     shift;
   } elsif ($ARGV[0] =~ m/.+\=.*\:.*$/) {
     print STDERR "pbspro.pl: Warning: suspicious first argument to queue.pl: $ARGV[0]\n";
