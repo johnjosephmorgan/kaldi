@@ -148,10 +148,10 @@ for (my $x = 1; $x <= 2; $x++) { # This for-loop is to
       croak "pbspro.pl: invalid job range $ARGV[0]";
     }
     if ($jobstart <= 0) {
-      die "run.pl: invalid job range $ARGV[0], start must be strictly positive (this is a GridEngine limitation).";
+      croak "run.pl: invalid job range $ARGV[0], start must be strictly positive (this is a GridEngine limitation).";
     }
   } elsif ($ARGV[0] =~ m/^([\w_][\w\d_]*)+=(\d+)$/) { # e.g. JOB=1.
-    $array_job = 1;
+    $array_job = 0;
     $jobname = $1;
     $jobstart = $2;
     $jobend = $2;
@@ -390,8 +390,8 @@ print Q "exit \$[\$ret ? 1 : 0]\n"; # avoid status 100 which grid-engine
 print Q "## submitted with:\n";       # treats specially.
 $qsub_cmd .= "-o $queue_logfile $qsub_opts $queue_array_opt $queue_scriptfile >>$queue_logfile 2>&1";
 print Q "# $qsub_cmd\n";
-if (!close(Q)) { # close was not successful... || die "Could not close script file $shfile";
-  die "Failed to close the script file (full disk?)";
+if (!close(Q)) { # close was not successful... || croak "Could not close script file $shfile";
+  croak "Failed to close the script file (full disk?)";
 }
 
 my $ret = system ($qsub_cmd);
@@ -422,7 +422,7 @@ if (! $sync) { # We're not submitting with -sync y, so we
   }
   # We will need the pbs_job_id, to check that job still exists
   { # Get the pbs job-id from the log file in q/
-    open(L, "<$queue_logfile") || die "Error opening log file $queue_logfile";
+    open(L, "<$queue_logfile") || croak "Error opening log file $queue_logfile";
     undef $pbs_job_id;
     while (<L>) {
       if (/(\d+.+\.pbsserver)/) {
@@ -494,7 +494,7 @@ if (! $sync) { # We're not submitting with -sync y, so we
           sleep(1);
           system("rm $qdir/.kick 2>/dev/null");
           if ( -f $f ) { next; }  #syncfile appeared, ok
-          $f =~ m/\.(\d+)$/ || die "Bad sync-file name $f";
+          $f =~ m/\.(\d+)$/ || croak "Bad sync-file name $f";
           my $job_id = $1;
           if (defined $jobname) {
             $logfile =~ s/\$PBS_ARRAY_INDEX/$job_id/g;
