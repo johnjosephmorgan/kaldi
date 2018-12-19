@@ -425,9 +425,9 @@ if (! $sync) { # We're not submitting with -sync y, so we
     open(L, "<$queue_logfile") || die "Error opening log file $queue_logfile";
     undef $pbs_job_id;
     while (<L>) {
-      if (m/Your job\S* (\d+)[. ].+ has been submitted/) {
+      if (/(\d+.+\.pbsserver)/) {
         if (defined $pbs_job_id) {
-          die "Error: your job was submitted more than once (see $queue_logfile)";
+          croak "Error: your job was submitted more than once (see $queue_logfile)";
         } else {
           $pbs_job_id = $1;
         }
