@@ -61,12 +61,12 @@ use Getopt::Long;
 # option gpu=0 -q all.q
 # option gpu=* -l gpu=$0 -q g.q
 
-my $project = "ARLAP14877100";
-my $q = "debug";
+my $project = "-A ARLAP14877100";
+my $q = "-q debug";
 my $walltime = "-l walltime=00:15:00";
 my $chunk = "-l select=1:ncpus=40:mpiprocs=40:ngpus=1";
 my $place = "-l place=scatter:excl";
-my $qsub_opts = "$project $walltime $chunk $place ";
+my $qsub_opts = "-V $project $q $walltime $chunk $place ";
 my $sync = 0;
 my $num_threads = 1;
 my $gpu = 0;
@@ -171,7 +171,7 @@ if (exists $cli_options{"config"}) {
 
 my $default_config_file = <<'EOF';
 # Default configuration
-command qsub -V -v PATH -S /bin/bash -l mem=4G
+command qsub  
 option mem=* -l mem=$0
 option mem=0          # Do not add anything to qsub_opts
 option num_threads=* -l ncpus=$0
@@ -308,8 +308,8 @@ foreach my $x (@ARGV) {
   elsif ($x =~ m:\":) { $cmd .= "'$x' "; } # else if no dbl-quotes, use single
   else { $cmd .= "\"$x\" "; }  # else use double.
 }
-die "$cmd";
-#
+
+
 # Work out the location of the script file, and open it for writing.
 #
 my $dir = dirname($logfile);
@@ -334,7 +334,7 @@ if (! -d "$qdir") {
 
 my $queue_array_opt = "";
 if ($array_job == 1) { # It's an array job.
-  $queue_array_opt = "-J $jobstart-$jobend";
+  $queue_array_opt = "-t $jobstart-$jobend";
   $logfile =~ s/$jobname/\$PBS_ARRAY_INDEX/g; # This variable will get
   # replaced by qsub, in each job, with the job-id.
   $cmd =~ s/$jobname/\$\{PBS_ARRAY_INDEX\}/g; # same for the command...
@@ -401,7 +401,8 @@ if ($ret != 0) {
     print STDERR "queue.pl: job writing to $logfile failed\n";
   } else {
     print STDERR "queue.pl: error submitting jobs to queue (return status was $ret)\n";
-    print STDERR "queue log file is $queue_logfile, command was $qsub_cmd\n";
+    print STDERR "queue log file is $queue_logfile\n";
+    print STDERR "Command was:\n$qsub_cmd\n";
     print STDERR `tail $queue_logfile`;
   }
   exit(1);
