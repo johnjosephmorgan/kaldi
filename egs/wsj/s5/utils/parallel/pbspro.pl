@@ -87,7 +87,7 @@ foreach my $x (@temp_commandline) {
     $cmd .= "\"$x\" ";
   }
 }
-croak "$cmd";
+
 if ( $array_job ) {
   $queue_array_opt = "-J ${jobstart}-${jobend}";
 } else {
