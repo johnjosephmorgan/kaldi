@@ -67,6 +67,7 @@ my $walltime = "-l walltime=00:15:00";
 my $chunk = "-l select=1:ncpus=40:mpiprocs=40:ngpus=1";
 my $place = "-l place=scatter:excl";
 my $qsub_opts = "-V $project $q $walltime $chunk $place ";
+my $phony_array_job = 0;
 my $sync = 0;
 my $num_threads = 1;
 my $gpu = 0;
@@ -151,8 +152,9 @@ for (my $x = 1; $x <= 2; $x++) { # This for-loop is to
       croak "run.pl: invalid job range $ARGV[0], start must be strictly positive (this is a GridEngine limitation).";
     }
   } elsif ($ARGV[0] =~ m/^([\w_][\w\d_]*)+=(\d+)$/) { # e.g. JOB=1.
-      my $nindex = $2 + 1;
+    my $nindex = $2 + 1;
     $array_job = 1;
+     $phony_array_job = 1;
     $jobname = $1;
     $jobstart = $2;
     $jobend = $nindex;
@@ -284,7 +286,7 @@ my $cwd = getcwd();
 my $logfile = shift @ARGV;
 
 if ($array_job == 1 && $logfile !~ m/$jobname/
-    && $jobend > $jobstart) {
+    && $jobend > $jobstart and not $phony_array_job ) {
   print STDERR "pbspro.pl: you are trying to run a parallel job but "
     . "you are putting the output into just one log file ($logfile)\n";
   exit(1);
