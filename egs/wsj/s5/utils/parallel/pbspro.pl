@@ -74,7 +74,7 @@ my $num_threads = 1;
     shift @ARGV;
   }
 }
-croak "@temp_commandline";
+
 foreach my $x (@temp_commandline) {
   if ($x =~ /^\S+$/ ) {
     # If string contains no spaces, take as-is.
