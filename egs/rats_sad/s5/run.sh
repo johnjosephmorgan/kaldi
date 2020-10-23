@@ -24,8 +24,8 @@ test_sets="dev-1 dev-2 "
 # Path where RATS_SAD gets downloaded (or where locally available):
 rats_sad_data_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data
 rats_sad_dev_1_tab_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-1/sad
-rats_sad_dev-2_tab_dir=$rats_sad_data_dir/dev-2/sad
-rats_sad_train_tab_dir=$rats_sad_data_dir/train/sad
+rats_sad_dev_2_tab_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-2/sad
+rats_sad_train_tab_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/train/sad
 
 if [ $stage -le 0 ]; then
   echo "$0: Preparing data directories."
