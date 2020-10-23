@@ -30,7 +30,7 @@ rats_sad_train_tab_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/train/sad
 if [ $stage -le 0 ]; then
   echo "$0: Preparing data directories."
   if ! [ -d data/local/annotations ]; then
-    local/rats_text_prep.sh $rats_dir data/local/downloads
+    local/rats_sad_text_prep.sh $rats_sad_data_dir data/local/downloads
   fi
 
   for dataset in train $test_sets; do
