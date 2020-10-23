@@ -19,7 +19,7 @@ mkdir -p $out_dir
 
 echo "$0: Copying annotations."
 for fld in dev-1 dev-2 train; do
-  cp -v ${src_dir}/$fld/sad $out_dir
+  cp -Rv ${src_dir}/$fld/sad $out_dir
 done
 
 exit
