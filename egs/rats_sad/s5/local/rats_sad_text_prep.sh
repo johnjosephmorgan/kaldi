@@ -18,8 +18,8 @@ out_dir=$2
 mkdir -p $out_dir
 
 echo "$0: Copying annotations."
-for fld dev-1 dev-2 train; do
-    cp ${src_dir}/$fld/sad $out_dir
+for fld in dev-1 dev-2 train; do
+  cp -v ${src_dir}/$fld/sad $out_dir
 done
 
 exit
