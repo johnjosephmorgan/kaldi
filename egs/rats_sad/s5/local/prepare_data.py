@@ -21,7 +21,9 @@ class Segment:
         self.language_id = fields[8]
         self.lid_provenance = fields[9]
         self.transcript = fields[10]
-self.transcript_provenance = fields[11]
+        self.transcript_provenance = fields[11]
+
+
 def groupby(iterable, keyfunc):
     """Wrapper around ``itertools.groupby`` which sorts data first."""
     iterable = sorted(iterable, key=keyfunc)
