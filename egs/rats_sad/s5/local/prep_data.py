@@ -63,16 +63,12 @@ def write_output(segments, out_path, min_length):
                 if seg.dur >= min_length:
                     rttm_writer.write(rttm_str.format(reco_id, seg.start_time, seg.dur, spk_id))
 
-def make_sad_data(annotations_path, output_path):
+def make_sad_data(audios, segments, output_path):
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
-    print ('read annotations to get segments')
-    segments = read_annotations(annotations_path)
-    print('segments', segments)
     reco_to_segs = defaultdict(list,
         {reco_id : list(g) for reco_id, g in groupby(segments, lambda x: x.reco_id)})
-    file_list = list(reco_to_segs.keys())
 
 if __name__ == "__main__":
     parser=argparse.ArgumentParser(
@@ -80,11 +76,10 @@ if __name__ == "__main__":
         fromfile_prefix_chars='@',
         description='Prepare RATS_SAD for speech activity detection.')
 
-    parser.add_argument('annotations', help="Path to annotations directory")
     parser.add_argument('output', help="Path to output directory directory")
     parser.add_argument('data', help="Path to data directory directory")
     args=parser.parse_args()
 
     audios_list = find_audios(args.data)
     segments = find_rec_info(args.data)
-    make_sad_data(args.annotations, args.output)
+    make_sad_data(audios, segments, args.output)
