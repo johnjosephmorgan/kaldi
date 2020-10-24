@@ -40,7 +40,7 @@ if [ $stage -le 1 ]; then
   for dataset in train dev eval; do
     echo "$0: preparing $dataset set."
     mkdir -p data/$dataset
-    local/prepare_data.py $dataset
+    local/prepare_data.py $dataset $rats_sad_data_dir
     local/convert_rttm_to_utt2spk_and_segments.py --append-reco-id-to-spkr=true data/$dataset/rttm.annotation \
       <(awk '{print $2" "$2" "$3}' data/$dataset/rttm.annotation |sort -u) \
       data/$dataset/utt2spk data/$dataset/segments

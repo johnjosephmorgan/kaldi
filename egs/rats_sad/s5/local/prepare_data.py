@@ -30,7 +30,7 @@ def groupby(iterable, keyfunc):
     for key, group in itertools.groupby(iterable, keyfunc):
         yield key, group
 
-def find_audios(wav_dir):
+def find_audios():
     # Get all flac file names from audio directory
     wav_path = Path(wav_dir)
     wav_list = wav_path.rglob('*.flac')
@@ -90,7 +90,8 @@ if __name__ == "__main__":
         fromfile_prefix_chars='@',
         description='Prepare RATS_SAD for speech activity detection.')
 
-    parser.add_argument('data', help="Path to data directory directory")
+    parser.add_argument('partition', help="Partition, train, dev or eval")
+    parser.add_argument('data', help="Location of data.")
     args=parser.parse_args()
 
     audios_list = find_audios(args.data)
