@@ -29,7 +29,7 @@ rats_sad_train_tab_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/train/sad
 
 if [ $stage -le 0 ]; then
     echo "$0 Stage 0: Get  all info files."
-    mkdir -p daa/loca
+    mkdir -p data/local
   find $rats_sad_data_dir -type f -name "*train*.tab" > data/local/train.txt
   find $rats_sad_data_dir -type f -name "*dev-1*.tab" > data/local/dev.txt
   find $rats_sad_data_dir -type f -name "*dev-2*.tab" > data/local/eval.txt
