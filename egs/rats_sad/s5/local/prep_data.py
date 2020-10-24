@@ -42,7 +42,7 @@ def find_rec_info(info_dir):
 
     return segments
 
-def write_wavscp(wav_list, output_path):open(output_path + '/wav.scp', 'w') as f:
+def write_wavscp(wav_list, output_path):
     with open(output_path + '/wav.scp', 'w') as f:
         for wav_file in f:
             wav_path = Path(wav_file)
