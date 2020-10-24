@@ -9,14 +9,19 @@ import itertools
 
 class Segment:
     def __init__(self, fields):
-        self.fold_id = fields[0]
-        self.reco_id = fields[1]
+        self.partition = fields[0]
+        self.file_id = fields[1]
         self.start_time = float(fields[2])
         self.end_time = float(fields[3])
         self.dur = self.end_time - self.start_time
         self.sad_label = fields[4]
-        self.lng = fields[6]
-
+        self.sad_provenance = fields[5]
+        self.speaker_id = fields[6]
+        self.sid_provenance = fields[7]
+        self.language_id = fields[8]
+        self.lid_provenance = fields[9]
+        self.transcript = fields[10]
+self.transcript_provenance = fields[11]
 def groupby(iterable, keyfunc):
     """Wrapper around ``itertools.groupby`` which sorts data first."""
     iterable = sorted(iterable, key=keyfunc)
@@ -44,32 +49,39 @@ def find_rec_info(info_dir):
     return segments
 
 def write_wavscp(wav_list):
-    with open('wav.scp', 'w') as f:
+    with open('data/train/wav.scp', 'w') as f:
         for wav_file in wav_list:
             wav_path = Path(wav_file)
-            rec_id = wav_path.stem
-            f.write('%s sox %s -t wav - remix 1 | \n' % (rec_id, wav_file))
+            fold = wav_path.parts[-4]
+            if fold == 'train':
+                rec_id = wav_path.stem
+                f.write('%s sox %s -t wav - remix 1 | \n' % (rec_id, wav_file))
+
+    with open('data/dev/wav.scp', 'w') as f:
+        for wav_file in wav_list:
+            wav_path = Path(wav_file)
+            fold = wav_path.parts[-4]
+            if fold == 'dev-1':
+                rec_id = wav_path.stem
+                f.write('%s sox %s -t wav - remix 1 | \n' % (rec_id, wav_file))
+
+with open('data/eval/wav.scp', 'w') as f:
+        for wav_file in wav_list:
+            wav_path = Path(wav_file)
+            fold = wav_path.parts[-4]
+            if fold == 'dev-2':
+                rec_id = wav_path.stem
+                f.write('%s sox %s -t wav - remix 1 | \n' % (rec_id, wav_file))
 
 
 def write_output(segments):
-    reco_and_spk_to_segs = defaultdict(list,
-        {uid : list(g) for uid, g in groupby(segments, lambda x: (x.reco_id,x.spk_id))})
     rttm_str = "SPEAKER {0} 1 {1:7.3f} {2:7.3f} <NA> <NA> {3} <NA> <NA>\n"
-    with open('/rttm.annotation','w') as rttm_writer:
-        for uid in sorted(reco_and_spk_to_segs):
-            segs = sorted(reco_and_spk_to_segs[uid], key=lambda x: x.start_time)
-            reco_id, spk_id = uid
+    with open('rttm.annotation','w') as rttm_writer:
+        for seg in segments:
+                if seg.dur >= 0.025:
+                    rttm_writer.write(rttm_str.format(seg.file_id, seg.start_time, seg.dur, spk_id))
 
-            for seg in segs:
-                if seg.dur >= min_length:
-                    rttm_writer.write(rttm_str.format(reco_id, seg.start_time, seg.dur, spk_id))
-
-def make_sad_data(audios, segments):
-    reco_to_segs = defaultdict(list,
-        {reco_id : list(g) for reco_id, g in groupby(segments, lambda x: x.reco_id)})
-
-    write_wavscp(audios)
-
+                    
 if __name__ == "__main__":
     parser=argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,                
