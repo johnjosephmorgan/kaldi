@@ -27,28 +27,46 @@ def find_audios(wav_dir):
     # Get all flac file names from audio directory
     wav_path = Path(wav_dir)
     wav_list = wav_path.rglob('*.flac')
-    exit()
-    wavs = subprocess.check_output(command, shell=True).decode('utf-8').splitlines()
-    keys = [ os.path.splitext(os.path.basename(wav))[0] for wav in wavs ]
-    data = {'key': keys, 'file_path': wavs}
-    df_wav = pd.DataFrame(data)
+    return wav_list
 
-    # Filter list to keep only those in annotations (for the specific data split)
-    file_names_str = "|".join(file_list)
-    df_wav = df_wav.loc[df_wav['key'].str.contains(file_names_str)].sort_values('key')
-    return df_wav
-def read_annotations(file_path):
+def find_rec_info(info_dir):
+    # Get all tab file names from data directory
+    info_path = Path(info_dir)
+    info_file_list = info_path.rglob('*.tab')
     segments = []
-    with open(file_path, 'r') as f:
-        for line in f.readlines():
-            fields = line.strip().split()
-            segments.append(Segment(fields))
+    for file_path in info_file_list:
+        with open(file_path, 'r') as f:
+            for line in f.readlines():
+                fields = line.strip().split()
+                segments.append(Segment(fields))
+
     return segments
+
+def write_wavscp(wav_list, output_path):open(output_path + '/wav.scp', 'w') as f:
+    with open(output_path + '/wav.scp', 'w') as f:
+        for wav_file in f:
+            wav_path = Path(wav_file)
+            rec_id = wav_path.stem
+            f.write('%s sox %s -t wav - remix 1 | \n' % rec_id, wav_file)
+
+
+def write_output(segments, out_path, min_length):
+    reco_and_spk_to_segs = defaultdict(list,
+        {uid : list(g) for uid, g in groupby(segments, lambda x: (x.reco_id,x.spk_id))})
+    rttm_str = "SPEAKER {0} 1 {1:7.3f} {2:7.3f} <NA> <NA> {3} <NA> <NA>\n"
+    with open(out_path+'/rttm.annotation','w') as rttm_writer:
+        for uid in sorted(reco_and_spk_to_segs):
+            segs = sorted(reco_and_spk_to_segs[uid], key=lambda x: x.start_time)
+            reco_id, spk_id = uid
+
+            for seg in segs:
+                if seg.dur >= min_length:
+                    rttm_writer.write(rttm_str.format(reco_id, seg.start_time, seg.dur, spk_id))
 
 def make_sad_data(annotations_path, output_path):
     if not os.path.exists(output_path):
         os.makedirs(output_path)
-
+<
     print ('read annotations to get segments')
     segments = read_annotations(annotations_path)
     print('segments', segments)
@@ -67,5 +85,6 @@ if __name__ == "__main__":
     parser.add_argument('data', help="Path to data directory directory")
     args=parser.parse_args()
 
-    find_audios(args.data)
+    audios_list = find_audios(args.data)
+    segments = find_rec_info(args.data)
     make_sad_data(args.annotations, args.output)
