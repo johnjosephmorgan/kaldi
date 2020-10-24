@@ -36,7 +36,7 @@ def find_rec_info(info_dir):
     segments = []
     for info_file in info_file_list:
         file_path = Path(info_file)
-        with open(file_path, 'r') as f:
+        with open(str(file_path), 'r') as f:
             for line in f.readlines():
                 fields = line.strip().split()
                 segments.append(Segment(fields))
@@ -55,7 +55,7 @@ def write_output(segments):
     reco_and_spk_to_segs = defaultdict(list,
         {uid : list(g) for uid, g in groupby(segments, lambda x: (x.reco_id,x.spk_id))})
     rttm_str = "SPEAKER {0} 1 {1:7.3f} {2:7.3f} <NA> <NA> {3} <NA> <NA>\n"
-    with open(out_path+'/rttm.annotation','w') as rttm_writer:
+    with open('/rttm.annotation','w') as rttm_writer:
         for uid in sorted(reco_and_spk_to_segs):
             segs = sorted(reco_and_spk_to_segs[uid], key=lambda x: x.start_time)
             reco_id, spk_id = uid
