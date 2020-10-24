@@ -66,7 +66,7 @@ def write_output(segments, out_path, min_length):
 def make_sad_data(annotations_path, output_path):
     if not os.path.exists(output_path):
         os.makedirs(output_path)
-<
+
     print ('read annotations to get segments')
     segments = read_annotations(annotations_path)
     print('segments', segments)
