@@ -33,7 +33,7 @@ def groupby(iterable, keyfunc):
 def find_audios(data, fold):
     # Get all flac file names from audio directory
     wav_path = Path(data)
-    if wav_path[-4] == fold:
+    if wav_path.parts[-4] == fold:
         wav_list = wav_path.rglob('*.flac')
         return wav_list
 
