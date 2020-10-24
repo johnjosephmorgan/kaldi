@@ -30,11 +30,12 @@ def groupby(iterable, keyfunc):
     for key, group in itertools.groupby(iterable, keyfunc):
         yield key, group
 
-def find_audios():
+def find_audios(data, fold):
     # Get all flac file names from audio directory
-    wav_path = Path(wav_dir)
-    wav_list = wav_path.rglob('*.flac')
-    return wav_list
+    wav_path = Path(data)
+    if wav_path[-4] == fold:
+        wav_list = wav_path.rglob('*.flac')
+        return wav_list
 
 def find_rec_info(info_dir):
     # Get all tab file names from data directory
@@ -50,31 +51,13 @@ def find_rec_info(info_dir):
 
     return segments
 
-def write_wavscp(wav_list):
-    with open('data/train/wav.scp', 'w') as f:
+def write_wavscp(wav_list, fold):
+    out_dir = Path('data / fold / 'wav.scp)
+    with open(out_dir, 'w') as f:
         for wav_file in wav_list:
             wav_path = Path(wav_file)
-            fold = wav_path.parts[-4]
-            if fold == 'train':
-                rec_id = wav_path.stem
-                f.write('%s sox %s -t wav - remix 1 | \n' % (rec_id, wav_file))
-
-    with open('data/dev/wav.scp', 'w') as f:
-        for wav_file in wav_list:
-            wav_path = Path(wav_file)
-            fold = wav_path.parts[-4]
-            if fold == 'dev-1':
-                rec_id = wav_path.stem
-                f.write('%s sox %s -t wav - remix 1 | \n' % (rec_id, wav_file))
-
-with open('data/eval/wav.scp', 'w') as f:
-        for wav_file in wav_list:
-            wav_path = Path(wav_file)
-            fold = wav_path.parts[-4]
-            if fold == 'dev-2':
-                rec_id = wav_path.stem
-                f.write('%s sox %s -t wav - remix 1 | \n' % (rec_id, wav_file))
-
+            rec_id = wav_path.stem
+            f.write('%s sox %s -t wav - remix 1 | \n' % (rec_id, wav_file))
 
 def write_output(segments):
     rttm_str = "SPEAKER {0} 1 {1:7.3f} {2:7.3f} <NA> <NA> {3} <NA> <NA>\n"
@@ -94,6 +77,6 @@ if __name__ == "__main__":
     parser.add_argument('data', help="Location of data.")
     args=parser.parse_args()
 
-    audios_list = find_audios(args.data)
-    segments = find_rec_info(args.data)
+    audios_list = find_audios(args.data, args.partition)
+    segments = find_rec_info(args.data, args.partition)
     make_sad_data(audios_list, segments)
