@@ -43,15 +43,15 @@ def find_rec_info(info_dir):
 
     return segments
 
-def write_wavscp(wav_list, output_path):
-    with open(output_path + '/wav.scp', 'w') as f:
+def write_wavscp(wav_list):
+    with open('/wav.scp', 'w') as f:
         for wav_file in wav_list:
             wav_path = Path(wav_file)
             rec_id = wav_path.stem
             f.write('%s sox %s -t wav - remix 1 | \n' % (rec_id, wav_file))
 
 
-def write_output(segments, out_path, min_length):
+def write_output(segments):
     reco_and_spk_to_segs = defaultdict(list,
         {uid : list(g) for uid, g in groupby(segments, lambda x: (x.reco_id,x.spk_id))})
     rttm_str = "SPEAKER {0} 1 {1:7.3f} {2:7.3f} <NA> <NA> {3} <NA> <NA>\n"
@@ -64,14 +64,11 @@ def write_output(segments, out_path, min_length):
                 if seg.dur >= min_length:
                     rttm_writer.write(rttm_str.format(reco_id, seg.start_time, seg.dur, spk_id))
 
-def make_sad_data(audios, segments, output_path):
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
-
+def make_sad_data(audios, segments):
     reco_to_segs = defaultdict(list,
         {reco_id : list(g) for reco_id, g in groupby(segments, lambda x: x.reco_id)})
 
-    write_wavscp(audios, output_path)
+    write_wavscp(audios)
 
 if __name__ == "__main__":
     parser=argparse.ArgumentParser(
@@ -79,10 +76,9 @@ if __name__ == "__main__":
         fromfile_prefix_chars='@',
         description='Prepare RATS_SAD for speech activity detection.')
 
-    parser.add_argument('output', help="Path to output directory directory")
     parser.add_argument('data', help="Path to data directory directory")
     args=parser.parse_args()
 
     audios_list = find_audios(args.data)
     segments = find_rec_info(args.data)
-    make_sad_data(audios_list, segments, args.output)
+    make_sad_data(audios_list, segments)
