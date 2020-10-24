@@ -31,7 +31,7 @@ if [ $stage -le 0 ]; then
     echo "$0 Stage 0: Get  all info files."
     mkdir -p data/local
   find $rats_sad_data_dir -type f -name "*.tab" | grep train > data/local/train.txt
-  find $rats_sad_data_dir -type f -name ".tab" | grep dev-1 > data/local/dev.txt
+  find $rats_sad_data_dir -type f -name "*.tab" | grep dev-1 > data/local/dev.txt
   find $rats_sad_data_dir -type f -name "*.tab" | grep dev-2 > data/local/eval.txt
 fi
 
