@@ -45,10 +45,10 @@ def find_rec_info(info_dir):
 
 def write_wavscp(wav_list, output_path):
     with open(output_path + '/wav.scp', 'w') as f:
-        for wav_file in f:
+        for wav_file in wav_list:
             wav_path = Path(wav_file)
             rec_id = wav_path.stem
-            f.write('%s sox %s -t wav - remix 1 | \n' % rec_id, wav_file)
+            f.write('%s sox %s -t wav - remix 1 | \n' % (rec_id, wav_file))
 
 
 def write_output(segments, out_path, min_length):
@@ -70,6 +70,8 @@ def make_sad_data(audios, segments, output_path):
 
     reco_to_segs = defaultdict(list,
         {reco_id : list(g) for reco_id, g in groupby(segments, lambda x: x.reco_id)})
+
+    write_wavscp(audios, output_path)
 
 if __name__ == "__main__":
     parser=argparse.ArgumentParser(
