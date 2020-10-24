@@ -34,7 +34,8 @@ def find_rec_info(info_dir):
     info_path = Path(info_dir)
     info_file_list = info_path.rglob('*.tab')
     segments = []
-    for file_path in info_file_list:
+    for info_file in info_file_list:
+        file_path = Path(info_file)
         with open(file_path, 'r') as f:
             for line in f.readlines():
                 fields = line.strip().split()
