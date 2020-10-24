@@ -44,7 +44,7 @@ def find_rec_info(info_dir):
     return segments
 
 def write_wavscp(wav_list):
-    with open('/wav.scp', 'w') as f:
+    with open('wav.scp', 'w') as f:
         for wav_file in wav_list:
             wav_path = Path(wav_file)
             rec_id = wav_path.stem
