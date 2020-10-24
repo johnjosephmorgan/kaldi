@@ -52,7 +52,7 @@ def find_rec_info(info_dir):
     return segments
 
 def write_wavscp(wav_list, fold):
-    out_dir = Path('data / fold / 'wav.scp)
+    out_dir = Path('data' / fold / 'wav.scp')
     with open(out_dir, 'w') as f:
         for wav_file in wav_list:
             wav_path = Path(wav_file)
