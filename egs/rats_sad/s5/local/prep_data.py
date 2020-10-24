@@ -67,5 +67,5 @@ if __name__ == "__main__":
     parser.add_argument('data', help="Path to data directory directory")
     args=parser.parse_args()
 
-    find_audios(data)
+    find_audios(args.data)
     make_sad_data(args.annotations, args.output)
