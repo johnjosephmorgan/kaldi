@@ -82,4 +82,4 @@ if __name__ == "__main__":
 
     audios_list = find_audios(args.data)
     segments = find_rec_info(args.data)
-    make_sad_data(audios, segments, args.output)
+    make_sad_data(audios_list, segments, args.output)
