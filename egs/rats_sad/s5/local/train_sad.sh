@@ -46,7 +46,7 @@ if [ $stage -le 0 ]; then
   utils/data/convert_data_dir_to_whole.sh $train_data_dir $whole_data_dir
 fi
 
-if [ $stage -le 2 ]; then
+if [ $stage -le 1 ]; then
   echo "$0 Stage 2: Extract features for the whole data directory."
   steps/make_mfcc.sh --nj $nj --cmd "$train_cmd"  --write-utt2num-frames true \
     --mfcc-config conf/mfcc_hires.conf ${whole_data_dir}
