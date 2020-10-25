@@ -13,6 +13,7 @@
 # 2. Trains TDNN+Stats or TDNN+LSTM neural network using provided annotations
 # 3. Demonstrates using the SAD system to get segments of dev data
 
+affix=1a
 lang=data/lang   # Must match the one used to train the models
 lang_test=data/lang_test  # Lang directory for decoding.
 
