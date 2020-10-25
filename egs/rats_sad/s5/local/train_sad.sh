@@ -54,7 +54,7 @@ if [ $stage -le 1 ]; then
   utils/fix_data_dir.sh ${whole_data_dir}
 fi
 
-if [ $stage -le 3 ]; theneco
+if [ $stage -le 2 ]; then
   echo "$0 Stage 3: Prepare targets for training the Speech Activity  detector."
   steps/segmentation/prepare_targets_gmm.py \
     ${whole_data_dir}/utt2num_frames ${whole_data_dir}/sad.rttm - |\
