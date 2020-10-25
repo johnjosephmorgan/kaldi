@@ -44,6 +44,7 @@ ref_rttm=$train_data_dir/rttm.annotation
 if [ $stage -le 0 ]; then
   echo "$0 Stage 0: Prepare a whole training data (not segmented) for training the SAD."
   utils/data/convert_data_dir_to_whole.sh $train_data_dir $whole_data_dir
+  steps/overlap/get_overlap_segments.py $ref_rttm > $whole_data_dir/sad.rttm
 fi
 
 if [ $stage -le 1 ]; then
