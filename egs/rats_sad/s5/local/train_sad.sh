@@ -24,16 +24,9 @@ if [ -f ./path.sh ]; then . ./path.sh; fi
 set -e -u -o pipefail
 . utils/parse_options.sh 
 
-if [ $# != 1 ]; then
-  echo "Usage: $0 <RATS_SAD-corpus-dir>"
-  echo "e.g.: $0 /mnt/corpora/LDC2015S02/RATS_SAD"
-  echo "Options: "
-  echo "  --nj <nj>                                        # number of parallel jobs."
-  echo "  --cmd (utils/run.pl|utils/queue.pl <queue opts>) # how to run jobs."
-  exit 1;
+if [ $# != 0 ]; then
+  exit
 fi
-
-rats_sad_dir=$1
 
 train_set=train
 dir=exp/sad_${affix}
