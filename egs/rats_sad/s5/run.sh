@@ -74,69 +74,20 @@ if [ $stage -le 2 ]; then
   done
 fi
 
-# Feature extraction
 if [ $stage -le 3 ]; then
   for dataset in train $test_sets; do
+    echo "$0 Stage 3: Feature extraction on $dataset ."
     steps/make_mfcc.sh --mfcc-config conf/mfcc_hires.conf --nj $nj --cmd "$train_cmd" data/$dataset
     steps/compute_cmvn_stats.sh data/$dataset
     utils/fix_data_dir.sh data/$dataset
   done
 fi
 
-if [ $stage -le 4 ]; then
-  echo "$0: preparing a AMI training data to train PLDA model"
-  local/nnet3/xvector/prepare_feats.sh --nj $nj --cmd "$train_cmd" \
-    data/train data/plda_train exp/plda_train_cmn
-fi
-
-if [ $stage -le 5 ]; then
-  echo "$0: extracting x-vector for PLDA training data"
-  utils/fix_data_dir.sh data/plda_train
-  diarization/nnet3/xvector/extract_xvectors.sh --cmd "$train_cmd --mem 10G" \
-    --nj $nj --window 3.0 --period 10.0 --min-segment 1.5 --apply-cmn false \
-    --hard-min true $model_dir \
-    data/plda_train $model_dir/xvectors_plda_train
-fi
-
-# Train PLDA models
-if [ $stage -le 6 ]; then
-  echo "$0: training PLDA model"
-  # Compute the mean vector for centering the evaluation xvectors.
-  $train_cmd $model_dir/xvectors_plda_train/log/compute_mean.log \
-    ivector-mean scp:$model_dir/xvectors_plda_train/xvector.scp \
-    $model_dir/xvectors_plda_train/mean.vec || exit 1;
-
-  # Train the PLDA model.
-  $train_cmd $model_dir/xvectors_plda_train/log/plda.log \
-    ivector-compute-plda ark:$model_dir/xvectors_plda_train/spk2utt \
-    "ark:ivector-subtract-global-mean scp:$model_dir/xvectors_plda_train/xvector.scp ark:- |\
-     transform-vec $model_dir/xvectors_plda_train/transform.mat ark:- ark:- |\
-      ivector-normalize-length ark:-  ark:- |" \
-    $model_dir/xvectors_plda_train/plda || exit 1;
-  
-  cp $model_dir/xvectors_plda_train/plda $model_dir/
-  cp $model_dir/xvectors_plda_train/transform.mat $model_dir/
-  cp $model_dir/xvectors_plda_train/mean.vec $model_dir/
-fi
-
-if [ $stage -le 7 ]; then
-  for datadir in ${test_sets}; do
-    ref_rttm=data/${datadir}/rttm.annotation
-
-    nj=$( cat data/$datadir/wav.scp | wc -l )
-    local/diarize_${diarizer_type}.sh --nj $nj --cmd "$train_cmd" --stage $diarizer_stage \
-      $model_dir data/${datadir} exp/${datadir}_diarization_${diarizer_type}
-
-    # Evaluate RTTM using md-eval.pl
-    md-eval.pl -r $ref_rttm -s exp/${datadir}_diarization_${diarizer_type}/rttm
-  done
-fi
-
 # These stages demonstrate how to perform training and inference
-# for an overlap detector.
-if [ $stage -le 8 ]; then
-  echo "$0: training overlap detector"
-  local/train_overlap_detector.sh --stage $overlap_stage --test-sets "$test_sets" $rats_dir
+# for a Speech Activity detector.
+if [ $stage -le 4 ]; then
+  echo "$0 Stage 4: training a Speech Activity detector."
+  local/train_sad.sh --stage $overlap_stage --test-sets "$test_sets" $rats_dir
 fi
 
 overlap_affix=1a
