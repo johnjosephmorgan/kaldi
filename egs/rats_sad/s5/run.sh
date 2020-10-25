@@ -87,7 +87,7 @@ fi
 # for a Speech Activity detector.
 if [ $stage -le 4 ]; then
   echo "$0 Stage 4: training a Speech Activity detector."
-  local/train_sad.sh --stage $overlap_stage --test-sets "$test_sets" $rats_dir
+  local/train_sad.sh --stage $sad_stage --test-sets "$test_sets"
 fi
 
 overlap_affix=1a
