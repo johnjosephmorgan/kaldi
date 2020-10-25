@@ -42,14 +42,7 @@ mkdir -p $dir
 ref_rttm=$train_data_dir/rttm.annotation
 
 if [ $stage -le 0 ]; then
-  utils/copy_data_dir.sh data/train $train_data_dir
-  cp data/train/rttm.annotation $ref_rttm 
-fi
-
-if [ $stage -le 1 ]; then
-  # The training data  is already segmented, so we first prepare
-  # a "whole" training data (not segmented) for training the SAD
-  # detector.
+  echo "$0 Stage 0: Prepare a whole training data (not segmented) for training the SAD.
   utils/data/convert_data_dir_to_whole.sh $train_data_dir $whole_data_dir
 fi
 
