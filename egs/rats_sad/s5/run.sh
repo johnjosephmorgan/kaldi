@@ -75,18 +75,7 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ]; then
-  for dataset in train $test_sets; do
-    echo "$0 Stage 3: Feature extraction on $dataset ."
-    steps/make_mfcc.sh --mfcc-config conf/mfcc_hires.conf --nj $nj --cmd "$train_cmd" data/$dataset
-    steps/compute_cmvn_stats.sh data/$dataset
-    utils/fix_data_dir.sh data/$dataset
-  done
-fi
-
-# These stages demonstrate how to perform training and inference
-# for a Speech Activity detector.
-if [ $stage -le 4 ]; then
-  echo "$0 Stage 4: training a Speech Activity detector."
+  echo "$0 Stage 3: training a Speech Activity detector."
   local/train_sad.sh --stage $sad_stage --test-sets "$test_sets"
 fi
 
