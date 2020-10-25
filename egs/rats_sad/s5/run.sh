@@ -30,9 +30,9 @@ rats_sad_train_tab_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/train/sad
 if [ $stage -le 0 ]; then
     echo "$0 Stage 0: Get  all info files."
     mkdir -p data/local/annotations
-  find $rats_sad_data_dir -type f -name "*.tab" | grep train > data/local/annotations/train.txt
-  find $rats_sad_data_dir -type f -name "*.tab" | grep dev-1 > data/local/annotations/dev.txt
-  find $rats_sad_data_dir -type f -name "*.tab" | grep dev-2 > data/local/annotations/eval.txt
+  find $rats_sad_data_dir/train/sad -type f -name "*.tab" > data/local/annotations/train.txt
+  find $rats_sad_data_dir/dev-1 -type f -name "*.tab" > data/local/annotations/dev.txt
+  find $rats_sad_data_dir/dev-2 -type f -name "*.tab" > data/local/annotations/eval.txt
 fi
 
 if [ $stage -le 1 ]; then
@@ -41,7 +41,7 @@ if [ $stage -le 1 ]; then
     echo "$0: preparing $dataset set."
     mkdir -p data/$dataset
     local/prepare_data.py data/local/annotations/${dataset}.txt \
-      $rats_sad_data_dir/$dataset/audios data/$dataset
+      $rats_sad_data_dir/$dataset/audio data/$dataset
     local/convert_rttm_to_utt2spk_and_segments.py --append-reco-id-to-spkr=true data/$dataset/rttm.annotation \
       <(awk '{print $2" "$2" "$3}' data/$dataset/rttm.annotation |sort -u) \
       data/$dataset/utt2spk data/$dataset/segments
