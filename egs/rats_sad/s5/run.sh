@@ -26,8 +26,8 @@ rats_sad_data_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data
 rats_sad_dev_1_tab_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-1/sad
 rats_sad_dev_2_tab_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-2/sad
 rats_sad_train_tab_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/train/sad
-rats_sad_dev_1_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-1/audio
-rats_sad_dev_2_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-2/audio
+rats_sad_dev_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-1/audio
+rats_sad_eval_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-2/audio
 rats_sad_train_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/train/audio
 
 if [ $stage -le 0 ]; then
