@@ -20,18 +20,35 @@ import pandas as pd
 class Segment:
     def __init__(self, fields):
         self.partition = fields[0]
-        self.file_id = fields[1]
+        # self.file_id = fields[1]
+        self.reco_id = fields[1]
         self.start_time = float(fields[2])
         self.end_time = float(fields[3])
         self.dur = self.end_time - self.start_time
         self.sad_label = fields[4]
         self.sad_provenance = fields[5]
-        self.speaker_id = fields[6]
-        self.sid_provenance = fields[7]
-        self.language_id = fields[8]
-        self.lid_provenance = fields[9]
-        self.transcript = fields[10]
-        self.transcript_provenance = fields[11]
+        # self.speaker_id = fields[6]
+        # self.sid_provenance = fields[7]
+        # self.language_id = fields[8]
+        self.language_id = fields[6]
+        # self.lid_provenance = fields[9]
+        self.lid_provenance = fields[7]
+        # self.transcript = fields[10]
+        # self.transcript_provenance = fields[11]
+
+        rec_info = self.reco_id.split('_')
+        if len(rec_info) == 3:
+            src_audio_id = rec_info[0]
+            lng = rec_info[1]
+            src = rec_info[2]
+            self.spk_id = src_audio_id
+        elif len(rec_info) == 4:
+            src_audio_id = rec_info[0]
+            transmission_session_id = rec_info[1]
+            lng = rec_info[2]
+            channel = rec_info[3]
+            self.spk_id = src_audio_id
+
 
 def groupby(iterable, keyfunc):
     """Wrapper around ``itertools.groupby`` which sorts data first."""
@@ -50,7 +67,7 @@ def read_annotations(file_path):
 
 def find_audios(wav_path, file_list):
     # Get all wav file names from audio directory
-    command = 'find %s -name "*Mix-Headset.wav"' % (wav_path)
+    command = 'find %s -name "*.flac"' % (wav_path)
     wavs = subprocess.check_output(command, shell=True).decode('utf-8').splitlines()
     keys = [ os.path.splitext(os.path.basename(wav))[0] for wav in wavs ]
     data = {'key': keys, 'file_path': wavs}
@@ -111,12 +128,11 @@ if __name__ == "__main__":
     parser=argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,                
         fromfile_prefix_chars='@',
-        description='Prepare AMI dataset for diarization')
+        description='Prepare RATS dataset for Speech Activity Detection')
 
     parser.add_argument('annotations', help="Path to annotations file")
-    parser.add_argument('wav_path', help="Path to AMI corpus dir")
+    parser.add_argument('wav_path', help="Path to rats corpus dir")
     parser.add_argument('output_path', help="Path to generate data directory")
     parser.add_argument('--min-length', default=0.025, type=float, help="minimum length of segments to create")
     args=parser.parse_args()
-    
     make_diar_data(**vars(args))
