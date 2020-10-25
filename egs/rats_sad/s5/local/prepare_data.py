@@ -1,11 +1,21 @@
 #!/usr/bin/env python3
+"""
+ Copyright 2020 Johns Hopkins University  (Author: Desh Raj)
+Copyright 2020 ARL  (Author: John Morgan)
+  Apache 2.0  (http://www.apache.org/licenses/LICENSE-2.0)  
 
-import argparse
+ Prepare RATS data with RTTM from the annotations
+ provided with the corpus. """
+
+import sys
 import os
-from pathlib import Path
-from collections import defaultdict
+import argparse
+import subprocess
 import itertools
+from collections import defaultdict
 
+import numpy as np
+import pandas as pd
 
 class Segment:
     def __init__(self, fields):
@@ -23,60 +33,90 @@ class Segment:
         self.transcript = fields[10]
         self.transcript_provenance = fields[11]
 
-
 def groupby(iterable, keyfunc):
     """Wrapper around ``itertools.groupby`` which sorts data first."""
     iterable = sorted(iterable, key=keyfunc)
     for key, group in itertools.groupby(iterable, keyfunc):
         yield key, group
 
-def find_audios(data, fold):
-    # Get all flac file names from audio directory
-    wav_path = Path(data)
-    if wav_path.parts[-4] == fold:
-        wav_list = wav_path.rglob('*.flac')
-        return wav_list
-
-def find_rec_info(info_dir):
-    # Get all tab file names from data directory
-    info_path = Path(info_dir)
-    info_file_list = info_path.rglob('*.tab')
+def read_annotations(file_path):
     segments = []
-    for info_file in info_file_list:
-        file_path = Path(info_file)
-        with open(str(file_path), 'r') as f:
-            for line in f.readlines():
-                fields = line.strip().split()
-                segments.append(Segment(fields))
-
+    with open(file_path, 'r') as f:
+        for line in f.readlines():
+            parts = line.strip().split()
+            segments.append(Segment(parts))
     return segments
+    
 
-def write_wavscp(wav_list, fold):
-    out_dir = Path('data' / fold / 'wav.scp')
-    with open(out_dir, 'w') as f:
-        for wav_file in wav_list:
-            wav_path = Path(wav_file)
-            rec_id = wav_path.stem
-            f.write('%s sox %s -t wav - remix 1 | \n' % (rec_id, wav_file))
+def find_audios(wav_path, file_list):
+    # Get all wav file names from audio directory
+    command = 'find %s -name "*Mix-Headset.wav"' % (wav_path)
+    wavs = subprocess.check_output(command, shell=True).decode('utf-8').splitlines()
+    keys = [ os.path.splitext(os.path.basename(wav))[0] for wav in wavs ]
+    data = {'key': keys, 'file_path': wavs}
+    df_wav = pd.DataFrame(data)
 
-def write_output(segments):
+    # Filter list to keep only those in annotations (for the specific data split)
+    file_names_str = "|".join(file_list)
+    df_wav = df_wav.loc[df_wav['key'].str.contains(file_names_str)].sort_values('key')
+    return df_wav
+
+def write_wav(df_wav, output_path, bin_wav=True):
+    with open(output_path + '/wav.scp', 'w') as f:
+        for key,file_path in zip(df_wav['key'], df_wav['file_path']):
+            key = key.split('.')[0]
+            if bin_wav:
+                f.write('%s sox %s -t wav - remix 1 | \n' % (key, file_path))
+            else:
+                f.write('%s %s\n' % (key, file_path))
+
+
+def write_output(segments, out_path, min_length):
+    reco_and_spk_to_segs = defaultdict(list,
+        {uid : list(g) for uid, g in groupby(segments, lambda x: (x.reco_id,x.spk_id))})
     rttm_str = "SPEAKER {0} 1 {1:7.3f} {2:7.3f} <NA> <NA> {3} <NA> <NA>\n"
-    with open('rttm.annotation','w') as rttm_writer:
-        for seg in segments:
-                if seg.dur >= 0.025:
-                    rttm_writer.write(rttm_str.format(seg.file_id, seg.start_time, seg.dur, spk_id))
+    with open(out_path+'/rttm.annotation','w') as rttm_writer:
+        for uid in sorted(reco_and_spk_to_segs):
+            segs = sorted(reco_and_spk_to_segs[uid], key=lambda x: x.start_time)
+            reco_id, spk_id = uid
 
-                    
+            for seg in segs:
+                if seg.dur >= min_length:
+                    rttm_writer.write(rttm_str.format(reco_id, seg.start_time, seg.dur, spk_id))
+
+def make_diar_data(annotations, wav_path, output_path, min_length):
+
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+
+    print ('read annotations to get segments')
+    segments = read_annotations(annotations)
+
+    reco_to_segs = defaultdict(list,
+        {reco_id : list(g) for reco_id, g in groupby(segments, lambda x: x.reco_id)})
+    file_list = list(reco_to_segs.keys())
+
+    print('read audios')
+    df_wav = find_audios(wav_path, file_list)
+    
+    print('make wav.scp')
+    write_wav(df_wav, output_path)
+
+    print('write annotation rttm')
+    write_output(segments, output_path, min_length)
+
+
 if __name__ == "__main__":
+
     parser=argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,                
         fromfile_prefix_chars='@',
-        description='Prepare RATS_SAD for speech activity detection.')
+        description='Prepare AMI dataset for diarization')
 
-    parser.add_argument('partition', help="Partition, train, dev or eval")
-    parser.add_argument('data', help="Location of data.")
+    parser.add_argument('annotations', help="Path to annotations file")
+    parser.add_argument('wav_path', help="Path to AMI corpus dir")
+    parser.add_argument('output_path', help="Path to generate data directory")
+    parser.add_argument('--min-length', default=0.025, type=float, help="minimum length of segments to create")
     args=parser.parse_args()
-
-    audios_list = find_audios(args.data, args.partition)
-    segments = find_rec_info(args.data, args.partition)
-    make_sad_data(audios_list, segments)
+    
+    make_diar_data(**vars(args))
