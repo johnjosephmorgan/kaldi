@@ -55,9 +55,9 @@ if [ $stage -le 1 ]; then
 fi
 
 if [ $stage -le 3 ]; theneco
-  echo "$0 Stage 3: Prepare targets for training the Speech Activity  detector.
+  echo "$0 Stage 3: Prepare targets for training the Speech Activity  detector."
   steps/segmentation/prepare_targets_gmm.py \
-    ${whole_data_dir}/utt2num_frames ${whole_data_dir}/overlap.rttm - |\
+    ${whole_data_dir}/utt2num_frames ${whole_data_dir}/sad.rttm - |\
     copy-feats ark,t:- ark,scp:$dir/targets.ark,$dir/targets.scp
 fi
 
