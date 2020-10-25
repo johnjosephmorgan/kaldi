@@ -31,7 +31,7 @@ if [ $stage -le 0 ]; then
     echo "$0 Stage 0: Get  all info files."
     mkdir -p data/local/annotations
   find $rats_sad_data_dir/train/sad -type f -name "*.tab" | xargs cat > data/local/annotations/train.txt
-  find $rats_sad_data_dir/dev-1 -type f -name "*.tab" > data/local/annotations/dev.txt
+  find $rats_sad_data_dir/dev-1 -type f -name "*.tab" | xargs cat > data/local/annotations/dev.txt
   find $rats_sad_data_dir/dev-2 -type f -name "*.tab" | xargs cat > data/local/annotations/eval.txt
 fi
 
