@@ -48,7 +48,7 @@ if [ $stage -le 1 ]; then
   echo "$0 Stage 1: Get targets."
   local/segmentation/get_sad_targets.py \
     data/train_whole/utt2num_frames \
-    data/train_whole/sad.rttm $dir/targets.ark \
+    data/train_whole/sad.rttm $dir/targets.ark
 fi
 
 if [ $stage -le 2 ]; then
