@@ -58,7 +58,7 @@ fi
 
 if [ $stage -le 2 ]; then
   echo "$0 Stage 2: Prepare targets for training the Speech Activity  detector."
-  steps/segmentation/prepare_targets_gmm.sh \
+  steps/overlap/get_overlap_targets.sh \
     ${whole_data_dir}/utt2num_frames ${whole_data_dir}/rttm.annotation - |\
     copy-feats ark,t:- ark,scp:$dir/targets.ark,$dir/targets.scp
 fi
