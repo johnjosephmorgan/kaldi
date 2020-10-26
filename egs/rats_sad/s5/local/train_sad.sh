@@ -15,7 +15,7 @@ stage=0
 nstage=0
 nj=50
 test_nj=10
-
+targets_dir=data/train_whole
 test_sets="dev eval"
 
 . ./cmd.sh
