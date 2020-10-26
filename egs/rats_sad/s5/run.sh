@@ -7,7 +7,6 @@
 . ./cmd.sh
 . ./path.sh
 set -euo pipefail
-mfcc_dir=`pwd`/mfcc
 
 stage=0
 sad_stage=0
@@ -23,19 +22,13 @@ test_sets="dev-1 dev-2 "
 
 # Path where RATS_SAD gets downloaded (or where locally available):
 rats_sad_data_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data
-rats_sad_dev_1_tab_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-1/sad
-rats_sad_dev_2_tab_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-2/sad
-rats_sad_train_tab_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/train/sad
 rats_sad_dev_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-1/audio
 rats_sad_eval_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-2/audio
 rats_sad_train_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/train/audio
 
 if [ $stage -le 0 ]; then
   echo "$0 Stage 0: Get  all info files."
-  mkdir -p data/local/annotations
-  find $rats_sad_train_tab_dir -type f -name "*.tab" | xargs cat > data/local/annotations/train.txt
-  find $rats_sad_dev_1_tab_dir -type f -name "*.tab" | xargs cat > data/local/annotations/dev.txt
-  find $rats_sad_dev_2_tab_dir -type f -name "*.tab" | xargs cat > data/local/annotations/eval.txt
+  local/rats_sad_texxt_prep.sh $rats_sad_data_dir
 fi
 
 if [ $stage -le 1 ]; then
