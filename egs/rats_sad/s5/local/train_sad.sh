@@ -15,7 +15,7 @@ stage=0
 nstage=0
 nj=50
 test_nj=10
-targets_dir=data/train_whole
+targets_dir=exp/sad_{$affix}
 test_sets="dev eval"
 
 . ./cmd.sh
@@ -67,7 +67,7 @@ fi
 
 if [ $stage -le 4 ]; then
   if [ $nnet_type == "stat" ]; then
-    echo "$0 Stage 4: Train a STATS-pooling network for SAD."
+    echo "$0 Stage 4<: Train a STATS-pooling network for SAD."
     local/segmentation/tuning/train_stats_sad_1a.sh \
       --stage $nstage --train-stage $train_stage \
       --targets-dir ${targets_dir} \
