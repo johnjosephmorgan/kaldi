@@ -9,7 +9,7 @@
 # speech and silence . 
 
 affix=1a
-nnet_type=stat
+nnet_type=lstm
 train_stage=-10
 stage=0
 nstage=0
@@ -77,7 +77,7 @@ if [ $stage -le 4 ]; then
     local/segmentation/tuning/train_lstm_sad_1a.sh \
       --stage $nstage --train-stage $train_stage \
       --targets-dir ${targets_dir} \
-      --data-dir ${whole_data_dir}_hires --affix "1a" || exit 1
+      --data-dir ${whole_data_dir} --affix "1a" || exit 1
   fi
 fi
 
