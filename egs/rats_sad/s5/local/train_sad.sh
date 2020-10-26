@@ -69,7 +69,7 @@ if [ $stage -le 3 ]; then
   local/segmentation/tuning/train_stats_sad_1a.sh \
     --stage $nstage --train-stage $train_stage \
       --targets-dir ${targets_dir} \
-      --data-dir ${whole_data_dir}_hires --affix "1a" || exit 1
+      --data-dir ${whole_data_dir} --affix "1a" || exit 1
   elif [ $nnet_type == "lstm" ]; then
     # Train a TDNN+LSTM network for SAD
     local/segmentation/tuning/train_lstm_sad_1a.sh \
