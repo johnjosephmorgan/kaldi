@@ -12,6 +12,7 @@ affix=1a
 nnet_type=stats
 train_stage=-10
 stage=0
+nstage=0
 nj=50
 test_nj=10
 
