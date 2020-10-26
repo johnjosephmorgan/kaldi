@@ -25,8 +25,8 @@ relu_dim=256
 num_epochs=1
 initial_effective_lrate=0.0003
 final_effective_lrate=0.00003
-num_jobs_initial=3
-num_jobs_final=8
+num_jobs_initial=1
+num_jobs_final=1
 remove_egs=true
 max_param_change=0.2  # Small max-param change for small network
 
