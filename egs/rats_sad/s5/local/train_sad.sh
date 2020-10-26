@@ -59,7 +59,7 @@ fi
 if [ $stage -le 2 ]; then
   echo "$0 Stage 2: Prepare targets for training the Speech Activity  detector."
   steps/overlap/get_overlap_targets.py \
-    ${whole_data_dir}/utt2num_frames ${whole_data_dir}/rttm.annotation - |\
+    ${whole_data_dir}/utt2num_frames ${whole_data_dir}/sad.rttm - |\
     copy-feats ark,t:- ark,scp:$dir/targets.ark,$dir/targets.scp
 fi
 
