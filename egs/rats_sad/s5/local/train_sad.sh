@@ -47,7 +47,7 @@ fi
 if [ $stage -le 1 ]; then
   echo "$0 Stage 1: Get segments."
   #local/get/_speech_activity_segments.py $ref_rttm > $whole_data_dir/sad.rttm
-  local/segmentation/get_sad_targets.py --reco2num-frames data/train_whole/utt2dur \
+  local/segmentation/get_sad_targets.py data/train_whole/utt2dur \
     $ref_rttm > $whole_data_dir/sad.rttm
 fi
 
