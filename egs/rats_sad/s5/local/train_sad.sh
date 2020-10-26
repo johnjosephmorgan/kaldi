@@ -9,7 +9,7 @@
 # speech and silence . 
 
 affix=1a
-
+nnet_type=stats
 train_stage=-10
 stage=0
 nj=50
@@ -62,7 +62,7 @@ if [ $stage -le 2 ]; then
     copy-feats ark,t:- ark,scp:$dir/targets.ark,$dir/targets.scp
 fi
 
-if [ $stage -le 4 ]; then
+if [ $stage -le 3 ]; then
   if [ $nnet_type == "stats" ]; then
   # Train a STATS-pooling network for SAD
   local/segmentation/tuning/train_stats_sad_1a.sh \
