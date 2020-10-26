@@ -29,27 +29,29 @@ if [ $# != 0 ]; then
   exit
 fi
 
-train_set=train
 dir=exp/sad_${affix}
 
-train_data_dir=data/${train_set}
-whole_data_dir=data/${train_set}_whole
-whole_data_id=$(basename $train_set)
-
+train_data_dir=data/train
+whole_data_dir=data/train_whole
 mfccdir=mfcc
 
 mkdir -p $dir
 
-ref_rttm=$train_data_dir/rttm.annotation
+ref_rttm=data/train/rttm.annotation
 
 if [ $stage -le 0 ]; then
   echo "$0 Stage 0: Prepare a whole training data (not segmented) for training the SAD."
-  utils/data/convert_data_dir_to_whole.sh $train_data_dir $whole_data_dir
-  steps/overlap/get_overlap_segments.py $ref_rttm > $whole_data_dir/sad.rttm
+  utils/data/convert_data_dir_to_whole.sh data/train data/train_hole
 fi
 
 if [ $stage -le 1 ]; then
-  echo "$0 Stage 1: Extract features for the whole data directory."
+  echo "$0 Stage 1: Get segments."
+  #local/get/_speech_activity_segments.py $ref_rttm > $whole_data_dir/sad.rttm
+  local/segmentation/get/_sad_targets.py $ref_rttm > $whole_data_dir/sad.rttm
+fi
+
+if [ $stage -le 2 ]; then
+  echo "$0 Stage 2: Extract features for the whole data directory."
   steps/make_mfcc.sh --nj $nj --cmd "$train_cmd"  --write-utt2num-frames true \
     --mfcc-config conf/mfcc_hires.conf ${whole_data_dir}
   steps/compute_cmvn_stats.sh ${whole_data_dir}
@@ -80,3 +82,4 @@ if [ $stage -le 3 ]; then
 fi
 
 exit 0;
+local/get/_speech_activity_segments.py $ref_rttm > $whole_data_dir/sad.rttm
