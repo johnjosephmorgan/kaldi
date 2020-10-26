@@ -126,7 +126,7 @@ if [ $stage -le 6 ]; then
     --use-dense-targets=true \
     --feat-dir=$data_dir \
     --targets-scp="$targets_dir/targets.scp" \
-    --egs.opts="--frame-subsampling-factor 3 --num-utts-subset $num_utts_subset" \
+    --egs.opts="--frame-subsampling-factor 1 --num-utts-subset $num_utts_subset" \
     --dir=$dir || exit 1
 fi
 
