@@ -9,7 +9,7 @@
 # speech and silence . 
 
 affix=1a
-nnet_type=stats
+nnet_type=stat
 train_stage=-10
 stage=0
 nstage=0
@@ -49,7 +49,7 @@ if [ $stage -le 0 ]; then
 fi
 
 if [ $stage -le 1 ]; then
-  echo "$0 Stage 2: Extract features for the whole data directory."
+  echo "$0 Stage 1: Extract features for the whole data directory."
   steps/make_mfcc.sh --nj $nj --cmd "$train_cmd"  --write-utt2num-frames true \
     --mfcc-config conf/mfcc_hires.conf ${whole_data_dir}
   steps/compute_cmvn_stats.sh ${whole_data_dir}
@@ -57,17 +57,17 @@ if [ $stage -le 1 ]; then
 fi
 
 if [ $stage -le 2 ]; then
-  echo "$0 Stage 3: Prepare targets for training the Speech Activity  detector."
+  echo "$0 Stage 2: Prepare targets for training the Speech Activity  detector."
   steps/segmentation/prepare_targets_gmm.sh \
     ${whole_data_dir}/utt2num_frames ${whole_data_dir}/rttm.annotation - |\
     copy-feats ark,t:- ark,scp:$dir/targets.ark,$dir/targets.scp
 fi
 
 if [ $stage -le 3 ]; then
-  if [ $nnet_type == "stats" ]; then
-  # Train a STATS-pooling network for SAD
-  local/segmentation/tuning/train_stats_sad_1a.sh \
-    --stage $nstage --train-stage $train_stage \
+  if [ $nnet_type == "stat" ]; then
+    echo "$0 Stage 3: Train a STATS-pooling network for SAD."
+    local/segmentation/tuning/train_stats_sad_1a.sh \
+      --stage $nstage --train-stage $train_stage \
       --targets-dir ${targets_dir} \
       --data-dir ${whole_data_dir} --affix "1a" || exit 1
   elif [ $nnet_type == "lstm" ]; then
