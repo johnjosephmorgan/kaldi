@@ -28,7 +28,7 @@ rats_sad_train_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/train/audio
 
 if [ $stage -le 0 ]; then
   echo "$0 Stage 0: Get  all info files."
-  local/rats_sad_texxt_prep.sh $rats_sad_data_dir
+  local/rats_sad_text_prep.sh $rats_sad_data_dir
 fi
 
 if [ $stage -le 1 ]; then
