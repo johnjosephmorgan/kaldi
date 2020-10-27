@@ -12,7 +12,6 @@ echo "Output is written to data/local/annotations/{train,dev-1,dev-2}."
   exit 1;
 fi
 
-set -eu
 dir=$1
 
 mkdir -p data/local/annotations
