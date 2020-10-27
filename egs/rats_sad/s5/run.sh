@@ -16,7 +16,7 @@ decode_nj=15
 
 
 train_set=train
-test_sets="dev-1 dev-2 "
+test_sets="dev eval "
 
 . utils/parse_options.sh
 
