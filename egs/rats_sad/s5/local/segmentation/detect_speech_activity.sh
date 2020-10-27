@@ -113,7 +113,7 @@ fi
 
 mkdir -p $dir
 if [ $stage -le 1 ]; then
-  if [ "$(readlink -f $sad_nnet_dir)" != "$(readlink -f $dir)" ]; then
+  if [ "$(utils/make_absolute.sh $sad_nnet_dir)" != "$(utils/make_absolute.sh $dir)" ]; then
     cp $sad_nnet_dir/cmvn_opts $dir || exit 1
   fi
 
