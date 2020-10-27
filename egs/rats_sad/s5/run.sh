@@ -78,7 +78,6 @@ if [ $stage -le 4 ]; then
     steps/make_mfcc.sh --mfcc-config conf/mfcc_hires.conf --nj $nj --cmd "$train_cmd" data/$dataset
     steps/compute_cmvn_stats.sh data/$dataset
     utils/fix_data_dir.sh data/$dataset
-  done
 
   echo "$0 Stage 4: performing Speech Activity detection on $dataset"
   local/segmentation/detect_speech_activity.sh \
