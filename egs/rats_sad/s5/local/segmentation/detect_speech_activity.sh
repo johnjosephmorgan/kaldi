@@ -159,6 +159,7 @@ if [ $stage -le 2 ]; then
 <eps> 0
 silence 1
 speech 2
+noise 3
 EOF
 
   $cmd $graph_dir/log/make_graph.log \
