@@ -35,10 +35,10 @@ iter=final  # Model iteration to use
 
 # Contexts must ideally match training for LSTM models, but
 # may not necessarily for stats components
-extra_left_context=0  # Set to some large value, typically 40 for LSTM (must match training)
-extra_right_context=0  
-extra_left_context_initial=-1
-extra_right_context_final=-1
+extra_left_context=60  # Set to some large value, typically 40 for LSTM (must match training)
+extra_right_context=10  
+extra_left_context_initial=0
+extra_right_context_final=0
 frames_per_chunk=150
 
 # Decoding options
