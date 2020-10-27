@@ -84,7 +84,7 @@ fi
 
 if [ $stage -le 5 ]; then
   for dataset in dev eval; do
-    echo "$0 Stage 4: performing Speech Activity detection on $dataset"
+    echo "$0 Stage 5: performing Speech Activity detection on $dataset"
     local/segmentation/detect_speech_activity.sh \
       data/$dataset \
       exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix} \
