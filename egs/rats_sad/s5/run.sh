@@ -74,17 +74,21 @@ fi
 
 sad_affix=1a
 if [ $stage -le 4 ]; then
-  for dataset in $test_sets; do
+    for dataset in $test_sets; do
+    echo "$0 Stage 4: Extract features for $dataset."
     steps/make_mfcc.sh --mfcc-config conf/mfcc_hires.conf --nj $nj --cmd "$train_cmd" data/$dataset
     steps/compute_cmvn_stats.sh data/$dataset
     utils/fix_data_dir.sh data/$dataset
 
-  echo "$0 Stage 4: performing Speech Activity detection on $dataset"
-  local/segmentation/detect_speech_activity.sh \
-data/${dataset} \
-      exp/sad_$sad_affix/tdnn_lstm_asr_sad_1a exp/sad_$sad_affix/$dataset
+    echo "$0 Stage 4: performing Speech Activity detection on $dataset"
+    local/segmentation/detect_speech_activity.sh \
+      data/$dataset \
+      exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix} \
+      mfcc_hires \
+      exp/segmentation<_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix} \
+      data/$dataset
 
-  echo "$0: evaluating $dataset output."
+    echo "$0: evaluating $dataset output."
   steps/overlap/get_overlap_segments.py data/$dataset/rttm.annotation | \
       md-eval.pl -r - -s exp/sad_$sad_affix/$dataset/rttm_sad |\
       awk 'or(/MISSED SPEAKER TIME/,/FALARM SPEAKER TIME/)'
