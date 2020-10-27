@@ -56,8 +56,8 @@ if [ $stage -le 2 ]; then
       <(awk '{print $2" "$2" "$3}' data/$fld/rttm.annotation |sort -u) \
       data/$fld/utt2spk data/$fld/segments
 
-    # For the test sets we create dummy segments and utt2spk files using oracle speech marks
     if ! [ $fld == "train" ]; then
+      echo "Create dummy segments and utt2spk files using oracle speech marks for $fld."
       local/get_all_segments.py data/$fld/rttm.annotation > data/$fld/segments
       awk '{print $1,$2}' data/$fld/segments > data/$fld/utt2spk
     fi
@@ -75,10 +75,15 @@ fi
 sad_affix=1a
 if [ $stage -le 4 ]; then
   for dataset in $test_sets; do
+    steps/make_mfcc.sh --mfcc-config conf/mfcc_hires.conf --nj $nj --cmd "$train_cmd" data/$dataset
+    steps/compute_cmvn_stats.sh data/$dataset
+    utils/fix_data_dir.sh data/$dataset
+  done
+
   echo "$0 Stage 4: performing Speech Activity detection on $dataset"
-  local/segmentation/detect_speech_activity.sh --convert_data_dir_to_whole true \
-      --output-scale "1 2 1" data/${dataset} \
-      exp/sad_$sad_affix/tdnn_stats_1a exp/sad_$sad_affix/$dataset
+  local/segmentation/detect_speech_activity.sh \
+data/${dataset} \
+      exp/sad_$sad_affix/tdnn_lstm_asr_sad_1a exp/sad_$sad_affix/$dataset
 
   echo "$0: evaluating $dataset output."
   steps/overlap/get_overlap_segments.py data/$dataset/rttm.annotation | \
