@@ -16,14 +16,14 @@ decode_nj=15
 
 
 train_set=train
-test_sets="dev eval "
+test_sets="dev-1 dev-2 "
 
 . utils/parse_options.sh
 
 # Path where RATS_SAD gets downloaded (or where locally available):
 rats_sad_data_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data
-rats_sad_dev_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-1/audio
-rats_sad_eval_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-2/audio
+rats_sad_dev_1_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-1/audio
+rats_sad_dev_1_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-2/audio
 rats_sad_train_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/train/audio
 
 if [ $stage -le 0 ]; then
