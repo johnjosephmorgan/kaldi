@@ -3,7 +3,7 @@
 # Copyright 2020 ARL (Author: John Morgan)
 
 if [ $# -ne 1 ]; then
-  echo "Usage: $0 <rats_sad_dir>
+  echo "Usage: $0 <rats_sad_dir>"
   echo "$0 <rats_sad_dir>"
   echo "<rats_sad_dir>: Source data location"
   echo "For example:"
