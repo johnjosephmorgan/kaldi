@@ -22,9 +22,6 @@ test_sets="dev-1 dev-2 "
 
 # Path where RATS_SAD gets downloaded (or where locally available):
 rats_sad_data_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data
-rats_sad_dev_1_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-1/audio
-rats_sad_dev_1_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/dev-2/audio
-rats_sad_train_audio_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data/train/audio
 
 if [ $stage -le 0 ]; then
   echo "$0 Stage 0: Get  all info files."
@@ -33,20 +30,12 @@ fi
 
 if [ $stage -le 1 ]; then
   echo "$0 Stage 1: Preparing data directories."
-  echo "$0: preparing training set."
-  mkdir -p data/train
-  local/prepare_data.py data/local/annotations/train.txt \
-    $rats_sad_train_audio_dir data/train
-
-  echo "$0: preparing dev set."
-  mkdir -p data/dev
-  local/prepare_data.py data/local/annotations/dev.txt \
-    $rats_sad_dev_audio_dir data/dev
-
-  echo "$0: preparing eval set."
-  mkdir -p data/eval
-  local/prepare_data.py data/local/annotations/eval.txt \
-    $rats_sad_eval_audio_dir data/eval
+  for fld in train dev-1 dev-2; do
+    echo "$0: preparing $fld set."
+    mkdir -p data/$fld
+    local/prepare_data.py data/local/annotations/$fld.txt \
+      $rats_sad_data_dir/$fld/audio/ data/$fld
+  done
 fi
 
 if [ $stage -le 2 ]; then
