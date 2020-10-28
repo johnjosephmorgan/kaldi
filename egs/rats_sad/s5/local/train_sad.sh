@@ -46,7 +46,7 @@ fi
 
 if [ $stage -le 1 ]; then
   echo "$0 Stage 1: Prepare a 'whole' training data (not segmented) for training the SAD."
-  utils/data/convert_data_dir_to_whole.sh data/train data/train_hole
+  utils/data/convert_data_dir_to_whole.sh data/train data/train_whole
 fi
 
 if [ $stage -le 2 ]; then
