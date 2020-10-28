@@ -42,18 +42,18 @@ if [ $stage -le 0 ]; then
 fi
 
 if [ $stage -le 1 ]; then
-  echo "$0 Stage 1: Get targets."
-  local/segmentation/get_sad_targets.py \
-    data/train_whole/utt2num_frames \
-    data/train_whole/sad.rttm $dir/targets.ark
-fi
-
-if [ $stage -le 2 ]; then
-  echo "$0 Stage 2: Extract features for the 'whole' data directory."
+  echo "$0 Stage 1: Extract features for the 'whole' data directory."
   steps/make_mfcc.sh --nj $nj --cmd "$train_cmd"  --write-utt2num-frames true \
     --mfcc-config conf/mfcc_hires.conf data/train_whole
   steps/compute_cmvn_stats.sh data/train_whole
   utils/fix_data_dir.sh data/train_whole
+fi
+
+if [ $stage -le 2 ]; then
+  echo "$0 Stage 2: Get targets."
+  local/segmentation/get_sad_targets.py \
+    data/train_whole/utt2num_frames \
+    data/train_whole/sad.rttm $dir/targets.ark
 fi
 
 if [ $stage -le 3 ]; then
