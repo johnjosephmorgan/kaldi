@@ -44,14 +44,6 @@ if [ $stage -le 2 ]; then
     local/convert_rttm_to_utt2spk_and_segments.py --append-reco-id-to-spkr=false data/$fld/rttm.annotation \
       <(awk '{print $2" "$2" "$3}' data/$fld/rttm.annotation |sort -u) \
       data/$fld/utt2spk data/$fld/segments
-  done
-fi
-
-#    if ! [ $fld == "train" ]; then
-#      echo "Create dummy segments and utt2spk files using oracle speech marks for $fld."
-#      local/get_all_segments.py data/$fld/rttm.annotation > data/$fld/segments
-#      awk '{print $1,$2}' data/$fld/segments > data/$fld/utt2spk
-#    fi
 
     utils/utt2spk_to_spk2utt.pl data/$fld/utt2spk > data/$fld/spk2utt
     utils/fix_data_dir.sh data/$fld
