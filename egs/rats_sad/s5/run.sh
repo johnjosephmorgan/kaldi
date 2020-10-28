@@ -41,13 +41,13 @@ fi
 if [ $stage -le 2 ]; then
   echo "$0 Stage 2: Convert rttm files to utt2spk."
   for fld in train $test_sets ; do
-    local/convert_rttm_to_utt2spk_and_segments.py --append-reco-id-to-spkr=true data/$fld/rttm.annotation \
+    local/convert_rttm_to_utt2spk_and_segments.py --append-reco-id-to-spkr=false data/$fld/rttm.annotation \
       <(awk '{print $2" "$2" "$3}' data/$fld/rttm.annotation |sort -u) \
       data/$fld/utt2spk data/$fld/segments
 
-    if ! [ $fld == "train" ]; then
-      echo "Create dummy segments and utt2spk files using oracle speech marks for $fld."
-      local/get_all_segments.py data/$fld/rttm.annotation > data/$fld/segments
+#    if ! [ $fld == "train" ]; then
+#      echo "Create dummy segments and utt2spk files using oracle speech marks for $fld."
+#      local/get_all_segments.py data/$fld/rttm.annotation > data/$fld/segments
       awk '{print $1,$2}' data/$fld/segments > data/$fld/utt2spk
     fi
 
@@ -55,6 +55,7 @@ if [ $stage -le 2 ]; then
     utils/fix_data_dir.sh data/$fld
   done
 fi
+exit
 
 if [ $stage -le 3 ]; then
   echo "$0 Stage 3: training a Speech Activity detector."
