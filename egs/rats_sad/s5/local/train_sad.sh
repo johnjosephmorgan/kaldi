@@ -37,41 +37,49 @@ fi
 mkdir -p $dir
 
 if [ $stage -le 0 ]; then
-  echo "$0 Stage 0: Prepare a 'whole' training data (not segmented) for training the SAD."
-  utils/data/convert_data_dir_to_whole.sh data/train data/train_hole
+  echo "$0 Stage 0: Extract features for train data directory."
+  steps/make_mfcc.sh --nj $nj --cmd "$train_cmd"  --write-utt2num-frames true \
+    --mfcc-config conf/mfcc_hires.conf data/train
+  steps/compute_cmvn_stats.sh data/train
+  utils/fix_data_dir.sh data/train
 fi
 
 if [ $stage -le 1 ]; then
-  echo "$0 Stage 1: Extract features for the 'whole' data directory."
+  echo "$0 Stage 1: Prepare a 'whole' training data (not segmented) for training the SAD."
+  utils/data/convert_data_dir_to_whole.sh data/train data/train_hole
+fi
+
+if [ $stage -le 2 ]; then
+  echo "$0 Stage 2: Extract features for the 'whole' data directory."
   steps/make_mfcc.sh --nj $nj --cmd "$train_cmd"  --write-utt2num-frames true \
     --mfcc-config conf/mfcc_hires.conf data/train_whole
   steps/compute_cmvn_stats.sh data/train_whole
   utils/fix_data_dir.sh data/train_whole
 fi
 
-if [ $stage -le 2 ]; then
-  echo "$0 Stage 2: Get targets."
+if [ $stage -le 3 ]; then
+  echo "$0 Stage 3: Get targets."
   local/segmentation/get_sad_targets.py \
     data/train_whole/utt2num_frames \
     data/train_whole/sad.rttm $dir/targets.ark
 fi
 
-if [ $stage -le 3 ]; then
-  echo "$0 Stage 3: Prepare targets for training the Speech Activity  detector."
+if [ $stage -le 4 ]; then
+  echo "$0 Stage 4: Prepare targets for training the Speech Activity  detector."
   local/segmentation/get_sad_targets.py \
     data/train_whole/utt2num_frames data/train_whole/sad.rttm - |\
     copy-feats ark,t:- ark,scp:$dir/targets.ark,$dir/targets.scp
 fi
 
-if [ $stage -le 4 ]; then
+if [ $stage -le 5 ]; then
   if [ $nnet_type == "stat" ]; then
-    echo "$0 Stage 4<: Train a STATS-pooling network for SAD."
+    echo "$0 Stage 5<: Train a STATS-pooling network for SAD."
     local/segmentation/tuning/train_stats_sad_1a.sh \
       --stage $nstage --train-stage $train_stage \
       --targets-dir ${targets_dir} \
       --data-dir data/train_whole --affix $affix || exit 1
   elif [ $nnet_type == "lstm" ]; then
-    echo "$0 Stage 4: Train a TDNN+LSTM network for SAD."
+    echo "$0 Stage 5: Train a TDNN+LSTM network for SAD."
     local/segmentation/tuning/train_lstm_sad_1a.sh \
       --stage $nstage --train-stage $train_stage \
       --targets-dir $targets_dir \
