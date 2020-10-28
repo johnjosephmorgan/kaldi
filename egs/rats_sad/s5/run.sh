@@ -40,7 +40,7 @@ fi
 
 if [ $stage -le 2 ]; then
   echo "$0 Stage 2: Convert rttm files to utt2spk."
-  for fld in train dev eval; do
+  for fld in train $test_sets ; do
     local/convert_rttm_to_utt2spk_and_segments.py --append-reco-id-to-spkr=true data/$fld/rttm.annotation \
       <(awk '{print $2" "$2" "$3}' data/$fld/rttm.annotation |sort -u) \
       data/$fld/utt2spk data/$fld/segments
