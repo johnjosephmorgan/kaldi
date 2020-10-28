@@ -39,9 +39,10 @@ if [ $stage -le 1 ]; then
 fi
 
 if [ $stage -le 2 ]; then
-  echo "$0 Stage 2: Convert rttm files to utt2spk."
   for fld in train $test_sets ; do
-    local/convert_rttm_to_utt2spk_and_segments.py --append-reco-id-to-spkr=false data/$fld/rttm.annotation \
+    echo "$0 Stage 2: Convert $fld rttm files to utt2spk."
+    local/convert_rttm_to_utt2spk_and_segments.py --use-reco-id-as-spkr=true \
+      data/$fld/rttm.annotation \
       <(awk '{print $2" "$2" "$3}' data/$fld/rttm.annotation |sort -u) \
       data/$fld/utt2spk data/$fld/segments
 
