@@ -136,5 +136,5 @@ if [ $stage -le 7 ]; then
     matrix-sum-rows "scp:utils/subset_scp.pl --quiet 1000 $targets_dir/targets.scp |" \
     ark:- \| vector-sum --binary=false ark:- $dir/post_output.vec || exit 1
 
-  echo 3 > $dir/frame_subsampling_factor
+  echo 1 > $dir/frame_subsampling_factor
 fi
