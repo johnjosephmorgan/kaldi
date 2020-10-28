@@ -18,9 +18,15 @@ import numpy as np
 import pandas as pd
 
 class Segment:
+    """
+    Field 5 (SAD segment label) can have one of the following values:
+    S  : speech segment
+    NS : non-speech segment
+    NT : "button-off" segment (not transmitted according to PTT log)
+    RX : "button-off" segment (not transmitted according to RMS scan)
+    """
     def __init__(self, fields):
         self.partition = fields[0]
-        # self.file_id = fields[1]
         self.reco_id = fields[1]
         self.start_time = float(fields[2])
         self.end_time = float(fields[3])
@@ -60,10 +66,17 @@ def read_annotations(file_path):
     segments = []
     with open(file_path, 'r') as f:
         for line in f.readlines():
-            parts = line.strip().split()
-            segments.append(Segment(parts))
+            fields = line.strip().split()
+            # skip non speech events
+            if fields[4] == 'NS':
+                continue
+            elif fields[4] == 'NT':
+                continue
+            elif fields[4] == 'RX':
+                continue
+            segments.append(Segment(fields))
     return segments
-    
+
 
 def find_audios(wav_path, file_list):
     # Get all wav file names from audio directory
@@ -115,7 +128,7 @@ def make_diar_data(annotations, wav_path, output_path, min_length):
 
     print('read audios')
     df_wav = find_audios(wav_path, file_list)
-    
+
     print('make wav.scp')
     write_wav(df_wav, output_path)
 
