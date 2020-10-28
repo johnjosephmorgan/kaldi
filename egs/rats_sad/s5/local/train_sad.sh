@@ -5,18 +5,23 @@
 # Apache 2.0
 
 # This script trains a Speech Activity detector. It is based on the Aspire
-# speech activity detection system. We train with 2 targets:
-# speech and silence . 
+# speech activity detection system.
+# Training is done with 4 targets.
+
 
 affix=1a
-nnet_type=lstm
-train_stage=-10
-stage=0
-nstage=0
+dir=exp/sad_${affix}
+mfccdir=mfcc
 nj=50
-test_nj=10
+nnet_type=lstm
+nstage=0
+ref_rttm=data/train/rttm.annotation
+stage=0
 targets_dir=exp/sad_${affix}
-test_sets="dev eval"
+test_nj=10
+test_sets=
+train_stage=-10
+
 
 . ./cmd.sh
 
@@ -29,17 +34,10 @@ if [ $# != 0 ]; then
   exit
 fi
 
-dir=exp/sad_${affix}
-train_data_dir=data/train
-whole_data_dir=data/train_whole
-mfccdir=mfcc
-ref_rttm=data/train/rttm.annotation
-
 mkdir -p $dir
 
-
 if [ $stage -le 0 ]; then
-  echo "$0 Stage 0: Prepare a whole training data (not segmented) for training the SAD."
+  echo "$0 Stage 0: Prepare a 'whole' training data (not segmented) for training the SAD."
   utils/data/convert_data_dir_to_whole.sh data/train data/train_hole
 fi
 
@@ -51,17 +49,17 @@ if [ $stage -le 1 ]; then
 fi
 
 if [ $stage -le 2 ]; then
-  echo "$0 Stage 2: Extract features for the whole data directory."
+  echo "$0 Stage 2: Extract features for the 'whole' data directory."
   steps/make_mfcc.sh --nj $nj --cmd "$train_cmd"  --write-utt2num-frames true \
-    --mfcc-config conf/mfcc_hires.conf ${whole_data_dir}
-  steps/compute_cmvn_stats.sh ${whole_data_dir}
-  utils/fix_data_dir.sh ${whole_data_dir}
+    --mfcc-config conf/mfcc_hires.conf data/train_whole
+  steps/compute_cmvn_stats.sh data/train_whole
+  utils/fix_data_dir.sh data/train_whole
 fi
 
 if [ $stage -le 3 ]; then
   echo "$0 Stage 3: Prepare targets for training the Speech Activity  detector."
   local/segmentation/get_sad_targets.py \
-    ${whole_data_dir}/utt2num_frames ${whole_data_dir}/sad.rttm - |\
+    data/train_whole/utt2num_frames data/train_whole/sad.rttm - |\
     copy-feats ark,t:- ark,scp:$dir/targets.ark,$dir/targets.scp
 fi
 
@@ -71,15 +69,14 @@ if [ $stage -le 4 ]; then
     local/segmentation/tuning/train_stats_sad_1a.sh \
       --stage $nstage --train-stage $train_stage \
       --targets-dir ${targets_dir} \
-      --data-dir ${whole_data_dir} --affix "1a" || exit 1
+      --data-dir data/train_whole --affix $affix || exit 1
   elif [ $nnet_type == "lstm" ]; then
-    # Train a TDNN+LSTM network for SAD
+    echo "$0 Stage 4: Train a TDNN+LSTM network for SAD."
     local/segmentation/tuning/train_lstm_sad_1a.sh \
       --stage $nstage --train-stage $train_stage \
-      --targets-dir ${targets_dir} \
-      --data-dir ${whole_data_dir} --affix "1a" || exit 1
+      --targets-dir $targets_dir \
+      --data-dir data/train_whole --affix $affix || exit 1
   fi
 fi
 
 exit 0;
-local/get/_speech_activity_segments.py $ref_rttm > $whole_data_dir/sad.rttm
