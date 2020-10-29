@@ -31,6 +31,9 @@ if [ $stage -le 1 ]; then
     mkdir -p data/$fld
     local/prepare_data.py data/local/annotations/$fld.txt \
       $rats_sad_data_dir/$fld/audio/ data/$fld
+
+    local/get_all_segments.py data/$fld/rttm.annotation > data/$fld/segments
+    awk '{print $1,$2}' data/$fld/segments > data/$fld/utt2spk
   done
 fi
 
