@@ -3,7 +3,7 @@
 # Apache 2.0.
 
 # This recipe builds a Speech Activity Detection system on the rats_sad corpus.
-The LDC identifyer for the rats_sad corpus is LDC2015S02.
+# The LDC identifyer for the rats_sad corpus is LDC2015S02.
 
 . ./cmd.sh
 . ./path.sh
@@ -23,6 +23,7 @@ if [ $stage -le 0 ]; then
   echo "$0 Stage 0: Get  all info files."
   local/rats_sad_text_prep.sh $rats_sad_data_dir
 fi
+
 
 if [ $stage -le 1 ]; then
   echo "$0 Stage 1: Preparing data directories."
