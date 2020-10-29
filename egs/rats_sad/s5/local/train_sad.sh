@@ -4,9 +4,8 @@
 # Copyright  2020  John Morgan (ARL)
 # Apache 2.0
 
-# This script trains a Speech Activity detector. It is based on the Aspire
-# speech activity detection system.
-# Training is done with 4 targets.
+# This script trains a Speech Activity detector.
+# It is based on the Aspire speech activity detection system.
 
 
 affix=1a
@@ -47,6 +46,7 @@ fi
 if [ $stage -le 1 ]; then
   echo "$0 Stage 1: Prepare a 'whole' training data (not segmented) for training the SAD."
   utils/data/convert_data_dir_to_whole.sh data/train data/train_whole
+  steps/overlap/get_overlap_segments.py data/train/rttm.annotation > data/train_whole/sad.rttm
 fi
 
 if [ $stage -le 2 ]; then
