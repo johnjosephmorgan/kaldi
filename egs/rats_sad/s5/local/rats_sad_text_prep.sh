@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 
 # Copyright 2020 ARL (Author: John Morgan)
+# Apache 2.0.
+
+# This script consolidates the information about each recording.
+# The input is the path to the directory where the tabular files associated with
+# each recording are stored.
+# There are 3 output files, one for each fold.
+# The output files are stored under data/local/annotation.
 
 if [ $# -ne 1 ]; then
   echo "Usage: $0 <rats_sad_dir>"

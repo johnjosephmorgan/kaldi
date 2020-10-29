@@ -1,27 +1,23 @@
 #!/usr/bin/env bash
 # Copyright   2020   ARL (Author: John Morgan)
 # Apache 2.0.
-#
-# This recipe performs Speech Activity Detection for the rats_sad corpus.
+
+# This recipe builds a Speech Activity Detection system on the rats_sad corpus.
+The LDC identifyer for the rats_sad corpus is LDC2015S02.
 
 . ./cmd.sh
 . ./path.sh
 set -euo pipefail
-
 stage=0
 sad_stage=0
-
+# Path where RATS_SAD gets downloaded (or where locally available):
+rats_sad_data_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data
 nj=50
 decode_nj=15
-
-
 train_set=train
 test_sets="dev-1 dev-2 "
 
 . utils/parse_options.sh
-
-# Path where RATS_SAD gets downloaded (or where locally available):
-rats_sad_data_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data
 
 if [ $stage -le 0 ]; then
   echo "$0 Stage 0: Get  all info files."
