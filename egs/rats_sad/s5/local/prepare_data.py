@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """
- Copyright 2020 Johns Hopkins University  (Author: Desh Raj)
+Copyright 2020 Johns Hopkins University  (Author: Desh Raj)
 Copyright 2020 ARL  (Author: John Morgan)
-  Apache 2.0  (http://www.apache.org/licenses/LICENSE-2.0)  
+Apache 2.0  (http://www.apache.org/licenses/LICENSE-2.0)  
 
- Prepare RATS data with RTTM from the annotations
- provided with the corpus. """
+Prepare rats_sad data for training a speech activity detection system.
+Input comes from the annotations provided with the corpus. 
+Output is written in an RTTM file.
+"""
 
 import sys
 import os
@@ -67,13 +69,15 @@ def read_annotations(file_path):
     with open(file_path, 'r') as f:
         for line in f.readlines():
             fields = line.strip().split()
-            # skip non speech events
+            # map non speech events to SILENCE
             if fields[4] == 'NS':
-                continue
+                fields[4] = 'SILENCE'
             elif fields[4] == 'NT':
-                continue
+                fields[4] = 'SILENCE'
             elif fields[4] == 'RX':
-                continue
+                fields[4] = 'SILENCE'
+            elif fields[4] == 'RX':
+                fields[4] = 'SPEECH'
             segments.append(Segment(fields))
     return segments
 
@@ -114,7 +118,7 @@ def write_output(segments, out_path, min_length):
                 if seg.dur >= min_length:
                     rttm_writer.write(rttm_str.format(reco_id, seg.start_time, seg.dur, spk_id))
 
-def make_diar_data(annotations, wav_path, output_path, min_length):
+def make_sad_data(annotations, wav_path, output_path, min_length):
 
     if not os.path.exists(output_path):
         os.makedirs(output_path)
@@ -141,11 +145,11 @@ if __name__ == "__main__":
     parser=argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,                
         fromfile_prefix_chars='@',
-        description='Prepare RATS dataset for Speech Activity Detection')
+        description='Prepare rats_sad dataset for Speech Activity Detection')
 
     parser.add_argument('annotations', help="Path to annotations file")
-    parser.add_argument('wav_path', help="Path to rats corpus dir")
+    parser.add_argument('wav_path', help="Path to rats_sad corpus audio files directory")
     parser.add_argument('output_path', help="Path to generate data directory")
     parser.add_argument('--min-length', default=0.025, type=float, help="minimum length of segments to create")
     args=parser.parse_args()
-    make_diar_data(**vars(args))
+    make_sad_data(**vars(args))
