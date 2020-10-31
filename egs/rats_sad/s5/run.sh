@@ -24,7 +24,6 @@ if [ $stage -le 0 ]; then
   local/rats_sad_text_prep.sh $rats_sad_data_dir
 fi
 
-
 if [ $stage -le 1 ]; then
   echo "$0 Stage 1: Preparing data directories."
   for fld in train dev-1 dev-2; do
@@ -32,10 +31,6 @@ if [ $stage -le 1 ]; then
     mkdir -p data/$fld
     local/prepare_data.py data/local/annotations/$fld.txt \
       $rats_sad_data_dir/$fld/audio/ data/$fld
-
-    local/get_all_segments.py data/$fld/rttm.annotation > data/$fld/segments
-    awk '{print $1,$2}' data/$fld/segments > data/$fld/utt2spk
-  done
 fi
 
 if [ $stage -le 2 ]; then
