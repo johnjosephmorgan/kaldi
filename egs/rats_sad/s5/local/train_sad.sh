@@ -11,7 +11,7 @@
 affix=1a
 dir=exp/sad_${affix}
 mfccdir=mfcc
-nj=50
+nj=20
 nnet_type=lstm
 nstage=0
 stage=0
