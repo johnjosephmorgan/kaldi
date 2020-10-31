@@ -31,6 +31,7 @@ if [ $stage -le 1 ]; then
     mkdir -p data/$fld
     local/prepare_data.py data/local/annotations/$fld.txt \
       $rats_sad_data_dir/$fld/audio/ data/$fld
+  done
 fi
 
 if [ $stage -le 2 ]; then
