@@ -108,6 +108,8 @@ def write_output(segments, out_path, min_length):
             for seg in segs:
                 if seg.dur >= min_length:
                     rttm_writer.write(rttm_str.format(reco_id, seg.start_time, seg.dur, spk_id))
+                else:
+                    print('Bad segment', seg)
 
 def make_sad_data(annotations, wav_path, output_path, min_length):
 
