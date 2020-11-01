@@ -69,15 +69,6 @@ def read_annotations(file_path):
     with open(file_path, 'r') as f:
         for line in f.readlines():
             fields = line.strip().split()
-            # map non speech events to SILENCE
-            if fields[4] == 'NS':
-                fields[4] = 'SILENCE'
-            elif fields[4] == 'NT':
-                fields[4] = 'SILENCE'
-            elif fields[4] == 'RX':
-                fields[4] = 'SILENCE'
-            elif fields[4] == 'RX':
-                fields[4] = 'SPEECH'
             segments.append(Segment(fields))
     return segments
 
