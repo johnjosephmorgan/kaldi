@@ -92,7 +92,7 @@ def main():
     for uttid_id in sorted(utt2spk):
         if (segments[uttid_id][2] > segments[uttid_id][1]):
             utt2spk_writer.write("{0} {1}\n".format(uttid_id, utt2spk[uttid_id]))
-            segments_writer.write("{0} {1} {2:7.2f} {3:7.2f}\n".format(
+            segments_writer.write("{0} {1} {2:7.5f} {3:7.5f}\n".format(
                 uttid_id, segments[uttid_id][0], segments[uttid_id][1], segments[uttid_id][2]))
 
 if __name__ == '__main__':
