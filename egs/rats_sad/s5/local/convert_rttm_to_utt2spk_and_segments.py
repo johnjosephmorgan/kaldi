@@ -18,7 +18,7 @@ def get_args():
     parser.add_argument("--append-reco-id-to-spkr", type=str,
                         choices=["true", "false"], default="false",
                         help="Append recording ID to the speaker ID")
-    parser.add_argument('--min-length', default=0.025, type=float, help="minimum length of segments to create")
+
     parser.add_argument("rttm_file", type=str,
                         help="""Input RTTM file.
                         The format of the RTTM file is
@@ -59,35 +59,35 @@ def main():
         parts = line.strip().split()
         if parts[0] != "SPEAKER":
             continue
-        elif parts[4] > min_length:
-            file_id = parts[1]
-            channel = parts[2]
 
-            try:
-                reco = file_and_channel2reco[(file_id, channel)]
-            except KeyError as e:
-                raise Exception("Could not find recording with "
-                                "(file_id, channel) "
-                                "= ({0},{1}) in {2}: {3}\n".format(
-                                    file_id, channel,
-                                    args.reco2file_and_channel, str(e)))
+        file_id = parts[1]
+        channel = parts[2]
 
-            start_time = float(parts[3])
-            end_time = start_time + float(parts[4])
+        try:
+            reco = file_and_channel2reco[(file_id, channel)]
+        except KeyError as e:
+            raise Exception("Could not find recording with "
+                            "(file_id, channel) "
+                            "= ({0},{1}) in {2}: {3}\n".format(
+                                file_id, channel,
+                                args.reco2file_and_channel, str(e)))
 
-            if args.use_reco_id_as_spkr:
-                spkr = reco
+        start_time = float(parts[3])
+        end_time = start_time + float(parts[4])
+
+        if args.use_reco_id_as_spkr:
+            spkr = reco
+        else:
+            if args.append_reco_id_to_spkr:
+                spkr = reco + "-" + parts[7]
             else:
-                if args.append_reco_id_to_spkr:
-                    spkr = reco + "-" + parts[7]
-                else:
-                    spkr = parts[7]
+                spkr = parts[7]
 
-            st = int(start_time * 100)
-            end = int(end_time * 100)
-            utt = "{0}-{1:06d}-{2:06d}".format(spkr, st, end)
-            utt2spk[utt]=spkr
-            segments[utt]=(reco, start_time, end_time)
+        st = int(start_time * 100)
+        end = int(end_time * 100)
+        utt = "{0}-{1:06d}-{2:06d}".format(spkr, st, end)
+        utt2spk[utt]=spkr
+        segments[utt]=(reco, start_time, end_time)
 
     for uttid_id in sorted(utt2spk):
         if (segments[uttid_id][2] > segments[uttid_id][1]):
