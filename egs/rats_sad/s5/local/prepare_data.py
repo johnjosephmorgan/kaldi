@@ -99,7 +99,7 @@ def write_wav(df_wav, output_path, bin_wav=True):
 def write_output(segments, out_path, min_length):
     reco_and_spk_to_segs = defaultdict(list,
         {uid : list(g) for uid, g in groupby(segments, lambda x: (x.reco_id,x.spk_id))})
-    rttm_str = "SPEAKER {0} 1 {1:7.3f} {2:7.3f} <NA> <NA> {3} <NA> <NA>\n"
+    rttm_str = "SPEAKER {0} 1 {1:9.3f} {2:9.3f} <NA> <NA> {3} <NA> <NA>\n"
     with open(out_path+'/rttm.annotation','w') as rttm_writer:
         for uid in sorted(reco_and_spk_to_segs):
             segs = sorted(reco_and_spk_to_segs[uid], key=lambda x: x.start_time)
