@@ -143,6 +143,6 @@ if __name__ == "__main__":
     parser.add_argument('annotations', help="Path to annotations file")
     parser.add_argument('wav_path', help="Path to rats_sad corpus audio files directory")
     parser.add_argument('output_path', help="Path to generate data directory")
-    parser.add_argument('--min-length', default=0.01, type=float, help="minimum length of segments to create")
+    parser.add_argument('--min-length', default=0.0001, type=float, help="minimum length of segments to create")
     args=parser.parse_args()
     make_sad_data(**vars(args))
