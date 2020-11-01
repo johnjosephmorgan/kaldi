@@ -36,7 +36,7 @@ mkdir -p $dir
 
 if [ $stage -le 0 ]; then
   echo "$0 Stage 0: Extract features for train data directory."
-  steps/make_mfcc.sh --nj $nj --cmd "$train_cmd"  --write-utt2num-frames true \
+  local/make_mfcc.sh --nj $nj --cmd "$train_cmd"  --write-utt2num-frames true \
     --mfcc-config conf/mfcc_hires.conf data/train
   steps/compute_cmvn_stats.sh data/train
   utils/fix_data_dir.sh data/train
