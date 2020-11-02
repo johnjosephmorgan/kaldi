@@ -26,7 +26,7 @@ fi
 
 if [ $stage -le 1 ]; then
   echo "$0 Stage 1: Preparing data directories."
-  for fld in train dev-1 dev-2; do
+  for fld in train $test_sets ; do
     echo "$0: preparing $fld set."
     mkdir -p data/$fld
     local/prepare_data.py data/local/annotations/$fld.txt \
@@ -65,7 +65,8 @@ fi
 if [ $stage -le 5 ]; then
   for dataset in $test_sets; do
     echo "$0 Stage 5: Run SAD detection."
-    local/detect_overlaps.sh --convert_data_dir_to_whole true \
+    local/detect_overlaps.sh \
+      --convert_data_dir_to_whole true \
       --output-scale "1 2 1" \
       data/${dataset} \
       exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix} \
