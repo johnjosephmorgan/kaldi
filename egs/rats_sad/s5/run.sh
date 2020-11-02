@@ -12,7 +12,7 @@ stage=0
 sad_stage=0
 # Path where RATS_SAD gets downloaded (or where locally available):
 rats_sad_data_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data
-nj=50
+nj=16
 decode_nj=15
 train_set=train
 test_sets="dev-1 dev-2 "
