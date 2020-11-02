@@ -75,27 +75,15 @@ data_id=`basename $data_dir`
 overlap_dir=${out_dir}/overlap # working directory
 
 test_data_dir=${data_dir}
-if [ $convert_data_dir_to_whole == "true" ]; then
-  test_data_dir=${data_dir}_whole
-  if ! [ -d $test_data_dir ]; then
-    utils/data/convert_data_dir_to_whole.sh $data_dir $test_data_dir
-    utils/fix_data_dir.sh $test_data_dir
-    num_wavs=$(wc -l < "$data_dir"/wav.scp)
-    if [ $nj -gt $num_wavs ]; then
-      nj=$num_wavs
-    fi
-    steps/make_mfcc.sh --mfcc-config conf/mfcc_hires.conf --nj $nj --cmd "$cmd" \
-      --write-utt2num-frames true ${test_data_dir}
-    steps/compute_cmvn_stats.sh ${test_data_dir}
-    utils/fix_data_dir.sh ${test_data_dir}
-  fi
-fi
-
+test_data_dir=${data_dir}_whole
+utils/data/convert_data_dir_to_whole.sh $data_dir $test_data_dir
+utils/fix_data_dir.sh $test_data_dir
 num_wavs=$(wc -l < "$data_dir"/wav.scp)
-if [ $nj -gt $num_wavs ]; then
-  nj=$num_wavs
+steps/make_mfcc.sh --mfcc-config conf/mfcc_hires.conf --nj $nj --cmd "$cmd" \
+  --write-utt2num-frames true ${test_data_dir}
+steps/compute_cmvn_stats.sh ${test_data_dir}
+utils/fix_data_dir.sh ${test_data_dir}
 fi
-
 ###############################################################################
 ## Forward pass through the network network and dump the log-likelihoods.
 ###############################################################################
