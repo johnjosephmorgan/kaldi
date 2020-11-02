@@ -63,15 +63,20 @@ if [ $stage -le 4 ]; then
 fi
 
 if [ $stage -le 5 ]; then
-  for dataset in dev-1 dev-2; do
+  for dataset in $test_sets; do
+    echo "$0 Stage 5: Run SAD dectection."
     local/segmentation/detect_speech_activity.sh \
       data/$dataset \
       exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix} \
       data/$dataset/data \
       exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix} \
       data/$dataset
+  done
+fi
 
-    echo "$0: evaluating $dataset output."
+if [ $stage -le 6 ]; then
+  for fld in $test_sets; do
+    echo "$0 Stage 6: evaluating $fld output."
   steps/overlap/get_overlap_segments.py data/$dataset/rttm.annotation | \
       md-eval.pl -r - -s exp/sad_$sad_affix/$dataset/rttm_sad |\
       awk 'or(/MISSED SPEAKER TIME/,/FALARM SPEAKER TIME/)'
