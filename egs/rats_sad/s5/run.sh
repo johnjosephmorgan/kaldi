@@ -64,7 +64,7 @@ fi
 
 if [ $stage -le 5 ]; then
   for dataset in $test_sets; do
-    echo "$0 Stage 5: Run SAD dectection."
+    echo "$0 Stage 5: Run SAD detection."
     local/segmentation/detect_speech_activity.sh \
       data/$dataset \
       exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix} \
