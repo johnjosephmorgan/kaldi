@@ -65,12 +65,16 @@ fi
 if [ $stage -le 5 ]; then
   for dataset in $test_sets; do
     echo "$0 Stage 5: Run SAD detection."
-    local/segmentation/detect_speech_activity.sh \
-      data/$dataset \
-      exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix} \
-      data/$dataset/data \
-      exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix} \
-      data/$dataset
+    local/detect_overlaps.sh --convert_data_dir_to_whole true \
+    --output-scale "1 2 1" data/${dataset} \
+    exp/sad_$sad_affix/tdnn_lstm_1a exp/sad_$sad_affix/$dataset
+
+#    local/segmentation/detect_speech_activity.sh \
+#      data/$dataset \
+#      exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix} \
+#      data/$dataset/data \
+#      exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix} \
+#      data/$dataset
   done
 fi
 
