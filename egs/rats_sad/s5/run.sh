@@ -64,16 +64,10 @@ fi
 
 if [ $stage -le 5 ]; then
   for dataset in dev-1 dev-2; do
-    echo "$0 Stage 5: Extract features for train data directory."
-    steps/make_mfcc.sh --nj $nj --cmd "$train_cmd"  --write-utt2num-frames true \
-      --mfcc-config conf/mfcc_hires.conf data/$dataset
-    steps/compute_cmvn_stats.sh data/train
-    utils/fix_data_dir.sh data/$dataset
-
     local/segmentation/detect_speech_activity.sh \
       data/$dataset \
       exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix} \
-      mfcc_hires \
+      data/$dataset/data \
       exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix} \
       data/$dataset
 
