@@ -83,7 +83,7 @@ steps/make_mfcc.sh --mfcc-config conf/mfcc_hires.conf --nj $nj --cmd "$cmd" \
   --write-utt2num-frames true ${test_data_dir}
 steps/compute_cmvn_stats.sh ${test_data_dir}
 utils/fix_data_dir.sh ${test_data_dir}
-fi
+
 ###############################################################################
 ## Forward pass through the network network and dump the log-likelihoods.
 ###############################################################################
