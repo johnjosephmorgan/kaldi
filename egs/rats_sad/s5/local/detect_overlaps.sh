@@ -108,7 +108,7 @@ fi
 mkdir -p $overlap_dir
 if [ $stage -le 1 ]; then
   if [ "$(readlink -f $nnet_dir)" != "$(readlink -f $overlap_dir)" ]; then
-    cp $nnet_dir/cmvn_opts $overlap_dir || exit 1
+    cp -v $nnet_dir/cmvn_opts $overlap_dir || exit 1
   fi
 
   ########################################################################
@@ -121,9 +121,7 @@ if [ $stage -le 1 ]; then
       $nnet_dir/$iter.raw $overlap_dir/${iter}_${output_name}.raw || exit 1
     iter=${iter}_${output_name}
   else 
-    if ! diff $nnet_dir/$iter.raw $out_dir/$iter.raw; then
-      cp $nnet_dir/$iter.raw $overlap_dir/
-    fi
+    cp -v $nnet_dir/$iter.raw $overlap_dir/
   fi
 
   steps/nnet3/compute_output.sh --nj $nj --cmd "$cmd" \
