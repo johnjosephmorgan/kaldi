@@ -16,7 +16,7 @@ nj=32
 cmd=run.pl
 stage=0
 region_type=overlap
-convert_data_dir_to_whole=false
+convert_data_dir_to_whole=true
 
 output_name=output   # The output node in the network
 output_scale= # provide scaling factors for "silence single overlap" (tune on dev set)
