@@ -63,7 +63,7 @@ if [ $stage -le 3 ]; then
   steps/overlap/get_overlap_targets.py \
     data/train_sad_whole/utt2num_frames \
     data/train_sad_whole/sad.rttm - |\
-    copy-feats ark,t:- arkt,scp:$dir/targets.txt,$dir/targets.scp
+    copy-feats ark:- ark,scp:$dir/targets.txt,$dir/targets.scp
 fi
 
 if [ $stage -le 4 ]; then
