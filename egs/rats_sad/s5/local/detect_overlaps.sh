@@ -13,7 +13,7 @@ set -u
 if [ -f ./path.sh ]; then . ./path.sh; fi
 
 nj=32
-cmd=queue.pl
+cmd=run.pl
 stage=0
 region_type=overlap
 convert_data_dir_to_whole=false
