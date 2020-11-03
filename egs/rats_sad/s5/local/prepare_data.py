@@ -109,6 +109,7 @@ def write_output(segments, out_path, min_length):
     rttm_str = "SPEAKER {0} 1 {1:7.5f} {2:7.5f} <NA> <NA> {3} <NA> <NA>\n"
     with open(out_path+'/rttm.annotation','w') as rttm_writer:
         for uid in sorted(reco_and_spk_to_segs):
+            print('wid', wid)
             segs = sorted(reco_and_spk_to_segs[uid], key=lambda x: x.start_time)
             reco_id, spk_id = uid
 
