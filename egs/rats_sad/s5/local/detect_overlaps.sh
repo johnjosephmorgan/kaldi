@@ -26,10 +26,10 @@ iter=final  # Model iteration to use
 
 # Contexts must ideally match training for LSTM models, but
 # may not necessarily for stats components
-extra_left_context=0  # Set to some large value, typically 40 for LSTM (must match training)
-extra_right_context=0  
-extra_left_context_initial=-1
-extra_right_context_final=-1
+extra_left_context=60  # Set to some large value, typically 40 for LSTM (must match training)
+extra_right_context=10  
+extra_left_context_initial=0
+extra_right_context_final=0
 frames_per_chunk=300
 
 # Decoding options
@@ -70,12 +70,11 @@ fi
 data_dir=$1   # The input data directory.
 nnet_dir=$2   # The overlap detection neural network
 out_dir=$3    # The output data directory
-
 data_id=`basename $data_dir`
 overlap_dir=${out_dir}/overlap # working directory
-
 test_data_dir=${data_dir}
 test_data_dir=${data_dir}_whole
+
 utils/data/convert_data_dir_to_whole.sh $data_dir $test_data_dir
 utils/fix_data_dir.sh $test_data_dir
 num_wavs=$(wc -l < "$data_dir"/wav.scp)

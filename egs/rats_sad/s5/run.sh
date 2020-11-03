@@ -55,16 +55,7 @@ fi
 sad_affix=1a
 if [ $stage -le 4 ]; then
   for dataset in $test_sets; do
-    echo "$0 Stage 4: Extract features for $dataset."
-    steps/make_mfcc.sh --mfcc-config conf/mfcc_hires.conf --nj $nj --cmd "$train_cmd" data/$dataset
-    steps/compute_cmvn_stats.sh data/$dataset
-    utils/fix_data_dir.sh data/$dataset
-  done
-fi
-
-if [ $stage -le 5 ]; then
-  for dataset in $test_sets; do
-    echo "$0 Stage 5: Run SAD detection."
+    echo "$0 Stage 4: Run SAD detection."
     local/detect_overlaps.sh \
       --convert_data_dir_to_whole true \
       --output-scale "1 2 1" \
