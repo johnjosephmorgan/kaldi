@@ -107,7 +107,6 @@ def write_output(segments, out_path, min_length):
 
             for seg in segs:
                 # skip the non-speech segments
-                print('sad label', seg.sad_label)
                 if seg.sad_label == 'NS':
                     continue
                 elif seg.sad_label == 'NT':
@@ -115,7 +114,6 @@ def write_output(segments, out_path, min_length):
                 elif seg.sad_label == 'RX':
                     continue
                 elif seg.dur >= min_length:
-                    print('writing', seg.sad_label)
                     rttm_writer.write(rttm_str.format(reco_id, seg.start_time, seg.dur, spk_id))
                 else:
                     print('Bad segment', seg)
