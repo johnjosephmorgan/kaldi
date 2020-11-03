@@ -69,13 +69,6 @@ def read_annotations(file_path):
     with open(file_path, 'r') as f:
         for line in f.readlines():
             fields = line.strip().split()
-            # skip the non-speech records
-            if fields[5] == 'NS':
-                continue
-            elif fields[5] == 'NT':
-                continue
-            elif fields[5] == 'RX':
-                continue
             segments.append(Segment(fields))
     return segments
 
@@ -110,11 +103,19 @@ def write_output(segments, out_path, min_length):
     with open(out_path+'/rttm.annotation','w') as rttm_writer:
         for uid in sorted(reco_and_spk_to_segs):
             segs = sorted(reco_and_spk_to_segs[uid], key=lambda x: x.start_time)
-            print('segs', segs)
             reco_id, spk_id = uid
 
             for seg in segs:
-                if seg.dur >= min_length:
+                # skip the non-speech segments
+                print('sad label', sad_label)
+                if seg.sad_label == 'NS':
+                    continue
+                elif seg.sad_label == 'NT':
+                    continue
+                elif seg.sad_label == 'RX':
+                    continue
+                elif seg.dur >= min_length:
+                    print('writing', seg.sad_label)
                     rttm_writer.write(rttm_str.format(reco_id, seg.start_time, seg.dur, spk_id))
                 else:
                     print('Bad segment', seg)
