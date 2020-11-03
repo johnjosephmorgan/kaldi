@@ -6,7 +6,7 @@ Apache 2.0  (http://www.apache.org/licenses/LICENSE-2.0)
 
 Prepare rats_sad data for training a speech activity detection system.
 Input comes from the annotations provided with the corpus. 
-Output is written in an RTTM file.
+Output is written to an RTTM file.
 """
 
 import sys
@@ -69,6 +69,13 @@ def read_annotations(file_path):
     with open(file_path, 'r') as f:
         for line in f.readlines():
             fields = line.strip().split()
+            # skip the non-speech records
+            if fields[5] == 'NS':
+                continue
+            elif fields[5] == 'NT':
+                continue
+            elif fields[5] == 'RX':
+                continue
             segments.append(Segment(fields))
     return segments
 
