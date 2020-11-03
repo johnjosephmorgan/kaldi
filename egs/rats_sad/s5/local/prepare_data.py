@@ -110,7 +110,7 @@ def write_output(segments, out_path, min_length):
     with open(out_path+'/rttm.annotation','w') as rttm_writer:
         for uid in sorted(reco_and_spk_to_segs):
             segs = sorted(reco_and_spk_to_segs[uid], key=lambda x: x.start_time)
-            print('segs, segs)
+            print('segs', segs)
             reco_id, spk_id = uid
 
             for seg in segs:
