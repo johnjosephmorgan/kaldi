@@ -107,7 +107,7 @@ def write_output(segments, out_path, min_length):
 
             for seg in segs:
                 # skip the non-speech segments
-                print('sad label', sad_label)
+                print('sad label', seg.sad_label)
                 if seg.sad_label == 'NS':
                     continue
                 elif seg.sad_label == 'NT':
