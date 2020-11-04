@@ -47,6 +47,7 @@ if [ $stage -le 1 ]; then
   utils/copy_data_dir.sh data/train data/train_sad
   cp data/train/rttm.annotation data/train_sad
   utils/data/convert_data_dir_to_whole.sh data/train_sad data/train_sad_whole
+  echo "$0: Modify the rttm file."
   steps/overlap/get_overlap_segments.py data/train_sad/rttm.annotation > data/train_sad_whole/sad.rttm
 fi
 
@@ -63,7 +64,7 @@ if [ $stage -le 3 ]; then
   steps/overlap/get_overlap_targets.py \
     data/train_sad_whole/utt2num_frames \
     data/train_sad_whole/sad.rttm - |\
-    copy-feats ark:- ark,scp:$dir/targets.txt,$dir/targets.scp
+    copy-feats ark:- ark,scp:$dir/targets.ark,$dir/targets.scp
 fi
 
 if [ $stage -le 4 ]; then
