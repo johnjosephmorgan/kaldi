@@ -21,7 +21,7 @@ if [ $stage -le 0 ]; then
   echo "$0 Stage 0: Get  all info files."
   local/rats_sad_text_prep.sh $rats_sad_data_dir
 fi
-exit
+
 if [ $stage -le 1 ]; then
   echo "$0 Stage 1: Preparing data directories."
   for fld in train $test_sets ; do
