@@ -60,15 +60,21 @@ if [ $stage -le 4 ]; then
   utils/data/convert_data_dir_to_whole.sh data/train_sad data/train_sad_whole
 fi
 
-if [ $stage -le 4 ]; then
-  echo "$0 Stage 4: training a Speech Activity detector."
+if [ $stage -le 5 ]; then
+  echo "$0 Stage 5: Modify the rttm file."
+  local/get_speech_segments.py data/train_sad/rttm.annotation > \
+    data/train_sad_whole/sad.rttm
+fi
+
+if [ $stage -le 6]; then
+  echo "$0 Stage 6: training a Speech Activity detector."
   local/train_sad.sh --stage $sad_stage --test-sets "$test_sets"
 fi
 
 sad_affix=1a
-if [ $stage -le 4 ]; then
+if [ $stage -le 5 ]; then
   for dataset in $test_sets; do
-    echo "$0 Stage 4: Run SAD detection."
+    echo "$0 Stage 5: Run SAD detection."
     local/detect_overlaps.sh \
       --convert_data_dir_to_whole true \
       --output-scale "1 2 1" \
