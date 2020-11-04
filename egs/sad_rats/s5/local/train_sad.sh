@@ -31,6 +31,7 @@ fi
 
 if [ $stage -le 0 ]; then
   echo "$0 Stage 0: Get targets."
+  mkdir -p $dir
   local/get_speech_targets.py \
     data/train_sad_whole/utt2num_frames \
     data/train_sad/rttm.annotation - |\
