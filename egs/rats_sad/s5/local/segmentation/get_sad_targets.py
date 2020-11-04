@@ -4,7 +4,7 @@
 # Copyright 2020  John Morgan (ARL)
 # Apache 2.0
 
-# This script prepares targets for whole recordings for training
+# This script prepares targets for 'whole' recordings for training
 # a Speech Activity detector system. It just takes as input a data dir
 # where it is assumed that MFCC features have already been
 # extracted.
