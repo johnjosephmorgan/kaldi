@@ -4,7 +4,6 @@
 
 # This recipe builds a Speech Activity Detection system on the rats_sad corpus.
 # The LDC identifyer for the rats_sad corpus is LDC2015S02.
-
 . ./cmd.sh
 . ./path.sh
 set -euo pipefail
@@ -16,14 +15,13 @@ nj=16
 decode_nj=8
 train_set=train
 test_sets="dev-1 dev-2 "
-
 . utils/parse_options.sh
 
 if [ $stage -le 0 ]; then
   echo "$0 Stage 0: Get  all info files."
   local/rats_sad_text_prep.sh $rats_sad_data_dir
 fi
-
+exit
 if [ $stage -le 1 ]; then
   echo "$0 Stage 1: Preparing data directories."
   for fld in train $test_sets ; do
@@ -48,7 +46,24 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ]; then
-  echo "$0 Stage 3: training a Speech Activity detector."
+
+if [ $stage -le 3 ]; then
+  echo "$0 Stage 3: Extract features for train data directory."
+  local/make_mfcc.sh --nj $nj --cmd "$train_cmd"  --write-utt2num-frames true \
+    --mfcc-config conf/mfcc_hires.conf data/train
+  steps/compute_cmvn_stats.sh data/train
+  utils/fix_data_dir.sh data/train
+fi
+
+if [ $stage -le 4 ]; then
+  echo "$0 Stage 4: Prepare a 'whole' training data (not segmented) for training the SAD."
+  utils/copy_data_dir.sh data/train data/train_sad
+  cp data/train/rttm.annotation data/train_sad
+  utils/data/convert_data_dir_to_whole.sh data/train_sad data/train_sad_whole
+fi
+
+if [ $stage -le 4 ]; then
+  echo "$0 Stage 4: training a Speech Activity detector."
   local/train_sad.sh --stage $sad_stage --test-sets "$test_sets"
 fi
 
