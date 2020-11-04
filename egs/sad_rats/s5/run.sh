@@ -46,8 +46,6 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ]; then
-
-if [ $stage -le 3 ]; then
   echo "$0 Stage 3: Extract features for train data directory."
   local/make_mfcc.sh --nj $nj --cmd "$train_cmd"  --write-utt2num-frames true \
     --mfcc-config conf/mfcc_hires.conf data/train
