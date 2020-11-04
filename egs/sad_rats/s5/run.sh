@@ -61,12 +61,14 @@ if [ $stage -le 4 ]; then
 fi
 
 if [ $stage -le 5 ]; then
-  echo "$0 Stage 5: Modify the rttm file."
-  local/get_speech_segments.py data/train_sad/rttm.annotation > \
-    data/train_sad_whole/sad.rttm
+  echo "$0 Stage 5: Extract features for the 'whole' data directory."
+  steps/make_mfcc.sh --nj $nj --cmd "$train_cmd"  --write-utt2num-frames true \
+    --mfcc-config conf/mfcc_hires.conf data/train_sad_whole
+  steps/compute_cmvn_stats.sh data/train_sad_whole
+  utils/fix_data_dir.sh data/train_sad_whole
 fi
 
-if [ $stage -le 6]; then
+if [ $stage -le 6 ]; then
   echo "$0 Stage 6: training a Speech Activity detector."
   local/train_sad.sh --stage $sad_stage --test-sets "$test_sets"
 fi
