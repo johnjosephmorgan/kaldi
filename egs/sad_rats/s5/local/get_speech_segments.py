@@ -82,7 +82,7 @@ def main():
     with open(args.input_rttm, 'r') as f:
         for line in f.readlines():
             fields = line.strip().split()
-            segments.append(Segment(fields[1], float(fieldss[3]), dur=float(fields[4]), spk_id=fields[7]))
+            segments.append(Segment(fields[1], float(fields[3]), dur=float(fields[4]), spk_id=fields[7]))
 
     # Group the segment list into a dictionary indexed by reco_id
     reco2segs = defaultdict(list,
