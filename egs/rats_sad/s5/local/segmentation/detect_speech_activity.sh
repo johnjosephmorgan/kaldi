@@ -60,7 +60,7 @@ merge_consecutive_max_dur=0   # Merge consecutive segments as long as the merged
                               # This is after padding by --segment-padding seconds.
                               # 0 means do not merge. Use 'inf' to not limit the duration.
 
-echo $* 
+echo "$0 $*"
 
 . utils/parse_options.sh
 
