@@ -69,7 +69,7 @@ if [ $stage -le 5 ]; then
   for fld in $test_sets; do
     echo "$0 Stage 5: evaluating $fld output."
   steps/overlap/get_overlap_segments.py data/$fld/rttm.annotation | \
-      md-eval.pl -r - -s exp/segmentation_${sad_affix}/$fld/rttm_overlap |\
+      md-eval.pl -r - -s exp/segmentation_${sad_affix}/sad_${fld}/rttm_overlap |\
       awk 'or(/MISSED SPEAKER TIME/,/FALARM SPEAKER TIME/)'
   done
 fi
