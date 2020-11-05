@@ -87,7 +87,7 @@ EOF
     --config-dir $dir/configs/
 
   cat <<EOF >> $dir/configs/vars
-num_targets=3
+num_targets=2
 EOF
 fi
 
