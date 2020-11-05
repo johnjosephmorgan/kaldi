@@ -40,7 +40,7 @@ if [ $stage -le 1 ]; then
   echo "$0 Stage 1: Train a TDNN+LSTM network for SAD."
   local/segmentation/run_lstm.sh \
     --stage $nstage --train-stage $train_stage \
-    --targets-dir $<dir \
+    --targets-dir $dir \
     --data-dir data/train_sad_whole --affix $affix || exit 1
 fi
 
