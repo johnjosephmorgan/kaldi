@@ -74,23 +74,21 @@ if [ $stage -le 6 ]; then
 fi
 
 sad_affix=1a
-if [ $stage -le 5 ]; then
-  for dataset in $test_sets; do
-    echo "$0 Stage 5: Run SAD detection."
-    local/detect_overlaps.sh \
-      --convert_data_dir_to_whole true \
-      --output-scale "1 2 1" \
-      data/${dataset} \
+if [ $stage -le 7 ]; then
+  for fld in $test_sets; do
+    echo "$0 Stage 7: Run SAD detection on $fld."
+    local/detect_speech_activity.sh \
+      --output-scale "1 2" \
+      data/${fld} \
       exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix} \
-      exp/segmentation_${sad_affix}/sad_${dataset}
+      exp/segmentation_${sad_affix}/${fld}_sad
   done
 fi
 
-if [ $stage -le 5 ]; then
+if [ $stage -le 8 ]; then
   for fld in $test_sets; do
-    echo "$0 Stage 5: evaluating $fld output."
-  steps/overlap/get_overlap_segments.py data/$fld/rttm.annotation | \
-      md-eval.pl -r - -s exp/segmentation_${sad_affix}/sad_${fld}/rttm_overlap |\
+    echo "$0 Stage 8: evaluating $fld output."
+      md-eval.pl -r data/$fld/rttm.annotation -s exp/segmentation_${sad_affix}/sad_${fld}/rttm_sad |\
       awk 'or(/MISSED SPEAKER TIME/,/FALARM SPEAKER TIME/)'
   done
 fi
