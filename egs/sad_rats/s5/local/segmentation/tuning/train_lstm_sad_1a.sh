@@ -31,7 +31,7 @@ max_param_change=0.2  # Small max-param change for small network
 dropout_schedule='0,0@0.20,0.1@0.50,0'
 
 egs_dir=
-nj=40
+nj=10
 
 dir=
 affix=1a
@@ -81,7 +81,7 @@ if [ $stage -le 5 ]; then
   fast-lstmp-layer name=lstm2 cell-dim=$cell_dim recurrent-projection-dim=$projection_dim non-recurrent-projection-dim=$projection_dim decay-time=20 delay=-3 dropout-proportion=0.0
   relu-renorm-layer name=tdnn5 input=Append(-12,0,12,24) dim=$relu_dim
 
-  output-layer name=output include-log-softmax=true dim=3 learning-rate-factor=0.1 input=tdnn5
+  output-layer name=output include-log-softmax=true dim=2 learning-rate-factor=0.1 input=tdnn5
 EOF
   steps/nnet3/xconfig_to_configs.py --xconfig-file $dir/configs/network.xconfig \
     --config-dir $dir/configs/
