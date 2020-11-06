@@ -143,17 +143,21 @@ if [ ! -f $dir/post_${output_name}.vec ]; then
 fi
 
 if [ $stage -le 4 ]; then
+  echo "$0 Stage 4: Getting probability matrix."
   steps/segmentation/internal/get_transform_probs_mat.py \
     --priors="$post_vec" $transform_probs_opts > $dir/transform_probs.mat
+fi
 
+if [ $stage -le 5 ]; then
+  echo "$0 Stage 5: Decoding."
   steps/segmentation/decode_sad.sh --acwt $acwt --cmd "$cmd" \
     --nj $nj \
     --transform "$dir/transform_probs.mat" \
     $graph_dir $dir $dir
 fi
 
-if [ $stage -le 5 ]; then
-    echo "$0 Stage 5: Post-process segmentation to create kaldi data directory."
+if [ $stage -le 6 ]; then
+    echo "$0 Stage 6: Post-process segmentation to create kaldi data directory."
   steps/segmentation/post_process_sad_to_segments.sh \
     --segment-padding $segment_padding --min-segment-dur $min_segment_dur \
     --merge-consecutive-max-dur $merge_consecutive_max_dur \
@@ -161,7 +165,7 @@ if [ $stage -le 5 ]; then
     data/${fld}_whole ${dir} ${dir}
 fi
 
-if [ $stage -le 6 ]; then
+if [ $stage -le 7 ]; then
   utils/data/subsegment_data_dir.sh daa/${fld}_whole $dir/segments \
     data/${fld}_seg
   cp data/$fld}/wav.scp data/${fld}_seg
