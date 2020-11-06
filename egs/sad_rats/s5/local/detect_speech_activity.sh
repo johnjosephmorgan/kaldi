@@ -94,7 +94,7 @@ if [ -f $dir/frame_subsampling_factor ]; then
   frame_subsampling_factor=$(cat $dir/frame_subsampling_factor)
 fi
 
-mkdir -p $dir
+mkdir -p $dir/$fld
 if [ $stage -le 2 ]; then
   echo "$0 Stage 2: Forward pass through the network and dump log-likelihoods for $fld."
   steps/nnet3/compute_output.sh --nj $nj --cmd "$cmd" \
@@ -105,7 +105,7 @@ if [ $stage -le 2 ]; then
     --extra-right-context-final $extra_right_context_final \
     --frames-per-chunk $frames_per_chunk --apply-exp true \
     --frame-subsampling-factor $frame_subsampling_factor \
-    data/${fld}_whole $dir $dir || exit 1
+    data/${fld}_whole $dir $dir/$fld || exit 1
 fi
 
 utils/data/get_utt2dur.sh --nj $nj --cmd "$cmd" data/${fld}_whole || exit 1
@@ -153,7 +153,7 @@ if [ $stage -le 5 ]; then
   steps/segmentation/decode_sad.sh --acwt $acwt --cmd "$cmd" \
     --nj $nj \
     --transform "$dir/transform_probs.mat" \
-    $graph_dir $dir $dir
+    $graph_dir $dir $dir/$fld
 fi
 
 if [ $stage -le 6 ]; then
@@ -162,12 +162,12 @@ if [ $stage -le 6 ]; then
     --segment-padding $segment_padding --min-segment-dur $min_segment_dur \
     --merge-consecutive-max-dur $merge_consecutive_max_dur \
     --cmd "$cmd" --frame-shift $(perl -e "print $frame_subsampling_factor * $frame_shift") \
-    data/${fld}_whole ${dir} ${dir}
+    data/${fld}_whole $dir/$fld $dir/$fld
 fi
 
 if [ $stage -le 7 ]; then
   echo "$0 Stage 7: Subsegmenting."
-  utils/data/subsegment_data_dir.sh data/${fld}_whole $dir/segments \
+  utils/data/subsegment_data_dir.sh data/${fld}_whole $dir/$fld/segments \
     data/${fld}_seg
   cp data/$fld/wav.scp data/${fld}_seg
   cp data/$fld/{stm,reco2file_and_channel,glm} data/${fld}_seg/ || true

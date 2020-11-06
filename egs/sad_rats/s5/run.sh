@@ -86,10 +86,11 @@ if [ $stage -le 7 ]; then
 fi
 
 if [ $stage -le 8 ]; then
-  for fld in $test_sets; do
+    for fld in $test_sets; do
+	mkdir -p exp/segmentation_${sad_affix}/$fld
     steps/segmentation/convert_utt2spk_and_segments_to_rttm.py \
-      data/${fld}_whole/utt2spk \
-      exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix}/segments
+      data/${fld}_seg/utt2spk \
+      exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix}/segments \
     exp/segmentation_${sad_affix}/$fld/sad.rttm
   done
 fi
