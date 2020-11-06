@@ -166,6 +166,7 @@ if [ $stage -le 6 ]; then
 fi
 
 if [ $stage -le 7 ]; then
+  echo "$0 Stage 7: Subsegmenting."
   utils/data/subsegment_data_dir.sh data/${fld}_whole $dir/segments \
     data/${fld}_seg
   cp data/$fld}/wav.scp data/${fld}_seg
