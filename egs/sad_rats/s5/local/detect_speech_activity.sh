@@ -67,8 +67,7 @@ if [ $# -ne 1 ]; then
   echo "Usage: $0 <src-data-dir>"
   echo "<src_data_dir>: The input data directory that needs to be segmented.
   echo "For example :"
-  $0 data/dev-1
-  echo ""
+  $echo "0 data/dev-1"
   exit 1
 fi
 
@@ -82,7 +81,7 @@ if [ $stage -le 0 ]; then
 fi
 
 if [ $stage -le 1 ]; then
-  echo "$0: Extract input features in data/${fld}_whole."
+  echo "$0 Stage 1: Extract input features in data/${fld}_whole."
   utils/fix_data_dir.sh data/${fld}_whole
   steps/make_mfcc.sh --mfcc-config $mfcc_config --nj $nj --cmd "$cmd" --write-utt2num-frames true \
     data/${fld}_whole 
@@ -97,7 +96,7 @@ fi
 
 mkdir -p $dir
 if [ $stage -le 2 ]; then
-  echo "$0 Stage 2: Forward pass through the network network and dump the log-likelihoods."
+  echo "$0 Stage 2: Forward pass through the network and dump the log-likelihoods."
   steps/nnet3/compute_output.sh --nj $nj --cmd "$cmd" \
     --iter ${iter} \
     --extra-left-context $extra_left_context \
@@ -170,5 +169,5 @@ if [ $stage -le 6 ]; then
   utils/fix_data_dir.sh data/${fld}_seg
 fi
 
-echo "$0: Created output segmented kaldi data directory in data/${fld}_seg"
+echo "$0: Created output segmented kaldi data directory in data/${fld}_seg."
 exit 0
