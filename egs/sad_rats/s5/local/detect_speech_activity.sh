@@ -73,8 +73,7 @@ fi
 
 fld=$1
 
-affix=1a
-dir=exp/segmentation_${affix}/tdnn_lstm_asr_sad_${afix}
+dir=exp/segmentation_${affix}/tdnn_lstm_asr_sad_${affix}
 
 if [ $stage -le 0 ]; then
     utils/data/convert_data_dir_to_whole.sh data/$fld data/${fld}_whole
