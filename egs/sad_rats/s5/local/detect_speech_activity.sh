@@ -144,7 +144,7 @@ fi
 
 if [ $stage -le 4 ]; then
   echo "$0 Stage 4: Getting probability matrix."
-  steps/segmentation/internal/get_transform_probs_mat.py \
+  local/get_transform_probs_mat.py \
     --priors="$post_vec" $transform_probs_opts > $dir/transform_probs.mat
 fi
 
