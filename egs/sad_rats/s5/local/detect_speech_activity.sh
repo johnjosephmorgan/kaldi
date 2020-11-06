@@ -76,6 +76,7 @@ fld=$1
 dir=exp/segmentation_${affix}/tdnn_lstm_asr_sad_${affix}
 
 if [ $stage -le 0 ]; then
+    echo "$0 Stage 0: Convert $fld to whole."
     utils/data/convert_data_dir_to_whole.sh data/$fld data/${fld}_whole
 fi
 
@@ -95,7 +96,7 @@ fi
 
 mkdir -p $dir
 if [ $stage -le 2 ]; then
-  echo "$0 Stage 2: Forward pass through the network and dump the log-likelihoods."
+  echo "$0 Stage 2: Forward pass through the network and dump log-likelihoods for $fld."
   steps/nnet3/compute_output.sh --nj $nj --cmd "$cmd" \
     --iter ${iter} \
     --extra-left-context $extra_left_context \
@@ -107,7 +108,7 @@ if [ $stage -le 2 ]; then
     data/${fld}_whole $dir $dir || exit 1
 fi
 
-utils/data/get_utt2dur.sh --nj $nj --cmd "$cmd" data/${fld{_whole || exit 1
+utils/data/get_utt2dur.sh --nj $nj --cmd "$cmd" data/${fld}_whole || exit 1
 frame_shift=$(utils/data/get_frame_shift.sh data/${fld}_whole) || exit 1
 graph_dir=${dir}/graph_${output_name}
 
