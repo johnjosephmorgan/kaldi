@@ -64,7 +64,7 @@ if [ $# -ne 1 ]; then
   echo "This script does nnet3-based speech activity detection."
   "Input is a kaldi  directory."
   echo "Outputs is also a kaldi data directory."
-  echo "Usage: $0 <src-data-dir>
+  echo "Usage: $0 <src-data-dir>"
   echo "<src_data_dir>: The input data directory that needs to be segmented.
   echo "For example :"
   $0 data/dev-1
