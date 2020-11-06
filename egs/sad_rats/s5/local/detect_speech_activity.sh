@@ -2,7 +2,7 @@
 
 # Copyright 2016-17  Vimal Manohar
 #              2017  Nagendra Kumar Goel
-# Copyright  2020 John Morgan
+# Copyright  2020 John Morgan (ARL)
 # Apache 2.0.
 
 # This script does nnet3-based speech activity detection.
@@ -62,7 +62,7 @@ echo "$0 $*"
 
 if [ $# -ne 1 ]; then
   echo "This script does nnet3-based speech activity detection."
-  "Input is a kaldi  directory."
+  echo "Input is a kaldi  directory."
   echo "Outputs is also a kaldi data directory."
   echo "Usage: $0 <src-data-dir>"
   echo "<src_data_dir>: The input data directory that needs to be segmented.
