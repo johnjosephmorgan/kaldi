@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 # Copyright 2017  Vimal Manohar
+# Copyright 2017  John Morgan (ARL)
 # Apache 2.0
 
 import argparse
@@ -59,7 +60,7 @@ def run(args):
     sil_prior = priors[0][0] / priors_sum
     speech_prior = priors[0][1] / priors_sum
     transform_mat = [[args.sil_scale / sil_prior,
-                      args.speech_in_sil_weight / speech_prior,
+                      args.speech_in_sil_weight / speech_prior],
                       [args.sil_in_speech_weight / sil_prior,
                       1.0 / speech_prior]]
     common_lib.write_matrix_ascii(sys.stdout, transform_mat)
