@@ -90,7 +90,7 @@ if [ $stage -le 8 ]; then
     steps/segmentation/convert_utt2spk_and_segments_to_rttm.py \
       data/${fld}_whole/utt2spk \
       exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix}/segments
-    exp/segmentation_${sad_affix}/sad.rttm
+    exp/segmentation_${sad_affix}/$fld/sad.rttm
   done
 fi
 
@@ -98,7 +98,7 @@ if [ $stage -le 9 ]; then
     for fld in $test_sets; do
     echo "$0 Stage 9: evaluating $fld output."
     md-eval.pl -r data/$fld/rttm.annotation \
-      -s exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${fld}/rttm_sad |\
+      -s exp/segmentation_${sad_affix}/$fld/sad.rttm |\
       awk 'or(/MISSED SPEAKER TIME/,/FALARM SPEAKER TIME/)'
   done
 fi
