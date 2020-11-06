@@ -67,7 +67,7 @@ if [ $# -ne 1 ]; then
   echo "Usage: $0 <src-data-dir>"
   echo "<src_data_dir>: The input data directory that needs to be segmented.
   echo "For example :"
-  $echo "0 data/dev-1"
+  echo "$0 data/dev-1"
   exit 1
 fi
 
