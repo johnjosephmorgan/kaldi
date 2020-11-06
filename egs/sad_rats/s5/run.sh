@@ -98,8 +98,8 @@ fi
 if [ $stage -le 9 ]; then
     for fld in $test_sets; do
     echo "$0 Stage 9: evaluating $fld output."
-    md-eval.pl -r data/$fld/rttm.annotation \
-      -s exp/segmentation_${sad_affix}/$fld/sad.rttm |\
-      awk 'or(/MISSED SPEAKER TIME/,/FALARM SPEAKER TIME/)'
+    md-eval.pl -1 -c 0.25 -r data/$fld/rttm.annotation \
+      -s exp/segmentation_${sad_affix}/$fld/sad.rttm > \
+      exp/segmentation_${sad_affix}/$fld/results.txt
   done
 fi
