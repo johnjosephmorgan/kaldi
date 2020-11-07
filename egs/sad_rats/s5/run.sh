@@ -70,7 +70,7 @@ if [ $stage -le 5 ]; then
 fi
 
 if [ $stage -le 6 ]; then
-<  echo "$0 Stage 6: Get targets."
+  echo "$0 Stage 6: Get targets."
   mkdir -p $dir
   local/get_speech_targets.py \
     data/train_sad_whole/utt2num_frames \
