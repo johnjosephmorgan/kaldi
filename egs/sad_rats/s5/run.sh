@@ -14,7 +14,7 @@ rats_sad_data_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data
 nj=10
 test_sets="dev-1 dev-2 "
 affix=1a
-dir=exp/segmentation_${afix}
+dir=exp/segmentation_${affix}
 
 . utils/parse_options.sh
 
@@ -70,7 +70,7 @@ if [ $stage -le 5 ]; then
 fi
 
 if [ $stage -le 6 ]; then
-  echo "$0 Stage 6: Get targets."
+<  echo "$0 Stage 6: Get targets."
   mkdir -p $dir
   local/get_speech_targets.py \
     data/train_sad_whole/utt2num_frames \
