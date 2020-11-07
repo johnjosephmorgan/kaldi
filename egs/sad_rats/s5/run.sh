@@ -13,6 +13,7 @@ sad_stage=0
 rats_sad_data_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data
 nj=10
 test_sets="dev-1 dev-2 "
+sad_affix=1a
 
 . utils/parse_options.sh
 
@@ -67,38 +68,46 @@ if [ $stage -le 5 ]; then
   utils/fix_data_dir.sh data/train_sad_whole
 fi
 
+dir=exp/segmentation_${sad_afix}
 if [ $stage -le 6 ]; then
-  echo "$0 Stage 6: training a Speech Activity detector."
-  local/train_sad.sh --stage $sad_stage --test-sets "$test_sets"
+  echo "$0 Stage 6: Get targets."
+  mkdir -p $dir
+  local/get_speech_targets.py \
+    data/train_sad_whole/utt2num_frames \
+    data/train_sad/rttm.annotation - |\
+    copy-feats ark:- ark,scp:$dir/targets.ark,$dir/targets.scp
 fi
 
-sad_affix=1a
 if [ $stage -le 7 ]; then
-  for fld in $test_sets; do
-    echo "$0 Stage 7: Run SAD detection on $fld."
-    local/detect_speech_activity.sh \
-      --output-scale "1 2" \
-      data/${fld} \
-      exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix} \
-      exp/segmentation_${sad_affix}/${fld}_sad
-  done
+  echo "$0 Stage 7: Train a TDNN+LSTM network for SAD."
+  local/segmentation/run_lstm.sh \
+    --stage 0 --train-stage -10 \
+    --targets-dir $dir \
+    --data-dir data/train_sad_whole --affix $sad_affix || exit 1
 fi
 
 if [ $stage -le 8 ]; then
-    for fld in $test_sets; do
-	mkdir -p exp/segmentation_${sad_affix}/$fld
-    steps/segmentation/convert_utt2spk_and_segments_to_rttm.py \
-      data/${fld}_seg/utt2spk \
-      exp/segmentation_${sad_affix}/tdnn_lstm_asr_sad_${sad_affix}/segments \
-    exp/segmentation_${sad_affix}/$fld/sad.rttm
+  for fld in $test_sets; do
+    echo "$0 Stage 8: Run SAD detection on $fld."
+    local/detect_speech_activity.sh $fld
   done
 fi
 
 if [ $stage -le 9 ]; then
     for fld in $test_sets; do
-    echo "$0 Stage 9: evaluating $fld output."
+	mkdir -p $dir/$fld
+    steps/segmentation/convert_utt2spk_and_segments_to_rttm.py \
+      data/${fld}_seg/utt2spk \
+      $dir/tdnn_lstm_asr_sad_${sad_affix}/segments \
+    $dir/$fld/sad.rttm
+  done
+fi
+
+if [ $stage -le 10 ]; then
+    for fld in $test_sets; do
+    echo "$0 Stage 10: evaluating $fld output."
     md-eval.pl -1 -c 0.25 -r data/$fld/rttm.annotation \
-      -s exp/segmentation_${sad_affix}/$fld/sad.rttm > \
-      exp/segmentation_${sad_affix}/$fld/results.txt
+      -s $dir/$fld/sad.rttm > \
+      $dir/$fld/results.txt
   done
 fi
