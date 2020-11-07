@@ -13,7 +13,8 @@ sad_stage=0
 rats_sad_data_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data
 nj=10
 test_sets="dev-1 dev-2 "
-sad_affix=1a
+affix=1a
+dir=exp/segmentation_${afix}
 
 . utils/parse_options.sh
 
@@ -68,7 +69,6 @@ if [ $stage -le 5 ]; then
   utils/fix_data_dir.sh data/train_sad_whole
 fi
 
-dir=exp/segmentation_${sad_afix}
 if [ $stage -le 6 ]; then
   echo "$0 Stage 6: Get targets."
   mkdir -p $dir
@@ -83,7 +83,7 @@ if [ $stage -le 7 ]; then
   local/segmentation/run_lstm.sh \
     --stage 0 --train-stage -10 \
     --targets-dir $dir \
-    --data-dir data/train_sad_whole --affix $sad_affix || exit 1
+    --data-dir data/train_sad_whole --affix $affix || exit 1
 fi
 
 if [ $stage -le 8 ]; then
@@ -98,7 +98,7 @@ if [ $stage -le 9 ]; then
 	mkdir -p $dir/$fld
     steps/segmentation/convert_utt2spk_and_segments_to_rttm.py \
       data/${fld}_seg/utt2spk \
-      $dir/tdnn_lstm_asr_sad_${sad_affix}/segments \
+      $dir/tdnn_lstm_asr_sad_${affix}/segments \
     $dir/$fld/sad.rttm
   done
 fi
