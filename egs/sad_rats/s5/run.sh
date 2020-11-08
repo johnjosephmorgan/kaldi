@@ -98,7 +98,7 @@ if [ $stage -le 9 ]; then
 	mkdir -p $dir/$fld
     steps/segmentation/convert_utt2spk_and_segments_to_rttm.py \
       data/${fld}_seg/utt2spk \
-      $dir/tdnn_lstm_asr_sad_${affix}/segments \
+      $dir/tdnn_lstm_sad_${affix}/segments \
     $dir/$fld/sad.rttm
   done
 fi

@@ -73,7 +73,7 @@ fi
 
 fld=$1
 
-dir=exp/segmentation_${affix}/tdnn_lstm_asr_sad_${affix}
+dir=exp/sad_${affix}/tdnn_lstm_sad_${affix}
 
 if [ $stage -le 0 ]; then
     echo "$0 Stage 0: Convert $fld to whole."
