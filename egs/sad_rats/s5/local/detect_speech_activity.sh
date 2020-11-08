@@ -63,9 +63,10 @@ echo "$0 $*"
 if [ $# -ne 1 ]; then
   echo "This script does nnet3-based speech activity detection."
   echo "Input is a kaldi  directory."
-  echo "Outputs is also a kaldi data directory."
-  echo "Usage: $0 <src-data-dir>"
-  echo "<src_data_dir>: The input data directory that needs to be segmented."
+  echo "Output is also a kaldi data directory."
+  echo "Usage: $0 <FOLD>"
+  echo "<FOLD>: The data fold."
+  echo "The directory data/<FOLD> must exist."
   echo "For example :"
   echo "$0 dev-1"
   exit 1
@@ -73,10 +74,11 @@ fi
 
 fld=$1
 
-dir=exp/sad_${affix}/tdnn_lstm_sad_${affix}
+dir=exp/sad_${affix}
+model_dir=$dir//tdnn_lstm_sad_${affix}
 
 if [ $stage -le 0 ]; then
-    echo "$0 Stage 0: Convert $fld to whole."
+    echo "$0 Stage 0: Convert $fld directory to whole."
     utils/data/convert_data_dir_to_whole.sh data/$fld data/${fld}_whole
 fi
 
@@ -90,7 +92,7 @@ if [ $stage -le 1 ]; then
 fi
 
 frame_subsampling_factor=1
-if [ -f $dir/frame_subsampling_factor ]; then
+if [ -f $model_dir/frame_subsampling_factor ]; then
   frame_subsampling_factor=$(cat $dir/frame_subsampling_factor)
 fi
 
@@ -105,7 +107,7 @@ if [ $stage -le 2 ]; then
     --extra-right-context-final $extra_right_context_final \
     --frames-per-chunk $frames_per_chunk --apply-exp true \
     --frame-subsampling-factor $frame_subsampling_factor \
-    data/${fld}_whole $dir $dir/$fld || exit 1
+    data/${fld}_whole $model_dir $dir/$fld || exit 1
 fi
 
 utils/data/get_utt2dur.sh --nj $nj --cmd "$cmd" data/${fld}_whole || exit 1
@@ -130,22 +132,22 @@ EOF
 fi
 
 post_vec=$dir/post_${output_name}.vec
-if [ ! -f $dir/post_${output_name}.vec ]; then
-  if [ ! -f $dir/post_${output_name}.txt ]; then
+if [ ! -f $model_dir/post_${output_name}.vec ]; then
+  if [ ! -f $model_dir/post_${output_name}.txt ]; then
     echo "$0: Could not find $dir/post_${output_name}.vec. "
     echo "Re-run the corresponding stage in the training script possibly "
     echo "with --compute-average-posteriors=true or compute the priors "
     echo "from the training labels"
     exit 1
   else
-    post_vec=$dir/post_${output_name}.txt
+    post_vec=$model_dir/post_${output_name}.txt
   fi
 fi
 
 if [ $stage -le 4 ]; then
   echo "$0 Stage 4: Getting probability matrix."
   local/get_transform_probs_mat.py \
-    --priors="$post_vec" $transform_probs_opts > $dir/transform_probs.mat
+    --priors="$post_vec" $transform_probs_opts > $model_dir/transform_probs.mat
 fi
 
 if [ $stage -le 5 ]; then
@@ -153,7 +155,7 @@ if [ $stage -le 5 ]; then
   steps/segmentation/decode_sad.sh --acwt $acwt --cmd "$cmd" \
     --nj $nj \
     --transform "$dir/transform_probs.mat" \
-    $graph_dir $dir $dir/$fld
+    $graph_dir $model_dir $dir/$fld
 fi
 
 if [ $stage -le 6 ]; then

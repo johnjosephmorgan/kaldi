@@ -95,10 +95,9 @@ fi
 
 if [ $stage -le 9 ]; then
     for fld in $test_sets; do
-	mkdir -p $dir/$fld
     steps/segmentation/convert_utt2spk_and_segments_to_rttm.py \
       data/${fld}_seg/utt2spk \
-      $dir/tdnn_lstm_sad_${affix}/segments \
+      $dir/$fld/segments \
     $dir/$fld/sad.rttm
   done
 fi
