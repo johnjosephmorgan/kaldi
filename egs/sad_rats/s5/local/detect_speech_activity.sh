@@ -62,7 +62,7 @@ echo "$0 $*"
 
 if [ $# -ne 1 ]; then
   echo "This script does nnet3-based speech activity detection."
-  echo "Input is a kaldi  directory."
+  echo "Input is a fold corresponding to a kaldi  directory."
   echo "Output is also a kaldi data directory."
   echo "Usage: $0 <FOLD>"
   echo "<FOLD>: The data fold."
@@ -75,7 +75,7 @@ fi
 fld=$1
 
 dir=exp/sad_${affix}
-model_dir=$dir//tdnn_lstm_sad_${affix}
+model_dir=$dir/tdnn_lstm_sad_${affix}
 
 if [ $stage -le 0 ]; then
     echo "$0 Stage 0: Convert $fld directory to whole."
