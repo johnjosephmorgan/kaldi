@@ -31,7 +31,7 @@ max_param_change=0.2  # Small max-param change for small network
 dropout_schedule='0,0@0.20,0.1@0.50,0'
 
 egs_dir=
-nj=40
+nj=10
 
 dir=
 affix=1a
@@ -47,7 +47,7 @@ set -o pipefail
 set -u
 
 if [ -z "$dir" ]; then
-  dir=exp/segmentation_1a/tdnn_lstm_asr_sad
+  dir=exp/ovl_1a/tdnn_lstm_ovl
 fi
 dir=$dir${affix:+_$affix}
 
