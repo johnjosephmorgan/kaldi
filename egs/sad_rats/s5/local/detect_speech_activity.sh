@@ -92,10 +92,6 @@ if [ $stage -le 1 ]; then
 fi
 
 frame_subsampling_factor=1
-if [ -f $model_dir/frame_subsampling_factor ]; then
-  frame_subsampling_factor=$(cat $dir/frame_subsampling_factor)
-fi
-
 mkdir -p $dir/$fld
 if [ $stage -le 2 ]; then
   echo "$0 Stage 2: Forward pass through the network and dump log-likelihoods for $fld."
