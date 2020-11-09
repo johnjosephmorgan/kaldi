@@ -128,18 +128,6 @@ EOF
 fi
 
 post_vec=$model_dir/post_${output_name}.vec
-if [ ! -f $model_dir/post_${output_name}.vec ]; then
-  if [ ! -f $model_dir/post_${output_name}.txt ]; then
-    echo "$0: Could not find $dir/post_${output_name}.vec. "
-    echo "Re-run the corresponding stage in the training script possibly "
-    echo "with --compute-average-posteriors=true or compute the priors "
-    echo "from the training labels"
-    exit 1
-  else
-    post_vec=$model_dir/post_${output_name}.txt
-  fi
-fi
-
 if [ $stage -le 4 ]; then
   echo "$0 Stage 4: Getting probability matrix."
   local/get_transform_probs_mat.py \
