@@ -142,10 +142,8 @@ fi
 
 if [ $stage -le 4 ]; then
   echo "$0 Stage 4: Getting probability matrix."
-  for fld in $test_sets; do
-    local/get_transform_probs_mat.py \
-      --priors="$post_vec" $transform_probs_opts > $dir/$fld/transform_probs.mat
-  done
+  local/get_transform_probs_mat.py \
+    --priors="$post_vec" $transform_probs_opts > $dir/$fld/transform_probs.mat
 fi
 
 if [ $stage -le 5 ]; then
