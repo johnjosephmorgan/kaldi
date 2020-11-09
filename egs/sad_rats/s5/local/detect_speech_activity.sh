@@ -151,7 +151,7 @@ if [ $stage -le 5 ]; then
   steps/segmentation/decode_sad.sh --acwt $acwt --cmd "$cmd" \
     --nj $nj \
     --transform "$dir/transform_probs.mat" \
-    $graph_dir $model_dir $dir/$fld
+    $graph_dir $model_dir $model_dir/$fld
 fi
 
 if [ $stage -le 6 ]; then
