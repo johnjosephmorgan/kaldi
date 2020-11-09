@@ -138,7 +138,7 @@ if [ $stage -le 5 ]; then
   echo "$0 Stage 5: Decoding."
   steps/segmentation/decode_sad.sh --acwt $acwt --cmd "$cmd" \
     --nj $nj \
-    --transform "$dir/transform_probs.mat" \
+    --transform "$dir/$fld/transform_probs.mat" \
     $graph_dir $dir/$fld $dir/$fld
 fi
 
