@@ -127,7 +127,7 @@ EOF
       $graph_dir/HCLG.fst
 fi
 
-post_vec=$dir/post_${output_name}.vec
+post_vec=$model_dir/post_${output_name}.vec
 if [ ! -f $model_dir/post_${output_name}.vec ]; then
   if [ ! -f $model_dir/post_${output_name}.txt ]; then
     echo "$0: Could not find $dir/post_${output_name}.vec. "
