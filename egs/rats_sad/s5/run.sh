@@ -9,6 +9,7 @@
 . ./path.sh
 set -euo pipefail
 stage=0
+nstage=0
 overlap_stage=0
 # Path where RATS_SAD gets downloaded (or where locally available):
 rats_sad_data_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data
