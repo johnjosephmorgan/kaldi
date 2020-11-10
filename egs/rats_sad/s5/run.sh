@@ -63,6 +63,7 @@ if [ $stage -le 4 ]; then
   echo "$0: Modify the rttm file."
   steps/overlap/get_overlap_segments.py data/train_ovl/rttm.annotation > data/train_ovl_whole/overlap.rttm
 fi
+exit
 
 if [ $stage -le 5 ]; then
   echo "$0 Stage 5: Extract features for the 'whole' data directory."
@@ -76,7 +77,7 @@ if [ $stage -le 6 ]; then
   echo "$0 Stage 6: Get targets."
   steps/overlap/get_overlap_targets.py \
     data/train_ovl_whole/utt2num_frames \
-    data/train_ovl_whole/sad.rttm - |\
+    data/train_ovl_whole/overlap.rttm - |\
     copy-feats ark:- ark,scp:$dir/targets.ark,$dir/targets.scp
 fi
 
