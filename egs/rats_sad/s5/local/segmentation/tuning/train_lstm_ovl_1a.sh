@@ -31,7 +31,7 @@ max_param_change=0.2  # Small max-param change for small network
 dropout_schedule='0,0@0.20,0.1@0.50,0'
 
 affix=1a
-dir=exp/overlap_${affix}/tdnn_lstm_ovl
+dir=
 data_dir=
 targets_dir=
 nj=10
@@ -43,6 +43,12 @@ if [ -f ./path.sh ]; then . ./path.sh; fi
 
 set -o pipefail
 set -u
+
+echo "$0 $*"
+
+if [ -z "$dir" ]; then
+  dir=exp/ovl_1a/tdnn_lstm_ovl
+fi
 
 dir=$dir${affix:+_$affix}
 
