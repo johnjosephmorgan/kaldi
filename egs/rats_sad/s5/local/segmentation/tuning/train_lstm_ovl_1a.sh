@@ -94,7 +94,7 @@ if [ $stage -le 6 ]; then
   steps/nnet3/train_raw_rnn.py --stage=$train_stage \
     --feat.cmvn-opts="--norm-means=false --norm-vars=false" \
     --egs.chunk-width=$chunk_width \
-<    --egs.dir="$egs_dir" --egs.stage=$get_egs_stage \
+    --egs.dir="$egs_dir" --egs.stage=$get_egs_stage \
     --egs.chunk-left-context=$extra_left_context \
     --egs.chunk-right-context=$extra_right_context \
     --egs.chunk-left-context-initial=0 \
