@@ -61,7 +61,7 @@ if [ $stage -le 4 ]; then
   cp data/train/rttm.annotation data/train_ovl
   utils/data/convert_data_dir_to_whole.sh data/train_ovl data/train_ovl_whole
   echo "$0: Modify the rttm file."
-  steps/overlap/get_overlap_segments.py data/train_sad/rttm.annotation > data/train_ovl_whole/overlap.rttm
+  steps/overlap/get_overlap_segments.py data/train_ovl/rttm.annotation > data/train_ovl_whole/overlap.rttm
 fi
 
 if [ $stage -le 5 ]; then
