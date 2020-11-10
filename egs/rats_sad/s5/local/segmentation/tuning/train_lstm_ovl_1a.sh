@@ -33,9 +33,9 @@ dropout_schedule='0,0@0.20,0.1@0.50,0'
 egs_dir=
 nj=10
 
-dir=
-affix=1a
 
+affix=1a
+dir=exp/overlap_${affix}
 data_dir=
 targets_dir=
 
@@ -46,9 +46,6 @@ if [ -f ./path.sh ]; then . ./path.sh; fi
 set -o pipefail
 set -u
 
-if [ -z "$dir" ]; then
-  dir=exp/overlap_1a/tdnn_lstm_ovl
-fi
 dir=$dir${affix:+_$affix}
 
 if ! cuda-compiled; then
