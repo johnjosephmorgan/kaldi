@@ -35,7 +35,7 @@ nj=10
 
 
 affix=1a
-dir=exp/overlap_${affix}
+dir=exp/overlap
 data_dir=
 targets_dir=
 
