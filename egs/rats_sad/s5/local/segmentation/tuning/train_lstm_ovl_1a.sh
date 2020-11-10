@@ -31,7 +31,7 @@ max_param_change=0.2  # Small max-param change for small network
 dropout_schedule='0,0@0.20,0.1@0.50,0'
 
 affix=1a
-dir=exp/overlap/tdnn_lstm_ovl
+dir=exp/overlap_${affix}/tdnn_lstm_ovl
 data_dir=
 targets_dir=
 nj=10
