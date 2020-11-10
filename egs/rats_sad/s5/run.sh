@@ -18,7 +18,7 @@ nj=10
 decode_nj=8
 test_sets="dev-1 dev-2 "
 affix=1a
-dir=exp/overlap_${affix}
+dir=exp/ovl_${affix}
 
 . utils/parse_options.sh
 

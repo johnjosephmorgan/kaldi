@@ -6,19 +6,22 @@
 
 # This is a script to train a TDNN for speech activity detection (SAD) 
 # using LSTM for long-context information.
-
+affix=1a
 stage=0
 train_stage=-10
 get_egs_stage=-10
 egs_opts=
-
 chunk_width=20
-
 extra_left_context=60
 extra_right_context=10
 relu_dim=256
 cell_dim=256
 projection_dim=64
+dir=
+data_dir=
+targets_dir=
+nj=10
+egs_dir=
 
 # training options
 num_epochs=1
@@ -29,13 +32,6 @@ num_jobs_final=1
 remove_egs=true
 max_param_change=0.2  # Small max-param change for small network
 dropout_schedule='0,0@0.20,0.1@0.50,0'
-
-affix=1a
-dir=
-data_dir=
-targets_dir=
-nj=10
-egs_dir=
 
 . ./cmd.sh
 if [ -f ./path.sh ]; then . ./path.sh; fi
