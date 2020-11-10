@@ -30,14 +30,11 @@ remove_egs=true
 max_param_change=0.2  # Small max-param change for small network
 dropout_schedule='0,0@0.20,0.1@0.50,0'
 
-egs_dir=
-nj=10
-
-
 affix=1a
 dir=exp/overlap
 data_dir=
 targets_dir=
+nj=10
 
 . ./cmd.sh
 if [ -f ./path.sh ]; then . ./path.sh; fi
@@ -47,7 +44,7 @@ set -o pipefail
 set -u
 
 dir=$dir${affix:+_$affix}
-
+egs_dir=$dir/tdnn_lstm_ovl_${affix}/egs
 if ! cuda-compiled; then
   cat <<EOF && exit 1
 This script is intended to be used with GPUs but you have not compiled Kaldi with CUDA
@@ -97,7 +94,7 @@ if [ $stage -le 6 ]; then
   steps/nnet3/train_raw_rnn.py --stage=$train_stage \
     --feat.cmvn-opts="--norm-means=false --norm-vars=false" \
     --egs.chunk-width=$chunk_width \
-    --egs.dir="$egs_dir" --egs.stage=$get_egs_stage \
+<    --egs.dir="$egs_dir" --egs.stage=$get_egs_stage \
     --egs.chunk-left-context=$extra_left_context \
     --egs.chunk-right-context=$extra_right_context \
     --egs.chunk-left-context-initial=0 \
