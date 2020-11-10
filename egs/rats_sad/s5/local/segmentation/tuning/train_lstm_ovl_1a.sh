@@ -35,6 +35,7 @@ dir=exp/overlap
 data_dir=
 targets_dir=
 nj=10
+egs_dir=
 
 . ./cmd.sh
 if [ -f ./path.sh ]; then . ./path.sh; fi
@@ -44,7 +45,7 @@ set -o pipefail
 set -u
 
 dir=$dir${affix:+_$affix}
-egs_dir=$dir/tdnn_lstm_ovl_${affix}/egs
+
 if ! cuda-compiled; then
   cat <<EOF && exit 1
 This script is intended to be used with GPUs but you have not compiled Kaldi with CUDA
