@@ -9,7 +9,7 @@
 
 
 affix=1a
-dir=exp/overlap_${affix}
+dir=exp/ovl_${affix}
 nj=10
 nnet_type=lstm
 nstage=0
