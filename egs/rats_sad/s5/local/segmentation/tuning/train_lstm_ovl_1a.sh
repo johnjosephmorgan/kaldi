@@ -7,7 +7,7 @@
 # This is a script to train a TDNN for speech activity detection (SAD) 
 # using LSTM for long-context information.
 affix=1a
-stage=0
+stage=-10
 train_stage=-10
 get_egs_stage=-10
 egs_opts=
@@ -18,7 +18,7 @@ relu_dim=256
 cell_dim=256
 projection_dim=64
 dir=
-data_dir=
+data_dir=data/train_ovl_whole
 targets_dir=
 nj=10
 egs_dir=
