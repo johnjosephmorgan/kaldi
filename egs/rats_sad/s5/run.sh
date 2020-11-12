@@ -85,10 +85,7 @@ fi
 
 if [ $stage -le 7 ]; then
   echo "$0 Stage 7: Train a TDNN+LSTM network."
-  local/segmentation/tuning/train_lstm_ovl_1a.sh \
-      --stage $nstage --train-stage $train_stage \
-      --targets-dir $dir \
-      --data-dir data/train_ovl_whole --affix $affix || exit 1
+  local/segmentation/tuning/train_lstm_ovl_1a.sh || exit 1
 fi
 
 if [ $stage -le 8 ]; then
