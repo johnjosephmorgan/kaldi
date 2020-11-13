@@ -104,7 +104,7 @@ if [ $stage -le 9 ]; then
   for fld in $test_sets; do
     echo "$0 Stage 9: evaluating on $fld output."
     steps/overlap/get_overlap_segments.py data/$fld/rttm.annotation | \
-      md-eval.pl -o -c 0.025 -r - -s $dir/$fld/rttm_overlap >\
+      md-eval.pl -o -c 0.25 -r - -s $dir/$fld/rttm_overlap >\
       $dir/$fld/results.txt
   done
 fi
