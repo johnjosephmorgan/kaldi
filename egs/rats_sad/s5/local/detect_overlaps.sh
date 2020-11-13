@@ -12,7 +12,7 @@ set -u
 
 if [ -f ./path.sh ]; then . ./path.sh; fi
 
-nj=16
+nj=10
 cmd=run.pl
 stage=0
 region_type=overlap
