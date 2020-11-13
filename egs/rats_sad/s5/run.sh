@@ -24,7 +24,7 @@ dir=exp/ovl_${affix}
 
 if [ $stage -le 0 ]; then
   echo "$0 Stage 0: Get  all info files."
-  local/rats_sad_text_prep.sh $rats_sad_data_dir
+  local/rats_sad_prep.sh $rats_sad_data_dir
 fi
 
 if [ $stage -le 1 ]; then
@@ -85,7 +85,7 @@ fi
 
 if [ $stage -le 7 ]; then
   echo "$0 Stage 7: Train a TDNN+LSTM network."
-  local/segmentation/tuning/train_lstm_ovl_1a.sh || exit 1
+  local/segmentation/run_lstm.sh || exit 1
 fi
 
 if [ $stage -le 8 ]; then
