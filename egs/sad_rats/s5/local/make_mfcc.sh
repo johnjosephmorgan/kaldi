@@ -138,7 +138,7 @@ else
 
   $cmd JOB=1:$nj $logdir/make_mfcc_${name}.JOB.log \
     compute-mfcc-feats $vtln_opts $write_utt2dur_opt --verbose=2 \
-      --config=$mfcc_config scp,p:$logdir/wav_${name}.JOB.scp ark:- \| \
+      --config=$mfcc_config --allow-upsample=true scp,p:$logdir/wav_${name}.JOB.scp ark:- \| \
     copy-feats $write_num_frames_opt --compress=$compress ark:- \
       ark,scp:$mfccdir/raw_mfcc_$name.JOB.ark,$mfccdir/raw_mfcc_$name.JOB.scp \
       || exit 1;
