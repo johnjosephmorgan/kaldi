@@ -33,7 +33,7 @@ set -e # exit on error
 
 # please change the path accordingly
 libricss_corpus=/mnt/disk01/jjm/LibriCSS
-librispeech_corpus=/mnt/corpora/LibriSpeech/
+librispeech_corpus=/mnt/corpora/librispeech/LibriSpeech
 
 ##########################################################################
 # We first prepare the LibriCSS data (monoaural) in the Kaldi data
