@@ -82,6 +82,8 @@ echo "$0:dat a prep text succeeded"
 
 mkdir -p data
 dir=$(utils/make_absolute.sh data/)
+[ ! -f local/gale/test_list ] && echo "$0: No such file local/gale/test_list" && exit 1;
+[ ! -f local/gale/bad_segments ] && echo "$0: No such file local/gale/bad_segments" && exit 1;
 grep -f local/gale/test_list $gale_data/all | grep -v -f local/gale/bad_segments > $gale_data/all.test
 grep -v -f local/gale/test_list $gale_data/all | grep -v -f local/gale/bad_segments > $gale_data/all.train 
 
