@@ -20,7 +20,7 @@ tmpdir=data/local/tmp
 speech="http://www.openslr.org/resources/46/Tunisian_MSA.tar.gz"
 
 # We use the QCRI lexicon.
-lex="http://alt.qcri.org/resources/speech/dictionary/ar-ar_lexicon_2014-03-17.txt.bz2"
+lex="https://alt.qcri.org/resources/resources/msa-dictionary/releases/current/ar-ar_lexicon_2014-03-17.txt.bz2"
 
 # We train the lm on subtitles.
 subs_src="http://opus.nlpl.eu/download.php?f=OpenSubtitles2018/mono/OpenSubtitles2018.ar.gz"
