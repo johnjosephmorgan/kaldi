@@ -2,7 +2,6 @@
 
 . ./cmd.sh
 . ./path.sh
-. $KALDI_ROOT/tools/env.sh
 stage=0
 
 . ./utils/parse_options.sh
