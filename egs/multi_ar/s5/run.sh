@@ -398,56 +398,25 @@ if [ $stage -le 58 ]; then
 fi
 
 if [ $stage -le 59 ]; then
-  echo "$0: Monophone evaluation."
-  (
-    echo "$0: Making decoding graph for monophones."
-    utils/mkgraph.sh data/lang_test exp/mono exp/mono/graph || exit 1;
-
-    for f in  test eval dev gale_test; do
-      echo "$0: Testing monophones on $f."
-      nspk=$(wc -l < data/$f/spk2utt)
-      steps/decode.sh  --cmd "$decode_cmd" --nj $nspk \
-        exp/mono/graph data/$f \
-        exp/mono/decode_${f} || exit 1;
-    done
-  ) &
-fi
-
-if [ $stage -le 60 ]; then
   echo "$0: aligning with monophones"
   steps/align_si.sh  --cmd "$train_cmd" --nj 56 data/train data/lang \
     exp/mono exp/mono_ali || exit 1;
 fi
 
-if [ $stage -le 61 ]; then
+if [ $stage -le 60 ]; then
   echo "$0: Starting  triphone training in exp/tri1."
   steps/train_deltas.sh --cmd "$train_cmd" --boost-silence 1.25 \
     5500 90000 \
     data/train data/lang exp/mono_ali exp/tri1 || exit 1;
 fi
 
-if [ $stage -le 62 ]; then
-  echo "$0: testing cd gmm hmm models"
-  (
-    echo "$0: Making decoding graphs for tri1."
-    utils/mkgraph.sh data/lang_test exp/tri1 exp/tri1/graph || exit 1;
-
-    for f in test eval dev gale_test; do
-      echo "Decoding $f data with tri1 models."
-      nspk=$(wc -l < data/$f/spk2utt)
-      steps/decode.sh --cmd "$decode_cmd" --nj $nspk exp/tri1/graph data/$f \
-        exp/tri1/decode_${f} || exit 1;
-    done
-  ) &
-fi
-
-if [ $stage -le 63 ]; then
+if [ $stage -le 61 ]; then
   echo "$0: Aligning with triphones tri1."
   steps/align_si.sh  --cmd "$train_cmd" --nj 56 data/train data/lang \
     exp/tri1 exp/tri1_ali || exit 1;
 fi
 
-if [ $stage -le 64 ]; then
+if [ $stage -le 62 ]; then
   echo "$0: Starting lda_mllt triphone training in exp/tri2b."
   steps/train_lda_mllt.sh --cmd "$train_cmd" \
     --splice-opts "--left-context=3 --right-context=3" \
@@ -455,21 +424,7 @@ if [ $stage -le 64 ]; then
     data/train data/lang exp/tri1_ali exp/tri2b || exit 1;
 fi
 
-if [ $stage -le 65 ]; then
-  (
-    echo "$0: Making decoding FSTs for tri2b models."
-    utils/mkgraph.sh data/lang_test exp/tri2b exp/tri2b/graph || exit 1;
-
-    for f in test eval dev gale_test; do
-      echo "$0: decoding $f with tri2b models."
-      nspk=$(wc -l < data/$f/spk2utt)
-      steps/decode.sh --cmd "$decode_cmd" --nj $nspk exp/tri2b/graph data/$f \
-        exp/tri2b/decode_${f} || exit 1;
-      done
-  ) &
-fi
-
-if [ $stage -le 66 ]; then
+if [ $stage -le 63 ]; then
   echo "$0: aligning with lda and mllt adapted triphones $tri2b."
   steps/align_si.sh  --nj 56 \
     --cmd "$train_cmd" \
@@ -477,14 +432,14 @@ if [ $stage -le 66 ]; then
     exp/tri2b_ali || exit 1;
 fi
 
-if [ $stage -le 67 ]; then
+if [ $stage -le 64 ]; then
   echo "$0: Starting SAT triphone training in exp/tri3b."
   steps/train_sat.sh --cmd "$train_cmd" \
     5500 90000 \
     data/train data/lang exp/tri2b_ali exp/tri3b || exit 1;
 fi
 
-if [ $stage -le 68 ]; then
+if [ $stage -le 65 ]; then
   (
     echo "$0: making decoding graph for SAT and tri3b models."
     utils/mkgraph.sh data/lang_test exp/tri3b exp/tri3b/graph || exit 1;
@@ -499,14 +454,14 @@ if [ $stage -le 68 ]; then
   ) &
 fi
 
-if [ $stage -le 69 ]; then
+if [ $stage -le 66 ]; then
   echo "$0: Starting exp/tri3b_ali"
   steps/align_fmllr.sh --cmd "$train_cmd" --nj 56 data/train data/lang \
 			 exp/tri3b exp/tri3b_ali || exit 1;
 fi
 
-if [ $stage -le 70 ]; then
+if [ $stage -le 67 ]; then
   echo "$0: Training and testing chain models."
-  local/chain/run_tdnn.sh || exit 1;
+  local/chain2/run_tdnn.sh || exit 1;
 fi
 
