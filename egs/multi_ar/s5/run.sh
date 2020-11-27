@@ -76,7 +76,30 @@ if [ $stage -le 1 ]; then
   echo "$0: Train monophones on Gale."
   steps/train_mono.sh  --cmd "$train_cmd" --nj 56 data/gale/train \
     data/lang exp/gale/mono || exit 1;
-
+  echo "$0: aligning with monophones"
+  steps/align_si.sh  --cmd "$train_cmd" --nj 56 data/gale/train data/lang \
+		     exp/gale/mono exp/gale/mono_ali || exit 1;
+  echo "$0: Starting  GALE triphone training in exp/gale/tri1."
+  steps/train_deltas.sh --cmd "$train_cmd" --boost-silence 1.25 \
+    5500 90000 \
+    data/gale/train data/lang exp/gale/mono_ali exp/gale/tri1 || exit 1;
+  echo "$0: Aligning with GALE triphones tri1."
+  steps/align_si.sh  --cmd "$train_cmd" --nj 56 data/gale/train data/lang \
+		     exp/gale/tri1 exp/gale/tri1_ali || exit 1;s
+  echo "$0: Starting GALE lda_mllt triphone training in exp/gale/tri2b."
+  steps/train_lda_mllt.sh --cmd "$train_cmd" \
+    --splice-opts "--left-context=3 --right-context=3" \
+    5500 90000 \
+    data/gale/train data/lang exp/gale/tri1_ali exp/gale/tri2b || exit 1;
+  echo "$0: aligning with GALE lda and mllt adapted triphones $tri2b."
+  steps/align_si.sh  --nj 56 \
+		     --cmd "$train_cmd" \
+		     --use-graphs true data/gale/train data/lang exp/gale/tri2b \
+		     exp/gale/tri2b_ali || exit 1;
+  echo "$0: Starting GALE SAT triphone training in exp/gale/tri3b."
+  steps/train_sat.sh --cmd "$train_cmd" \
+    5500 90000 \
+    data/gale/train data/lang exp/gale/tri2b_ali exp/gale/tri3b || exit 1;
 fi
 
 if [ $stage -le 2 ]; then
@@ -204,11 +227,38 @@ fi
 if [ $stage -le 20 ]; then
   echo "$0: Preparing the TRANSTAC Iraqi Arabic APPEN read 2005 training data."
   local/transtac/read/appen/2005/make_lists_train.pl || exit 1;
-  utils/fix_data_dir.sh $tmp_read_appen_train_2005_dir/lists || exit 1;
   echo "$0: extracting acoustic features for Transtac Appen 2005."
   steps/make_mfcc.sh --cmd "$train_cmd" --nj 56 data/local/tmp/transtac/train/read/appen/2005/lists
   steps/compute_cmvn_stats.sh data/local/tmp/transtac/train/read/appen/2005/lists 
   utils/fix_data_dir.sh data/local/tmp/transtac/train/read/appen/2005/lists
+  ln -s data/local/tmp/transtac/train/read/appen/2005/lists data/transtac_read_appen_2005/train
+  echo "$0: Train monophones on transtac_read_appen_2005."
+  steps/train_mono.sh  --cmd "$train_cmd" --nj 56 data/transtac_read_appen_2005/train \
+    data/lang exp/transtac_read_appen_2005/mono || exit 1;
+  echo "$0: aligning with transtac_read_appen_2005 monophones"
+  steps/align_si.sh  --cmd "$train_cmd" --nj 56 data/transtac_read_appen_2005/train data/lang \
+		     exp/transtac_read_appen_2005/mono exp/transtac_read_appen_2005/mono_ali || exit 1;
+  echo "$0: Starting  transtac_read_appen_2005 triphone training in exp/gale/tri1."
+  steps/train_deltas.sh --cmd "$train_cmd" --boost-silence 1.25 \
+    5500 90000 \
+    data/transtac_read_appen_2005/train data/lang exp/transtac_read_appen_2005/mono_ali exp/transtac_read_appen_2005/tri1 || exit 1;
+  echo "$0: Aligning with /transtac_read_appen_2005 triphones tri1."
+  steps/align_si.sh  --cmd "$train_cmd" --nj 56 data/transtac_read_appen_2005/train data/lang \
+    exp/transtac_read_appen_2005/tri1 exp/transtac_read_appen_2005/tri1_ali || exit 1;s
+  echo "$0: Starting transtac_read_appen_2005 lda_mllt triphone training in exp/gale/tri2b."
+  steps/train_lda_mllt.sh --cmd "$train_cmd" \
+    --splice-opts "--left-context=3 --right-context=3" \
+    5500 90000 \
+    data/transtac_read_appen_2005/train data/lang exp/transtac_read_appen_2005/tri1_ali exp/transtac_read_appen_2005/tri2b || exit 1;
+  echo "$0: aligning with transtac_read_appen_2005 lda and mllt adapted triphones $tri2b."
+  steps/align_si.sh  --nj 56 \
+    --cmd "$train_cmd" \
+    --use-graphs true data/transtac_read_appen_2005/train data/lang exp/transtac_read_appen_2005/tri2b \
+    exp/transtac_read_appen_2005/tri2b_ali || exit 1;
+  echo "$0: Starting transtac_read_appen_2005 SAT triphone training in exp/gale/tri3b."
+  steps/train_sat.sh --cmd "$train_cmd" \
+    5500 90000 \
+    data/transtac_read_appen_2005/train data/lang exp/transtac_read_appen_2005/tri2b_ali exp/transtac_read_appen_2005/tri3b || exit 1;
 fi
 
 if [ $stage -le 21 ]; then
@@ -217,6 +267,34 @@ if [ $stage -le 21 ]; then
   steps/make_mfcc.sh --cmd "$train_cmd" --nj 56 $tmp_read_appen_train_2006_dir/lists
   steps/compute_cmvn_stats.sh $tmp_read_appen_train_2006_dir/lists
   utils/fix_data_dir.sh $tmp_read_appen_train_2006_dir/lists
+  ln -s data/local/tmp/transtac/train/read/appen/2006/lists data/transtac_read_appen_2006/train
+  echo "$0: Train monophones on transtac_read_appen_2006."
+  steps/train_mono.sh  --cmd "$train_cmd" --nj 56 data/transtac_read_appen_2006/train \
+    data/lang exp/transtac_read_appen_2006/mono || exit 1;
+  echo "$0: aligning with transtac_read_appen_2006 monophones"
+  steps/align_si.sh  --cmd "$train_cmd" --nj 56 data/transtac_read_appen_2006/train data/lang \
+    exp/transtac_read_appen_2006/mono exp/transtac_read_appen_2006/mono_ali || exit 1;
+  echo "$0: Starting  transtac_read_appen_2006 triphone training in exp/gale/tri1."
+  steps/train_deltas.sh --cmd "$train_cmd" --boost-silence 1.25 \
+    5500 90000 \
+    data/transtac_read_appen_2006/train data/lang exp/transtac_read_appen_2006/mono_ali exp/transtac_read_appen_2006/tri1 || exit 1;
+  echo "$0: Aligning with /transtac_read_appen_2006 triphones tri1."
+  steps/align_si.sh  --cmd "$train_cmd" --nj 56 data/transtac_read_appen_2006/train data/lang \
+    exp/transtac_read_appen_2006/tri1 exp/transtac_read_appen_2006/tri1_ali || exit 1;s
+  echo "$0: Starting transtac_read_appen_2006 lda_mllt triphone training in exp/transtac_read_appen_2006/tri2b."
+  steps/train_lda_mllt.sh --cmd "$train_cmd" \
+    --splice-opts "--left-context=3 --right-context=3" \
+    5500 90000 \
+    data/transtac_read_appen_2006/train data/lang exp/transtac_read_appen_2006/tri1_ali exp/transtac_read_appen_2006/tri2b || exit 1;
+  echo "$0: aligning with transtac_read_appen_2006 lda and mllt adapted triphones $tri2b."
+  steps/align_si.sh  --nj 56 \
+    --cmd "$train_cmd" \
+    --use-graphs true data/transtac_read_appen_2006/train data/lang exp/transtac_read_appen_2006/tri2b \
+    exp/transtac_read_appen_2006/tri2b_ali || exit 1;
+  echo "$0: Starting transtac_read_appen_2006 SAT triphone training in exp/transtac_read_appen_2006/tri3b."
+  steps/train_sat.sh --cmd "$train_cmd" \
+    5500 90000 \
+    data/transtac_read_appen_2006/train data/lang exp/transtac_read_appen_2006/tri2b_ali exp/transtac_read_appen_2006/tri3b || exit 1;
 fi
 
 if [ $stage -le 22 ]; then
@@ -446,8 +524,8 @@ fi
 if [ $stage -le 50 ]; then
   echo "$0: Aligning with triphones tri1."
   steps/align_si.sh  --cmd "$train_cmd" --nj 56 data/train data/lang \
-    exp/tri1 exp/tri1_ali || exit 1;
-fi
+		     exp/tri1 exp/tri1_ali || exit 1;
+  fi
 
 if [ $stage -le 51 ]; then
   echo "$0: Starting lda_mllt triphone training in exp/tri2b."
