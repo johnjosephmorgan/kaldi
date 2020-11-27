@@ -203,9 +203,7 @@ if [ $stage -le 20 ]; then
   local/transtac/read/appen/2005/make_lists_train.pl || exit 1;
   utils/fix_data_dir.sh $tmp_read_appen_train_2005_dir/lists || exit 1;
   echo "$0: extracting acoustic features for Transtac Appen 2005."
-  utils/fix_data_dir.sh data/local/tmp/transtac/train/read/appen/2005/lists
   steps/make_mfcc.sh --cmd "$train_cmd" --nj 56 data/local/tmp/transtac/train/read/appen/2005/lists
-  utils/fix_data_dir.sh data/local/tmp/transtac/train/read/appen/2005/lists
   steps/compute_cmvn_stats.sh data/local/tmp/transtac/train/read/appen/2005/lists 
   utils/fix_data_dir.sh data/local/tmp/transtac/train/read/appen/2005/lists
 fi
@@ -213,9 +211,7 @@ fi
 if [ $stage -le 21 ]; then
   echo "$0: Preparing the TRANSTAC read APPEN 2006 training data."
   local/transtac/read/appen/2006/make_lists_train.pl || exit 1;
-  utils/fix_data_dir.sh $tmp_read_appen_train_2006_dir/lists || exit 1;
   steps/make_mfcc.sh --cmd "$train_cmd" --nj 56 $tmp_read_appen_train_2006_dir/lists
-  utils/fix_data_dir.sh $tmp_read_appen_train_2006_dir/lists
   steps/compute_cmvn_stats.sh $tmp_read_appen_train_2006_dir/lists
   utils/fix_data_dir.sh $tmp_read_appen_train_2006_dir/lists
 fi
@@ -223,7 +219,6 @@ fi
 if [ $stage -le 22 ]; then
   echo "$0: Preparing the TRANSTAC Iraqi Arabic Marine Acoustics 2006 training data."
   local/transtac/read/ma/2006/make_lists_train.pl || exit 1;
-  utils/fix_data_dir.sh $tmp_train_ma_dir/lists || exit 1;
   steps/make_mfcc.sh --cmd "$train_cmd" --nj 56 $tmp_train_ma_dir/lists
   steps/compute_cmvn_stats.sh $tmp_train_ma_dir/lists
   utils/fix_data_dir.sh $tmp_train_ma_dir/lists
