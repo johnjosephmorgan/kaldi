@@ -68,12 +68,15 @@ if [ $stage -le 1 ]; then
   mv data/{test,train} $gale_tmp_dir/lists
   echo "$0: extracting acoustic features for GALE."
   for f in train test; do
-    utils/fix_data_dir.sh data/local/tmp/gale/lists/$f
     steps/make_mfcc.sh --cmd "$train_cmd" --nj 56 data/local/tmp/gale/lists/$f
-    utils/fix_data_dir.sh data/local/tmp/gale/lists/$f
     steps/compute_cmvn_stats.sh data/local/tmp/gale/lists/$f 
     utils/fix_data_dir.sh data/local/tmp/gale/lists/$f
   done
+  ln -s data/local/tmp/gale/lists/train data/gale/
+  echo "$0: Train monophones on Gale."
+  steps/train_mono.sh  --cmd "$train_cmd" --nj 56 data/gale/train \
+    data/lang exp/gale/mono || exit 1;
+
 fi
 
 if [ $stage -le 2 ]; then
