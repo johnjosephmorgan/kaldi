@@ -72,7 +72,7 @@ if [ $stage -le 7 ]; then
     $twoway_dir/dli/2006/lists \
     $twoway_dir/nist/2007/lists \
     $twoway_dir/pendleton/2005/lists \
-    $twoway_dir/san_diego/2006/liss
+    $twoway_dir/san_diego/2006/lists
   utils/fix_data_dir.sh data/transtac_twoway || exit 1;
 fi
 
