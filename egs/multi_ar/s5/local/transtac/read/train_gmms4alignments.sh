@@ -90,7 +90,6 @@ if [ $stage -le 11 ]; then
 fi
 if [ $stage -le 12 ]; then
   echo "$0: Starting alignment for Transtac Read exp/transtac_read/tri3b_ali"
-  steps/align_fmllr.sh --cmd "$train_cmd" --nj 56 data/transtac_read/train \
+  steps/align_fmllr.sh --cmd "$train_cmd" --nj 56 data/transtac_read \
     data/lang exp/transtac_read/tri3b exp/transtac_read/tri3b_ali || exit 1;
 fi
-
