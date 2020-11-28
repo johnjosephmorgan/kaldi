@@ -41,5 +41,3 @@ if [ $stage -le 4 ]; then
   mkdir -p $tmp_train_ma_dir/lists
   find "$ma_train_audio_dir" -type f -name "*.wav" > $tmp_train_ma_dir/wav_list.txt
 fi
-
-exit0
