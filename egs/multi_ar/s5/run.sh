@@ -176,7 +176,7 @@ if [ $stage -le 18 ]; then
     data/lang data/lang_test || exit 1;
 fi
 
-if [ $stage -le 56 ]; then
+if [ $stage -le 19 ]; then
   echo "$0: Training and testing chain models."
   local/chain2/run_tdnn.sh || exit 1;
 fi
