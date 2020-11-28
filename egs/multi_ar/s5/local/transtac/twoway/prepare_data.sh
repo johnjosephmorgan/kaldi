@@ -8,7 +8,7 @@ stage=0
 
 set -e
 set -o pipefail
-set u
+set -u
 
 twoway_appen_2006_train_audio_dir=$1
 twoway_appen_2006_train_txt_dir=$2
