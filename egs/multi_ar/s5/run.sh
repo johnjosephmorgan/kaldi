@@ -87,20 +87,20 @@ fi
 
 if [ $stage -le 6 ]; then
   local/transtac/twoway/prepare_data.sh \
-    $twoway_appen_2006_train_audio_dir \
-    $twoway_appen_2006_train_txt_dir \
-    $twoway_appen_2007_train_audio_dir \
-    $twoway_appen_2007_train_txt_dir \
-    $detroit_train_audio_dir \
-    $detroit_train_txt_dir \
-    $dli_train_audio_dir \
-    $dli_train_txt_dir \
-    $nist_train_audio_dir \
-    $nist_train_txt_dir \
-    $pendleton_train_audio_dir \
-    $pendleton_train_txt_dir \
-    $san_diego_train_audio_dir \
-    $san_diego_train_txt_dir
+    "$twoway_appen_2006_train_audio_dir" \
+    "$twoway_appen_2006_train_txt_dir" \
+    "$twoway_appen_2007_train_audio_dir" \
+    "$twoway_appen_2007_train_txt_dir" \
+    "$detroit_train_audio_dir" \
+    "$detroit_train_txt_dir" \
+    "$dli_train_audio_dir" \
+    "$dli_train_txt_dir" \
+    "$nist_train_audio_dir" \
+    "$nist_train_txt_dir" \
+    "$pendleton_train_audio_dir" \
+    "$pendleton_train_txt_dir" \
+    "$san_diego_train_audio_dir" \
+    "$san_diego_train_txt_dir"
 fi
 
 if [ $stage -le 20 ]; then
