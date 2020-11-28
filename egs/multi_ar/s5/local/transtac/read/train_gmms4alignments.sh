@@ -30,7 +30,7 @@ fi
 if [ $stage -le 3 ]; then
     echo "$0 Combine the 3 read speech corpora."
     read_dir=data/local/tmp/transtac/train/read
-    utils/combine_data.sh data/transtac_read $read_dir/appen/2005/lists $read_dir/appen/2006/lists $read_dir/ma/2006
+    utils/combine_data.sh data/transtac_read $read_dir/appen/2005/lists $read_dir/appen/2006/lists $read_dir/ma/2006/lists
 fi
 
 if [ $stage -le 4 ]; then
