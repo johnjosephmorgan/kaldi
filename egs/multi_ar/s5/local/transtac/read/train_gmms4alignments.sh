@@ -35,7 +35,7 @@ fi
 
 if [ $stage -le 4 ]; then
   echo "$0: Extract features from Transtac Read data."
-  steps/make_mfcc.sh --cmd "$train_cmd" --nj 56 data/trainstac_read
+  steps/make_mfcc.sh --cmd "$train_cmd" --nj 56 data/transtac_read
   steps/compute_cmvn_stats.sh data/transtac_read
   utils/fix_data_dir.sh data/transtac_read
 fi
