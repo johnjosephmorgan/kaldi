@@ -47,17 +47,55 @@ text2=/mnt/corpora/LDC2013T04/
 text3=/mnt/corpora/LDC2014T17/
 
 if [ $stage -le 0 ]; then
+  echo "$0: Preparing the qcri lexicon."
+  local/prepare_dict.sh $lex $tmp_dict_dir/init || exit 1;
+fi
+
+if [ $stage -le 1 ]; then
+  echo "$0: Training a QCRI g2p model."
+  local/g2p/train_g2p.sh $tmp_dict_dir/init \
+    $tmp_dict_dir/g2p || exit 1;
+fi
+
+if [ $stage -le 2 ]; then
+  echo "$0: Applying the QCRI g2p."
+  local/g2p/apply_g2p.sh $tmp_dict_dir/g2p/model.fst \
+    $tmp_dict_dir/work $tmp_dict_dir/init/lexicon.txt \
+    $tmp_dict_dir/init/lexicon_with_tabs.txt $g2p_input_text_files || exit 1;
+fi
+
+if [ $stage -le 3    ]; then
+  echo "$0: Delimiting fields with space instead of tabs."
+  mkdir -p $tmp_dict_dir/final
+  expand -t 1 $tmp_dict_dir/init/lexicon_with_tabs.txt > $tmp_dict_dir/final/lexicon.txt
+fi
+
+if [ $stage -le 4    ]; then
+  echo "$0: Preparing expanded QCRI lexicon."
+  local/prepare_dict.sh $tmp_dict_dir/final/lexicon.txt \
+    data/local/dict || exit 1;
+  echo "$0: Adding <UNK> to the lexicon."
+  echo "<UNK> SPN" >> data/local/dict/lexicon.txt
+fi
+
+if [ $stage -le 5 ]; then
+  echo "$0: Preparing the QCRI lang directory."
+  utils/prepare_lang.sh data/local/dict "<UNK>" \
+    data/local/lang_tmp data/lang || exit 1;
+fi
+
+if [ $stage -le 6 ]; then
   echo "$0: Preparing GALE data."
   local/gale/prepare_data.sh --dir1 $dir1 --dir2 $dir2 --dir3 $dir3 \
     --text1 $text1 --text2 $text2 --text3 $text3 || exit 1;
 fi
 
-if [ $stage -le 1 ]; then
+if [ $stage -le 7 ]; then
   echo "$0: Build GALE gmm system to get alignments."
   local/gale/train_gmms4alignment.sh || exit 1;
 fi
 
-if [ $stage -le 2 ]; then
+if [ $stage -le 8 ]; then
   echo "$0: Preparing Transtac Read training data."
   local/transtac/read/prepare_data.sh \
     "$read_appen_train_2005_audio_dir" \
@@ -65,12 +103,12 @@ if [ $stage -le 2 ]; then
     "$ma_train_audio_dir"
 fi
 
-if [ $stage -le 5 ]; then \
-      echo "$0: Build Transtac Read GMM system for alignments."
+if [ $stage -le 9 ]; then \
+  echo "$0: Build Transtac Read GMM system for alignments."
   local/transtac/read/train_gmms4alignments.sh
 fi
 
-if [ $stage -le 6 ]; then
+if [ $stage -le 10 ]; then
   local/transtac/twoway/prepare_data.sh \
     "$twoway_appen_2006_train_audio_dir" \
     "$twoway_appen_2006_train_txt_dir" \
@@ -88,7 +126,12 @@ if [ $stage -le 6 ]; then
     "$san_diego_train_txt_dir"
 fi
 
-if [ $stage -le 20 ]; then
+if [ $stage -le 11 ]; then
+    echo "$0: Build Transtac Twoway GMM system for alignments."
+    local/transtac/twoway/train_gmms4alignments.sh
+fi
+
+if [ $stage -le 12 ]; then
   echo "$0: Getting  a list of the TRANSTAC Iraqi Arabic Eval .wav files."
   mkdir -p $tmp_eval_dir
   find "$eval_audio_dir" -type f -name "*.wav" > $tmp_eval_dir/wav_files.txt
@@ -96,277 +139,41 @@ if [ $stage -le 20 ]; then
   find "$eval_txt_dir" -type f -name "*.txt" > $tmp_eval_dir/txt_files.txt
 fi
 
-if [ $stage -le 23 ]; then
-  echo "$0: Preparing the TRANSTAC Iraqi Arabic 2way APPEN 2006 training data."
-  mkdir -p $transtac_tmpdir/train/twoway/appen/2006/lists
-  local/transtac/twoway/appen/2006/make_lists_train.pl || exit 1;
-  utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/appen/2006/lists || exit 1;
-  steps/make_mfcc.sh --cmd "$train_cmd" --nj 56 $transtac_tmpdir/train/twoway/appen/2006/lists
-  steps/compute_cmvn_stats.sh $transtac_tmpdir/train/twoway/appen/2006/lists
-  utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/appen/2006/lists || exit 1;
-fi
-
-if [ $stage -le 24 ]; then
-  echo "$0: Preparing the TRANSTAC Iraqi Arabic 2way APPEN 2007 training data."
-  mkdir -p $transtac_tmpdir/train/twoway/appen/2007/lists
-  local/transtac/twoway/appen/2007/make_lists_train.pl || exit 1;
-  utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/appen/2007/lists || exit 1;
-  steps/make_mfcc.sh --cmd "$train_cmd" --nj 56 $transtac_tmpdir/train/twoway/appen/2007/lists
-  steps/compute_cmvn_stats.sh $transtac_tmpdir/train/twoway/appen/2007/lists
-  utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/appen/2007/lists || exit 1;
-fi
-
-if [ $stage -le 25 ]; then
-  echo "$0: Preparing the TRANSTAC Iraqi Arabic 2way DETROIT 2006 training data."
-  mkdir -p $transtac_tmpdir/train/twoway/detroit/2006/lists
-  local/transtac/twoway/detroit/2006/make_lists_train.pl || exit 1;
-  utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/detroit/2006/lists || exit 1;
-  steps/make_mfcc.sh --cmd "$train_cmd" --nj 56 $transtac_tmpdir/train/twoway/detroit/2006/lists
-  steps/compute_cmvn_stats.sh $transtac_tmpdir/train/twoway/detroit/2006/lists
-  utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/detroit/2006/lists || exit 1;
-fi
-
-if [ $stage -le 26 ]; then
-  echo "$0: Preparing the TRANSTAC Iraqi Arabic 2way DLI 2006 training data."
-  mkdir -p $transtac_tmpdir/train/twoway/dli/2006/lists
-  local/transtac/twoway/dli/2006/make_lists_train.pl || exit 1;
-  utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/dli/2006/lists || exit 1;
-  steps/make_mfcc.sh --cmd "$train_cmd" --nj 56 $transtac_tmpdir/train/twoway/dli/2006/lists
-  steps/compute_cmvn_stats.sh $transtac_tmpdir/train/twoway/dli/2006/lists
-  utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/dli/2006/lists || exit 1;
-fi
-
-if [ $stage -le 27 ]; then
-  echo "$0: Preparing the TRANSTAC Iraqi Arabic 2way NIST 2007 training data."
-  mkdir -p $transtac_tmpdir/train/twoway/nist/2007/lists
-  local/transtac/twoway/nist/2007/make_lists_train.pl || exit 1;
-  utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/nist/2007/lists || exit 1;
-  steps/make_mfcc.sh --cmd "$train_cmd" --nj 56 $transtac_tmpdir/train/twoway/nist/2007/lists
-  steps/compute_cmvn_stats.sh $transtac_tmpdir/train/twoway/nist/2007/lists
-  utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/nist/2007/lists || exit 1;
-fi
-
-if [ $stage -le 28 ]; then
-  echo "$0: Preparing the TRANSTAC Iraqi Arabic 2way Pendleton 2005 training data."
-  mkdir -p $transtac_tmpdir/train/twoway/pendleton/2005/lists
-  local/transtac/twoway/pendleton/2005/make_lists_train.pl || exit 1;
-  utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/pendleton/2005/lists || exit 1;
-  steps/make_mfcc.sh --cmd "$train_cmd" --nj 56 $transtac_tmpdir/train/twoway/pendleton/2005/lists
-  steps/compute_cmvn_stats.sh $transtac_tmpdir/train/twoway/pendleton/2005/lists
-  utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/pendleton/2005/lists || exit 1;
-fi
-
-if [ $stage -le 29 ]; then
-  echo "$0: Preparing the TRANSTAC Iraqi Arabic 2way San Diego 2006 training data."
-  mkdir -p $transtac_tmpdir/train/twoway/san_diego/2006/lists
-  local/transtac/twoway/san_diego/2006/make_lists_train.pl || exit 1;
-  utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/san_diego/2006/lists || exit 1;
-  steps/make_mfcc.sh --cmd "$train_cmd" --nj 56 $transtac_tmpdir/train/twoway/san_diego/2006/lists
-  steps/compute_cmvn_stats.sh $transtac_tmpdir/train/twoway/san_diego/2006/lists
-  utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/san_diego/2006/lists || exit 1;
-fi
-
-if [ $stage -le 30 ]; then
+if [ $stage -le 13 ]; then
   echo "$0: Preparing the TRANSTAC Iraqi Arabic eval data."
   mkdir -p $tmp_eval_dir/lists
   local/transtac/eval/make_lists.pl || exit 1;
   utils/fix_data_dir.sh $tmp_eval_dir/lists || exit 1;
 fi
 
-if [ $stage -le 31 ]; then
+if [ $stage -le 14 ]; then
   echo "$0: Preparing the Libyan dev and test sets."
   local/libyan/prepare_data.sh || exit 1;
 fi
 
-if [ $stage -le 32 ]; then
-  echo "$0: Consolidating  TRANSTAC Iraqi Arabic read and twoway training data."
-  mkdir -p $transtac_tmpdir/lists/train
-  for d in read/appen/2005 read/appen/2006 read/ma/2006 twoway/appen/2006 twoway/appen/2007 twoway/detroit/2006 twoway/dli/2006 twoway/nist/2007 twoway/pendleton/2005 twoway/san_diego/2006; do
-    echo "$0: Copying corpus $d."
-    for y in wav.scp utt2spk text segments; do
-      echo "File: $y."
-      cat $transtac_tmpdir/train/$d/lists/$y >> $transtac_tmpdir/lists/train/$y
-    done
-  done
-  utils/utt2spk_to_spk2utt.pl $transtac_tmpdir/lists/train/utt2spk > $transtac_tmpdir/lists/train/spk2utt
-  utils/fix_data_dir.sh $transtac_tmpdir/lists/train
-fi
-
-if [ $stage -le 33 ]; then
-  echo "$0: Consolidating  GALE MSA Arabic and TRANSTAC  Iraqi Arabic training data."
-  mkdir -p data/train
-  for e in gale transtac; do
-    echo "$0: Copying Corpus $e."
-    for z in wav.scp utt2spk text segments; do
-      echo "$z"
-      cat data/local/tmp/$e/lists/train/$z >> data/train/$z
-    done
-  done
-  utils/utt2spk_to_spk2utt.pl data/train/utt2spk > data/train/spk2utt
-  utils/fix_data_dir.sh data/train
-fi
-
-if [ $stage -le 34 ]; then
-  echo "$0: Consolidating GALE test data."
-  mkdir -p data/gale_test
-  for x in wav.scp utt2spk text segments; do
-    cat data/local/tmp/gale/lists/test/$x >> data/gale_test/$x
-  done
-  utils/utt2spk_to_spk2utt.pl data/gale_test/utt2spk > data/gale_test/spk2utt
-  utils/fix_data_dir.sh data/gale_test
-fi
-
-if [ $stage -le 35 ]; then
-  echo "$0: Consolidating TRANSTAC Iraqi Arabic eval data."
-  mkdir -p data/eval
-  for x in wav.scp utt2spk text; do
-    cat $tmp_eval_dir/lists/$x >> data/eval/$x
-  done
-  utils/utt2spk_to_spk2utt.pl data/eval/utt2spk > data/eval/spk2utt
-  utils/fix_data_dir.sh data/eval
-fi
-
-if [ $stage -le 36 ]; then
-  echo "$0: Preparing the qcri lexicon."
-  local/prepare_dict.sh $lex $tmp_dict_dir/init || exit 1;
-fi
-
-if [ $stage -le 37 ]; then
-  echo "$0: Training a QCRI g2p model."
-  local/g2p/train_g2p.sh $tmp_dict_dir/init \
-    $tmp_dict_dir/g2p || exit 1;
-fi
-
-if [ $stage -le 38 ]; then
-  echo "$0: Applying the QCRI g2p."
-  local/g2p/apply_g2p.sh $tmp_dict_dir/g2p/model.fst \
-    $tmp_dict_dir/work $tmp_dict_dir/init/lexicon.txt \
-    $tmp_dict_dir/init/lexicon_with_tabs.txt $g2p_input_text_files || exit 1;
-fi
-
-if [ $stage -le 39    ]; then
-  echo "$0: Delimiting fields with space instead of tabs."
-  mkdir -p $tmp_dict_dir/final
-  expand -t 1 $tmp_dict_dir/init/lexicon_with_tabs.txt > $tmp_dict_dir/final/lexicon.txt
-fi
-
-if [ $stage -le 40    ]; then
-  echo "$0: Preparing expanded QCRI lexicon."
-  local/prepare_dict.sh $tmp_dict_dir/final/lexicon.txt \
-    data/local/dict || exit 1;
-  echo "$0: Adding <UNK> to the lexicon."
-  echo "<UNK> SPN" >> data/local/dict/lexicon.txt
-fi
-
-if [ $stage -le 41 ]; then
-  echo "$0: Preparing the QCRI lang directory."
-  utils/prepare_lang.sh data/local/dict "<UNK>" \
-    data/local/lang_tmp data/lang || exit 1;
-fi
-
-if [ $stage -le 42 ]; then
+if [ $stage -le 15 ]; then
   echo "$0: Getting data for lm training."
   mkdir -p $tmpdir/lm
   echo "$0: Put the GALE training transcripts in the lm training set."
   cut -d " " -f 2- $gale_tmp_dir/lists/{test,train}/text >> $tmpdir/lm/train.txt
 fi
 
-if [ $stage -le 43 ]; then
+if [ $stage -le 16 ]; then
   echo "$0: Preparing a 3-gram lm."
   local/prepare_lm.sh || exit 1;
 fi
 
-if [ $stage -le 44 ]; then
+if [ $stage -le 17 ]; then
   echo "$0: Making G.fst."
   mkdir -p data/lang_test
   utils/format_lm.sh data/lang data/local/lm/tg.arpa.gz \
     data/local/dict/lexicon.txt data/lang_test || exit 1;
 fi
 
-if [ $stage -le 45 ]; then
+if [ $stage -le 18 ]; then
   echo "$0: Creating ConstArpaLm format language model with $g."
   utils/build_const_arpa_lm.sh data/local/lm/tg.arpa.gz \
     data/lang data/lang_test || exit 1;
-fi
-
-if [ $stage -le 46 ]; then
-  for f in dev eval test train gale_test; do
-    echo "$0: extracting acoustic features for $f."
-    utils/fix_data_dir.sh data/$f
-    steps/make_mfcc.sh --cmd "$train_cmd" --nj 56 data/$f exp/make_mfcc/$f mfcc
-    utils/fix_data_dir.sh data/$f
-    steps/compute_cmvn_stats.sh data/$f exp/make_mfcc mfcc
-    utils/fix_data_dir.sh data/$f
-  done
-fi
-
-if [ $stage -le 47 ]; then
-  echo "$0: monophone training"
-  steps/train_mono.sh  --cmd "$train_cmd" --nj 56 data/train \
-    data/lang exp/mono || exit 1;
-fi
-
-if [ $stage -le 48 ]; then
-  echo "$0: aligning with monophones"
-  steps/align_si.sh  --cmd "$train_cmd" --nj 56 data/train data/lang \
-    exp/mono exp/mono_ali || exit 1;
-fi
-
-if [ $stage -le 49 ]; then
-  echo "$0: Starting  triphone training in exp/tri1."
-  steps/train_deltas.sh --cmd "$train_cmd" --boost-silence 1.25 \
-    5500 90000 \
-    data/train data/lang exp/mono_ali exp/tri1 || exit 1;
-fi
-
-if [ $stage -le 50 ]; then
-  echo "$0: Aligning with triphones tri1."
-  steps/align_si.sh  --cmd "$train_cmd" --nj 56 data/train data/lang \
-		     exp/tri1 exp/tri1_ali || exit 1;
-  fi
-
-if [ $stage -le 51 ]; then
-  echo "$0: Starting lda_mllt triphone training in exp/tri2b."
-  steps/train_lda_mllt.sh --cmd "$train_cmd" \
-    --splice-opts "--left-context=3 --right-context=3" \
-    5500 90000 \
-    data/train data/lang exp/tri1_ali exp/tri2b || exit 1;
-fi
-
-if [ $stage -le 52 ]; then
-  echo "$0: aligning with lda and mllt adapted triphones $tri2b."
-  steps/align_si.sh  --nj 56 \
-    --cmd "$train_cmd" \
-    --use-graphs true data/train data/lang exp/tri2b \
-    exp/tri2b_ali || exit 1;
-fi
-
-if [ $stage -le 53 ]; then
-  echo "$0: Starting SAT triphone training in exp/tri3b."
-  steps/train_sat.sh --cmd "$train_cmd" \
-    5500 90000 \
-    data/train data/lang exp/tri2b_ali exp/tri3b || exit 1;
-fi
-
-if [ $stage -le 54 ]; then
-  (
-    echo "$0: making decoding graph for SAT and tri3b models."
-    utils/mkgraph.sh data/lang_test exp/tri3b exp/tri3b/graph || exit 1;
-
-    for f in test eval dev gale_test; do
-      echo "$0: Decoding $f with sat models."
-      nspk=$(wc -l < data/$f/spk2utt)
-      steps/decode_fmllr.sh --cmd "$decode_cmd" --nj $nspk \
-        exp/tri3b/graph data/$f \
-  	exp/tri3b/decode_${f} || exit 1;
-    done
-  ) &
-fi
-
-if [ $stage -le 55 ]; then
-  echo "$0: Starting exp/tri3b_ali"
-  steps/align_fmllr.sh --cmd "$train_cmd" --nj 56 data/train data/lang \
-			 exp/tri3b exp/tri3b_ali || exit 1;
 fi
 
 if [ $stage -le 56 ]; then

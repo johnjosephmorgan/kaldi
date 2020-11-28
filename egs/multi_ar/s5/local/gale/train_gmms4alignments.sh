@@ -77,4 +77,10 @@ if [ $stage -le 8 ]; then
     data/gale/train data/lang exp/gale/tri2b_ali exp/gale/tri3b || exit 1;
 fi
 
+if [ $stage -le 9 ]; then
+  echo "$0: Starting GALE exp/tri3b_ali"
+  steps/align_fmllr.sh --cmd "$train_cmd" --nj 56 data/gale/train data/lang \
+    exp/gale/tri3b exp/gale/tri3b_ali || exit 1;
+fi
+
 exit 0

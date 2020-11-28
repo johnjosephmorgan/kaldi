@@ -29,9 +29,9 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ]; then
-    echo "$0 Combine the 3 read speech corpora."
-    read_dir=data/local/tmp/transtac/train/read
-    utils/combine_data.sh data/transtac_read $read_dir/appen/2005/lists $read_dir/appen/2006/lists $read_dir/ma/2006/lists
+  echo "$0 Combine the 3 read speech corpora."
+  read_dir=data/local/tmp/transtac/train/read
+  utils/combine_data.sh data/transtac_read $read_dir/appen/2005/lists $read_dir/appen/2006/lists $read_dir/ma/2006/lists
 fi
 
 if [ $stage -le 4 ]; then
@@ -88,3 +88,9 @@ if [ $stage -le 11 ]; then
     5500 90000 \
     data/transtac_read data/lang exp/transtac_read/tri2b_ali exp/transtac_read/tri3b || exit 1;
 fi
+if [ $stage -le 12 ]; then
+  echo "$0: Starting alignment for Transtac Read exp/transtac_read/tri3b_ali"
+  steps/align_fmllr.sh --cmd "$train_cmd" --nj 56 data/transtac_read/train \
+    data/lang exp/transtac_read/tri3b exp/transtac_read/tri3b_ali || exit 1;
+fi
+

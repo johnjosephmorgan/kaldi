@@ -13,51 +13,66 @@ tmpdir=data/local/tmp
 transtac_tmpdir=$tmpdir/transtac
 
 if [ $stage -le 0 ]; then
+  echo "$0: Preparing the TRANSTAC Iraqi Arabic 2way APPEN 2006 training data."
+  mkdir -p $transtac_tmpdir/train/twoway/appen/2006/lists
+  local/transtac/twoway/appen/2006/make_lists_train.pl || exit 1;
+  utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/appen/2006/lists || exit 1;
+fi
+
+if [ $stage -le 1 ]; then
   echo "$0: Preparing the TRANSTAC Iraqi Arabic 2way APPEN 2007 training data."
   mkdir -p $transtac_tmpdir/train/twoway/appen/2007/lists
   local/transtac/twoway/appen/2007/make_lists_train.pl || exit 1;
   utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/appen/2007/lists || exit 1;
 fi
 
-if [ $stage -le 1 ]; then
+if [ $stage -le 2 ]; then
   echo "$0: Preparing the TRANSTAC Iraqi Arabic 2way DETROIT 2006 training data."
   mkdir -p $transtac_tmpdir/train/twoway/detroit/2006/lists
   local/transtac/twoway/detroit/2006/make_lists_train.pl || exit 1;
   utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/detroit/2006/lists || exit 1;
 fi
 
-if [ $stage -le 2 ]; then
+if [ $stage -le 3 ]; then
   echo "$0: Preparing the TRANSTAC Iraqi Arabic 2way DLI 2006 training data."
   mkdir -p $transtac_tmpdir/train/twoway/dli/2006/lists
   local/transtac/twoway/dli/2006/make_lists_train.pl || exit 1;
   utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/dli/2006/lists || exit 1;
 fi
 
-if [ $stage -le 3 ]; then
+if [ $stage -le 4 ]; then
   echo "$0: Preparing the TRANSTAC Iraqi Arabic 2way NIST 2007 training data."
   mkdir -p $transtac_tmpdir/train/twoway/nist/2007/lists
   local/transtac/twoway/nist/2007/make_lists_train.pl || exit 1;
   utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/nist/2007/lists || exit 1;
 fi
 
-if [ $stage -le 4 ]; then
+if [ $stage -le 5 ]; then
   echo "$0: Preparing the TRANSTAC Iraqi Arabic 2way Pendleton 2005 training data."
   mkdir -p $transtac_tmpdir/train/twoway/pendleton/2005/lists
   local/transtac/twoway/pendleton/2005/make_lists_train.pl || exit 1;
   utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/pendleton/2005/lists || exit 1;
 fi
 
-if [ $stage -le 5 ]; then
+if [ $stage -le 6 ]; then
   echo "$0: Preparing the TRANSTAC Iraqi Arabic 2way San Diego 2006 training data."
   mkdir -p $transtac_tmpdir/train/twoway/san_diego/2006/lists
   local/transtac/twoway/san_diego/2006/make_lists_train.pl || exit 1;
   utils/fix_data_dir.sh $transtac_tmpdir/train/twoway/san_diego/2006/lists || exit 1;
 fi
 
-if [ $stage -le 6 ]; then
-  echo "$0 Combine the 6 2way speech corpora."
+if [ $stage -le 7 ]; then
+  echo "$0 Combine the 7 2way speech corpora."
   twoway_dir=data/local/tmp/transtac/train/twoway
-  utils/combine_data.sh data/transtac_twoway $twoway_dir/appen/2007/lists $twoway_dir/detroit/2006/lists $twoway_dir/dli/2006/lists $twoway_dir/nist/2007/lists $twoway_dir/pendleton/2005/lists $twoway_dir/san_diego/2006/liss
+  utils/combine_data.sh \
+      data/transtac_twoway \
+    $twoway_dir/appen/2006/lists \
+    $twoway_dir/appen/2007/lists \
+    $twoway_dir/detroit/2006/lists \
+    $twoway_dir/dli/2006/lists \
+    $twoway_dir/nist/2007/lists \
+    $twoway_dir/pendleton/2005/lists \
+    $twoway_dir/san_diego/2006/liss
   utils/fix_data_dir.sh data/transtac_twoway || exit 1;
 fi
 
@@ -115,3 +130,10 @@ if [ $stage -le 11 ]; then
     5500 90000 \
     data/transtac_twoway data/lang exp/transtac_twoway/tri2b_ali exp/transtac_twoway/tri3b || exit 1;
 fi
+
+if [ $stage -le 12 ]; then
+  echo "$0: Starting transtac twoway alignment in exp/transtac_twoway/tri3b_ali"
+  steps/align_fmllr.sh --cmd "$train_cmd" --nj 56 data/transtac_twoway/train \
+    data/lang exp/transtac_twoway/tri3b exp/transtac_twoway/tri3b_ali || exit 1;
+fi
+
