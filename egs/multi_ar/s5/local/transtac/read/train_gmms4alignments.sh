@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 . ./cmd.sh
 . ./path.sh
 stage=0
@@ -7,7 +8,7 @@ stage=0
 
 set -e
 set -o pipefail
-set u
+set -u
 
 if [ $stage -le 0 ]; then
   echo "$0: Preparing the TRANSTAC Iraqi Arabic APPEN read 2005 training data."

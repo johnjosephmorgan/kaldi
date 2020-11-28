@@ -8,11 +8,12 @@ stage=0
 
 set -e
 set -o pipefail
-set u
+set -u
 
 read_appen_train_2005_audio_dir=/mnt/corpora/TRANSTAC/TRANSTAC\ Database\ P1-P4/Phase\ I/Iraqi\ Arabic-Audio/APPEN_BBN_2005
 read_appen_train_2006_audio_dir=/mnt/corpora/TRANSTAC/TRANSTAC\ Database\ P1-P4/Phase\ II/Iraqi\ Arabic-Audio/APPEN_1.5WAY_SEPT2006/Training\ Set
 ma_train_audio_dir=/mnt/corpora/TRANSTAC/TRANSTAC\ Database\ P1-P4/Phase\ I/Iraqi\ Arabic-Audio/MARINE_ACOUSTICS
+
 twoway_appen_2006_train_audio_dir=/mnt/corpora/TRANSTAC/TRANSTAC\ Database\ P1-P4/Phase\ II/Iraqi\ Arabic-Audio/APPEN_2WAY_SEPT2006/TRAINING
 twoway_appen_2006_train_txt_dir=/mnt/corpora/TRANSTAC/TRANSTAC\ Database\ P1-P4/Phase\ II/Iraqi\ Arabic-TX-TL/APPEN_2WAY_SEPT2006
 twoway_appen_2007_train_audio_dir=/mnt/corpora/TRANSTAC/TRANSTAC\ Database\ P1-P4/Phase\ II/Iraqi\ Arabic-Audio/APPEN_ADDITIONAL_2WAY_2007/TRAINING
@@ -27,14 +28,13 @@ pendleton_train_audio_dir=/mnt/corpora/TRANSTAC/TRANSTAC\ Database\ P1-P4/Phase\
 pendleton_train_txt_dir=/mnt/corpora/TRANSTAC/TRANSTAC\ Database\ P1-P4/Phase\ I/Iraqi\ Arabic-TX-TL/PENDLETON_2005
 san_diego_train_audio_dir=/mnt/corpora/TRANSTAC/TRANSTAC\ Database\ P1-P4/Phase\ II/Iraqi\ Arabic-Audio/SAN_DIEGO_2WAY_2006/TRAINING
 san_diego_train_txt_dir=/mnt/corpora/TRANSTAC/TRANSTAC\ Database\ P1-P4/Phase\ II/Iraqi\ Arabic-TX-TL/SAN_DIEGO_2WAY_2006/SanDiego_2-way_IA_Transcription_TrainingSet_20070430
+
 eval_audio_dir=/mnt/corpora/TRANSTAC/TRANSTAC\ Database\ P1-P4/Phase\ III/Iraqi\ Arabic\ -\ TX-TL/JUNE_EVAL_2008
 eval_txt_dir=/mnt/corpora/TRANSTAC/TRANSTAC\ Database\ P1-P4/Phase\ III/Iraqi\ Arabic\ -\ TX-TL/JUNE_EVAL_2008/TRANSTAC_JUNE_EVAL_2008_TRANSCRIPTION
+
 tmpdir=data/local/tmp
 gale_tmp_dir=$tmpdir/gale
 transtac_tmpdir=$tmpdir/transtac
-tmp_read_appen_train_2005_dir=$transtac_tmpdir/train/read/appen/2005
-tmp_read_appen_train_2006_dir=$transtac_tmpdir/train/read/appen/2006
-tmp_train_ma_dir=$transtac_tmpdir/train/read/ma/2006
 tmp_eval_dir=$transtac_tmpdir/eval
 tmp_dict_dir=data/local/tmp/dict
 lex="/mnt/corpora/Tunisian_MSA/lexicon.txt"
@@ -58,30 +58,15 @@ if [ $stage -le 1 ]; then
 fi
 
 if [ $stage -le 2 ]; then
-  echo "$0: Getting a list of the  TRANSTAC read 2005 training .wav files."
-  mkdir -p $tmp_read_appen_train_2005_dir/lists
-  for i in $(seq 21); do
-    echo "$0: Processing part $i of 21."
-    find "$read_appen_train_2005_audio_dir/AllAudio${i}/Audio" -type f -name "*.wav" >> \
-      $tmp_read_appen_train_2005_dir/wav_list.txt
-  done
+  echo "$0: Preparing Transtac Read training data."
+  local/transtac/read/prepare_data.sh \
+    "$read_appen_train_2005_audio_dir" \
+    "$read_appen_train_2006_audio_dir" \
+    "$ma_train_audio_dir"
 fi
 
-if [ $stage -le 3 ]; then
-  echo "$0: Getting a list of the  TRANSTAC Read 2006 training .wav files."
-  mkdir -p $tmp_read_appen_train_2006_dir/lists
-  find "$read_appen_train_2006_audio_dir" -type f -name "*.wav" > \
-    $tmp_read_appen_train_2006_dir/wav_list.txt
-fi
-
-if [ $stage -le 4 ]; then
-  echo "$0: Getting a list of the  TRANSTAC Marine Acoustics training .wav files."
-  mkdir -p $tmp_train_ma_dir/lists
-  find "$ma_train_audio_dir" -type f -name "*.wav" > $tmp_train_ma_dir/wav_list.txt
-fi
-
-if [ $stage -le 5 ]; then
-  echo "$0: Build Transtac Read GMM system for alignments."
+if [ $stage -le 5 ]; then \
+      echo "$0: Build Transtac Read GMM system for alignments."
   local/transtac/read/train_gmms4alignments.sh
 fi
 
