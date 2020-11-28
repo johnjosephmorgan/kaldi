@@ -19,11 +19,11 @@ detroit_train_txt_dir=$6
 dli_train_audio_dir=$7
 dli_train_txt_dir=$8
 nist_train_audio_dir=$9
-nist_train_txt_dir=$10
-pendleton_train_audio_dir=$11
-pendleton_train_txt_dir=$12
-san_diego_train_audio_dir=$13
-san_diego_train_txt_dir=$14
+nist_train_txt_dir=${10}
+pendleton_train_audio_dir=${11}
+pendleton_train_txt_dir=${12}
+san_diego_train_audio_dir=${13}
+san_diego_train_txt_dir=${14}
 
 tmpdir=data/local/tmp
 transtac_tmpdir=$tmpdir/transtac
