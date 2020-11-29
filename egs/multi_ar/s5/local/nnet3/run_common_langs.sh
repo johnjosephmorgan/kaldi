@@ -55,13 +55,13 @@ if [ "$speed_perturb" == "true" ]; then
   fi
 
   train_set=train_sp
-  if [ $stage -le 2 ] && [ "$generate_alignments" == "true" ] && [ ! -f exp/$lang/tri5_ali_sp/.done ]; then
+  if [ $stage -le 2 ] && [ "$generate_alignments" == "true" ] && [ ! -f exp/$lang/tri3b_ali_sp/.done ]; then
     #obtain the alignment of the perturbed data
     steps/align_fmllr.sh \
       --nj 70 --cmd "$train_cmd" \
       --boost-silence $boost_sil \
-      data/$lang/$train_set data/$lang/lang exp/$lang/tri5 exp/$lang/tri5_ali_sp || exit 1
-    touch exp/$lang/tri5_ali_sp/.done
+      data/$lang/$train_set data/$lang/lang exp/$lang/tri3b exp/$lang/tri3b_ali_sp || exit 1
+    touch exp/$lang/tri3b_ali_sp/.done
   fi
 fi
 
