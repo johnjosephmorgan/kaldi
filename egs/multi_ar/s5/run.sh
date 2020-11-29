@@ -171,7 +171,7 @@ if [ $stage -le 17 ]; then
 fi
 
 if [ $stage -le 18 ]; then
-  echo "$0: Creating ConstArpaLm format language model with $g."
+  echo "$0: Creating ConstArpaLm format language model with g."
   utils/build_const_arpa_lm.sh data/local/lm/tg.arpa.gz \
     data/lang data/lang_test || exit 1;
 fi
