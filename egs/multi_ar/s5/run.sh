@@ -181,8 +181,10 @@ if [ $stage -le 19 ]; then
   for f in gale transtac_read transtac_twoway; do
     (
       cd data/$f
-      ln -s ../lang ./
-  )
+      if [ -h lang ]; then
+        ln -s ../lang ./
+      fi
+    )
   done
   local/chain2/run_tdnn.sh || exit 1;
 fi
