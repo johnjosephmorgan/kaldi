@@ -181,7 +181,7 @@ if [ $stage -le 19 ]; then
   for f in gale transtac_read transtac_twoway; do
     (
       cd data/$f
-      if [ -h lang ]; then
+      if [ ! -h lang ]; then
         ln -s ../lang ./
       fi
     )
