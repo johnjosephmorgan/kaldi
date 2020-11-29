@@ -182,6 +182,7 @@ if [ $stage -le 19 ]; then
   {
       cd data/$f
       ln -s ..//lang ./
-      }
+  }
+  done
   local/chain2/run_tdnn.sh || exit 1;
 fi
