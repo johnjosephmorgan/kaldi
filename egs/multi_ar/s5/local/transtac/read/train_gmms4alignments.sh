@@ -79,7 +79,7 @@ if [ $stage -le 9 ]; then
 fi
 
 if [ $stage -le 10 ]; then
-  echo "$0: aligning with transtac read lda and mllt adapted triphones $tri2b."
+  echo "$0: aligning with transtac read lda and mllt adapted triphones tri2b."
   steps/align_si.sh  --nj 56 \
     --cmd "$train_cmd" \
     --use-graphs true data/transtac_read/train data/lang \
