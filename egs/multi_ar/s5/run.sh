@@ -178,8 +178,10 @@ fi
 
 if [ $stage -le 19 ]; then
   echo "$0: Training and testing chain models."
-  ln -s data/lang data/gale
-  ln -s data/lang data/transtac_read
-  ln -s data/lang data/transtac_twoway
+  for f in gale transtac_read transtac_twoway; do
+  {
+      cd data/$f
+      ln -s ..//lang ./
+      }
   local/chain2/run_tdnn.sh || exit 1;
 fi
