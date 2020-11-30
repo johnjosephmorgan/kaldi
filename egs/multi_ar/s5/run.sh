@@ -39,12 +39,40 @@ tmp_eval_dir=$transtac_tmpdir/eval
 tmp_dict_dir=data/local/tmp/dict
 lex="/mnt/corpora/Tunisian_MSA/lexicon.txt"
 g2p_input_text_files="data/dev/text data/train/text"
+
 dir1=/mnt/corpora/LDC2013S02/
 dir2=/mnt/corpora/LDC2013S07/
 dir3=/mnt/corpora/LDC2014S07/
 text1=/mnt/corpora/LDC2013T17/
 text2=/mnt/corpora/LDC2013T04/
 text3=/mnt/corpora/LDC2014T17/
+
+# GALE Arabic phase 2 Conversation Speech
+dir1=/mnt/corpora/LDC2013S02/          # checked
+dir2=/mnt/corpora/LDC2013S07/          # checked (16k)
+text1=/mnt/corpora/LDC2013T04/         # checked
+text2=/mnt/corpora/LDC2013T17/         # checked
+# GALE Arabic phase 2 News Speech
+dir3=/mnt/corpora/LDC2014S07/          # checked (16k)
+dir4=/mnt/corpora/LDC2015S01/          # checked (16k)
+text3=/mnt/corpora/LDC2014T17/         # checked
+text4=/mnt/corpora/LDC2015T01/         # checked
+# GALE Arabic phase 3 Conversation Speech
+dir5=/mnt/corpora/LDC2015S11/          # checked (16k)
+dir6=/mnt/corpora/LDC2016S01/          # checked (16k)
+text5=/mnt/corpora/LDC2015T16/         # checked
+text6=/mnt/corpora/LDC2016T06/         # checked
+# GALE Arabic phase 3 News Speech
+dir7=/mnt/corpora/LDC2016S07/          # checked (16k)
+dir8=/mnt/corpora/LDC2017S02/          # checked (16k)
+text7=/mnt/corpora/LDC2016T17/         # checked
+text8=/mnt/corpora/LDC2017T04/         # checked
+# GALE Arabic phase 4 Conversation Speech
+dir9=/mnt/corpora/LDC2017S15/          # checked (16k)
+text9=/mnt/corpora/LDC2017T12/         # checked
+# GALE Arabic phase 4 News Speech
+dir10=/mnt/corpora/LDC2018S05/          # checked (16k)
+text10=/mnt/corpora/LDC2018T14/         # checked
 
 if [ $stage -le 0 ]; then
   echo "$0: Preparing the qcri lexicon."
