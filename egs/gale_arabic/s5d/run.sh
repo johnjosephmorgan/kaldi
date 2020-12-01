@@ -106,7 +106,7 @@ if [ $stage -le 5 ]; then
   done
 fi
 
-if [ $stage -le 7 ]; then
+if [ $stage -le 6 ]; then
   echo "$0: creating sub-set and training monophone system"
   utils/subset_data_dir.sh data/train 10000 data/train.10K || exit 1;
 
@@ -114,7 +114,7 @@ if [ $stage -le 7 ]; then
     data/train.10K data/lang exp/mono || exit 1;
 fi
 
-if [ $stage -le 8 ]; then
+if [ $stage -le 7 ]; then
   echo "$0: Aligning data using monophone system"
   steps/align_si.sh --nj $num_jobs --cmd "$train_cmd" \
     data/train data/lang exp/mono exp/mono_ali || exit 1;
@@ -124,13 +124,13 @@ if [ $stage -le 8 ]; then
     2500 30000 data/train data/lang exp/mono_ali exp/tri1 || exit 1;
 fi
 
-if [ $stage -le 9 ] && $decode_gmm; then
+if [ $stage -le 8 ] && $decode_gmm; then
   utils/mkgraph.sh data/lang_test exp/tri1 exp/tri1/graph
   steps/decode.sh  --nj $num_decode_jobs --cmd "$decode_cmd" \
     exp/tri1/graph data/dev exp/tri1/decode
 fi
 
-if [ $stage -le 10 ]; then
+if [ $stage -le 9 ]; then
   echo "$0: Aligning data and retraining and realigning with lda_mllt"
   steps/align_si.sh --nj $num_jobs --cmd "$train_cmd" \
     data/train data/lang exp/tri1 exp/tri1_ali || exit 1;
@@ -139,13 +139,13 @@ if [ $stage -le 10 ]; then
     data/train data/lang exp/tri1_ali exp/tri2b || exit 1;
 fi
 
-if [ $stage -le 11 ] && $decode_gmm; then
+if [ $stage -le 10 ] && $decode_gmm; then
   utils/mkgraph.sh data/lang_test exp/tri2b exp/tri2b/graph
   steps/decode.sh --nj $num_decode_jobs --cmd "$decode_cmd" \
     exp/tri2b/graph data/dev exp/tri2b/decode
 fi
 
-if [ $stage -le 12 ]; then
+if [ $stage -le 11 ]; then
   echo "$0: Aligning data and retraining and realigning with sat_basis"
   steps/align_si.sh --nj $num_jobs --cmd "$train_cmd" \
     data/train data/lang exp/tri2b exp/tri2b_ali || exit 1;
@@ -157,18 +157,18 @@ if [ $stage -le 12 ]; then
     data/train data/lang exp/tri3b exp/tri3b_ali || exit 1;
 fi
 
-if [ $stage -le 13 ] && $decode_gmm; then
+if [ $stage -le 12 ] && $decode_gmm; then
   utils/mkgraph.sh data/lang_test exp/tri3b exp/tri3b/graph
   steps/decode_fmllr.sh --nj $num_decode_jobs --cmd \
     "$decode_cmd" exp/tri3b/graph data/dev exp/tri3b/decode
 fi
 
-if [ $stage -le 14 ]; then
+if [ $stage -le 13 ]; then
   echo "$0: Training a regular chain model using the e2e alignments..."
   local/chain/run_tdnn.sh
 fi
 
-if [ $stage -le 15 ] && $run_rnnlm; then
+if [ $stage -le 14 ] && $run_rnnlm; then
   local/rnnlm/run_tdnn_lstm.sh
 fi
 
