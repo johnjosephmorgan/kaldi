@@ -74,14 +74,18 @@ if [ $stage -le 0 ]; then
   options=""
   [ ! -z $mgb2_dir ] && options="--process-xml python --mgb2-dir $mgb2_dir"
   local/prepare_data.sh $options
-
-  echo "$0: Preparing lexicon and LM..." 
-  local/prepare_dict.sh
-
-  utils/prepare_lang.sh data/local/dict "<UNK>" data/local/lang data/lang
 fi
 
 if [ $stage -le 1 ]; then
+  echo "$0: Preparing lexicon and LM..." 
+  local/prepare_dict.sh
+fi
+
+if [ $stage -le 2 ]; then
+  utils/prepare_lang.sh data/local/dict "<UNK>" data/local/lang data/lang
+fi
+
+if [ $stage -le 3 ]; then
   local/gale_train_lms.sh data/train/text data/local/dict/lexicon.txt data/local/lm $giga_dir  # giga is Arabic Gigawords
 
   utils/format_lm.sh data/lang data/local/lm/$LM \
