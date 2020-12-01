@@ -87,13 +87,15 @@ fi
 
 if [ $stage -le 3 ]; then
   local/gale_train_lms.sh data/train/text data/local/dict/lexicon.txt data/local/lm $giga_dir  # giga is Arabic Gigawords
+fi
 
+if [ $stage -le 4 ]; then
   utils/format_lm.sh data/lang data/local/lm/$LM \
-                     data/local/dict/lexicon.txt data/lang_test
+    data/local/dict/lexicon.txt data/lang_test
 fi
 
 mfccdir=mfcc
-if [ $stage -le 2 ]; then
+if [ $stage -le 5 ]; then
   echo "$0: Preparing the test and train feature files..."
   for x in dev test_p2 mt_all train; do
     utils/fix_data_dir.sh data/$x
