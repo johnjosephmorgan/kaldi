@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+src=$1
+
 . ./path.sh
 
 mkdir -p data/test
@@ -21,7 +23,7 @@ for s in adel anwar bubaker hisham mukhtar redha  srj yousef; do
     cat data/$s/recordings/$f >> data/test/$f
   done
 
-  mkdir -p exp/nnet3/decode_online/$s
+  mkdir -p exp/$src/decode_online/$s
 
   online2-wav-nnet3-latgen-faster \
     --do-endpointing=false \
@@ -35,18 +37,19 @@ for s in adel anwar bubaker hisham mukhtar redha  srj yousef; do
     --beam=15.0 \
     --lattice-beam=6.0 \
     --acoustic-scale=1.0 \
-    --word-symbol-table=exp/nnet3/words.txt \
-    exp/nnet3/final.mdl \
-    exp/nnet3/HCLG.fst \
+    --word-symbol-table=exp/$src/words.txt \
+    exp/$src/final.mdl \
+    exp/$src/HCLG.fst \
     ark:data/$s/recordings/spk2utt \
     "ark,s,cs:wav-copy scp,p:data/$s/recordings/wav.scp ark:- |" \
-    "ark:|lattice-scale --acoustic-scale=10.0 ark:- ark,t:- > exp/nnet3/decode_online/$s/lat.txt"
+    "ark:|lattice-scale --acoustic-scale=10.0 ark:- ark,t:- > exp/$src/decode_online/$s/lat.txt"
 
-  cat exp/nnet3/decode_online/$s/lat.txt >> exp/nnet3/decode_online/lat.1
+  cat exp/$src/decode_online/$s/lat.txt >> exp/$src/decode_online/lat.1
 done
 
-gzip exp/nnet3/decode_online/lat.1
+gzip exp/$src/decode_online/lat.1
 
-./steps/scoring/score_kaldi_wer.sh --cmd run.pl data/test exp/nnet3 exp/nnet3/decode_online
+./steps/scoring/score_kaldi_wer.sh --cmd run.pl data/test exp/$src \
+  exp/$src/decode_online
 exit 0
-#"ark:|lattice-scale --acoustic-scale=10.0 ark:- ark:- | gzip -c > exp/nnet3/decode_online/$s/lat.gz"
+
