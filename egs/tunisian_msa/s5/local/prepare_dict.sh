@@ -11,13 +11,16 @@ if [ ! -d data/local/dict ]; then
   mkdir -p data/local/dict
 fi
 
-l=$1
+lx=$1
+tmp_lx=data/local/tmp/dict/lexicon.txt
 export LC_ALL=C
+# map dollar sign to S
+tr \$ S < $lx > $tmp_lx
 
-cut -f2- -d " " $l | tr -s '[:space:]' '[\n*]' | grep -v SPN | \
-    sort -u | tail -n+2 > data/local/dict/nonsilence_phones.txt
+cut -f2- -d " " $tmp_lx | tr -s '[:space:]' '[\n*]' | grep -v SPN | \
+    sort -u > data/local/dict/nonsilence_phones.txt
 
-expand -t 1 $l | sort -u | \
+expand -t 1 $tmp_lx | sort -u | \
     sed "1d" > data/local/dict/lexicon.txt
 
 echo "<UNK> SPN" >> data/local/dict/lexicon.txt
