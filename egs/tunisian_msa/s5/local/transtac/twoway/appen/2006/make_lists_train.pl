@@ -191,7 +191,3 @@ LINE: foreach my $utt_id (sort  keys %utterance ) {
   print $TXT "$utt_id $utterance{$utt_id}->{'transcript'}\n";
 }
 close $TXT;
-
-close $UTTSPK;
-close $W;
-close $SEG;
