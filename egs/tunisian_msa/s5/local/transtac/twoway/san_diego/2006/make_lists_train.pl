@@ -3,7 +3,7 @@
 # Copyright 2019 John Morgan
 # Apache 2.0.
 
-# make_lists_train_twoway_san_diego.pl - write  Kaldi IO lists
+# make_lists_train_twoway_san_diego.pl - Get text for LM training.
 # writes files under data/local/tmp/transtac/train/twoway/san_diego/2006/lists
 
 use strict;
@@ -20,53 +20,15 @@ binmode STDOUT, 'utf8';
 # Initialize variables
 my $tmpdir = "data/local/tmp/transtac/train/twoway/san_diego/2006";
 my $transcripts_file = "$tmpdir/tdf_files.txt";
-# input wav file list
-my $w = "$tmpdir/wav_files.txt";
-# output temporary wav.scp file
-my $wav_scp = "$tmpdir/lists/wav.scp";
-# output temporary utt2spk file
-my $utt_to_spk = "$tmpdir/lists/utt2spk";
 # output temporary text file
 my $txt_out = "$tmpdir/lists/text";
-# temporary segments file
-my $segs = "$tmpdir/lists/segments";
-my %wav_file = ();
 my $sample_rate = 16000;
 my $data_word_size = 4;
 # done setting variables
 
-# This script looks at 2 files.
-# One containing text transcripts and another containing file names for .wav files.
-# It associates a text transcript with a .wav file name.
-# Speakers are only identified by role. 
-
 system "mkdir -p $tmpdir/lists";
-# store .wav files in hash
-open my $W, '<', $w or croak "problem with $w $!";
-LINE: while ( my $line = <$W> ) {
-  chomp $line;
-  my ($volume,$directories,$file) = File::Spec->splitpath( $line );
-  my $base_with_suffix = basename $file, ".wav";
-  my $base = "";
-  # There are 2 wav files for each basename
-  # One has _a suffix and theother has _b suffix.
-  # we are arbitrarily choosing to go with suffix _a
-  if ( $base_with_suffix =~ /(.+)_a$/ ) {
-    $base = $1;
-  } elsif ( $base_with_suffix =~ /(.+)_b$/ ) {
-      next LINE;
-  } else {
-    croak "$line has Neither _a nor _b suffixes. $!";
-  }
-  $wav_file{$base} = $line;
-}
-close $W;
-
 open my $TR, '<', $transcripts_file or croak "problem with $transcripts_file $!";
-open my $WAVSCP, '+>', $wav_scp or croak "problem with $wav_scp $!";
-open my $UTTSPK, '+>', $utt_to_spk or croak "problem with $utt_to_spk $!";
 open my $TXT, '+>:utf8', $txt_out or croak "problem with $txt_out $!";
-open my $SEG, '+>', $segs or croak "problem with $segs $!";
 
 while ( my $line = <$TR> ) {
   chomp $line;
@@ -101,18 +63,11 @@ while ( my $line = <$TR> ) {
   next LINE if ( $end <= $start );
   next LINE unless ( defined $file );
   my $base_without_suffix = basename $file, ".wav";
-  next RECORD unless defined $wav_file{$base_without_suffix};
   my $rec_id = $base_without_suffix;
   my $spk = $speakerRole;
-  print $TXT "$utt_id $transcript\n";
-  print $WAVSCP "$rec_id sox -r 22050 -b 16 -e signed \"$wav_file{$base_without_suffix}\" -r 16000 -b 16 -e signed -t .wav - remix 2 |\n";
-  print $UTTSPK "$utt_id $spk\n";
-  print $SEG "$utt_id $rec_id $start $end\n";
+  print $TXT "$transcript\n";
   }
   close $TDF;
 }
 close $TR;
 close $TXT;
-close $WAVSCP;
-close $UTTSPK;
-close $SEG;
