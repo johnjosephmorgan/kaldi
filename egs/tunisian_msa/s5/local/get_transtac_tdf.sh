@@ -46,5 +46,6 @@ echo "$0: Getting a list of the TRANSTAC Iraqi Arabic San Diego 2006 2way traini
 mkdir -p $tmp_twoway_san_diego_train_2006_dir
 find "$san_diego_train_txt_dir" -type f -name "*.tdf" > \
     $tmp_twoway_san_diego_train_2006_dir/tdf_files.txt
+local/transtac/twoway/appen/2006/make_lists_train.pl
+local/transtac/twoway/appen/2007/make_lists_train.pl
 
-find $transtac_tmpdir/train/twoway -type f -name "tdf_files.txt" | xargs cat | xargs cat > data/transtatc_twoway_text.txt 
