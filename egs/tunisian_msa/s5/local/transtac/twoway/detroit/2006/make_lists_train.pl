@@ -195,6 +195,6 @@ LINE: foreach my $utt_id ( sort keys %utterance ) {
     next LINE if ( $utterance{$utt_id}->{'end'} <= $utterance{$utt_id}->{'start'} );
     my $base = basename $utterance{$utt_id}->{'filename'}, ".wav";
     my $rec_id = $base;
-  print $TXT "$utt_id $utterance{$utt_id}->{'transcript'}\n";
+  print $TXT "$utterance{$utt_id}->{'transcript'}\n";
 }
 close $TXT;
