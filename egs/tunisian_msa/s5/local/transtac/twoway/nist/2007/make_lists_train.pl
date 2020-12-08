@@ -60,7 +60,7 @@ LINE: while ( my $line = <$TR> ) {
     my $base = basename $file, ".wav";
     my $utt_id = $speaker . '-' . $base . '-' . $start . '-' . $end;
     my $rec_id = $base;
-    print $TXT "$utt_id $transcript\n";
+    print $TXT "$transcript\n";
   }
   close $TDF;
 }
