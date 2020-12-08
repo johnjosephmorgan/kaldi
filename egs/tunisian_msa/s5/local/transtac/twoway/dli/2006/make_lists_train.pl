@@ -3,7 +3,7 @@
 # Copyright 2019 John Morgan
 # Apache 2.0.
 
-# make_lists_train.pl - write lists for acoustic model training
+# make_lists_train.pl - Get text for LM training.
 # writes files under data/local/tmp/transtac/train/twoway/dli/2006/lists
 
 use strict;
@@ -20,26 +20,14 @@ binmode STDERR, 'utf8';
 # Initialize variables
 my $tmpdir = "data/local/tmp/transtac/train/twoway/dli/2006";
 my $transcripts_file = "$tmpdir/tdf_files.txt";
-# input wav file list
-my $w = "$tmpdir/wav_files.txt";
-# output temporary wav.scp file
-my $wav_scp = "$tmpdir/lists/wav.scp";
-# output temporary utt2spk file
-my $utt_to_spk = "$tmpdir/lists/utt2spk";
 # output temporary text file
 my $txt_out = "$tmpdir/lists/text";
-# temporary segments file
-my $segs = "$tmpdir/lists/segments";
 # initialize utterance hash
 my %utterance = ();
 my $sample_rate = 16000;
 my $data_word_size = 4;
 my $subs = 0;
 # done setting variables
-
-# This script looks at 2 files.
-# One containing text transcripts and another containing file names for .wav files.
-# It associates a text transcript with a .wav file name.
 
 system "mkdir -p $tmpdir/lists";
 open my $TR, '<', $transcripts_file or croak "problem with $transcripts_file $!";
@@ -146,32 +134,14 @@ $subs += $transcript =~ s/ENGLISH\_you\_know/<UNK>/g;
 }
 close $TR;
 warn "substitutions\t$subs";
-open my $W, '<', $w or croak "problem with $w $!";
-my %wav_file = ();
-LINE: while ( my $line = <$W> ) {
-  chomp $line;
-  my ($volume,$directories,$file) = File::Spec->splitpath( $line );
-  my $base = basename $file, ".wav";
-  $wav_file{$base} = $line;
-}
-close $W;
 
-open my $WAVSCP, '+>', $wav_scp or croak "problem with $wav_scp $!";
-open my $UTTSPK, '+>', $utt_to_spk or croak "problem with $utt_to_spk $!";
 open my $TXT, '+>:utf8', $txt_out or croak "problem with $txt_out $!";
-open my $SEG, '+>', $segs or croak "problem with $segs $!";
 
 LINE: foreach my $utt_id ( sort keys %utterance ) {
   next LINE if ( $utterance{$utt_id}->{'end'} <= $utterance{$utt_id}->{'start'} );
   my $base = basename $utterance{$utt_id}->{'filename'}, ".wav";
   my $rec_id = $base;
   my $spk = 'dli' . '-' . $utterance{$utt_id}->{'speaker'};
-  print $TXT "$utt_id $utterance{$utt_id}->{'transcript'}\n";
-  print $WAVSCP "$rec_id sox -r 22050 -b 16 -e signed \"$wav_file{$base}\" -r 16000 -b 16 -e signed -t .wav - remix 2 |\n";
-  print $UTTSPK "$utt_id $spk\n";
-  print $SEG "$utt_id $rec_id $utterance{$utt_id}->{'start'} $utterance{$utt_id}->{'end'}\n";
+  print $TXT "$utterance{$utt_id}->{'transcript'}\n";
 }
 close $TXT;
-close $WAVSCP;
-close $UTTSPK;
-close $SEG;
