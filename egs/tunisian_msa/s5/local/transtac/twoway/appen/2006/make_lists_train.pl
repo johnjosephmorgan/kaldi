@@ -3,7 +3,7 @@
 # Copyright 2019 John Morgan
 # Apache 2.0.
 
-# make_lists_train.pl - write  Kaldi IO lists
+# make_lists_train.pl - Get text for LM training.
 # writes files under data/local/tmp/transtac/train/twoway/appen/2006/lists
 
 use strict;
@@ -188,6 +188,6 @@ LINE: foreach my $utt_id (sort  keys %utterance ) {
   } else {
       warn "No channel set $!";
   }
-  print $TXT "$utt_id $utterance{$utt_id}->{'transcript'}\n";
+  print $TXT "$utterance{$utt_id}->{'transcript'}\n";
 }
 close $TXT;
