@@ -21,12 +21,10 @@ binmode STDOUT, 'utf8';
 my $tmpdir = "data/local/tmp/transtac/train/twoway/appen/2007";
 my $transcripts_file = "$tmpdir/tdf_files.txt";
 # input wav file list
-my $w = "$tmpdir/wav_files.txt";
 # output temporary text file
 my $txt_out = "$tmpdir/lists/text";
 # initialize utterance hash
 my %utterance = ();
-my %wav_file = ();
 my $sample_rate = 16000;
 my $data_word_size = 4;
 my $percents = 0;
@@ -125,15 +123,6 @@ while ( my $line = <$TR> ) {
 }
 close $TR;
 warn "percent signs\t$percents";
-open my $W, '<', $w or croak "problem with $w $!";
-LINE: while ( my $line = <$W> ) {
-  chomp $line;
-  my ($volume,$directories,$file) = File::Spec->splitpath( $line );
-  my $base = basename $file, ".wav";
-  $wav_file{$base} = $line;
-}
-close $W;
-
 open my $TXT, '+>:utf8', $txt_out or croak "problem with $txt_out $!";
 
 LINE: foreach my $utt_id (sort  keys %utterance ) {
@@ -149,7 +138,7 @@ LINE: foreach my $utt_id (sort  keys %utterance ) {
   } else {
     warn "Channel not set $!";
   }
-  print $TXT "$utt_id $utterance{$utt_id}->{'transcript'}\n";
+  print $TXT "$utterance{$utt_id}->{'transcript'}\n";
 }
 close $TXT;
 close $W;
