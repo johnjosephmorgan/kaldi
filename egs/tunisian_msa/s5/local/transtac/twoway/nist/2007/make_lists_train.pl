@@ -59,12 +59,7 @@ LINE: while ( my $line = <$TR> ) {
     $transcript =~ s/(<UNK>)+/$1/g;
     my $base = basename $file, ".wav";
     my $utt_id = $speaker . '-' . $base . '-' . $start . '-' . $end;
-  my $rec_id = $base;
-    if ( defined $wav_file{$base} ) {
-      print $WAVSCP "$rec_id sox -r 44000 -b 16 -e signed \"$wav_file{$base}\" -r 16000 -b 16 -e signed -t .wav - remix 2 |\n";
-    } else {
-      next RECORD;
-    }
+    my $rec_id = $base;
     print $TXT "$utt_id $transcript\n";
   }
   close $TDF;
