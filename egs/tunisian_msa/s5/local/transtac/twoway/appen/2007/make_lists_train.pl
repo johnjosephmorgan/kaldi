@@ -3,7 +3,7 @@
 # Copyright 2019 John Morgan
 # Apache 2.0.
 
-# make_lists_train.pl - write  Kaldi IO lists
+# make_lists_train.pl - Get text for LM training.
 # writes files under data/local/tmp/transtac/train/twoway/appen/2007/lists
 
 use strict;
@@ -22,14 +22,8 @@ my $tmpdir = "data/local/tmp/transtac/train/twoway/appen/2007";
 my $transcripts_file = "$tmpdir/tdf_files.txt";
 # input wav file list
 my $w = "$tmpdir/wav_files.txt";
-# output temporary wav.scp file
-my $wav_scp = "$tmpdir/lists/wav.scp";
-# output temporary utt2spk file
-my $utt_to_spk = "$tmpdir/lists/utt2spk";
 # output temporary text file
 my $txt_out = "$tmpdir/lists/text";
-# temporary segments file
-my $segs = "$tmpdir/lists/segments";
 # initialize utterance hash
 my %utterance = ();
 my %wav_file = ();
@@ -140,10 +134,7 @@ LINE: while ( my $line = <$W> ) {
 }
 close $W;
 
-open my $WAVSCP, '+>', $wav_scp or croak "problem with $wav_scp $!";
-open my $UTTSPK, '+>', $utt_to_spk or croak "problem with $utt_to_spk $!";
 open my $TXT, '+>:utf8', $txt_out or croak "problem with $txt_out $!";
-open my $SEG, '+>', $segs or croak "problem with $segs $!";
 
 LINE: foreach my $utt_id (sort  keys %utterance ) {
   next LINE if ( $utterance{$utt_id}->{'end'} <= $utterance{$utt_id}->{'start'} );
@@ -159,12 +150,6 @@ LINE: foreach my $utt_id (sort  keys %utterance ) {
     warn "Channel not set $!";
   }
   print $TXT "$utt_id $utterance{$utt_id}->{'transcript'}\n";
-  print $WAVSCP "$rec_id sox -r 16000 -b 16 -e signed \"$wav_file{$base}\" -r 16000 -b 16 -e signed -t .wav - remix $rmx |\n";
-  print $UTTSPK "$utt_id $spk\n";
-  print $SEG "$utt_id $rec_id $utterance{$utt_id}->{'start'} $utterance{$utt_id}->{'end'}\n";
 }
 close $TXT;
-close $WAVSCP;
-close $UTTSPK;
 close $W;
-close $SEG;
