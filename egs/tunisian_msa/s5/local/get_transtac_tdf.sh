@@ -18,23 +18,30 @@ tmp_twoway_pendleton_train_2005_dir=$transtac_tmpdir/train/twoway/pendleton/2005
 tmp_twoway_san_diego_train_2006_dir=$transtac_tmpdir/train/twoway/san_diego/2006
 
 echo "$0: Getting a list of the TRANSTAC 2way 2006 training transcript files."
+mkdir -p $tmp_twoway_appen_train_2006_dir
 find "$twoway_appen_2006_train_txt_dir" -type f -name "*.tdf" > \
     $tmp_twoway_appen_train_2006_dir/tdf_files.txt
 echo "$0: Getting a list of the TRANSTAC 2way 2007 training transcript files."
+mkdir -p $tmp_twoway_appen_train_2007_dir
 find "$twoway_appen_2007_train_txt_dir" -type f -name "*.tdf" > \
     $tmp_twoway_appen_train_2007_dir/tdf_files.txt
 echo "$0: Getting a llist of the TRANSTAC DETROIT 2006 2way training transcript files."
+mkdir -p $tmp_twoway_detroit_train_2006_dir
 find "$detroit_train_txt_dir" -type f -name "*.tdf" > \
     $tmp_twoway_detroit_train_2006_dir/tdf_files.txt
 echo "$0: Getting a list of the TRANSTAC Iraqi Arabic DLI 2006 training transcript files."
+mkdir -p $tmp_twoway_dli_train_2006_dir
 find "$dli_train_txt_dir" -type f -name "*.tdf" > \
     $tmp_twoway_dli_train_2006_dir/tdf_files.txt
 echo "$0: Getting a list of the TRANSTAC Iraqi Arabic NIST 2007 training transcript files."
+mkdir -p $tmp_twoway_nist_train_2007_dir
 find "$nist_train_txt_dir" -type f -name "*.tdf" > \
     $tmp_twoway_nist_train_2007_dir/tdf_files.txt
 echo "$0: Getting a list of the  TRANSTAC Iraqi Arabic Camp Pendleton transcript .txt files."
+mkdir -p $tmp_twoway_pendleton_train_2005_dir
 find "$pendleton_train_txt_dir" -type f -name "*.txt" > \
     $tmp_twoway_pendleton_train_2005_dir/tdf_files.txt
 echo "$0: Getting a list of the TRANSTAC Iraqi Arabic San Diego 2006 2way training transcript files."
+mkdir -p $tmp_twoway_san_diego_train_2006_dir
 find "$san_diego_train_txt_dir" -type f -name "*.tdf" > \
     $tmp_twoway_san_diego_train_2006_dir/tdf_files.txt
