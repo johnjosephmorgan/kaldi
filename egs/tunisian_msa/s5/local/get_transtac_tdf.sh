@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 twoway_appen_2006_train_txt_dir=/mnt/corpora/TRANSTAC/TRANSTAC\ Database\ P1-P4/Phase\ II/Iraqi\ Arabic-TX-TL/APPEN_2WAY_SEPT2006
 twoway_appen_2007_train_txt_dir=/mnt/corpora/TRANSTAC/TRANSTAC\ Database\ P1-P4/Phase\ II/Iraqi\ Arabic-TX-TL/APPEN_ADDITIONAL_2WAY_2007/Appen_additional_2-way_IA_Transcription_Training_20070530
 detroit_train_txt_dir=/mnt/corpora/TRANSTAC/TRANSTAC\ Database\ P1-P4/Phase\ II/Iraqi\ Arabic-TX-TL/DETROIT_2WAY_2006/Detroit_2-way_IA_Transcription_Training_20070302
@@ -45,3 +46,5 @@ echo "$0: Getting a list of the TRANSTAC Iraqi Arabic San Diego 2006 2way traini
 mkdir -p $tmp_twoway_san_diego_train_2006_dir
 find "$san_diego_train_txt_dir" -type f -name "*.tdf" > \
     $tmp_twoway_san_diego_train_2006_dir/tdf_files.txt
+
+find $transtac_tmp/train/twoway -type f -name "tdf_files.txt" | xargs cat > data/transtatc_twoway_text.txt 
