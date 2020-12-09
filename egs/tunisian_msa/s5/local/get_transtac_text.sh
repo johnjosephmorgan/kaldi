@@ -48,4 +48,8 @@ find "$san_diego_train_txt_dir" -type f -name "*.tdf" > \
     $tmp_twoway_san_diego_train_2006_dir/tdf_files.txt
 local/transtac/twoway/appen/2006/make_lists_train.pl
 local/transtac/twoway/appen/2007/make_lists_train.pl
-
+local/transtac/twoway/detroit/2006/make_lists_train.pl
+local/transtac/twoway/dli/2006/make_lists_train.pl
+local/transtac/twoway/nist/2007/make_lists_train.pl
+local/transtac/twoway/pendleton/2005/make_lists_train.pl
+local/transtac/twoway/san_diego/2006/make_lists_train.pl
