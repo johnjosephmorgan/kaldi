@@ -33,23 +33,33 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ]; then
-  echo "Preparing the transtac data for lm training."
-  local/transtac/get_text.sh 
-fi
-exit
-if [ $stage -le 7 ]; then
-  echo "lm training."
-  local/prepare_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
+  echo "Preparing the MFLTS transtac data for lm training."
+  local/mflts/get_text.sh
+  local/mflts/make_lists_train.pl
 fi
 
-if [ $stage -le 8 ]; then
+if [ $stage -le 4 ]; then
+  echo "$0: Consolidating Field Manuals text data with MFLTS Transtac text."
+  mkdir -p data/local/tmp/fm
+  mkdir -p data/local/tmp/lm
+  cat ./fm5-0_ar.txt ./fm6-0_ar.txt ./fm6-22_ar.txt ./fm7-8_ar.txt > \
+    data/local/tmp/fm/text
+  cat data/local/tmp/fm/text data/local/tmp/mflts/text > data/local/tmp/lm/text
+fi
+
+if [ $stage -le 5 ]; then
+  echo "lm training."
+  local/prepare_lm.sh  $tmpdir/lm/text
+fi
+
+if [ $stage -le 6 ]; then
   echo "Making grammar fst."
   utils/format_lm.sh \
     data/lang data/local/lm/trigram.arpa.gz data/local/dict/lexicon.txt \
     data/lang_test
 fi
 
-if [ $stage -le 9 ]; then
+if [ $stage -le 7 ]; then
   # extract acoustic features
   for fld in devtest train test; do
     steps/make_mfcc.sh data/$fld exp/make_mfcc/$fld mfcc
@@ -59,29 +69,28 @@ if [ $stage -le 9 ]; then
   done
 fi
 
-if [ $stage -le 10 ]; then
+if [ $stage -le 8 ]; then
   echo "$0: monophone training"
   steps/train_mono.sh  data/train data/lang exp/mono
 fi
 
-if [ $stage -le 12 ]; then
-  # align with monophones
+if [ $stage -le 9 ]; then
+  echo "$0: aligning with monophones."
   steps/align_si.sh  data/train data/lang exp/mono exp/mono_ali
 fi
 
-if [ $stage -le 13 ]; then
+if [ $stage -le 10 ]; then
   echo "$0: Starting  triphone training in exp/tri1"
   steps/train_deltas.sh \
     --boost-silence 1.25 1000 6000 data/train data/lang exp/mono_ali exp/tri1
 fi
 
-
-if [ $stage -le 15 ]; then
-  # align with triphones
+if [ $stage -le 11 ]; then
+  echo "$0: Align with triphones."
   steps/align_si.sh  data/train data/lang exp/tri1 exp/tri1_ali
 fi
 
-if [ $stage -le 16 ]; then
+if [ $stage -le 12 ]; then
   echo "$0: Starting (lda_mllt) triphone training in exp/tri2b"
   steps/train_lda_mllt.sh \
     --splice-opts "--left-context=3 --right-context=3" 500 5000 \
@@ -89,20 +98,20 @@ if [ $stage -le 16 ]; then
 fi
 
 
-if [ $stage -le 18 ]; then
-  # align with lda and mllt adapted triphones
+if [ $stage -le 13 ]; then
+  echo "$0: align with lda and mllt adapted triphones."
   steps/align_si.sh \
     --use-graphs true data/train data/lang exp/tri2b exp/tri2b_ali
 fi
 
-if [ $stage -le 19 ]; then
+if [ $stage -le 14 ]; then
   echo "$0: Starting (SAT) triphone training in exp/tri3b"
   steps/train_sat.sh 800 8000 data/train data/lang exp/tri2b_ali exp/tri3b
 fi
 
-if [ $stage -le 20 ]; then
+if [ $stage -le 15 ]; then
   (
-    # make decoding graphs for SAT models
+    echo "$0: make decoding graphs for SAT models."
     utils/mkgraph.sh data/lang_test exp/tri3b exp/tri3b/graph
 
     # decode test sets with tri3b models
@@ -113,13 +122,12 @@ if [ $stage -le 20 ]; then
   ) &
 fi
 
-if [ $stage -le 21 ]; then
-  # align with tri3b models
-  echo "$0: Starting exp/tri3b_ali"
+if [ $stage -le 16 ]; then
+  echo "$0: Align with tri3b models."
   steps/align_fmllr.sh data/train data/lang exp/tri3b exp/tri3b_ali
 fi
 
-if [ $stage -le 22 ]; then
+if [ $stage -le 17 ]; then
   # train and test chain models
   local/chain/run_tdnn.sh
 fi

@@ -7,4 +7,4 @@ tmp_train_dir=$mflts_tmpdir/train
 mkdir -p $tmp_train_dir
 
 echo "$0: Getting a list of the   MFLTS MSA training transcript files."
-  find "$train_txt_dir" -type f -name "*.tdf" > $tmp_train_dir/tdf_files.txt
+find "$train_txt_dir" -type f -name "*.tdf" > $tmp_train_dir/tdf_files.txt
