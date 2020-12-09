@@ -33,10 +33,10 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ]; then
-  echo "Preparing the subs data for lm training."
-  local/subs_prepare_data.pl 
+  echo "Preparing the transtac data for lm training."
+  local/transtac/get_text.sh 
 fi
-
+exit
 if [ $stage -le 7 ]; then
   echo "lm training."
   local/prepare_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt
