@@ -44,7 +44,8 @@ if [ $stage -le 4 ]; then
   mkdir -p data/local/tmp/lm
   cat ./fm5-0_ar.txt ./fm6-0_ar.txt ./fm6-22_ar.txt ./fm7-8_ar.txt > \
     data/local/tmp/fm/text
-  cat data/local/tmp/fm/text data/local/tmp/mflts/text > data/local/tmp/lm/text
+  cat data/local/tmp/fm/text data/local/tmp/mflts/train/lists/text > \
+    data/local/tmp/lm/text
 fi
 
 if [ $stage -le 5 ]; then
