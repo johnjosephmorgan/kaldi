@@ -115,7 +115,7 @@ if [ $stage -le 15 ]; then
     echo "$0: make decoding graphs for SAT models."
     utils/mkgraph.sh data/lang_test exp/tri3b exp/tri3b/graph
 
-    # decode test sets with tri3b models
+    echo "$0: Decode test sets with tri3b models."
     for x in devtest test; do
       nspk=$(wc -l < data/$x/spk2utt)
       steps/decode_fmllr.sh --nj $nspk exp/tri3b/graph data/$x exp/tri3b/decode_${x}
@@ -129,6 +129,6 @@ if [ $stage -le 16 ]; then
 fi
 
 if [ $stage -le 17 ]; then
-  # train and test chain models
+  echo "$0: Train and test chain models."
   local/chain/run_tdnn.sh
 fi
