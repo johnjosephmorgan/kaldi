@@ -10,8 +10,8 @@
 # Apache 2.0
 
 # Begin configuration section.
-nj=50
-decode_nj=20
+nj=10
+decode_nj=8
 stage=0
 nnet_stage=-10
 sad_stage=0
@@ -38,7 +38,7 @@ set -e # exit on error
 
 # chime5 main directory path
 # please change the path accordingly
-chime5_corpus=/export/corpora5/CHiME5
+chime5_corpus=/mnt/corpora/CHiME5
 # chime6 data directories, which are generated from ${chime5_corpus},
 # to synchronize audio files across arrays and modify the annotation (JSON) file accordingly
 chime6_corpus=${PWD}/CHiME6
