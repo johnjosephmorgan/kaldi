@@ -63,8 +63,8 @@ if [ $stage -le 0 ]; then
   local/generate_chime6_data.sh \
     --cmd "$train_cmd" \
     ${chime5_corpus} \
-    ${chime6_corpus}<
-fi<
+    ${chime6_corpus}
+fi
 
 ###########################################################################
 # We prepare dict and lang in stages 1 to 3.
