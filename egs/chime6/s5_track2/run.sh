@@ -127,18 +127,15 @@ fi
 # noises are extracted from chime corpus. Here we use 400k utterances from array microphones,
 # its augmentation and all the worn set utterances in train.
 #########################################################################################
-distant_noise_list=
+
 if [ $stage -le 7 ]; then
   echo "$0: Extracting noise list from training data"
   local/extract_noises.py $chime6_corpus/audio/train $chime6_corpus/transcriptions/train \
     local/distant_audio_list distant_noises
   local/make_noise_list.py distant_noises > distant_noise_list
-fi
 
   noise_list=distant_noise_list
-fi
 
-if [ $stage -le 8 ]; then
   echo "$0: Preparing simulated RIRs for data augmentation"
   if [ ! -d RIRS_NOISES/ ]; then
     # Download the package that includes the real RIRs, simulated RIRs, isotropic noises and point-source noises
@@ -165,7 +162,7 @@ if [ $stage -le 8 ]; then
     data/train_worn data/train_worn_rvb
 fi
 
-if [ $stage -le 9 ]; then
+if [ $stage -le 8 ]; then
   # combine mix array and worn mics
   # randomly extract first 400k utterances from all mics
   # if you want to include more training data, you can increase the number of array mic utterances
@@ -175,7 +172,7 @@ if [ $stage -le 9 ]; then
   utils/combine_data.sh data/${sad_train_set} data/train_worn data/train_u400k
 fi
 
-if [ $stage -le 10 ]; then
+if [ $stage -le 9 ]; then
   # Split speakers up into 3-minute chunks.  This doesn't hurt adaptation, and
   # lets us use more jobs for decoding etc.
   utils/copy_data_dir.sh data/${train_set} data/${train_set}_nosplit
@@ -186,7 +183,7 @@ fi
 # Now make MFCC features. We use 13-dim MFCCs to train the GMM-HMM models.
 ##################################################################################
 
-if [ $stage -le 11 ]; then
+if [ $stage -le 10 ]; then
   # Now make MFCC features.
   # mfccdir should be some place with a largish disk where you
   # want to store MFCC features.
@@ -205,19 +202,19 @@ fi
 # for training the SAD system.
 ###################################################################################
 
-if [ $stage -le 12 ]; then
+if [ $stage -le 11 ]; then
   # make a subset for monophone training
   utils/subset_data_dir.sh --shortest data/${train_set} 100000 data/${train_set}_100kshort
   utils/subset_data_dir.sh data/${train_set}_100kshort 30000 data/${train_set}_30kshort
 fi
 
-if [ $stage -le 13 ]; then
+if [ $stage -le 12 ]; then
   # Starting basic training on MFCC features
   steps/train_mono.sh --nj $nj --cmd "$train_cmd" \
           data/${train_set}_30kshort data/lang exp/mono
 fi
 
-if [ $stage -le 14 ]; then
+if [ $stage -le 13 ]; then
   steps/align_si.sh --nj $nj --cmd "$train_cmd" \
         data/${train_set} data/lang exp/mono exp/mono_ali
 
@@ -225,7 +222,7 @@ if [ $stage -le 14 ]; then
       2500 30000 data/${train_set} data/lang exp/mono_ali exp/tri1
 fi
 
-if [ $stage -le 15 ]; then
+if [ $stage -le 14 ]; then
   steps/align_si.sh --nj $nj --cmd "$train_cmd" \
         data/${train_set} data/lang exp/tri1 exp/tri1_ali
 
@@ -233,7 +230,7 @@ if [ $stage -le 15 ]; then
         4000 50000 data/${train_set} data/lang exp/tri1_ali exp/tri2
 fi
 
-if [ $stage -le 16 ]; then
+if [ $stage -le 15 ]; then
   steps/align_si.sh --nj $nj --cmd "$train_cmd" \
         data/${train_set} data/lang exp/tri2 exp/tri2_ali
 
@@ -241,7 +238,7 @@ if [ $stage -le 16 ]; then
          5000 100000 data/${train_set} data/lang exp/tri2_ali exp/tri3
 fi
 
-if [ $stage -le 17 ]; then
+if [ $stage -le 16 ]; then
   # The following script cleans the data and produces cleaned data
   steps/cleanup/clean_and_segment_data.sh --nj $nj --cmd "$train_cmd" \
     --segmentation-opts "--min-segment-length 0.3 --min-new-segment-length 0.6" \
@@ -255,7 +252,7 @@ fi
 # Once it is downloaded, extract using: tar -xvzf 0012_asr_v1.tar.gz
 # and copy the contents of the exp/ directory to your exp/
 ##########################################################################
-if [ $stage -le 18 ]; then
+if [ $stage -le 17 ]; then
   # chain TDNN
   local/chain/run_tdnn.sh --nj $nj \
     --stage $nnet_stage \
@@ -271,7 +268,7 @@ fi
 # Once it is downloaded, extract using: tar -xvzf 0012_sad_v1.tar.gz
 # and copy the contents of the exp/ directory to your exp/
 ##########################################################################
-if [ $stage -le 19 ]; then
+if [ $stage -le 18 ]; then
   local/train_sad.sh --stage $sad_stage --nj $nj \
     --data-dir data/${sad_train_set} --test-sets "${test_sets}" \
     --sat-model-dir exp/tri3_cleaned \
@@ -285,7 +282,7 @@ fi
 # Once it is downloaded, extract using: tar -xvzf 0012_diarization_v1.tar.gz
 # and copy the contents of the exp/ directory to your exp/
 ##########################################################################
-if [ $stage -le 20 ]; then
+if [ $stage -le 19 ]; then
   local/train_diarizer.sh --stage $diarizer_stage \
     --data-dir data/${train_set} \
     --model-dir exp/xvector_nnet_1a
@@ -297,7 +294,7 @@ fi
 # SAD -> Diarization -> ASR. This is done in the local/decode.sh
 # script.
 ##########################################################################
-if [ $stage -le 21 ]; then
+if [ $stage -le 20 ]; then
   local/decode.sh --stage $decode_stage \
     --enhancement $enhancement \
     --test-sets "$test_sets"
