@@ -73,7 +73,7 @@ if [ -f ${odir}/audio/dev/S02_P05.wav ]; then
 fi
 
 pushd ${SYNC_PATH}
-echo "Correct for frame dropping"
+echo "$0: Correct for frame dropping"
 for session in ${sessions1}; do
   $cmd ${expdir}/correct_signals_for_frame_drops.${session}.log \
     ${CONDA_PATH}/python correct_signals_for_frame_drops.py --session=${session} chime6_audio_edits.json $IN_PATH $TMP_PATH &
