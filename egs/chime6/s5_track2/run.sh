@@ -89,7 +89,7 @@ if [ $stage -le 2 ]; then
   local/prepare_dict.sh
 fi
 
-if [ stage -le 3 ]; then
+if [ $stage -le 3 ]; then
   utils/prepare_lang.sh \
     data/local/dict "<unk>" data/local/lang data/lang
 fi
