@@ -13,7 +13,7 @@ speed_perturb=true
 use_pitch=false      # If true, it generates pitch features and combine it with 40dim MFCC.
 pitch_conf=conf/pitch.conf # Configuration used for pitch extraction.
 feat_suffix=_hires  # feature suffix for training data
-
+alidir=
 [ ! -f ./conf/common_vars.sh ] && echo 'the file conf/common_vars.sh does not exist!' && exit 1
 
 . conf/common_vars.sh || exit 1;
