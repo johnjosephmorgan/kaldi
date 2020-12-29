@@ -29,7 +29,7 @@ train_set=train
 
 if [ $# -ne 1 ]; then
   echo "Usage:$0 [options] <language-id>"
-  echo "e.g. $0 102-assamese"
+  echo "e.g. $0 tamsa
   exit 1;
 fi
 
@@ -38,14 +38,9 @@ fi
 for datadir in train; do
   ./utils/data/perturb_data_dir_speed_3way.sh data/$lang/${datadir} data/$lang/${datadir}_sp
 
-  # Extract Plp+pitch feature for perturbed data.
-  featdir=plp_perturbed/$lang
-  if $use_pitch; then
-    steps/make_plp_pitch.sh --cmd "$train_cmd" --nj 16  data/$lang/${datadir}_sp exp/$lang/make_plp_pitch/${datadir}_sp $featdir
-  else
-    steps/make_plp.sh --cmd "$train_cmd" --nj 16 data/$lang/${datadir}_sp exp/$lang/make_plp/${datadir}_sp $featdir
-  fi
-  steps/compute_cmvn_stats.sh data/$lang/${datadir}_sp exp/$lang/make_plp/${datadir}_sp $featdir || exit 1;
+  # Extract  features for perturbed data.
+  steps/make_mfcc.sh --cmd "$train_cmd" --nj 16 data/$lang/${datadir}_sp 
+  steps/compute_cmvn_stats.sh data/$lang/${datadir}_sp
   utils/fix_data_dir.sh data/$lang/${datadir}_sp
 done
 
