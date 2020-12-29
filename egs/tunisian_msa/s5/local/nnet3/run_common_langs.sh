@@ -31,23 +31,27 @@ if [ $# -ne 1 ]; then
   exit 1;
 fi
 
-#Although the nnet model will be trained by high resolution data, we still have to perturbe the normal data to get the alignment
-# _sp stands for speed-perturbed
-for datadir in train; do
-  ./utils/data/perturb_data_dir_speed_3way.sh data/$lang/${datadir} data/$lang/${datadir}_sp
-  # Extract  features for perturbed data.
-  steps/make_mfcc.sh --cmd "$train_cmd" --nj 16 data/$lang/${datadir}_sp 
-  steps/compute_cmvn_stats.sh data/$lang/${datadir}_sp
-  utils/fix_data_dir.sh data/$lang/${datadir}_sp
-done
+if [ $stage -le 1 ]; then
+  #Although the nnet model will be trained by high resolution data, we still have to perturbe the normal data to get the alignment
+  # _sp stands for speed-perturbed
+  for datadir in train; do
+    ./utils/data/perturb_data_dir_speed_3way.sh data/$lang/${datadir} data/$lang/${datadir}_sp
+    # Extract  features for perturbed data.
+    steps/make_mfcc.sh --cmd "$train_cmd" --nj 16 data/$lang/${datadir}_sp 
+    steps/compute_cmvn_stats.sh data/$lang/${datadir}_sp
+    utils/fix_data_dir.sh data/$lang/${datadir}_sp
+  done
+fi
 
 train_set=train_sp
+if [ $stage -le 2 ]; then
   #obtain the alignment of the perturbed data
-steps/align_fmllr.sh \
-  --nj 16 --cmd "$train_cmd" \
-  --boost-silence $boost_sil \
-  data/$lang/$train_set data/$lang/lang exp/$lang/models exp/$lang/alignments_sp || exit 1;
-touch exp/$lang/alignments_sp/.done
+  steps/align_fmllr.sh \
+    --nj 16 --cmd "$train_cmd" \
+    --boost-silence $boost_sil \
+    data/$lang/$train_set data/$lang/lang exp/$lang/models exp/$lang/alignments_sp || exit 1;
+  touch exp/$lang/alignments_sp/.done
+fi
 
 hires_config="--mfcc-config conf/mfcc_hires.conf"
 mfccdir=mfcc_hires/$lang
@@ -58,7 +62,6 @@ if [ $stage -le 3 ] && [ ! -f data/$lang/${train_set}${feat_suffix}/.done ]; the
     date=$(date +'%m_%d_%H_%M')
     utils/create_split_dir.pl /export/b0{1,2,3,4}/$USER/kaldi-data/egs/$lang-$date/s5c/$mfccdir/storage $mfccdir/storage
   fi
-
 
   for dataset in $train_set ; do
     data_dir=data/$lang/${dataset}${feat_suffix}
