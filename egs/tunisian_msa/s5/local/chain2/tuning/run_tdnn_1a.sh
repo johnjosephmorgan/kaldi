@@ -108,7 +108,7 @@ for lang_index in `seq 0 $[$num_langs-1]`; do
     ivec_featdir=data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix}
     mfcc_only_dim=`feat-to-dim scp:$featdir/feats.scp - | awk '{print $1-3}'`
     if [ ! -f $ivec_featdir/.done ]; then
-      steps/select_feats.sh --cmd "$train_cmd" --nj 70 0-$[$mfcc_only_dim-1] \
+      steps/select_feats.sh --cmd "$train_cmd" --nj 16 0-$[$mfcc_only_dim-1] \
         $featdir ${ivec_featdir} || exit 1;
       steps/compute_cmvn_stats.sh ${ivec_featdir} || exit 1;
       touch ${ivec_featdir}/.done || exit 1;
