@@ -21,7 +21,7 @@ get_egs_stage=-10
 decode_stage=-10
 
 speed_perturb=true
-use_pitch=false  # if true, pitch feature used to train multilingual setup
+use_pitch=true  # if true, pitch feature used to train multilingual setup
 use_pitch_ivector=false # if true, pitch feature used in ivector extraction.
 use_ivector=true
 megs_dir=
