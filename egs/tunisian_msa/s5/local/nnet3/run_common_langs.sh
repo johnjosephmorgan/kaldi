@@ -2,7 +2,7 @@
 
 # Copyright 2016 Pegah Ghahremani
 
-# This script used to generate MFCC+pitch features for input language lang.
+# This script used to generate MFCC features for input language lang.
 
 . ./cmd.sh
 set -e
@@ -10,8 +10,6 @@ stage=1
 train_stage=-10
 generate_alignments=true # If true, it regenerates alignments.
 speed_perturb=true
-use_pitch=true      # If true, it generates pitch features and combine it with 40dim MFCC.
-pitch_conf=conf/pitch.conf # Configuration used for pitch extraction.
 feat_suffix=_hires  # feature suffix for training data
 
 [ ! -f ./conf/common_vars.sh ] && echo 'the file conf/common_vars.sh does not exist!' && exit 1
@@ -54,11 +52,6 @@ touch exp/$lang/alignments_sp/.done
 hires_config="--mfcc-config conf/mfcc_hires.conf"
 mfccdir=mfcc_hires/$lang
 mfcc_affix=""
-if $use_pitch; then
-  hires_config="$hires_config --online-pitch-config $pitch_conf"
-  mfccdir=mfcc_hires_pitch/$lang
-  mfcc_affix=_pitch_online
-fi
 
 if [ $stage -le 3 ] && [ ! -f data/$lang/${train_set}${feat_suffix}/.done ]; then
   if [[ $(hostname -f) == *.clsp.jhu.edu ]] && [ ! -d $mfccdir/storage ]; then
