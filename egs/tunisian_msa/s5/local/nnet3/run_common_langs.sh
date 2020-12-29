@@ -34,25 +34,23 @@ if [ $# -ne 1 ]; then
 fi
 
 if [ "$speed_perturb" == "true" ]; then
-  if [ $stage -le 1 ]; then
-    #Although the nnet model will be trained by high resolution data, we still have to perturbe the normal data to get the alignment
-    # _sp stands for speed-perturbed
-    for datadir in train; do
-      if [ ! -d data/$lang/${datadir}_sp ]; then
-        ./utils/data/perturb_data_dir_speed_3way.sh data/$lang/${datadir} data/$lang/${datadir}_sp
+  #Although the nnet model will be trained by high resolution data, we still have to perturbe the normal data to get the alignment
+  # _sp stands for speed-perturbed
+  for datadir in train; do
+    if [ ! -d data/$lang/${datadir}_sp ]; then
+      ./utils/data/perturb_data_dir_speed_3way.sh data/$lang/${datadir} data/$lang/${datadir}_sp
 
-        # Extract Plp+pitch feature for perturbed data.
-        featdir=plp_perturbed/$lang
-        if $use_pitch; then
-          steps/make_plp_pitch.sh --cmd "$train_cmd" --nj 16  data/$lang/${datadir}_sp exp/$lang/make_plp_pitch/${datadir}_sp $featdir
-        else
-          steps/make_plp.sh --cmd "$train_cmd" --nj 16 data/$lang/${datadir}_sp exp/$lang/make_plp/${datadir}_sp $featdir
-        fi
-        steps/compute_cmvn_stats.sh data/$lang/${datadir}_sp exp/$lang/make_plp/${datadir}_sp $featdir || exit 1;
-        utils/fix_data_dir.sh data/$lang/${datadir}_sp
+      # Extract Plp+pitch feature for perturbed data.
+      featdir=plp_perturbed/$lang
+      if $use_pitch; then
+        steps/make_plp_pitch.sh --cmd "$train_cmd" --nj 16  data/$lang/${datadir}_sp exp/$lang/make_plp_pitch/${datadir}_sp $featdir
+      else
+        steps/make_plp.sh --cmd "$train_cmd" --nj 16 data/$lang/${datadir}_sp exp/$lang/make_plp/${datadir}_sp $featdir
       fi
-    done
-  fi
+      steps/compute_cmvn_stats.sh data/$lang/${datadir}_sp exp/$lang/make_plp/${datadir}_sp $featdir || exit 1;
+      utils/fix_data_dir.sh data/$lang/${datadir}_sp
+    fi
+  done
 
   train_set=train_sp
   if [ $stage -le 2 ] && [ "$generate_alignments" == "true" ] && [ ! -f exp/$lang/alignments_sp/.done ]; then
