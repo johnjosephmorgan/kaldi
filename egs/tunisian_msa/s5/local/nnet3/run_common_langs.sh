@@ -44,9 +44,9 @@ if [ "$speed_perturb" == "true" ]; then
         # Extract Plp+pitch feature for perturbed data.
         featdir=plp_perturbed/$lang
         if $use_pitch; then
-          steps/make_plp_pitch.sh --cmd "$train_cmd" --nj 70  data/$lang/${datadir}_sp exp/$lang/make_plp_pitch/${datadir}_sp $featdir
+          steps/make_plp_pitch.sh --cmd "$train_cmd" --nj 16  data/$lang/${datadir}_sp exp/$lang/make_plp_pitch/${datadir}_sp $featdir
         else
-          steps/make_plp.sh --cmd "$train_cmd" --nj 70 data/$lang/${datadir}_sp exp/$lang/make_plp/${datadir}_sp $featdir
+          steps/make_plp.sh --cmd "$train_cmd" --nj 16 data/$lang/${datadir}_sp exp/$lang/make_plp/${datadir}_sp $featdir
         fi
         steps/compute_cmvn_stats.sh data/$lang/${datadir}_sp exp/$lang/make_plp/${datadir}_sp $featdir || exit 1;
         utils/fix_data_dir.sh data/$lang/${datadir}_sp
@@ -58,7 +58,7 @@ if [ "$speed_perturb" == "true" ]; then
   if [ $stage -le 2 ] && [ "$generate_alignments" == "true" ] && [ ! -f exp/$lang/alignments_sp/.done ]; then
     #obtain the alignment of the perturbed data
     steps/align_fmllr.sh \
-      --nj 70 --cmd "$train_cmd" \
+      --nj 16 --cmd "$train_cmd" \
       --boost-silence $boost_sil \
       data/$lang/$train_set data/$lang/lang exp/$lang/models exp/$lang/alignments_sp || exit 1;
     touch exp/$lang/alignments_sp/.done
