@@ -13,7 +13,7 @@
 set -e -o pipefail
 
 remove_egs=false
-cmd=queue.pl
+cmd=run.pl
 srand=-1
 stage=0
 train_stage=-10
