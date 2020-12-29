@@ -101,7 +101,6 @@ for lang_index in `seq 0 $[$num_langs-1]`; do
   local/nnet3/run_common_langs.sh --stage $stage \
     --feat-suffix $feat_suffix \
     --use-pitch $use_pitch \
-    --alidir exp/${lang_list[$lang_index]}/$alidir \
     --speed-perturb $speed_perturb ${lang_list[$lang_index]} || exit 1;
   if $use_pitch && ! $use_pitch_ivector; then
     echo "$0: select MFCC features for ivector extraction."

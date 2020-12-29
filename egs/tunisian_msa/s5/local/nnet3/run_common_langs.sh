@@ -13,7 +13,7 @@ speed_perturb=true
 use_pitch=false      # If true, it generates pitch features and combine it with 40dim MFCC.
 pitch_conf=conf/pitch.conf # Configuration used for pitch extraction.
 feat_suffix=_hires  # feature suffix for training data
-alidir=
+
 [ ! -f ./conf/common_vars.sh ] && echo 'the file conf/common_vars.sh does not exist!' && exit 1
 
 . conf/common_vars.sh || exit 1;
@@ -55,13 +55,13 @@ if [ "$speed_perturb" == "true" ]; then
   fi
 
   train_set=train_sp
-  if [ $stage -le 2 ] && [ "$generate_alignments" == "true" ] && [ ! -f exp/$lang/tri5_ali_sp/.done ]; then
+  if [ $stage -le 2 ] && [ "$generate_alignments" == "true" ] && [ ! -f exp/$lang/alignments_sp/.done ]; then
     #obtain the alignment of the perturbed data
     steps/align_fmllr.sh \
       --nj 70 --cmd "$train_cmd" \
       --boost-silence $boost_sil \
-      data/$lang/$train_set data/$lang/lang exp/$lang/tri5 ${alidir}_sp || exit 1
-    touch exp/$lang/tri5_ali_sp/.done
+      data/$lang/$train_set data/$lang/lang exp/$lang/alignments_sp || exit 1
+    touch exp/$lang/alignments_sp/.done
   fi
 fi
 
