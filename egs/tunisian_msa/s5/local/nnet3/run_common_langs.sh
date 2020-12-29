@@ -10,7 +10,7 @@ stage=1
 train_stage=-10
 generate_alignments=true # If true, it regenerates alignments.
 speed_perturb=true
-use_pitch=true      # If true, it generates pitch features and combine it with 40dim MFCC.
+use_pitch=false      # If true, it generates pitch features and combine it with 40dim MFCC.
 pitch_conf=conf/pitch.conf # Configuration used for pitch extraction.
 feat_suffix=_hires  # feature suffix for training data
 
