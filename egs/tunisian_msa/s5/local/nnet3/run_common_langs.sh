@@ -29,7 +29,7 @@ train_set=train
 
 if [ $# -ne 1 ]; then
   echo "Usage:$0 [options] <language-id>"
-  echo "e.g. $0 tamsa
+  echo "e.g. $0 tamsa"
   exit 1;
 fi
 
@@ -37,7 +37,6 @@ fi
 # _sp stands for speed-perturbed
 for datadir in train; do
   ./utils/data/perturb_data_dir_speed_3way.sh data/$lang/${datadir} data/$lang/${datadir}_sp
-
   # Extract  features for perturbed data.
   steps/make_mfcc.sh --cmd "$train_cmd" --nj 16 data/$lang/${datadir}_sp 
   steps/compute_cmvn_stats.sh data/$lang/${datadir}_sp
