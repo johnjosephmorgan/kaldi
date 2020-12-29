@@ -60,7 +60,7 @@ if [ "$speed_perturb" == "true" ]; then
     steps/align_fmllr.sh \
       --nj 70 --cmd "$train_cmd" \
       --boost-silence $boost_sil \
-      data/$lang/$train_set data/$lang/lang exp/$lang/tri5 exp/$lang/tri5_ali_sp || exit 1
+      data/$lang/$train_set data/$lang/lang exp/$lang/tri5 ${alidir}_sp || exit 1
     touch exp/$lang/tri5_ali_sp/.done
   fi
 fi
