@@ -115,12 +115,11 @@ if [ $stage -le 1 ]; then
         lang_name=${lang_list[$lang_index]}
         rm -r data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix}_prefixed
       done
-      touch $multi_data_dir_for_ivec/.done
     fi
   fi
-fi
 
-if [ $stage -le 2 ]; then
+  touch $multi_data_dir_for_ivec/.done
+
   if [ ! -f $global_extractor/extractor/.done ]; then
     local/nnet3/run_shared_ivector_extractor.sh  \
       --suffix "$suffix" --nnet3-affix "$nnet3_affix" \
@@ -159,7 +158,7 @@ for lang_index in `seq 0 $[$num_langs-1]`; do
 done
 
 
-if [$stage -le 3 ]; then
+if [$stage -le 2 ]; then
   if $use_ivector; then
     ivector_dim=$(feat-to-dim scp:${multi_ivector_dirs[0]}/ivector_online.scp -) || exit 1;
   else
