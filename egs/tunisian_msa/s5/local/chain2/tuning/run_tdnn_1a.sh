@@ -120,7 +120,7 @@ if [ $stage -le 1 ]; then
   fi
 fi
 
-if [ $stage -le 2 ]; the
+if [ $stage -le 2 ]; then
   if [ ! -f $global_extractor/extractor/.done ]; then
     local/nnet3/run_shared_ivector_extractor.sh  \
       --suffix "$suffix" --nnet3-affix "$nnet3_affix" \
