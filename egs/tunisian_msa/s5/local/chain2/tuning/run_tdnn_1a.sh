@@ -21,8 +21,6 @@ get_egs_stage=-10
 decode_stage=-10
 
 speed_perturb=true
-use_pitch=true  # if true, pitch feature used to train multilingual setup
-use_pitch_ivector=false # if true, pitch feature used in ivector extraction.
 use_ivector=true
 megs_dir=
 alidir=alignments
@@ -92,103 +90,97 @@ if [ "$speed_perturb" == "true" ]; then suffix=_sp; fi
 dir=${dir}${suffix}
 
 ivec_feat_suffix=${feat_suffix}
-if $use_pitch; then feat_suffix=${feat_suffix}_pitch ; fi
-if $use_pitch_ivector; then nnet3_affix=_pitch; ivec_feat_suffix=${feat_suffix}_pitch ; fi
 
-for lang_index in `seq 0 $[$num_langs-1]`; do
-  echo "$0: extract high resolution 40dim MFCC + pitch for speed-perturbed data "
-  echo "and extract alignment."
-  local/nnet3/run_common_langs.sh --stage $stage \
-    --feat-suffix $feat_suffix \
-    --use-pitch $use_pitch \
-    --speed-perturb $speed_perturb ${lang_list[$lang_index]} || exit 1;
-  if $use_pitch && ! $use_pitch_ivector; then
-    echo "$0: select MFCC features for ivector extraction."
-    featdir=data/${lang_list[$lang_index]}/train${suffix}${feat_suffix}
-    ivec_featdir=data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix}
-    mfcc_only_dim=`feat-to-dim scp:$featdir/feats.scp - | awk '{print $1-3}'`
-    if [ ! -f $ivec_featdir/.done ]; then
-      steps/select_feats.sh --cmd "$train_cmd" --nj 16 0-$[$mfcc_only_dim-1] \
-        $featdir ${ivec_featdir} || exit 1;
-      steps/compute_cmvn_stats.sh ${ivec_featdir} || exit 1;
-      touch ${ivec_featdir}/.done || exit 1;
-    fi
-  fi
-done
-
-if $use_ivector; then
-  ivector_suffix=""
-  if [ -z "$ivector_extractor" ]; then
-    mkdir -p data/multi
-    global_extractor=exp/multi/nnet3${nnet3_affix}
-    mkdir -p $global_extractor
-    ivector_extractor=$global_extractor/extractor
-    multi_data_dir_for_ivec=data/multi/train${suffix}${ivec_feat_suffix}
-    ivector_suffix=_gb
-    echo "$0: combine training data using all langs for training global i-vector extractor."
-    if [ ! -f $multi_data_dir_for_ivec/.done ]; then
-      echo ---------------------------------------------------------------------
-      echo "Pooling training data in $multi_data_dir_for_ivec on" `date`
-      echo ---------------------------------------------------------------------
-      mkdir -p $multi_data_dir_for_ivec
-      combine_lang_list=""
-      for lang_index in `seq 0 $[$num_langs-1]`;do
-        lang_name=${lang_list[$lang_index]}
-        utils/copy_data_dir.sh --spk-prefix ${lang_name}- --utt-prefix ${lang_name}- data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix} data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix}_prefixed || exit 1
-        combine_lang_list="$combine_lang_list data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix}_prefixed"
-      done
-      utils/combine_data.sh $multi_data_dir_for_ivec $combine_lang_list
-      utils/validate_data_dir.sh --no-feats $multi_data_dir_for_ivec
-      for lang_index in `seq 0 $[$num_langs-1]`;do
-        lang_name=${lang_list[$lang_index]}
-        rm -r data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix}_prefixed
-      done
-      touch $multi_data_dir_for_ivec/.done
-    fi
-  fi
-  if [ ! -f $global_extractor/extractor/.done ]; then
-    local/nnet3/run_shared_ivector_extractor.sh  \
-      --suffix "$suffix" --nnet3-affix "$nnet3_affix" \
-      --feat-suffix "$ivec_feat_suffix" \
-      --ivector-transform-type pca \
-      --stage $stage multi \
-      $multi_data_dir_for_ivec $global_extractor || exit 1;
-    touch $global_extractor/extractor/.done
-  fi
-  echo "$0: Extracts ivector for all languages using $global_extractor/extractor."
+if [ $stage -le 0 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`; do
-    local/nnet3/extract_ivector_lang.sh --stage $stage \
-      --train-set train${suffix}${ivec_feat_suffix} \
-      --ivector-suffix "$ivector_suffix" \
-      --nnet3-affix "$nnet3_affix" \
-      ${lang_list[$lang_index]} \
-      $ivector_extractor || exit;
+    echo "$0: extract high resolution 40dim MFCC  for speed-perturbed data "
+    echo "and extract alignment."
+    local/nnet3/run_common_langs.sh --stage $stage \
+      --feat-suffix $feat_suffix \
+      --speed-perturb $speed_perturb ${lang_list[$lang_index]} || exit 1;
   done
 fi
 
-dir_basename=`basename $dir`
-for lang_index in `seq 0 $[$num_langs-1]`; do
-    lang_name=${lang_list[$lang_index]}
-  multi_lores_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}
-  multi_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}${feat_suffix}
-  multi_egs_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/egs${feat_suffix}${ivector_suffix}
-  multi_ali_dirs[$lang_index]=exp/${lang_list[$lang_index]}/${alidir}${suffix}
-  multi_ivector_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/ivectors_train${suffix}${ivec_feat_suffix}${ivector_suffix}
-  multi_ali_treedirs[$lang_index]=exp/${lang_list[$lang_index]}/tree${tree_affix}
-  multi_ali_latdirs[$lang_index]=exp/${lang_list[$lang_index]}/chain/${gmm}_train${suffix}_lats
-  multi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang
-  multi_lfmmi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang_chain
-  multi_gmm_dir[$lang_index]=exp/${lang_list[$lang_index]}/$gmm
-  multi_chain_dir[$lang_index]=exp/${lang_list[$lang_index]}/chain/$dir_basename
-done
-
-if $use_ivector; then
-  ivector_dim=$(feat-to-dim scp:${multi_ivector_dirs[0]}/ivector_online.scp -) || exit 1;
-else
-  echo "$0: Not using iVectors in multilingual training."
-  ivector_dim=0
+if [ $stage -le 1 ]; then
+  if $use_ivector; then
+    ivector_suffix=""
+    if [ -z "$ivector_extractor" ]; then
+      mkdir -p data/multi
+      global_extractor=exp/multi/nnet3${nnet3_affix}
+      mkdir -p $global_extractor
+      ivector_extractor=$global_extractor/extractor
+      multi_data_dir_for_ivec=data/multi/train${suffix}${ivec_feat_suffix}
+      ivector_suffix=_gb
+      echo "$0: combine training data using all langs for training global i-vector extractor."
+      if [ ! -f $multi_data_dir_for_ivec/.done ]; then
+        echo ---------------------------------------------------------------------
+	echo "Pooling training data in $multi_data_dir_for_ivec on" `date`
+	echo ---------------------------------------------------------------------
+	mkdir -vp $multi_data_dir_for_ivec
+	combine_lang_list=""
+	for lang_index in `seq 0 $[$num_langs-1]`;do
+          lang_name=${lang_list[$lang_index]}
+          utils/copy_data_dir.sh --spk-prefix ${lang_name}- --utt-prefix ${lang_name}- data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix} data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix}_prefixed || exit 1
+          combine_lang_list="$combine_lang_list data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix}_prefixed"
+	done
+        utils/combine_data.sh $multi_data_dir_for_ivec $combine_lang_list
+        utils/validate_data_dir.sh --no-feats $multi_data_dir_for_ivec
+        for lang_index in `seq 0 $[$num_langs-1]`;do
+          lang_name=${lang_list[$lang_index]}
+          rm -r data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix}_prefixed
+        done
+        touch $multi_data_dir_for_ivec/.done
+      fi
+    fi
+    if [ ! -f $global_extractor/extractor/.done ]; then
+      local/nnet3/run_shared_ivector_extractor.sh  \
+        --suffix "$suffix" --nnet3-affix "$nnet3_affix" \
+        --feat-suffix "$ivec_feat_suffix" \
+        --ivector-transform-type pca \
+        --stage $stage multi \
+        $multi_data_dir_for_ivec $global_extractor || exit 1;
+      touch $global_extractor/extractor/.done
+    fi
+    echo "$0: Extracts ivector for all languages using $global_extractor/extractor."
+    for lang_index in `seq 0 $[$num_langs-1]`; do
+      local/nnet3/extract_ivector_lang.sh --stage $stage \
+        --train-set train${suffix}${ivec_feat_suffix} \
+        --ivector-suffix "$ivector_suffix" \
+        --nnet3-affix "$nnet3_affix" \
+        ${lang_list[$lang_index]} \
+        $ivector_extractor || exit;
+    done
+  fi
 fi
-feat_dim=`feat-to-dim scp:${multi_data_dirs[0]}/feats.scp -`
+
+dir_basename=`basename $dir`
+
+if [ $stage -le  2 ]; then
+  for lang_index in `seq 0 $[$num_langs-1]`; do
+    lang_name=${lang_list[$lang_index]}
+    multi_lores_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}
+    multi_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}${feat_suffix}
+    multi_egs_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/egs${feat_suffix}${ivector_suffix}
+    multi_ali_dirs[$lang_index]=exp/${lang_list[$lang_index]}/${alidir}${suffix}
+    multi_ivector_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/ivectors_train${suffix}${ivec_feat_suffix}${ivector_suffix}
+    multi_ali_treedirs[$lang_index]=exp/${lang_list[$lang_index]}/tree${tree_affix}
+    multi_ali_latdirs[$lang_index]=exp/${lang_list[$lang_index]}/chain/${gmm}_train${suffix}_lats
+    multi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang
+    multi_lfmmi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang_chain
+    multi_gmm_dir[$lang_index]=exp/${lang_list[$lang_index]}/$gmm
+    multi_chain_dir[$lang_index]=exp/${lang_list[$lang_index]}/chain/$dir_basename
+  done
+fi
+
+if [$stage -le 3 ]; then
+  if $use_ivector; then
+    ivector_dim=$(feat-to-dim scp:${multi_ivector_dirs[0]}/ivector_online.scp -) || exit 1;
+  else
+    echo "$0: Not using iVectors in multilingual training."
+    ivector_dim=0
+  fi
+  feat_dim=`feat-to-dim scp:${multi_data_dirs[0]}/feats.scp -`
+fi
 
 if [ $stage -le 8 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
