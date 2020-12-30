@@ -143,22 +143,21 @@ fi
 
 dir_basename=`basename $dir`
 
-if [ $stage -le  3 ]; then
-  for lang_index in `seq 0 $[$num_langs-1]`; do
-    lang_name=${lang_list[$lang_index]}
-    multi_lores_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}
-    multi_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}${feat_suffix}
-    multi_egs_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/egs${feat_suffix}${ivector_suffix}
-    multi_ali_dirs[$lang_index]=exp/${lang_list[$lang_index]}/${alidir}${suffix}
-    multi_ivector_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/ivectors_train${suffix}${ivec_feat_suffix}${ivector_suffix}
-    multi_ali_treedirs[$lang_index]=exp/${lang_list[$lang_index]}/tree${tree_affix}
-    multi_ali_latdirs[$lang_index]=exp/${lang_list[$lang_index]}/chain/${gmm}_train${suffix}_lats
-    multi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang
-    multi_lfmmi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang_chain
-    multi_gmm_dir[$lang_index]=exp/${lang_list[$lang_index]}/$gmm
-    multi_chain_dir[$lang_index]=exp/${lang_list[$lang_index]}/chain/$dir_basename
-  done
-fi
+for lang_index in `seq 0 $[$num_langs-1]`; do
+  lang_name=${lang_list[$lang_index]}
+  multi_lores_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}
+  multi_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}${feat_suffix}
+  multi_egs_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/egs${feat_suffix}${ivector_suffix}
+  multi_ali_dirs[$lang_index]=exp/${lang_list[$lang_index]}/${alidir}${suffix}
+  multi_ivector_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/ivectors_train${suffix}${ivec_feat_suffix}${ivector_suffix}
+  multi_ali_treedirs[$lang_index]=exp/${lang_list[$lang_index]}/tree${tree_affix}
+  multi_ali_latdirs[$lang_index]=exp/${lang_list[$lang_index]}/chain/${gmm}_train${suffix}_lats
+  multi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang
+  multi_lfmmi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang_chain
+  multi_gmm_dir[$lang_index]=exp/${lang_list[$lang_index]}/$gmm
+  multi_chain_dir[$lang_index]=exp/${lang_list[$lang_index]}/chain/$dir_basename
+done
+
 
 if [$stage -le 3 ]; then
   if $use_ivector; then
