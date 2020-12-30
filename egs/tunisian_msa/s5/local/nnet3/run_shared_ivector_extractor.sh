@@ -14,6 +14,7 @@ feat_suffix=_hires # feat_suffix used in train_set for lda_mllt training.
 nnet3_affix=
 numLeavesMLLT=2500
 numGaussMLLT=36000
+numGaussUBM=1024
 boost_sil=1.0 # Factor by which to boost silence likelihoods in alignment
 ivector_transform_type=lda # transformation used for iVector extraction
 
