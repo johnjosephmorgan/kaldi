@@ -139,7 +139,7 @@ if [ $stage -le 2 ]; then
       --ivector-suffix "$ivector_suffix" \
       --nnet3-affix "$nnet3_affix" \
       ${lang_list[$lang_index]} \
-      $ivector_extractor || exit;
+      exp/multi/nnet3_cleaned/extractor || exit;
   done
 fi
 
