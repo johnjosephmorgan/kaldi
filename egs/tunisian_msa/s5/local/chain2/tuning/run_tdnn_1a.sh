@@ -160,14 +160,8 @@ for lang_index in `seq 0 $[$num_langs-1]`; do
   multi_chain_dir[$lang_index]=exp/${lang_list[$lang_index]}/chain/$dir_basename
 done
 
-
-if [$stage -le 3 ]; then
-  if $use_ivector; then
-    ivector_dim=$(feat-to-dim scp:${multi_ivector_dirs[0]}/ivector_online.scp -) || exit 1;
-  else
-    echo "$0: Not using iVectors in multilingual training."
-    ivector_dim=0
-  fi
+if [ $stage -le 3 ]; then
+  ivector_dim=$(feat-to-dim scp:${multi_ivector_dirs[0]}/ivector_online.scp -) || exit 1;
   feat_dim=`feat-to-dim scp:${multi_data_dirs[0]}/feats.scp -`
 fi
 
