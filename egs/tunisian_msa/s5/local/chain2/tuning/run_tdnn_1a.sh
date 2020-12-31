@@ -91,9 +91,9 @@ fi
 if [ $stage -le 1 ]; then
   ivector_suffix=""
   if [ -z "$ivector_extractor" ]; then
-    mkdir -p data/multi
+    mkdir -vp data/multi
     global_extractor=exp/multi/nnet3${nnet3_affix}
-    mkdir -p $global_extractor
+    mkdir -vp $global_extractor
     ivector_extractor=$global_extractor/extractor
     multi_data_dir_for_ivec=data/multi/train${suffix}${ivec_feat_suffix}
     ivector_suffix=_gb
@@ -129,6 +129,9 @@ if [ $stage -le 1 ]; then
       $multi_data_dir_for_ivec $global_extractor || exit 1;
     touch $global_extractor/extractor/.done
   fi
+fi
+
+if [ $stage -le 2 ]; then
   echo "$0: Extracts ivector for all languages using $global_extractor/extractor."
   for lang_index in `seq 0 $[$num_langs-1]`; do
     local/nnet3/extract_ivector_lang.sh --stage -1 \
@@ -158,7 +161,7 @@ for lang_index in `seq 0 $[$num_langs-1]`; do
 done
 
 
-if [$stage -le 2 ]; then
+if [$stage -le 3 ]; then
   if $use_ivector; then
     ivector_dim=$(feat-to-dim scp:${multi_ivector_dirs[0]}/ivector_online.scp -) || exit 1;
   else
