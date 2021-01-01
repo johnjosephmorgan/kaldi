@@ -231,10 +231,8 @@ if [ $stage -le 11 ]; then
   mkdir -p $dir/configs
   ivector_node_xconfig=""
   ivector_to_append=""
-  if $use_ivector; then
-    ivector_node_xconfig="input dim=$ivector_dim name=ivector"
-    ivector_to_append=", ReplaceIndex(ivector, t, 0)"
-  fi
+  ivector_node_xconfig="input dim=$ivector_dim name=ivector"
+  ivector_to_append=", ReplaceIndex(ivector, t, 0)"
   learning_rate_factor=$(echo "print (0.5/$xent_regularize)" | python)
   dummy_tree_dir=${multi_ali_treedirs[0]}
   num_targets=`tree-info $dummy_tree_dir/tree 2>/dev/null | grep num-pdfs | awk '{print $2}'` || exit 1;
