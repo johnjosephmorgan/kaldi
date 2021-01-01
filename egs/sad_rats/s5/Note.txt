@@ -10,7 +10,7 @@ This file sets variables used for job management.
 This file contains parameters used in extracting Mel FrequencyCepstral Coeficients from input audio data.
 - s5/run.sh
 Invoking this script builds and evaluates the entire system.
-The location of the rats_sad corpus must be set.
+The location of the rats_sad corpus must be set in the rats_sad_data_dir variable.
 The variables in cmd.sh might also need to be adjusted in order to run this script.
 The run.sh script invokes several scripts located under 3 directories:
 1. s5/steps
