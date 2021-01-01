@@ -380,7 +380,7 @@ fi
 
 if [ $stage -le 17 ]; then
     echo "$0: Preparing initial acoustic model"
-    $cuda_cmd ${dir}/log/init_model.log \
+    $cmd ${dir}/log/init_model.log \
            nnet3-init --srand=${srand} ${dir}/configs/final.config ${dir}/init/multi.raw || exit 1
 fi
 
