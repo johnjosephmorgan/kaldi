@@ -1,53 +1,36 @@
 #!/bin/bash
-# chain2 recipe for monolingual systems for BABEL
-# Copyright 2016 Pegah Ghahremani
-# Copyright 2020 Srikanth Madikeri (Idiap Research Institute)
-
-# This script is used to train multilingual LF-MMI system with a multi-task training
-# setup.
-
-# local.conf should exists (check README.txt), which contains configs for
-# multilingual training such as lang_list as array of space-separated languages used
-# for multilingual training.
-
 set -e -o pipefail
 
-remove_egs=false
-cmd=run.pl
-srand=-1
-stage=0
-train_stage=-10
-get_egs_stage=-10
-decode_stage=-10
-megs_dir=
 alidir=alignments
-stage=-1
-nj=30
-train_set=train
-gmm=models  # the gmm for the target data
-langdir=data/lang
-num_threads_ubm=1
-nnet3_affix=_cleaned  # cleanup affix for nnet3 and chain dirs, e.g. _cleaned
-tree_affix=  # affix for tree directory, e.g. "a" or "b", in case we change the configuration.
-tdnn_affix=  #affix for TDNN directory, e.g. "a" or "b", in case we change the configuration.
-feat_suffix=_hires      
-label_delay=5
-frame_subsampling_factor=3
-xent_regularize=0.01
-max_param_change=2.0
-num_jobs_initial=2
-num_jobs_final=2
-initial_effective_lrate=0.001
-final_effective_lrate=0.0001
-num_jobs_initial=2
-num_jobs_final=8
 chunk_width=150
+cmd=run.pl
+common_egs_dir=  # you can set this to use previously dumped egs.
+decode_stage=-10
+dir=exp/chain2_cleaned/tdnn_multi_sp
 extra_left_context=50
 extra_right_context=0
-common_egs_dir=  # you can set this to use previously dumped egs.
-langconf=local.conf
+final_effective_lrate=0.0001
+frame_subsampling_factor=3
+get_egs_stage=-10
 global_extractor=exp/multi/nnet3/extractor
-dir=exp/chain2${nnet3_affix}/tdnn${tdnn_affix}_multi
+gmm=models  # the gmm for the target data
+initial_effective_lrate=0.001
+label_delay=5
+langconf=local.conf
+langdir=data/lang
+max_param_change=2.0
+megs_dir=
+nj=30
+num_jobs_final=2
+num_jobs_initial=2
+num_threads_ubm=1
+remove_egs=false
+srand=-1
+stage=-1
+stage=0
+train_set=train
+train_stage=-10
+xent_regularize=0.01
 
 . ./path.sh
 . ./cmd.sh
@@ -59,7 +42,6 @@ dir=exp/chain2${nnet3_affix}/tdnn${tdnn_affix}_multi
 [ ! -f local.conf ] && echo 'the file local.conf does not exist!' && exit 1;
 . local.conf || exit 1;
 
-suffix=_sp
 num_langs=${#lang_list[@]}
 echo "$0 $@"  # Print the command line for logging
 if ! cuda-compiled; then
@@ -75,28 +57,24 @@ for lang_index in `seq 0 $[$num_langs-1]`; do
     [ ! -f $f ] && echo "$0: no such file $f" && exit 1;
   done
 done
-dir=${dir}${suffix}
-ivec_feat_suffix=${feat_suffix}
 
 if [ $stage -le 0 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`; do
     echo "$0: extract high resolution 40dim MFCC  for speed-perturbed data "
     echo "and extract alignment."
     local/nnet3/run_common_langs.sh --stage $stage \
-      --feat-suffix $feat_suffix \
+      --feat-suffix _hires \
       --speed-perturb true ${lang_list[$lang_index]} || exit 1;
   done
 fi
 
 if [ $stage -le 1 ]; then
-  ivector_suffix=""
   if [ -z "$ivector_extractor" ]; then
     mkdir -vp data/multi
-    global_extractor=exp/multi/nnet3${nnet3_affix}
+    global_extractor=exp/multi/nnet3_cleaned
     mkdir -vp $global_extractor
     ivector_extractor=$global_extractor/extractor
-    multi_data_dir_for_ivec=data/multi/train${suffix}${ivec_feat_suffix}
-    ivector_suffix=_gb
+    multi_data_dir_for_ivec=data/multi/train_sp_hires
     echo "$0: combine training data using all langs for training global i-vector extractor."
     if [ ! -f $multi_data_dir_for_ivec/.done ]; then
       echo ---------------------------------------------------------------------
@@ -106,14 +84,14 @@ if [ $stage -le 1 ]; then
       combine_lang_list=""
       for lang_index in `seq 0 $[$num_langs-1]`;do
         lang_name=${lang_list[$lang_index]}
-        utils/copy_data_dir.sh --spk-prefix ${lang_name}- --utt-prefix ${lang_name}- data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix} data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix}_prefixed || exit 1
-        combine_lang_list="$combine_lang_list data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix}_prefixed"
+        utils/copy_data_dir.sh --spk-prefix ${lang_name}- --utt-prefix ${lang_name}- data/${lang_list[$lang_index]}/train_sp_hires data/${lang_list[$lang_index]}/train_sp_hires_prefixed || exit 1
+        combine_lang_list="$combine_lang_list data/${lang_list[$lang_index]}/train_sp_hires_prefixed"
       done
       utils/combine_data.sh $multi_data_dir_for_ivec $combine_lang_list
       utils/validate_data_dir.sh --no-feats $multi_data_dir_for_ivec
       for lang_index in `seq 0 $[$num_langs-1]`;do
         lang_name=${lang_list[$lang_index]}
-        rm -r data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix}_prefixed
+        rm -r data/${lang_list[$lang_index]}/train_sp_hires_prefixed
       done
     fi
   fi
@@ -122,8 +100,8 @@ if [ $stage -le 1 ]; then
 
   if [ ! -f $global_extractor/extractor/.done ]; then
     local/nnet3/run_shared_ivector_extractor.sh  \
-      --suffix "$suffix" --nnet3-affix "$nnet3_affix" \
-      --feat-suffix "$ivec_feat_suffix" \
+      --suffix "_sp" --nnet3-affix "cleaned" \
+      --feat-suffix "_hires" \
       --ivector-transform-type pca \
       --stage -1 multi \
       $multi_data_dir_for_ivec $global_extractor || exit 1;
@@ -135,9 +113,9 @@ if [ $stage -le 2 ]; then
   echo "$0: Extracts ivector for all languages using $global_extractor/extractor."
   for lang_index in `seq 0 $[$num_langs-1]`; do
     local/nnet3/extract_ivector_lang.sh --stage -1 \
-      --train-set train${suffix}${ivec_feat_suffix} \
-      --ivector-suffix "$ivector_suffix" \
-      --nnet3-affix "$nnet3_affix" \
+      --train-set train_sp_hires \
+      --ivector-suffix "_gb" \
+      --nnet3-affix "cleaned" \
       ${lang_list[$lang_index]} \
       exp/multi/nnet3_cleaned/extractor || exit;
   done
@@ -147,13 +125,13 @@ dir_basename=`basename $dir`
 
 for lang_index in `seq 0 $[$num_langs-1]`; do
   lang_name=${lang_list[$lang_index]}
-  multi_lores_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}
-  multi_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}${feat_suffix}
-  multi_egs_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/egs${feat_suffix}${ivector_suffix}
-  multi_ali_dirs[$lang_index]=exp/${lang_list[$lang_index]}/${alidir}${suffix}
-  multi_ivector_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/ivectors_train${suffix}${ivec_feat_suffix}${ivector_suffix}
-  multi_ali_treedirs[$lang_index]=exp/${lang_list[$lang_index]}/tree${tree_affix}
-  multi_ali_latdirs[$lang_index]=exp/${lang_list[$lang_index]}/chain/${gmm}_train${suffix}_lats
+  multi_lores_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train_sp
+  multi_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train_sp_hires
+  multi_egs_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3_cleaned/egs_hires_gb
+  multi_ali_dirs[$lang_index]=exp/${lang_list[$lang_index]}/${alidir}_sp
+  multi_ivector_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3_cleaned/ivectors_train_sp_hires_gb
+  multi_ali_treedirs[$lang_index]=exp/${lang_list[$lang_index]}/tree
+  multi_ali_latdirs[$lang_index]=exp/${lang_list[$lang_index]}/chain/${gmm}_train_sp_lats
   multi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang
   multi_lfmmi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang_chain
   multi_gmm_dir[$lang_index]=exp/${lang_list[$lang_index]}/$gmm
