@@ -95,10 +95,12 @@ if [ $stage -le 2 ]; then
   echo "$0: Extract shared ivectors."
   if [ ! -f exp/multi/nnet3_cleaned/extractor/.done ]; then
     local/nnet3/run_shared_ivector_extractor.sh  \
-      --suffix "_sp" --nnet3-affix "_cleaned" \
+      --suffix "_sp" \
+      --nnet3-affix "_cleaned" \
       --feat-suffix "_hires" \
       --ivector-transform-type pca \
-      --stage -1 multi \
+      --stage -1 \
+      tamsa \
       $multi_data_dir_for_ivec \
       exp/multi/nnet3_cleaned || exit 1;
     touch exp/multi/nnet3_cleaned/extractor/.done
