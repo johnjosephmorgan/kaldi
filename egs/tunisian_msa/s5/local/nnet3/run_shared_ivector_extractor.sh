@@ -26,7 +26,7 @@ ivector_transform_type=lda # transformation used for iVector extraction
 
 if [ $# -ne 3 ]; then
   echo "Usage: $0 [options] <lda-mllt-lang> <data-dir> <ivector-extractor-dir>"
-  echo "e.g.: $0  102-assamese data/multi/train exp/multi/nnet3"
+  echo "e.g.: $0  tamsa data/multi/train exp/multi/nnet3_cleaned"
   exit 1;
 fi
 
