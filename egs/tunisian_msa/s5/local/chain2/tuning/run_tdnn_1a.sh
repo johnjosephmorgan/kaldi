@@ -387,7 +387,7 @@ fi
 if [ $stage -le 18 ]; then
   echo "$0: Starting model training"
   steps/chain2/train.sh \
-    --stage $train_stage --cmd "$cuda_cmd" \
+    --stage $train_stage --cmd "$train_cmd" \
     --multilingual-eg true \
     --xent-regularize $xent_regularize --leaky-hmm-coefficient 0.25  \
     --initial-effective-lrate $initial_effective_lrate \
