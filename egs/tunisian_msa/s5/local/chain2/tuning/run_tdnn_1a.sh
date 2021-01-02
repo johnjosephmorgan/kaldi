@@ -101,7 +101,7 @@ if [ $stage -le 2 ]; then
       --ivector-transform-type pca \
       --stage -1 \
       tamsa \
-      $multi_data_dir_for_ivec \
+      data/multi/train_sp_hires \
       exp/multi/nnet3_cleaned || exit 1;
     touch exp/multi/nnet3_cleaned/extractor/.done
   fi
