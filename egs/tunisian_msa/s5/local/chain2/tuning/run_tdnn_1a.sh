@@ -12,7 +12,7 @@ extra_right_context=0
 final_effective_lrate=0.0001
 frame_subsampling_factor=3
 get_egs_stage=-10
-global_extractor=exp/multi/nnet3/extractor
+global_extractor=exp/multi/nnet3_cleaned/extractor
 gmm=models  # the gmm for the target data
 initial_effective_lrate=0.001
 label_delay=5
@@ -69,47 +69,44 @@ if [ $stage -le 0 ]; then
 fi
 
 if [ $stage -le 1 ]; then
-  if [ -z "$ivector_extractor" ]; then
-    mkdir -vp data/multi
-    global_extractor=exp/multi/nnet3_cleaned
-    mkdir -vp $global_extractor
-    ivector_extractor=$global_extractor/extractor
-    multi_data_dir_for_ivec=data/multi/train_sp_hires
-    echo "$0: combine training data using all langs for training global i-vector extractor."
-    if [ ! -f $multi_data_dir_for_ivec/.done ]; then
-      echo ---------------------------------------------------------------------
-      echo "Pooling training data in $multi_data_dir_for_ivec on" `date`
-      echo ---------------------------------------------------------------------
-      mkdir -vp $multi_data_dir_for_ivec
-      combine_lang_list=""
-      for lang_index in `seq 0 $[$num_langs-1]`;do
-        lang_name=${lang_list[$lang_index]}
-        utils/copy_data_dir.sh --spk-prefix ${lang_name}- --utt-prefix ${lang_name}- data/${lang_list[$lang_index]}/train_sp_hires data/${lang_list[$lang_index]}/train_sp_hires_prefixed || exit 1
-        combine_lang_list="$combine_lang_list data/${lang_list[$lang_index]}/train_sp_hires_prefixed"
-      done
-      utils/combine_data.sh $multi_data_dir_for_ivec $combine_lang_list
-      utils/validate_data_dir.sh --no-feats $multi_data_dir_for_ivec
-      for lang_index in `seq 0 $[$num_langs-1]`;do
-        lang_name=${lang_list[$lang_index]}
-        rm -r data/${lang_list[$lang_index]}/train_sp_hires_prefixed
-      done
-    fi
+  mkdir -vp data/multi
+  mkdir -vp $global_extractor
+  multi_data_dir_for_ivec=data/multi/train_sp_hires
+  echo "$0: combine training data using all langs for training global i-vector extractor."
+  if [ ! -f $multi_data_dir_for_ivec/.done ]; then
+    echo "$0: Pooling training data in $multi_data_dir_for_ivec on" `date`
+    mkdir -vp $multi_data_dir_for_ivec
+    combine_lang_list=""
+    for lang_index in `seq 0 $[$num_langs-1]`;do
+      lang_name=${lang_list[$lang_index]}
+      utils/copy_data_dir.sh --spk-prefix ${lang_name}- --utt-prefix ${lang_name}- data/${lang_list[$lang_index]}/train_sp_hires data/${lang_list[$lang_index]}/train_sp_hires_prefixed || exit 1
+      combine_lang_list="$combine_lang_list data/${lang_list[$lang_index]}/train_sp_hires_prefixed"
+    done
+    utils/combine_data.sh $multi_data_dir_for_ivec $combine_lang_list
+    utils/validate_data_dir.sh --no-feats $multi_data_dir_for_ivec
+    for lang_index in `seq 0 $[$num_langs-1]`;do
+      lang_name=${lang_list[$lang_index]}
+      rm -r data/${lang_list[$lang_index]}/train_sp_hires_prefixed
+    done
   fi
-
   touch $multi_data_dir_for_ivec/.done
+fi
 
-  if [ ! -f $global_extractor/extractor/.done ]; then
+if [ $stage -le 2 ]; then
+  echo "$0: Extract shared ivectors."
+  if [ ! -f exp/multi/nnet3_cleaned/extractor/.done ]; then
     local/nnet3/run_shared_ivector_extractor.sh  \
       --suffix "_sp" --nnet3-affix "cleaned" \
       --feat-suffix "_hires" \
       --ivector-transform-type pca \
       --stage -1 multi \
-      $multi_data_dir_for_ivec $global_extractor || exit 1;
-    touch $global_extractor/extractor/.done
+      $multi_data_dir_for_ivec \
+      exp/multi/nnet3_cleaned || exit 1;
+    touch exp/multi/nnet3_cleaned/extractor/.done
   fi
 fi
 
-if [ $stage -le 2 ]; then
+if [ $stage -le 3 ]; then
   echo "$0: Extracts ivector for all languages using $global_extractor/extractor."
   for lang_index in `seq 0 $[$num_langs-1]`; do
     local/nnet3/extract_ivector_lang.sh --stage -1 \
@@ -127,7 +124,6 @@ for lang_index in `seq 0 $[$num_langs-1]`; do
   lang_name=${lang_list[$lang_index]}
   multi_lores_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train_sp
   multi_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train_sp_hires
-  multi_egs_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3_cleaned/egs_hires_gb
   multi_ali_dirs[$lang_index]=exp/${lang_list[$lang_index]}/${alidir}_sp
   multi_ivector_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3_cleaned/ivectors_train_sp_hires_gb
   multi_ali_treedirs[$lang_index]=exp/${lang_list[$lang_index]}/tree
