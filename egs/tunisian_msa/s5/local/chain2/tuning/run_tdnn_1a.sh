@@ -95,11 +95,11 @@ if [ $stage -le 2 ]; then
   echo "$0: Extract shared ivectors."
   if [ ! -f exp/multi/nnet3_cleaned/extractor/.done ]; then
     local/nnet3/run_shared_ivector_extractor.sh  \
-      --suffix "_sp" \
-      --nnet3-affix "_cleaned" \
       --feat-suffix "_hires" \
       --ivector-transform-type pca \
+      --nnet3-affix "_cleaned" \
       --stage -1 \
+      --suffix "_sp" \
       tamsa \
       data/multi/train_sp_hires \
       exp/multi/nnet3_cleaned || exit 1;
@@ -111,9 +111,9 @@ if [ $stage -le 3 ]; then
   echo "$0: Extracts ivector for all languages using exp/multi/nnet3_cleaned/extractor."
   for lang_index in `seq 0 $[$num_langs-1]`; do
     local/nnet3/extract_ivector_lang.sh --stage -1 \
-      --train-set train_sp_hires \
-      --ivector-suffix _gb"" \
+      --ivector-suffix "_gb" \
       --nnet3-affix "_cleaned" \
+      --train-set train_sp_hires \
       ${lang_list[$lang_index]} \
       exp/multi/nnet3_cleaned/extractor || exit;
   done
