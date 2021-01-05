@@ -25,7 +25,6 @@ num_jobs_initial=2
 num_threads_ubm=1
 remove_egs=false
 srand=-1
-stage=-1
 stage=0
 train_set=train
 train_stage=-10
@@ -300,32 +299,41 @@ fi
 
 if [ $stage -le 14 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
-      lang_name=${lang_list[$lang_index]}
-      echo "$0: Generating raw egs for $lang_name"
-      train_ivector_dir=${multi_ivector_dirs[$lang_index]}
-      train_data_dir=${multi_data_dirs[$lang_index]}
-      lat_dir=${multi_ali_latdirs[$lang_index]}
-      if [ ! -f ${dir}/${lang_name}_processed_egs/.done ]; then
-          steps/chain2/get_raw_egs.sh --cmd "$train_cmd" \
-            --lang "$lang_name" \
-            --online-ivector-dir $train_ivector_dir \
-            --left-context $egs_left_context \
-            --right-context $egs_right_context \
-            --frame-subsampling-factor $frame_subsampling_factor \
-            --alignment-subsampling-factor $frame_subsampling_factor \
-            --frames-per-chunk $chunk_width \
-            ${train_data_dir} ${dir} ${lat_dir} ${dir}/${lang_name}_raw_egs || exit 1
-
-          echo "$0: Processing raw egs for $lang_name"
-          steps/chain2/process_egs.sh  --cmd "$train_cmd" \
-              ${dir}/${lang_name}_raw_egs ${dir}/${lang_name}_processed_egs || exit 1
-          touch ${dir}/${lang_name}_processed_egs/.done
-          rm -r ${dir}/${lang_name}_raw_egs # save space
-      fi
+    lang_name=${lang_list[$lang_index]}
+    echo "$0: Generating raw egs for $lang_name"
+    train_ivector_dir=${multi_ivector_dirs[$lang_index]}
+    train_data_dir=${multi_data_dirs[$lang_index]}
+    lat_dir=${multi_ali_latdirs[$lang_index]}
+    if [ ! -f ${dir}/${lang_name}_processed_egs/.done ]; then
+      steps/chain2/get_raw_egs.sh --cmd "$train_cmd" \
+        --alignment-subsampling-factor $frame_subsampling_factor \
+        --frame-subsampling-factor $frame_subsampling_factor \
+        --frames-per-chunk $chunk_width \
+        --lang "$lang_name" \
+        --left-context $egs_left_context \
+        --online-ivector-dir $train_ivector_dir \
+        --right-context $egs_right_context \
+        ${train_data_dir} \
+	${dir} \
+	${lat_dir} \
+	${dir}/${lang_name}_raw_egs || exit 1
+    fi
   done
 fi
 
 if [ $stage -le 15 ]; then
+  for lang_index in `seq 0 $[$num_langs-1]`;do
+    lang_name=${lang_list[$lang_index]}
+    echo "$0: Processing raw egs for $lang_name"
+    steps/chain2/process_egs.sh  --cmd "$train_cmd" \
+      ${dir}/${lang_name}_raw_egs \
+      ${dir}/${lang_name}_processed_egs || exit 1
+    touch ${dir}/${lang_name}_processed_egs/.done
+    #rm -r ${dir}/${lang_name}_raw_egs # save space
+  done
+fi
+
+if [ $stage -le 16 ]; then
     echo "$0: Combining egs"
     if [ ! -z "$lang2weight" ]; then
         egs_opts="--lang2weight '$lang2weight'"
@@ -339,7 +347,7 @@ if [ $stage -le 15 ]; then
 fi
 [[ -z $common_egs_dir ]] && common_egs_dir=${dir}/egs
 
-if [ $stage -le 16 ]; then
+if [ $stage -le 17 ]; then
   [ ! -d ${dir}/egs/misc ] && mkdir  ${dir}/egs/misc
   echo "$0: Copying den.fst to ${dir}/egs/misc"
   for lang_index in `seq 0 $[$num_langs-1]`;do
@@ -353,13 +361,13 @@ if [ $stage -le 16 ]; then
   [[ ! -f $dir/init/default_trans.mdl ]] && ln -r -s $dir/init/${first_lang_name}_trans.mdl $dir/init/default_trans.mdl
 fi
 
-if [ $stage -le 17 ]; then
+if [ $stage -le 18 ]; then
     echo "$0: Preparing initial acoustic model"
     $cmd ${dir}/log/init_model.log \
            nnet3-init --srand=${srand} ${dir}/configs/final.config ${dir}/init/multi.raw || exit 1
 fi
 
-if [ $stage -le 18 ]; then
+if [ $stage -le 19 ]; then
   echo "$0: Starting model training"
   steps/chain2/train.sh \
     --stage $train_stage --cmd "$train_cmd" \
@@ -375,7 +383,7 @@ if [ $stage -le 18 ]; then
      $common_egs_dir $dir
 fi
 
-if [ $stage -le 19 ]; then
+if [ $stage -le 20 ]; then
     echo "$0: Splitting models"
     frame_subsampling_factor=`fgrep "frame_subsampling_factor" $dir/init/info.txt | awk '{print $2}'`
     for lang_index in `seq 0 $[$num_langs-1]`;do
