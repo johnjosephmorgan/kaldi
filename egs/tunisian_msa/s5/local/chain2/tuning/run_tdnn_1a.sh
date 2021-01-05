@@ -6,7 +6,7 @@ chunk_width=150
 cmd=run.pl
 common_egs_dir=  # you can set this to use previously dumped egs.
 decode_stage=-10
-dir=exp/chain2_cleaned/tdnn_multi_sp
+dir=exp/chain2/tdnn_multi
 extra_left_context=50
 extra_right_context=0
 final_effective_lrate=0.0001
@@ -62,13 +62,14 @@ if [ $stage -le 0 ]; then
     echo "and extract alignment."
     local/nnet3/run_common_langs.sh --stage $stage \
       --feat-suffix _hires \
-      --speed-perturb true ${lang_list[$lang_index]} || exit 1;
+      --speed-perturb true \
+      ${lang_list[$lang_index]} || exit 1;
   done
 fi
 
 if [ $stage -le 1 ]; then
   mkdir -vp data/multi
-  mkdir -vp exp/multi/nnet3_cleaned/extractor
+  mkdir -vp exp/multi/nnet3/extractor
   multi_data_dir_for_ivec=data/multi/train_sp_hires
   echo "$0: combine training data using all langs for training global i-vector extractor."
   if [ ! -f $multi_data_dir_for_ivec/.done ]; then
@@ -92,29 +93,26 @@ fi
 
 if [ $stage -le 2 ]; then
   echo "$0: Extract shared ivectors."
-  if [ ! -f exp/multi/nnet3_cleaned/extractor/.done ]; then
-    local/nnet3/run_shared_ivector_extractor.sh  \
-      --feat-suffix "_hires" \
-      --ivector-transform-type pca \
-      --nnet3-affix "_cleaned" \
-      --stage -1 \
-      --suffix "_sp" \
-      tamsa \
-      data/multi/train_sp_hires \
-      exp/multi/nnet3_cleaned || exit 1;
-    touch exp/multi/nnet3_cleaned/extractor/.done
-  fi
+  local/nnet3/run_shared_ivector_extractor.sh  \
+    --feat-suffix "_hires" \
+    --ivector-transform-type pca \
+    --nnet3-affix "" \
+    --stage -1 \
+    --suffix "_sp" \
+    tamsa \
+    data/multi/train_sp_hires \
+    exp/multi/nnet3 || exit 1;
 fi
 
 if [ $stage -le 3 ]; then
-  echo "$0: Extracts ivector for all languages using exp/multi/nnet3_cleaned/extractor."
+  echo "$0: Extracts ivector for all languages using exp/multi/nnet3/extractor."
   for lang_index in `seq 0 $[$num_langs-1]`; do
     local/nnet3/extract_ivector_lang.sh --stage -1 \
       --ivector-suffix "_gb" \
-      --nnet3-affix "_cleaned" \
+      --nnet3-affix "" \
       --train-set train_sp_hires \
       ${lang_list[$lang_index]} \
-      exp/multi/nnet3_cleaned/extractor || exit;
+      exp/multi/nnet3/extractor || exit;
   done
 fi
 
@@ -125,7 +123,7 @@ for lang_index in `seq 0 $[$num_langs-1]`; do
   multi_lores_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train_sp
   multi_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train_sp_hires
   multi_ali_dirs[$lang_index]=exp/${lang_list[$lang_index]}/${alidir}_sp
-  multi_ivector_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3_cleaned/ivectors_train_sp_hires_gb
+  multi_ivector_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3/ivectors_train_sp_hires_gb
   multi_ali_treedirs[$lang_index]=exp/${lang_list[$lang_index]}/tree
   multi_ali_latdirs[$lang_index]=exp/${lang_list[$lang_index]}/chain/${gmm}_train_sp_lats
   multi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang
