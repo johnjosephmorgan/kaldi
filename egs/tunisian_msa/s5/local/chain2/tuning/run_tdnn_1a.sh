@@ -97,7 +97,7 @@ if [ $stage -le 2 ]; then
     --stage -1 \
     --suffix "_sp" \
     tamsa \
-    data/multi/train_sp_hires \
+    data/multi/train \
     exp/multi/nnet3 || exit 1;
 fi
 
