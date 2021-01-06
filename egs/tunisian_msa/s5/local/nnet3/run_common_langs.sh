@@ -6,11 +6,11 @@
 
 . ./cmd.sh
 set -e
-stage=1
-train_stage=-10
+feat_suffix=_hires  # feature suffix for training data
 generate_alignments=true # If true, it regenerates alignments.
 speed_perturb=true
-feat_suffix=_hires  # feature suffix for training data
+stage=1
+train_stage=-10
 
 [ ! -f ./conf/common_vars.sh ] && echo 'the file conf/common_vars.sh does not exist!' && exit 1
 

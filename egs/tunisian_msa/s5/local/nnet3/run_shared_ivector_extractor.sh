@@ -76,7 +76,9 @@ if [ $stage -le 6 ]; then
   # iVector extractors can be sensitive to the amount of data, but this one has a
   # fairly small dim (defaults to 100) so we don't use all of it, we use just the
   # 100k subset (just under half the data).
-  steps/online/nnet2/train_ivector_extractor.sh --cmd "$train_cmd" --nj 200 \
-    $multi_data_dir  $global_extractor_dir/diag_ubm $global_extractor_dir/extractor || exit 1;
+  steps/online/nnet2/train_ivector_extractor.sh --cmd "$train_cmd" --nj 50 \
+    $multi_data_dir  \
+    $global_extractor_dir/diag_ubm \
+    $global_extractor_dir/extractor || exit 1;
 fi
 exit 0;
