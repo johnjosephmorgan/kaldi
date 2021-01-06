@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2020 ARL (Author: John Morgan)
+# Copyright 2021 ARL (Author: John Morgan)
 # Apache 2.0.
 
 # This script consolidates the information about each recording.
