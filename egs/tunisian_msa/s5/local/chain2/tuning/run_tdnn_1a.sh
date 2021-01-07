@@ -345,12 +345,12 @@ fi
 
 if [ $stage -le 17 ]; then
   [ ! -d ${dir}/egs/misc ] && mkdir  ${dir}/egs/misc
-  echo "$0: Copying den.fst to ${dir}/egs/misc"
   for lang_index in `seq 0 $[$num_langs-1]`;do
-      lang_name=${lang_list[$lang_index]}
-      cp $dir/den_fsts/${lang_name}.*fst ${dir}/egs/misc/
-      cp $dir/init/${lang_name}_trans.mdl ${dir}/egs/misc/${lang_name}.trans_mdl
-      ln -rs $dir/egs/info.txt $dir/egs/info_${lang_name}.txt
+    lang_name=${lang_list[$lang_index]}
+    echo "$0: Copying $lang_name den.fst to ${dir}/egs/misc"
+    cp $dir/den_fsts/${lang_name}.*fst ${dir}/egs/misc/
+    cp $dir/init/${lang_name}_trans.mdl ${dir}/egs/misc/${lang_name}.trans_mdl
+    ln -rs $dir/egs/info.txt $dir/egs/info_${lang_name}.txt
   done
   echo "$0: Create a dummy transition model that is never used"
   first_lang_name=${lang_list[0]}
