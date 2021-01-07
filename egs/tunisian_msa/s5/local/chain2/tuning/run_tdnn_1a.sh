@@ -315,7 +315,6 @@ if [ $stage -le 10 ]; then
       ${dir}/${lang_name}_raw_egs || exit 1
   done
 fi
-exit
 
 if [ $stage -le 11 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
