@@ -135,24 +135,24 @@ feat_dim=`feat-to-dim scp:${multi_data_dirs[0]}/feats.scp -`
 
 if [ $stage -le 8 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
-      lang_name=${lang_list[$lang_index]}
-      if [ -d ${multi_lfmmi_lang[$lang_index]} ]; then
-        if [ ${multi_lfmmi_lang[$lang_index]}/L.fst -nt ${multi_lang[$lang_index]}/L.fst ]; then
-          echo "$0: ${multi_lfmmi_lang[$lang_index]} already exists, not overwriting it; continuing"
-        else
-          echo "$0: ${multi_lfmmi_lang[$lang_index]} already exists and seems to be older than ${multi_lang[$lang_index]}..."
-          echo " ... not sure what to do.  Exiting."
-          exit 1;
-        fi
+    lang_name=${lang_list[$lang_index]}
+    if [ -d ${multi_lfmmi_lang[$lang_index]} ]; then
+      if [ ${multi_lfmmi_lang[$lang_index]}/L.fst -nt ${multi_lang[$lang_index]}/L.fst ]; then
+        echo "$0: ${multi_lfmmi_lang[$lang_index]} already exists, not overwriting it; continuing"
       else
-        echo "$0: creating lang directory with one state per phone."
-        cp -r ${multi_lang[$lang_index]}/ ${multi_lfmmi_lang[$lang_index]} # trailing slash makes sure soft links are copied
-        silphonelist=$(cat ${multi_lfmmi_lang[$lang_index]}/phones/silence.csl) || exit 1;
-        nonsilphonelist=$(cat ${multi_lfmmi_lang[$lang_index]}/phones/nonsilence.csl) || exit 1;
-        # Use our special topology... note that later on may have to tune this
-        # topology.
-        steps/nnet3/chain/gen_topo.py $nonsilphonelist $silphonelist >${multi_lfmmi_lang[$lang_index]}/topo
+        echo "$0: ${multi_lfmmi_lang[$lang_index]} already exists and seems to be older than ${multi_lang[$lang_index]}..."
+        echo " ... not sure what to do.  Exiting."
+        exit 1;
       fi
+    else
+      echo "$0: creating lang directory with one state per phone."
+      cp -r ${multi_lang[$lang_index]}/ ${multi_lfmmi_lang[$lang_index]} # trailing slash makes sure soft links are copied
+      silphonelist=$(cat ${multi_lfmmi_lang[$lang_index]}/phones/silence.csl) || exit 1;
+      nonsilphonelist=$(cat ${multi_lfmmi_lang[$lang_index]}/phones/nonsilence.csl) || exit 1;
+      # Use our special topology... note that later on may have to tune this
+      # topology.
+      steps/nnet3/chain/gen_topo.py $nonsilphonelist $silphonelist >${multi_lfmmi_lang[$lang_index]}/topo
+    fi
   done
 fi
 
@@ -160,34 +160,35 @@ if [ $stage -le 9 ]; then
   # Get the alignments as lattices (gives the chain training more freedom).
   # use the same num-jobs as the alignments
   for lang_index in `seq 0 $[$num_langs-1]`;do
-      langdir=${multi_lang[$lang_index]}
-      lores_train_data_dir=${multi_lores_data_dirs[$lang_index]}
-      gmm_dir=${multi_gmm_dir[$lang_index]}
-      lat_dir=${multi_ali_latdirs[$lang_index]}
+    langdir=${multi_lang[$lang_index]}
+    lores_train_data_dir=${multi_lores_data_dirs[$lang_index]}
+    gmm_dir=${multi_gmm_dir[$lang_index]}
+    lat_dir=${multi_ali_latdirs[$lang_index]}
 
-      steps/align_fmllr_lats.sh --nj $nj --cmd "$train_cmd" ${lores_train_data_dir} \
-        $langdir $gmm_dir $lat_dir
-      rm $lat_dir/fsts.*.gz # save space
+    steps/align_fmllr_lats.sh --nj $nj --cmd "$train_cmd" ${lores_train_data_dir} \
+      $langdir $gmm_dir $lat_dir
+    rm $lat_dir/fsts.*.gz # save space
   done
 fi 
 
 if [ $stage -le 10 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
-      lang_name=${lang_list[$lang_index]}
-      echo "$0: Building tree for $lang_name"
-
-      tree_dir=${multi_ali_treedirs[$lang_index]}
-      ali_dir=${multi_ali_dirs[$lang_index]}
-      lores_train_data_dir=${multi_lores_data_dirs[$lang_index]}
-      lang_dir=${multi_lfmmi_lang[$lang_index]}
-      if [ -f $tree_dir/final.mdl -a -f $tree_dir/tree ]; then
-        echo "$0: $tree_dir/final.mdl already exists, refusing to overwrite it."
-        continue
-      fi
-      steps/nnet3/chain/build_tree.sh --frame-subsampling-factor $frame_subsampling_factor \
-          --context-opts "--context-width=2 --central-position=1" \
-          --leftmost-questions-truncate -1 \
-          --cmd "$train_cmd" 4000 ${lores_train_data_dir} $lang_dir $ali_dir $tree_dir
+    lang_name=${lang_list[$lang_index]}
+    echo "$0: Building tree for $lang_name"
+    tree_dir=${multi_ali_treedirs[$lang_index]}
+    ali_dir=${multi_ali_dirs[$lang_index]}
+    lores_train_data_dir=${multi_lores_data_dirs[$lang_index]}
+    lang_dir=${multi_lfmmi_lang[$lang_index]}
+    if [ -f $tree_dir/final.mdl -a -f $tree_dir/tree ]; then
+      echo "$0: $tree_dir/final.mdl already exists, refusing to overwrite it."
+      continue
+    fi
+    steps/nnet3/chain/build_tree.sh \
+      --cmd "$train_cmd" \
+      --context-opts "--context-width=2 --central-position=1" \
+      --frame-subsampling-factor $frame_subsampling_factor \
+      --leftmost-questions-truncate -1 \
+      4000 ${lores_train_data_dir} $lang_dir $ali_dir $tree_dir
   done
 fi
 
