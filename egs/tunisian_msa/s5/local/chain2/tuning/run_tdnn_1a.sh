@@ -354,7 +354,7 @@ if [ $stage -le 13 ]; then
   done
 fi
 
-if [ $stage -le 14 ] then 
+if [ $stage -le 14 ]; then 
   echo "$0: Create a dummy transition model that is never used"
   first_lang_name=${lang_list[0]}
   [[ ! -f $dir/init/default_trans.mdl ]] && ln -r -s $dir/init/${first_lang_name}_trans.mdl $dir/init/default_trans.mdl
