@@ -244,8 +244,8 @@ fi
 init_info=$dir/init/info.txt
 if [ $stage -le 12 ]; then
   if [ ! -f $dir/configs/ref.raw ]; then
-      echo "Expected $dir/configs/ref.raw to exist"
-      exit
+    echo "Expected $dir/configs/ref.raw to exist"
+    exit
   fi
   mkdir  -p $dir/init
   nnet3-info $dir/configs/ref.raw  > $dir/configs/temp.info 
@@ -263,33 +263,33 @@ fi
 model_left_context=$(awk '/^model_left_context/ {print $2;}' $dir/init/info.txt)
 model_right_context=$(awk '/^model_right_context/ {print $2;}' $dir/init/info.txt)
 if [ -z $model_left_context ]; then
-    echo "ERROR: Cannot find entry for model_left_context in $dir/init/info.txt"
+  echo "ERROR: Cannot find entry for model_left_context in $dir/init/info.txt"
 fi
 if [ -z $model_right_context ]; then
-    echo "ERROR: Cannot find entry for model_right_context in $dir/init/info.txt"
+  echo "ERROR: Cannot find entry for model_right_context in $dir/init/info.txt"
 fi
 egs_left_context=$[model_left_context+(frame_subsampling_factor/2)+extra_left_context]
 egs_right_context=$[model_right_context+(frame_subsampling_factor/2)+extra_right_context]
 
 if [ $stage -le 13 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
-      lang_name=${lang_list[$lang_index]}
-      tree_dir=${multi_ali_treedirs[$lang_index]}
-      ali_dir=${multi_ali_dirs[$lang_index]}
-      gmm_dir=${multi_gmm_dir[$lang_index]}
+    lang_name=${lang_list[$lang_index]}
+    tree_dir=${multi_ali_treedirs[$lang_index]}
+    ali_dir=${multi_ali_dirs[$lang_index]}
+    gmm_dir=${multi_gmm_dir[$lang_index]}
 
-      cp $tree_dir/tree $dir/${lang_name}.tree
-      echo "$0: creating phone language-model for $lang_name"
-      $train_cmd $dir/den_fsts/log/make_phone_lm_${lang_name}.log \
-        chain-est-phone-lm --num-extra-lm-states=2000 \
-           "ark:gunzip -c $ali_dir/ali.*.gz | ali-to-phones $gmm_dir/final.mdl ark:- ark:- |" \
-           $dir/den_fsts/${lang_name}.phone_lm.fst || exit 1
-      echo "$0: creating denominator FST for $lang_name"
-      copy-transition-model $tree_dir/final.mdl $dir/init/${lang_name}_trans.mdl  || exit 1 
-      $train_cmd $dir/den_fsts/log/make_den_fst.log \
-         chain-make-den-fst $dir/${lang_name}.tree \
-            $dir/init/${lang_name}_trans.mdl $dir/den_fsts/${lang_name}.phone_lm.fst \
-            $dir/den_fsts/${lang_name}.den.fst $dir/den_fsts/${lang_name}.normalization.fst || exit 1;
+    cp $tree_dir/tree $dir/${lang_name}.tree
+    echo "$0: creating phone language-model for $lang_name"
+    $train_cmd $dir/den_fsts/log/make_phone_lm_${lang_name}.log \
+      chain-est-phone-lm --num-extra-lm-states=2000 \
+        "ark:gunzip -c $ali_dir/ali.*.gz | ali-to-phones $gmm_dir/final.mdl ark:- ark:- |" \
+        $dir/den_fsts/${lang_name}.phone_lm.fst || exit 1
+    echo "$0: creating denominator FST for $lang_name"
+    copy-transition-model $tree_dir/final.mdl $dir/init/${lang_name}_trans.mdl  || exit 1 
+    $train_cmd $dir/den_fsts/log/make_den_fst.log \
+      chain-make-den-fst $dir/${lang_name}.tree \
+      $dir/init/${lang_name}_trans.mdl $dir/den_fsts/${lang_name}.phone_lm.fst \
+      $dir/den_fsts/${lang_name}.den.fst $dir/den_fsts/${lang_name}.normalization.fst || exit 1;
   done
 fi
 
@@ -300,20 +300,18 @@ if [ $stage -le 14 ]; then
     train_ivector_dir=${multi_ivector_dirs[$lang_index]}
     train_data_dir=${multi_data_dirs[$lang_index]}
     lat_dir=${multi_ali_latdirs[$lang_index]}
-    if [ ! -f ${dir}/${lang_name}_processed_egs/.done ]; then
-      steps/chain2/get_raw_egs.sh --cmd "$train_cmd" \
-        --alignment-subsampling-factor $frame_subsampling_factor \
-        --frame-subsampling-factor $frame_subsampling_factor \
-        --frames-per-chunk $chunk_width \
-        --lang "$lang_name" \
-        --left-context $egs_left_context \
-        --online-ivector-dir $train_ivector_dir \
-        --right-context $egs_right_context \
-        ${train_data_dir} \
-	${dir} \
-	${lat_dir} \
-	${dir}/${lang_name}_raw_egs || exit 1
-    fi
+    steps/chain2/get_raw_egs.sh --cmd "$train_cmd" \
+      --alignment-subsampling-factor $frame_subsampling_factor \
+      --frame-subsampling-factor $frame_subsampling_factor \
+      --frames-per-chunk $chunk_width \
+      --lang "$lang_name" \
+      --left-context $egs_left_context \
+      --online-ivector-dir $train_ivector_dir \
+      --right-context $egs_right_context \
+      ${train_data_dir} \
+      ${dir} \
+      ${lat_dir} \
+      ${dir}/${lang_name}_raw_egs || exit 1
   done
 fi
 
