@@ -134,7 +134,7 @@ ivector_dim=$(feat-to-dim scp:${multi_ivector_dirs[0]}/ivector_online.scp -) || 
 feat_dim=`feat-to-dim scp:${multi_data_dirs[0]}/feats.scp -`
 
 
-if [ $stage -le 8 ]; then
+if [ $stage -le 4 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
     lang_name=${lang_list[$lang_index]}
     if [ -d ${multi_lfmmi_lang[$lang_index]} ]; then
@@ -157,7 +157,7 @@ if [ $stage -le 8 ]; then
   done
 fi
 
-if [ $stage -le 9 ]; then
+if [ $stage -le 5 ]; then
   # Get the alignments as lattices (gives the chain training more freedom).
   # use the same num-jobs as the alignments
   for lang_index in `seq 0 $[$num_langs-1]`;do
@@ -172,7 +172,7 @@ if [ $stage -le 9 ]; then
   done
 fi 
 
-if [ $stage -le 10 ]; then
+if [ $stage -le 6 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
     lang_name=${lang_list[$lang_index]}
     echo "$0: Building tree for $lang_name"
@@ -193,7 +193,7 @@ if [ $stage -le 10 ]; then
   done
 fi
 
-if [ $stage -le 11 ]; then
+if [ $stage -le 7 ]; then
   echo "$0: creating multilingual neural net configs using the xconfig parser";
   if [ -z $bnf_dim ]; then
     bnf_dim=80
@@ -243,7 +243,7 @@ EOF
 fi
 
 init_info=$dir/init/info.txt
-if [ $stage -le 12 ]; then
+if [ $stage -le 8 ]; then
   if [ ! -f $dir/configs/ref.raw ]; then
     echo "Expected $dir/configs/ref.raw to exist"
     exit
@@ -272,7 +272,7 @@ fi
 egs_left_context=$[model_left_context+(frame_subsampling_factor/2)+extra_left_context]
 egs_right_context=$[model_right_context+(frame_subsampling_factor/2)+extra_right_context]
 
-if [ $stage -le 13 ]; then
+if [ $stage -le 9 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
     lang_name=${lang_list[$lang_index]}
     tree_dir=${multi_ali_treedirs[$lang_index]}
@@ -294,7 +294,7 @@ if [ $stage -le 13 ]; then
   done
 fi
 
-if [ $stage -le 14 ]; then
+if [ $stage -le 10 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
     lang_name=${lang_list[$lang_index]}
     echo "$0: Generating raw egs for $lang_name"
@@ -317,7 +317,7 @@ if [ $stage -le 14 ]; then
 fi
 exit
 
-if [ $stage -le 15 ]; then
+if [ $stage -le 11 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
     lang_name=${lang_list[$lang_index]}
     echo "$0: Processing raw egs for $lang_name"
@@ -328,7 +328,7 @@ if [ $stage -le 15 ]; then
   done
 fi
 
-if [ $stage -le 16 ]; then
+if [ $stage -le 12 ]; then
   echo "$0: Combining egs"
   if [ ! -z "$lang2weight" ]; then
     egs_opts="--lang2weight '$lang2weight'"
@@ -344,7 +344,7 @@ fi
 
 [[ -z $common_egs_dir ]] && common_egs_dir=${dir}/egs
 
-if [ $stage -le 17 ]; then
+if [ $stage -le 13 ]; then
   [ ! -d ${dir}/egs/misc ] && mkdir  ${dir}/egs/misc
   for lang_index in `seq 0 $[$num_langs-1]`;do
     lang_name=${lang_list[$lang_index]}
@@ -353,18 +353,21 @@ if [ $stage -le 17 ]; then
     cp $dir/init/${lang_name}_trans.mdl ${dir}/egs/misc/${lang_name}.trans_mdl
     ln -rs $dir/egs/info.txt $dir/egs/info_${lang_name}.txt
   done
+fi
+
+if [ $stage -le 14 ] then 
   echo "$0: Create a dummy transition model that is never used"
   first_lang_name=${lang_list[0]}
   [[ ! -f $dir/init/default_trans.mdl ]] && ln -r -s $dir/init/${first_lang_name}_trans.mdl $dir/init/default_trans.mdl
 fi
 
-if [ $stage -le 18 ]; then
+if [ $stage -le 15 ]; then
     echo "$0: Preparing initial acoustic model"
     $cmd ${dir}/log/init_model.log \
            nnet3-init --srand=${srand} ${dir}/configs/final.config ${dir}/init/multi.raw || exit 1
 fi
 
-if [ $stage -le 19 ]; then
+if [ $stage -le 16 ]; then
   echo "$0: Starting model training"
   steps/chain2/train.sh \
     --stage $train_stage --cmd "$train_cmd" \
@@ -380,7 +383,7 @@ if [ $stage -le 19 ]; then
      $common_egs_dir $dir
 fi
 
-if [ $stage -le 20 ]; then
+if [ $stage -le 17 ]; then
     echo "$0: Splitting models"
     frame_subsampling_factor=`fgrep "frame_subsampling_factor" $dir/init/info.txt | awk '{print $2}'`
     for lang_index in `seq 0 $[$num_langs-1]`;do
