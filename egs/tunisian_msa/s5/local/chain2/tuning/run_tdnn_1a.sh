@@ -316,6 +316,7 @@ if [ $stage -le 14 ]; then
     fi
   done
 fi
+exit
 
 if [ $stage -le 15 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
