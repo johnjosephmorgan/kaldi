@@ -15,6 +15,7 @@ get_egs_stage=-10
 gmm=models  # the gmm for the target data
 initial_effective_lrate=0.001
 label_delay=5
+lang2weight=(0.2, 0.8)
 langconf=local.conf
 langdir=data/lang
 max_param_change=2.0
@@ -120,7 +121,7 @@ for lang_index in `seq 0 $[$num_langs-1]`; do
   multi_lores_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train_sp
   multi_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train_sp_hires
   multi_ali_dirs[$lang_index]=exp/${lang_list[$lang_index]}/${alidir}_sp
-  multi_ivector_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3/ivectors_train_sp_hires_gb
+  multi_ivector_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3/ivectors_train
   multi_ali_treedirs[$lang_index]=exp/${lang_list[$lang_index]}/tree
   multi_ali_latdirs[$lang_index]=exp/${lang_list[$lang_index]}/chain/${gmm}_train_sp_lats
   multi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang
@@ -323,23 +324,24 @@ if [ $stage -le 15 ]; then
     steps/chain2/process_egs.sh  --cmd "$train_cmd" \
       ${dir}/${lang_name}_raw_egs \
       ${dir}/${lang_name}_processed_egs || exit 1
-    touch ${dir}/${lang_name}_processed_egs/.done
     #rm -r ${dir}/${lang_name}_raw_egs # save space
   done
 fi
 
 if [ $stage -le 16 ]; then
-    echo "$0: Combining egs"
-    if [ ! -z "$lang2weight" ]; then
-        egs_opts="--lang2weight '$lang2weight'"
-    fi
-    egs_dir_list=$(for lang_index in `seq 0 $[$num_langs-1]`;do lang_name=${lang_list[$lang_index]}; echo ${dir}/${lang_name}_processed_egs; done)
-
-    #steps/chain2/combine_egs.sh $egs_opts \
-    local/chain2/combine_egs.sh $egs_opts \
-        --cmd "$train_cmd" \
-        $num_langs $egs_dir_list ${dir}/egs
+  echo "$0: Combining egs"
+  if [ ! -z "$lang2weight" ]; then
+    egs_opts="--lang2weight '$lang2weight'"
+  fi
+  egs_dir_list=$(for lang_index in `seq 0 $[$num_langs-1]`;do lang_name=${lang_list[$lang_index]}; echo ${dir}/${lang_name}_processed_egs; done)
+  #steps/chain2/combine_egs.sh $egs_opts \
+  local/chain2/combine_egs.sh $egs_opts \
+    --cmd "$train_cmd" \
+    $num_langs \
+    $egs_dir_list \
+    ${dir}/egs
 fi
+
 [[ -z $common_egs_dir ]] && common_egs_dir=${dir}/egs
 
 if [ $stage -le 17 ]; then
