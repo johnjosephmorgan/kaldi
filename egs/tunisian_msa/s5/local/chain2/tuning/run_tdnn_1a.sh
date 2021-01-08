@@ -15,7 +15,8 @@ get_egs_stage=-10
 gmm=models  # the gmm for the target data
 initial_effective_lrate=0.001
 label_delay=5
-lang2weight=(0.2, 0.8)
+lang2weight[0]=0.2
+lang2weight[1]=0.8
 langconf=local.conf
 langdir=data/lang
 max_param_change=2.0
@@ -361,9 +362,9 @@ if [ $stage -le 14 ]; then
 fi
 
 if [ $stage -le 15 ]; then
-    echo "$0: Preparing initial acoustic model"
-    $cmd ${dir}/log/init_model.log \
-           nnet3-init --srand=${srand} ${dir}/configs/final.config ${dir}/init/multi.raw || exit 1
+  echo "$0: Preparing initial acoustic model"
+  $cmd ${dir}/log/init_model.log \
+    nnet3-init --srand=${srand} ${dir}/configs/final.config ${dir}/init/multi.raw || exit 1
 fi
 
 if [ $stage -le 16 ]; then
