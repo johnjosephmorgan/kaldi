@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright   2020   ARL (Author: John Morgan)
+# Copyright   2021   ARL (Author: John Morgan)
 # Apache 2.0.
 
 # This recipe builds an overlap Detection system on the rats_sad corpus.
@@ -13,9 +13,9 @@ nstage=0
 train_stage=0
 overlap_stage=0
 # Path where RATS_SAD gets downloaded (or where locally available):
-rats_sad_data_dir=/mnt/corpora/LDC2015S02/RATS_SAD/data
-nj=10
-decode_nj=8
+rats_sad_data_dir=/export/corpora5/LDC/LDC2015S02/data
+nj=50
+decode_nj=16
 test_sets="dev-1 dev-2 "
 affix=1a
 dir=exp/ovl_${affix}

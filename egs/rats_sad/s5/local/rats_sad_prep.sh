@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2020 ARL (Author: John Morgan)
+# Copyright 2021 ARL (Author: John Morgan)
 # Apache 2.0.
 
 # This script consolidates the information about each recording.
@@ -14,7 +14,7 @@ if [ $# -ne 1 ]; then
   echo "$0 <rats_sad_dir>"
   echo "<rats_sad_dir>: Source data location"
   echo "For example:"
-  echo "$0 /mnt/corpora/LDC2015S02/RATS_SAD/data"
+  echo "$0 /export/corpora5/LDC/LDC2015S02/data"
 echo "Output is written to data/local/annotations/{train,dev-1,dev-2}."
   exit 1;
 fi
