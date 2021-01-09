@@ -11,7 +11,7 @@ echo "$0 $@"  # Print the command line for logging
 set -e
 
 # Begin configuration section
-cmd=
+cmd=run.pl
 block_size=256
 stage=0
 frames_per_job=1500000  
