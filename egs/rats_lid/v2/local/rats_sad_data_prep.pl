@@ -22,7 +22,7 @@ while ( my $line=<> ) {
 		print $DEVTWO "$fields[1] $fields[8]\n";
 
     } else {
-	croak "$Problem with line $!";
+	croak "Problem with $line $!";
     }
 }
 close $TRAIN;
