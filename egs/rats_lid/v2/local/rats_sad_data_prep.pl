@@ -14,11 +14,11 @@ open my $DEVTWO, '+>', "data/dev-2/utt2lang" or croak "Problem writing file data
 my @fields = ();
 while ( my $line=<> ) {
     @fields = split /\t/, $line, 12;
-    if ( $fields[0] -eq 'train' ) {
+    if ( $fields[0] eq 'train' ) {
 	print $TRAIN "$fields[1] $fields[8]\n";
-	} elsif ( $fields[0] -eq 'dev-1' ) {
+	} elsif ( $fields[0] eq 'dev-1' ) {
 	    print $DEVONE "$fields[1] $fields[8]\n";
-	    } elsif ( $fields[0] -eq 'dev-2' ) {
+	    } elsif ( $fields[0] eq 'dev-2' ) {
 		print $DEVTWO "$fields[1] $fields[8]\n";
 
     } else {
