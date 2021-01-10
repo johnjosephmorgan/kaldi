@@ -24,4 +24,7 @@ while ( my $line=<> ) {
     } else {
 	croak "$Problem with line $!";
     }
-    
+}
+close $TRAIN;
+close $DEVONE;
+close $DEVTWO;
