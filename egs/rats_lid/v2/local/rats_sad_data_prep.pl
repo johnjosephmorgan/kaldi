@@ -11,8 +11,9 @@ open my $TRAIN, '+>', "data/train/utt2lang" or croak "Problem writing file data/
 open my $DEVONE, '+>', "data/dev-1/utt2lang" or croak "Problem writing file data/dev-1/utt2lang $!";
 open my $DEVTWO, '+>', "data/dev-2/utt2lang" or croak "Problem writing file data/dev-2/utt2lang $!";
 
+my @fields = ();
 while ( my $line=<> ) {
-    my @fields = split /\t/, $line, 12;
+    @fields = split /\t/, $line, 12;
     if ( $fields[0] -eq 'train' ) {
 	print $TRAIN "$fields[1] $fields[8]\n";
 	} elsif ( $fields[0] -eq 'dev-1' ) {
