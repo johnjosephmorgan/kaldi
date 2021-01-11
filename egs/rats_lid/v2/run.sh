@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-#!/usr/bin/env bash
-
 datadir=/mnt/corpora/LDC2015S02/RATS_SAD/data
 
 local/rats_sad_get_filenames.sh $datadir
