@@ -12,4 +12,3 @@ for f in dev-1 dev-2 train; do
 	done
     } < data/$f/utt2lang;
 done
-q
