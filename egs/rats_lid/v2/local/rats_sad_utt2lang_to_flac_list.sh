@@ -10,8 +10,7 @@ done
 for f in dev-1 dev-2 train; do
     {
 	while read line; do
-	    flacfile=$(find $dir -type f -name "${line}.flac")
-	    echo $flacfile >> data/$f/flac.txt
+	    find $dir -type f -name "${line}.flac"
 	done
-    } < data/$f/utt.txt;
+    } < data/$f/utt.txt  >> data/$f/flac.txt;
 done
