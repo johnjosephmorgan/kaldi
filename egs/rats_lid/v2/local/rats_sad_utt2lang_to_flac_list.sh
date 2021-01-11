@@ -7,7 +7,9 @@ for f in dev-1 dev-2 train; do
 done
 
 for f in dev-1 dev-2 train; do
-  rm data/$f/flac.txt
+  if [ -f data/$f/flac.txt ]; then
+    rm data/$f/flac.txt
+  fi
   {
     while read line; do
       find $dir -type f -name "${line}.flac"
