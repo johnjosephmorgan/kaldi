@@ -11,7 +11,7 @@ for f in dev-1 dev-2 train; do
     {
 	while read line; do
 	    flacfile=$(find $dir -type f -name "${line}.flac")
-	    printf -v out '%s sox %s -t wav - remix 1 |' "$line $flacfile"
+	    printf -v out '%s sox %s -t wav - remix 1 |' "$line, $flacfile"
 	    echo $out >> data/$f/wav.scp
 	done
     } < data/$f/utt.txt;
