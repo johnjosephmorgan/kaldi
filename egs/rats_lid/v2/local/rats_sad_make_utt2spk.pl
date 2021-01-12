@@ -9,7 +9,7 @@ use File::Basename;
 
 foreach my $f ( 'dev-1', 'dev-2', 'train' ) {
     open my $UTTS, '<', "data/$f/utt.txt" or croak "Problem with data/$f/utt.txt $!";
-    open my $UTTSKP, '+>', "data/$f/utt2spk" or croak "Problem with data/$f/utt2spk $!";
+    open my $UTTSPK, '+>', "data/$f/utt2spk" or croak "Problem with data/$f/utt2spk $!";
     # store the Utterance IDs
     my %utts = ();
     while ( my $line = <$UTTS> ) {
