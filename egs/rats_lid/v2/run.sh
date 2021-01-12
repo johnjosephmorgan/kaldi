@@ -11,15 +11,16 @@ stage=0
 if [ $stage -le 0 ]; then
   for f in train dev-1 dev-2; do
     mkdir -p data/$f
-    find $datadir/$f/sad -type f -name "*.tab" | xargs cat > data/$f.txt
-    cut -f 2,9 data/$f.txt > data/$f/utt2lang
+    find $datadir/$f/sad -type f -name "*.tab" | xargs cat > data/$f/annotation.txt
+    cut -f 2,9 data/$f/annotation.txt > data/$f/utt2lang
+    cut -f 1 data/$f/utt2lang > data/$f/utt.txt
   done
 fi
 
 if [ $stage -le 1 ]; then
-  for f in dev-1 dev-2 train; do
-    cut -f 2 data/$f.txt > data/$f/utt.txt
-    doned
+  for d in dev-1 dev-2 train; do
+    cut -f 2 data/$d/annotation.txt > data/$d/utt.txt
+  doned
 
   local/rats_sad_utt2lang_to_flac_list.sh $datadirr
 fi
