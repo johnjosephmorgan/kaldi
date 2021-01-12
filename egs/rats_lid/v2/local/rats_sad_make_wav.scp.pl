@@ -10,7 +10,7 @@ foreach my $f ( 'dev-1', 'dev-2', 'train' ) {
     open my $UTTS, '<', "data/$f/utt.txt" or croak "Problem with data/$f/utt.txt $!";
     open my $WAVSCP, '+>', "data/$f/wav.scp" or croak "Problem with data/$f/wav.scp $!";
     # store the flacs
-    my %flac = ();
+    my %flacs = ();
     while ( my $line = <$FLACS> ) {
 	chomp $line;
 	my $uid = basename $line, ".flac";
