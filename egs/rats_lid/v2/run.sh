@@ -23,6 +23,12 @@ if [ $stage -le 1 ]; then
   done
 fi
 
+if [ $stage -le 2 ]; then
+  for x in train dev-1 dev-2; do
+    local/rats_sad_mak_wav.scp.pl
+  done
+fi
+
   local/rats_sad_utt2lang_to_flac_list.sh $datadirr
 
 
