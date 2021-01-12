@@ -3,10 +3,6 @@
 dir=$1
 
 for f in dev-1 dev-2 train; do
-    cut -d " " -f 1 data/$f/utt2lang > data/$f/utt.txt
-done
-
-for f in dev-1 dev-2 train; do
   if [ -f data/$f/flac.txt ]; then
     rm data/$f/flac.txt
   fi
