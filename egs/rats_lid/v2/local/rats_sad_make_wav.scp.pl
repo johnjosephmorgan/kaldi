@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use Carp;
 
-use File:Basename;
+use File::Basename;
 
 foreach my $f ( 'dev-1', 'dev-2', 'train' ) {
     open my $FLACS, '<', "data/$f/flac.txt" or croak "Problem with data/$f/flac.txt $!";
