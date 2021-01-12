@@ -6,6 +6,7 @@ set -e
 
 datadir=/mnt/corpora/LDC2015S02/RATS_SAD/data
 stage=0
+. utils/parse_options.sh
 
 if [ $stage -le 0 ]; then
   local/rats_sad_get_filenames.sh $datadir
