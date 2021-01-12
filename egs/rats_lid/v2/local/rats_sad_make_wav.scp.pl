@@ -26,7 +26,7 @@ foreach my $f ( 'dev-1', 'dev-2', 'train' ) {
     close $UTTS;
     # Write the wav.scp
     foreach my $utt_id ( sort keys %utts ) {
-	print $WAVSCP "$utt sox $flacs{$utt_id} -t wav |\n";
+	print $WAVSCP "$utt_id sox $flacs{$utt_id} -t wav |\n";
     }
     close $WAVSCP;
 }
