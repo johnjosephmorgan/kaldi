@@ -11,7 +11,7 @@ stage=0
 if [ $stage -le 0 ]; then
   for f in train dev-1 dev-2; do
     mkdir -p data/$f
-    find $dir/$f/sad -type f -name "*.tab" | xargs cat > data/$f.txt
+    find $datadir/$f/sad -type f -name "*.tab" | xargs cat > data/$f.txt
     cut -f 2,9 data/$f.txt > data/$f/utt2lang
   done
 fi
