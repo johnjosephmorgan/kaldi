@@ -22,7 +22,6 @@ while ( my $line=<> ) {
 	    print $DEVONE "$fields[1] $fields[8]\n";
 	    } elsif ( $fields[0] eq 'dev-2' ) {
 		print $DEVTWO "$fields[1] $fields[8]\n";
-
     } else {
 	croak "Problem with $line $!";
     }
