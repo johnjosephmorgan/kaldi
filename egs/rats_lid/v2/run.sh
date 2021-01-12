@@ -13,6 +13,7 @@ if [ $stage -le 0 ]; then
     mkdir -p data/$f
     find $datadir/$f/sad -type f -name "*.tab" | xargs cat > data/$f.txt
     cut -f 2,9 data/$f.txt > data/$f/utt2lang
+    cut -f 2 data/$f.txt > data/$f/utt.txt
   done
 fi
 
