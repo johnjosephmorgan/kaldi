@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use Carp;
 
-foreach $f ( 'dev-1', 'dev-2', 'train' ) {
+foreach my $f ( 'dev-1', 'dev-2', 'train' ) {
     open my $FLACS, '<', "data/$f/flac.txt" or croak "Problem with data/$f/flac.txt $!";
     open my $UTTS, '<', "data/$f/utt.txt" or croak "Problem with data/$f/utt.txt $!";
     open my $WAVSCP, '+>', "data/$f/wav.scp" or croak "Problem with data/$f/wav.scp $!";
