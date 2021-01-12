@@ -18,12 +18,13 @@ if [ $stage -le 0 ]; then
 fi
 
 if [ $stage -le 1 ]; then
-  for d in dev-1 dev-2 train; do
-    cut -f 2 data/$d/annotation.txt > data/$d/utt.txt
-  doned
+  for d in train dev-1 dev-2; do
+    find $datadir/$d/audio -type f -name "*.flac" > data/$d/flac.txt
+  done
+fi
 
   local/rats_sad_utt2lang_to_flac_list.sh $datadirr
-fi
+
 
 if [ $stage -le 2 ]; then
     for f in dev-1 dev-2 train; do
