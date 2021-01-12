@@ -14,7 +14,7 @@ foreach my $f ( 'dev-1', 'dev-2', 'train' ) {
     while ( my $line = <$FLACS> ) {
 	chomp $line;
 	my $uid = basename $line, ".flac";
-	$flac{$uid} = line;
+	$flac{$uid} = $line;
     }
     close $FLACS;
     # store the utterances
