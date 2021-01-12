@@ -5,11 +5,6 @@ use strict;
 use warnings;
 use Carp;
 
-# make the directories
-system "mkdir -p data/dev-1";
-system "mkdir -p data/dev-2";
-system "mkdir -p data/train";
-
 open my $TRAIN, '+>', "data/train/utt2lang" or croak "Problem writing file data/train/utt2lang $!";
 open my $DEVONE, '+>', "data/dev-1/utt2lang" or croak "Problem writing file data/dev-1/utt2lang $!";
 open my $DEVTWO, '+>', "data/dev-2/utt2lang" or croak "Problem writing file data/dev-2/utt2lang $!";
