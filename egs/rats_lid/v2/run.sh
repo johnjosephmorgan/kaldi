@@ -27,15 +27,6 @@ if [ $stage -le 2 ]; then
   local/rats_sad_make_wav.scp.pl
 fi
 
-  local/rats_sad_utt2lang_to_flac_list.sh $datadirr
-
-
-if [ $stage -le 2 ]; then
-    for f in dev-1 dev-2 train; do
-	local/rats_sad_flac2wav.scp.pl data/$f/flac.txt
-    done
-fi
-
 if [ $stage -le 3 ]; then
   for f in dev-1 dev-2 train; do
     make_mfcc.sh --write-utt2num-frames true --mfcc-config conf/mfcc_hires.conf \
