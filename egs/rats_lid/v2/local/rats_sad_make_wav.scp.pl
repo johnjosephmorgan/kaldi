@@ -5,6 +5,8 @@ use strict;
 use warnings;
 use Carp;
 
+use File:Basename;
+
 foreach my $f ( 'dev-1', 'dev-2', 'train' ) {
     open my $FLACS, '<', "data/$f/flac.txt" or croak "Problem with data/$f/flac.txt $!";
     open my $UTTS, '<', "data/$f/utt.txt" or croak "Problem with data/$f/utt.txt $!";
@@ -13,7 +15,7 @@ foreach my $f ( 'dev-1', 'dev-2', 'train' ) {
     my %flacs = ();
     while ( my $line = <$FLACS> ) {
 	chomp $line;
-	my $uid = basename $line, ".flac";
+	my $uid = basename $line, '.flac';
 	$flacs{$uid} = $line;
     }
     close $FLACS;
