@@ -26,6 +26,7 @@ foreach my $f ( 'dev-1', 'dev-2', 'train' ) {
     while ( my $line = <$UTTLANG> ) {
 	chomp $line;
 	my ($utt,$lang) = split /\s/, $line, 2;
+	$utt = $utt . $lang;
 	$lang{$utt} = $lang;
 	$utts{$line} = 1;
     }
