@@ -19,7 +19,7 @@ my @folds = ( 'dev-1', 'dev-2', 'train' );
 
 foreach my $f ( @folds ) {
     open my $FLACS, '<', "data/$f/flac.txt" or croak "Problem with data/$f/flac.txt $!";
-    open my $UTTLANG, '<', "data/$f/utt2lang.txt" or croak "Problem with data/$f/utt2lang.txt $!";
+    open my $UTTLANGIN, '<', "data/$f/utt2lang.txt" or croak "Problem with data/$f/utt2lang.txt $!";
     open my $WAVSCP, '+>', "data/$f/wav.scp" or croak "Problem with data/$f/wav.scp $!";
     open my $UTTSPK, '+>', "data/$f/utt2spk" or croak "Problem with data/$f/utt2spk $!";
     open my $UTTLANG, '+>', "data/$f/utt2lang" or croak "Problem with data/$f/utt2lang $!";
@@ -36,7 +36,7 @@ foreach my $f ( @folds ) {
     # store the utterance and language IDs
     my %utts = ();
     my %lang = ();
-    while ( my $line = <$UTTLANG> ) {
+    while ( my $line = <$UTTLANGIN> ) {
 	chomp $line;
 	my ($utt,$lang) = split /\s/, $line, 2;
 	$lang{$utt} = $lang;
