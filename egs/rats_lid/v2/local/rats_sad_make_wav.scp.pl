@@ -27,7 +27,7 @@ foreach my $f ( 'dev-1', 'dev-2', 'train' ) {
 	chomp $line;
 	my ($utt,$lang) = split /\s/, $line, 2;
 	$lang{$utt} = $lang;
-	$utts{$line} = 1;
+	$utts{$utt} = 1;
     }
     close $UTTLANG;
     # Write the wav.scp
