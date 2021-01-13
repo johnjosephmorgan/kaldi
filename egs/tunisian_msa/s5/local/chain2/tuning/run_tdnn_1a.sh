@@ -1,6 +1,8 @@
 #!/bin/bash
+
 set -e -o pipefail
 
+# Start setting variable
 alidir=alignments
 chunk_width=150
 cmd=run.pl
@@ -15,12 +17,9 @@ get_egs_stage=-10
 gmm=models  # the gmm for the target data
 initial_effective_lrate=0.001
 label_delay=5
-lang2weight[0]=0.2
-lang2weight[1]=0.8
 langconf=local.conf
 langdir=data/lang
 max_param_change=2.0
-megs_dir=
 nj=30
 num_jobs_final=2
 num_jobs_initial=2
@@ -36,7 +35,7 @@ xent_regularize=0.01
 . ./cmd.sh
 . ./utils/parse_options.sh
 
-[ ! -f $langconf ] && echo 'Language configuration does not exist! Use the configurations in conf/lang/* as a startup' && exit 1;
+[ ! -f $langconf ] && echo 'Language configuration does not exist! ' && exit 1;
 . $langconf || exit 1;
 
 [ ! -f local.conf ] && echo 'the file local.conf does not exist!' && exit 1;
@@ -52,6 +51,7 @@ where "nvcc" is installed.
 EOF
 fi
 
+# Check that input files exist
 for lang_index in `seq 0 $[$num_langs-1]`; do
   for f in data/${lang_list[$lang_index]}/train/{feats.scp,text} exp/${lang_list[$lang_index]}/$alidir/ali.1.gz exp/${lang_list[$lang_index]}/$alidir/tree; do
     [ ! -f $f ] && echo "$0: no such file $f" && exit 1;
