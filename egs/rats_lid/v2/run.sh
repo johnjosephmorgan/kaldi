@@ -4,7 +4,8 @@
 . ./path.sh
 set -e
 
-datadir=/mnt/corpora/LDC2015S02/RATS_SAD/data
+#datadir=/mnt/corpora/LDC2015S02/RATS_SAD/data
+datadir=/export/corpora5/LDC/LDC2015S02/RATS_SAD/data
 stage=0
 . utils/parse_options.sh
 
