@@ -14,8 +14,8 @@ if [ $stage -le 0 ]; then
     mkdir -p data/$f
     find $datadir/$f/sad -type f -name "*.tab" | xargs cat > \
       data/$f/annotation.txt
-    cut -f 2,9 data/$f/annotation.txt | sort -gu > data/$f/utt2spk
-    cut -f 1 data/$f/utt2spk | sort -gu > data/$f/utt.txt
+    cut -f 2,9 data/$f/annotation.txt | sort -hu > data/$f/utt2spk
+    cut -f 1 data/$f/utt2spk | sort -hu > data/$f/utt.txt
   done
 fi
 
