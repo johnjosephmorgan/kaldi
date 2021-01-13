@@ -9,7 +9,7 @@ use File::Basename;
 
 foreach my $f ( 'dev-1', 'dev-2', 'train' ) {
     open my $FLACS, '<', "data/$f/flac.txt" or croak "Problem with data/$f/flac.txt $!";
-    open my $UTTLANG, '<', "data/$f/utt2lang" or croak "Problem with data/$f/utt2lang $!";
+    open my $UTTLANG, '<', "data/$f/uttlang.txt" or croak "Problem with data/$f/uttlang.txt $!";
     open my $WAVSCP, '+>', "data/$f/wav.scp" or croak "Problem with data/$f/wav.scp $!";
         open my $UTTSPK, '+>', "data/$f/utt2spk" or croak "Problem with data/$f/utt2spk $!";
     # store the flacs
