@@ -32,7 +32,7 @@ fi
 # Write supervision files. 
 if [ $stage -le 2 ]; then
   echo "$0: Writing supervision files."
-  local/rats_sad_make_supervision.scp.pl
+  local/rats_sad_make_supervision.pl
 fi
 
 if [ $stage -le 3 ]; then
