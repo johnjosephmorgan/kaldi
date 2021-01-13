@@ -11,7 +11,8 @@ stage=0
 if [ $stage -le 0 ]; then
   for f in train dev-1 dev-2; do
     mkdir -p data/$f
-    find $datadir/$f/sad -type f -name "*.tab" | xargs cat > data/$f/annotation.txt
+    find $datadir/$f/sad -type f -name "*.tab" | xargs cat | sort -u > \
+      data/$f/annotation.txt
     cut -f 2,9 data/$f/annotation.txt > data/$f/utt2spk
     cut -f 1 data/$f/utt2spk > data/$f/utt.txt
   done
