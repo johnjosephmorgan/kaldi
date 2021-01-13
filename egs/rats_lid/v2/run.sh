@@ -36,7 +36,6 @@ fi
 
 if [ $stage -le 4 ]; then
   for f in dev-1 dev-2 train; do
-    utils/fix_data_dir.sh data/$f
     steps/make_mfcc.sh --write-utt2num-frames true --mfcc-config conf/mfcc_hires.conf \
       --nj 40 --cmd "$train_cmd" data/$f
     utils/fix_data_dir.sh data/$f
