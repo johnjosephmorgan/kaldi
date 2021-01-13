@@ -52,3 +52,9 @@ if [ $stage -le 4 ]; then
     utils/fix_data_dir.sh data/$f
   done
 fi
+
+if [ $stage -le 5 ]; then
+  local/nnet3/xvector/prepare_feats_for_egs.sh --nj 40 --cmd "$train_cmd" \
+    data/train data/train_no_sil exp/train_no_sil
+  utils/fix_data_dir.sh data/train_no_sil
+fi
