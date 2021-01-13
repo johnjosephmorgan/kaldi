@@ -33,7 +33,7 @@ foreach my $f ( 'dev-1', 'dev-2', 'train' ) {
     # Write the wav.scp
     foreach my $utt_id ( sort keys %utts ) {
 	print $WAVSCP "$utt_id sox $flacs{$utt_id} -t wav |\n";
-	print $UTTSPK "$utt_id $lang{$utt_id}";
+	print $UTTSPK "$utt_id $lang{$utt_id}\n";
     }
     close $WAVSCP;
     close $UTTSPK;
