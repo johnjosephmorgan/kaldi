@@ -14,8 +14,7 @@ if [ $stage -le 0 ]; then
     mkdir -p data/$f
     find $datadir/$f/sad -type f -name "*.tab" | xargs cat > \
       data/$f/annotation.txt
-    cut -f 2,9 data/$f/annotation.txt | sed s/\_/\-/g > data/$f/utt2spk
-    cut -f 1 data/$f/utt2spk > data/$f/utt.txt
+    cut -f 2,9 data/$f/annotation.txt | sed s/\_/\-/g > data/$f/utt2lang
   done
 fi
 
@@ -37,7 +36,6 @@ fi
 
 if [ $stage -le 4 ]; then
   for f in dev-1 dev-2 train; do
-    sort -Vu -o data/$f/wav.scp data/$f/wav.scp
     utils/fix_data_dir.sh data/$f
     steps/make_mfcc.sh --write-utt2num-frames true --mfcc-config conf/mfcc_hires.conf \
       --nj 40 --cmd "$train_cmd" data/$f
