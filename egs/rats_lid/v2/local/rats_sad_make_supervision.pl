@@ -19,11 +19,6 @@ my @folds = ( 'dev-1', 'dev-2', 'train' );
 
 foreach my $f ( @folds ) {
     open my $FLACS, '<', "data/$f/flac.txt" or croak "Problem with data/$f/flac.txt $!";
-    open my $UTTLANGIN, '<', "data/$f/utt2lang.txt" or croak "Problem with data/$f/utt2lang.txt $!";
-    open my $WAVSCP, '+>', "data/$f/wav.scp" or croak "Problem with data/$f/wav.scp $!";
-    open my $UTTSPK, '+>', "data/$f/utt2spk" or croak "Problem with data/$f/utt2spk $!";
-    open my $UTTLANG, '+>', "data/$f/utt2lang" or croak "Problem with data/$f/utt2lang $!";
-
     # store the flacs
     my %flacs = ();
     while ( my $line = <$FLACS> ) {
@@ -33,6 +28,7 @@ foreach my $f ( @folds ) {
     }
     close $FLACS;
 
+    open my $UTTLANGIN, '<', "data/$f/utt2lang.txt" or croak "Problem with data/$f/utt2lang.txt $!";
     # store the utterance and language IDs
     my %utts = ();
     my %lang = ();
@@ -42,8 +38,11 @@ foreach my $f ( @folds ) {
 	$lang{$utt} = $lang;
 	$utts{$utt} = 1;
     }
-    close $UTTLANG;
+    close $UTTLANGIN;
 
+    open my $WAVSCP, '+>', "data/$f/wav.scp" or croak "Problem with data/$f/wav.scp $!";
+    open my $UTTSPK, '+>', "data/$f/utt2spk" or croak "Problem with data/$f/utt2spk $!";
+    open my $UTTLANG, '+>', "data/$f/utt2lang" or croak "Problem with data/$f/utt2lang $!";
     # Write the utt2spk, utt2lang and wav.scp
     foreach my $utt_id ( keys %utts ) {
 	# Notice that we prepend the language id to the utt id
@@ -53,4 +52,5 @@ foreach my $f ( @folds ) {
     }
     close $WAVSCP;
     close $UTTSPK;
+    close $UTTLANG;
 }
