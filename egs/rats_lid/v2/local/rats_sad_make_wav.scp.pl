@@ -26,15 +26,14 @@ foreach my $f ( 'dev-1', 'dev-2', 'train' ) {
     while ( my $line = <$UTTLANG> ) {
 	chomp $line;
 	my ($utt,$lang) = split /\s/, $line, 2;
-	$utt = $utt . $lang;
 	$lang{$utt} = $lang;
 	$utts{$line} = 1;
     }
     close $UTTLANG;
     # Write the wav.scp
     foreach my $utt_id ( sort keys %utts ) {
-	print $WAVSCP "$utt_id sox $flacs{$utt_id} -t wav |\n";
-	print $UTTSPK "$utt_id $lang{$utt_id}\n";
+	print $WAVSCP "$lang{$utt_id}${utt_id} sox $flacs{$utt_id} -t wav |\n";
+	print $UTTSPK "$lang{$utt_id}$utt_id $lang{$utt_id}\n";
     }
     close $WAVSCP;
     close $UTTSPK;
