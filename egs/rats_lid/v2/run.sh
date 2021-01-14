@@ -6,6 +6,7 @@ set -e
 
 #datadir=/mnt/corpora/LDC2015S02/RATS_SAD/data
 datadir=/export/corpora5/LDC/LDC2015S02/data
+nnet_dir=exp/xvector_nnet_1a
 stage=0
 . utils/parse_options.sh
 
@@ -84,4 +85,10 @@ if [ $stage -le 6 ]; then
 
   # Now we're ready to create training examples.
   utils/fix_data_dir.sh data/train_no_sil
+fi
+
+if [ $stage -le 7 ]; then
+local/nnet3/xvector/run_xvector.sh --stage $stage --train-stage -1 \
+  --data data/train_no_sil --nnet-dir $nnet_dir \
+  --egs-dir $nnet_dir/egs
 fi
