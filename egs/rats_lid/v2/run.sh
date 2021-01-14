@@ -92,3 +92,15 @@ local/nnet3/xvector/run_xvector.sh --stage $stage --train-stage -1 \
   --data data/train_no_sil --nnet-dir $nnet_dir \
   --egs-dir $nnet_dir/egs
 fi
+
+if [ $stage -le 10 ]; then
+  # Extract x-vectors for centering, LDA, and PLDA training.
+  sid/nnet3/xvector/extract_xvectors.sh --cmd "$train_cmd --mem 4G" --nj 5 \
+    $nnet_dir data/train \
+    $nnet_dir/xvectors_train
+
+  # Extract x-vectors used in the evaluation.
+  sid/nnet3/xvector/extract_xvectors.sh --cmd "$train_cmd --mem 4G" --nj 3 \
+    $nnet_dir data/dev-1 \
+    $nnet_dir/xvectors_dev-1
+fi
