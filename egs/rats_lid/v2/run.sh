@@ -74,7 +74,7 @@ if [ $stage -le 6 ]; then
   # We also want several utterances per speaker. Now we'll throw out speakers
   # with fewer than 8 utterances.
   min_num_utts=8
-  awk '{print $1, NF-1}' data/train_combined_no_sil/spk2utt > data/train_combined_no_sil/spk2num
+  awk '{print $1, NF-1}' data/train_no_sil/spk2utt > data/train_no_sil/spk2num
   awk -v min_num_utts=${min_num_utts} '$2 >= min_num_utts {print $1, $2}' data/train_no_sil/spk2num | utils/filter_scp.pl - data/train_no_sil/spk2utt > data/train_no_sil/spk2utt.new
   mv data/train_no_sil/spk2utt.new data/train_no_sil/spk2utt
   utils/spk2utt_to_utt2spk.pl data/train_no_sil/spk2utt > data/train_no_sil/utt2spk
