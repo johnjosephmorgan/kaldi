@@ -5,6 +5,7 @@
 set -e
 
 datadir=/mnt/corpora/LDC2015S02/RATS_SAD/data
+#datadir=/export/corpora5/LC/LDC2015S02/data
 nnet_dir=exp/xvector_nnet_1a
 stage=0
 . utils/parse_options.sh
