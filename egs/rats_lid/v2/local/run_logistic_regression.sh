@@ -76,13 +76,17 @@ cat $train_dir/posteriors | \
 
 # note: we treat the language as a sentence; it happens that the WER/SER
 # corresponds to the recognition error rate.
+echo "$0: Computing Word Error Rate."
 compute-wer --mode=present --text ark:<(lid/remove_dialect.pl $train_utt2lang) \
   ark:$train_dir/output
 
-# Evaluate on test data. 
+# Evaluate on test data.
+echo "$0: Evaluate on test data?"
 logistic-regression-eval --apply-log=$apply_log $model_rebalanced \
-  "$test_ivectors" ark,t:$test_dir/posteriors
+  "$test_ivectors" \
+  ark,t:$test_dir/posteriors
 
+echo "$0: Write test output."
 cat $test_dir/posteriors | \
   awk '{max=$3; argmax=3; for(f=3;f<NF;f++) { if ($f>max) 
                           { max=$f; argmax=f; }}  
@@ -90,5 +94,6 @@ cat $test_dir/posteriors | \
   utils/int2sym.pl -f 2 $languages \
     >$test_dir/output
 
+echo "$0: Compute Word Error Rate for test data."
 compute-wer --text ark:<(lid/remove_dialect.pl $test_utt2lang) \
   ark:$test_dir/output
