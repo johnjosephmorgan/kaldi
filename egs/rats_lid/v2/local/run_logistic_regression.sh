@@ -50,8 +50,11 @@ utils/sym2int.pl -f 2 $languages \
 #    $prior_scale \
 #    $model_dir/priors.vec
 
-logistic-regression-train --config=$conf $train_xvectors \
-  "$classes" $model \
+echo "$0: Train model."
+logistic-regression-train --config=$conf \
+  "$train_xvectors" \
+  "$classes" \
+  $model \
   2>$model_dir/log/logistic_regression.log
 
 #logistic-regression-copy --scale-priors=$model_dir/priors.vec \
