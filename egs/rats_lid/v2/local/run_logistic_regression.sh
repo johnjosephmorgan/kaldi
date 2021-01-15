@@ -66,6 +66,7 @@ echo "$0: Rebalancing."
 logistic-regression-eval --apply-log=$apply_log $model \
   "$train_xvectors" ark,t:$train_dir/posteriors
 
+echo "$0: Write output."
 cat $train_dir/posteriors | \
   awk '{max=$3; argmax=3; for(f=3;f<NF;f++) { if ($f>max) 
     { max=$f; argmax=f; }}  
