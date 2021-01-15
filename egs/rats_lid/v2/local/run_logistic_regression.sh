@@ -57,17 +57,19 @@ logistic-regression-train --config=$conf \
   $model \
   2>$model_dir/log/logistic_regression.log
 
+echo "$0: Rebalancing."
 #logistic-regression-copy --scale-priors=$model_dir/priors.vec \
     logistic-regression-copy --scale-priors=$model_dir/inv_priors.vec \
    $model $model_rebalanced
 
+    echo "$0: Evaluate."
 logistic-regression-eval --apply-log=$apply_log $model \
   "$train_xvectors" ark,t:$train_dir/posteriors
 
 cat $train_dir/posteriors | \
   awk '{max=$3; argmax=3; for(f=3;f<NF;f++) { if ($f>max) 
-                          { max=$f; argmax=f; }}  
-                          print $1, (argmax - 3); }' | \
+    { max=$f; argmax=f; }}  
+    print $1, (argmax - 3); }' | \
   utils/int2sym.pl -f 2 $languages \
     >$train_dir/output
 
