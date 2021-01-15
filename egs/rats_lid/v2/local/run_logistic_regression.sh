@@ -82,8 +82,9 @@ compute-wer --mode=present --text ark:<(lid/remove_dialect.pl $train_utt2lang) \
 
 # Evaluate on test data.
 echo "$0: Evaluate on test data?"
-logistic-regression-eval --apply-log=$apply_log $model_rebalanced \
-  "$test_ivectors" \
+logistic-regression-eval --apply-log=$apply_log \
+  $model_rebalanced \
+  "$test_xvectors" \
   ark,t:$test_dir/posteriors
 
 echo "$0: Write test output."
