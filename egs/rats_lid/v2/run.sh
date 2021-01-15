@@ -128,3 +128,30 @@ if [ $stage -le 13 ]; then
     "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_train/xvector.scp ark:- | transform-vec $nnet_dir/xvectors_train/transform.mat ark:- ark:- | ivector-normalize-length ark:-  ark:- |" \
     $nnet_dir/xvectors_train/plda || exit 1;
 fi
+
+if [ $stage -le 14 ]; then
+  echo "$0: Scoring."
+  $train_cmd exp/scores/log/dev-1_scoring.log \
+    ivector-plda-scoring --normalize-length=true \
+    "ivector-copy-plda --smoothing=0.0 $nnet_dir/xvectors_train/plda - |" \
+    "ark:ivector-subtract-global-mean $nnet_dir/xvectors_train/mean.vec scp:$nnet_dir/xvectors_dev-1/xvector.scp ark:- | transform-vec $nnet_dir/xvectors_train/transform.mat ark:- ark:- | ivector-normalize-length ark:- ark:- |" \
+    "ark:ivector-subtract-global-mean $nnet_dir/xvectors_train/mean.vec scp:$nnet_dir/xvectors_dev-1/xvector.scp ark:- | transform-vec $nnet_dir/xvectors_train/transform.mat ark:- ark:- | ivector-normalize-length ark:- ark:- |" \
+    "cat '$voxceleb1_trials' | cut -d\  --fields=1,2 |" exp/scores_voxceleb1_test || exit 1;
+fi
+
+if [ $stage -le 12 ]; then
+  eer=`compute-eer <(local/prepare_for_eer.py $voxceleb1_trials exp/scores_voxceleb1_test) 2> /dev/null`
+  mindcf1=`sid/compute_min_dcf.py --p-target 0.01 exp/scores_voxceleb1_test $voxceleb1_trials 2> /dev/null`
+  mindcf2=`sid/compute_min_dcf.py --p-target 0.001 exp/scores_voxceleb1_test $voxceleb1_trials 2> /dev/null`
+  echo "EER: $eer%"
+  echo "minDCF(p-target=0.01): $mindcf1"
+  echo "minDCF(p-target=0.001): $mindcf2"
+  # EER: 3.128%
+  # minDCF(p-target=0.01): 0.3258
+  # minDCF(p-target=0.001): 0.5003
+  #
+  # For reference, here's the ivector system from ../v1:
+  # EER: 5.329%
+  # minDCF(p-target=0.01): 0.4933
+  # minDCF(p-target=0.001): 0.6168
+fi
