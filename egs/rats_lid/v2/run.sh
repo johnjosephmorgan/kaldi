@@ -4,8 +4,7 @@
 . ./path.sh
 set -e
 
-#datadir=/mnt/corpora/LDC2015S02/RATS_SAD/data
-datadir=/export/corpora5/LDC/LDC2015S02/data
+datadir=/mnt/corpora/LDC2015S02/RATS_SAD/data
 nnet_dir=exp/xvector_nnet_1a
 stage=0
 . utils/parse_options.sh
@@ -134,8 +133,9 @@ if [ $stage -le 14 ]; then
       "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_train/xvector.scp ark:- | transform-vec $nnet_dir/xvectors_train/transform.mat ark:- ark:- | ivector-normalize-length ark:-  ark:- |" \
       $nnet_dir/xvectors_train/plda || exit 1;
 fi
+exit
 
-if [ $stage -le 14 ]; then
+if [ $stage -le 15 ]; then
   echo "$0: Scoring."
   $train_cmd exp/scores/log/dev-1_scoring.log \
     ivector-plda-scoring --normalize-length=true \
@@ -145,7 +145,7 @@ if [ $stage -le 14 ]; then
     "cat '$voxceleb1_trials' | cut -d\  --fields=1,2 |" exp/scores_voxceleb1_test || exit 1;
 fi
 
-if [ $stage -le 12 ]; then
+if [ $stage -le 16 ]; then
   eer=`compute-eer <(local/prepare_for_eer.py $voxceleb1_trials exp/scores_voxceleb1_test) 2> /dev/null`
   mindcf1=`sid/compute_min_dcf.py --p-target 0.01 exp/scores_voxceleb1_test $voxceleb1_trials 2> /dev/null`
   mindcf2=`sid/compute_min_dcf.py --p-target 0.001 exp/scores_voxceleb1_test $voxceleb1_trials 2> /dev/null`
