@@ -1,5 +1,7 @@
 #!/usr/bin/env perl
+use strict;
 use warnings; #sed replacement for -w perl parameter
+use Carp;
 # Copyright 2014 David Snyder
 # Apache 2.0.
 #

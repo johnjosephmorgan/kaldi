@@ -35,20 +35,20 @@ test_xvectors="ark:ivector-normalize-length \
 classes="ark:lid/remove_dialect.pl $train_utt2lang \
          | utils/sym2int.pl -f 2 $languages - |"
 # A uniform prior.
-#utils/sym2int.pl -f 2 $languages \
-#  <(lid/remove_dialect.pl $train_utt2lang) | \
-#  awk '{print $2}' | sort -n | uniq -c | \
-#  awk 'BEGIN{printf(" [ ");} {printf("%s ", 1.0/$1); } END{print(" ]"); }' \
-#   >$model_dir/inv_priors.vec
+utils/sym2int.pl -f 2 $languages \
+  <(lid/remove_dialect.pl $train_utt2lang) | \
+  awk '{print $2}' | sort -n | uniq -c | \
+  awk 'BEGIN{printf(" [ ");} {printf("%s ", 1.0/$1); } END{print(" ]"); }' \
+   >$model_dir/inv_priors.vec
 # Create priors to rebalance the model. The following script rebalances
 # the languages as ( count(lang_test) / count(lang_train) )^(prior_scale).
-lid/balance_priors_to_test.pl \
-    <(lid/remove_dialect.pl <(utils/filter_scp.pl -f 1 \
-        $train_dir/xvector.scp $train_utt2lang)) \
-    <(lid/remove_dialect.pl $test_utt2lang) \
-    $languages \
-    $prior_scale \
-    $model_dir/priors.vec
+#lid/balance_priors_to_test.pl \
+#    <(lid/remove_dialect.pl <(utils/filter_scp.pl -f 1 \
+#        $train_dir/xvector.scp $train_utt2lang)) \
+#    <(lid/remove_dialect.pl $test_utt2lang) \
+#    $languages \
+#    $prior_scale \
+#    $model_dir/priors.vec
 
 logistic-regression-train --config=$conf "$train_ivectors" \
                           "$classes" $model \
