@@ -122,11 +122,17 @@ if [ $stage -le 12 ]; then
 fi
 
 if [ $stage -le 13 ]; then
+  echo "$0: Evaluate with Logistic Regression."
+  local/run_logistic_regression.sh
+fi
+
+if [ $stage -le 14 ]; then
   echo "$0: Train the PLDA model."
   $train_cmd $nnet_dir/xvectors_train/log/plda.log \
-    ivector-compute-plda ark:data/train/spk2utt \
-    "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_train/xvector.scp ark:- | transform-vec $nnet_dir/xvectors_train/transform.mat ark:- ark:- | ivector-normalize-length ark:-  ark:- |" \
-    $nnet_dir/xvectors_train/plda || exit 1;
+    ivector-compute-plda \
+      ark:data/train/spk2utt \
+      "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_train/xvector.scp ark:- | transform-vec $nnet_dir/xvectors_train/transform.mat ark:- ark:- | ivector-normalize-length ark:-  ark:- |" \
+      $nnet_dir/xvectors_train/plda || exit 1;
 fi
 
 if [ $stage -le 14 ]; then
