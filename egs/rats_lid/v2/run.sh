@@ -140,6 +140,22 @@ if [ $stage -le 14 ]; then
 fi
 
 if [ $stage -le 15 ]; then
+  $train_cmd $nnet_dir/xvectors_dev-1/log/plda.log \
+    ivector-compute-plda \
+      ark:data/dev-1/spk2utt \
+      "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_dev-1/xvector.scp ark:- | transform-vec $nnet_dir/xvectors_dev-1/transform.mat ark:- ark:- | ivector-normalize-length ark:-  ark:- |" \
+      $nnet_dir/xvectors_dev-1/plda || exit 1;
+fi
+
+if [ $stage -le 16 ]; then
+  $train_cmd $nnet_dir/xvectors_dev-2/log/plda.log \
+    ivector-compute-plda \
+      ark:data/dev-2/spk2utt \
+      "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_dev-2/xvector.scp ark:- | transform-vec $nnet_dir/xvectors_dev-2/transform.mat ark:- ark:- | ivector-normalize-length ark:-  ark:- |" \
+      $nnet_dir/xvectors_dev-2/plda || exit 1;
+fi
+
+if [ $stage -le 17 ]; then
     echo "$0: Scoring."
   diarization/nnet3/xvector/score_plda.sh --cmd "$train_cmd --mem 4G" \
     --nj 20 \
