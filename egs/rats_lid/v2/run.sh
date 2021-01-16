@@ -169,8 +169,9 @@ if [ $stage -le 17 ]; then
 fi
 
 if [ $stage -le 18 ]; then
-    echo "$0: Scoring."
-  diarization/nnet3/xvector/score_plda.sh --cmd "$train_cmd --mem 4G" \
+  echo "$0: Scoring."
+  cp data/train/spk2utt $nnet_dir/xvectors_train/plda
+  local/score_plda.sh --cmd "$train_cmd --mem 4G" \
     --nj 20 \
     $nnet_dir/xvectors_train/plda \
     $nnet_dir/xvectors_dev-1 \
