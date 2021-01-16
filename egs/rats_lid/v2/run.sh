@@ -159,8 +159,8 @@ if [ $stage -le 16 ]; then
       $nnet_dir/xvectors_dev-1/plda || exit 1;
 fi
 
-if [ $stage -le 18 ]; then
-  echo "$: PLDA on dev-2."
+if [ $stage -le 17 ]; then
+  echo "$0: PLDA on dev-2."
   $train_cmd $nnet_dir/xvectors_dev-2/log/plda.log \
     ivector-compute-plda \
       ark:data/dev-2/spk2utt \
@@ -168,7 +168,7 @@ if [ $stage -le 18 ]; then
       $nnet_dir/xvectors_dev-2/plda || exit 1;
 fi
 
-if [ $stage -le 19 ]; then
+if [ $stage -le 18 ]; then
     echo "$0: Scoring."
   diarization/nnet3/xvector/score_plda.sh --cmd "$train_cmd --mem 4G" \
     --nj 20 \
@@ -177,8 +177,7 @@ if [ $stage -le 19 ]; then
     $nnet_dir/xvectors_rats_sad/plda_scores
 fi
 
-if [ $stage -le 15 ]; then
+if [ $stage -le 19 ]; then
   echo "$0: Evaluate with Logistic Regression."
   local/run_logistic_regression.sh
 fi
-
