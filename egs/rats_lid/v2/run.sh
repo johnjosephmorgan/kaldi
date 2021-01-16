@@ -114,7 +114,8 @@ if [ $stage -le 11 ]; then
   for f in dev-1 dev-2 train; do
     $train_cmd $nnet_dir/xvectors_${f}/log/compute_mean.log \
     ivector-mean scp:$nnet_dir/xvectors_${f}/xvector.scp \
-    $nnet_dir/xvectors_${f}/mean.vec || exit 1;
+      $nnet_dir/xvectors_${f}/mean.vec || exit 1;
+  done
 fi
 
 lda_dim=200
