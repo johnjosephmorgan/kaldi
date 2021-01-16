@@ -103,6 +103,10 @@ if [ $stage -le 10 ]; then
   sid/nnet3/xvector/extract_xvectors.sh --cmd "$train_cmd --mem 4G" --nj 3 \
     $nnet_dir data/dev-1 \
     $nnet_dir/xvectors_dev-1
+
+  sid/nnet3/xvector/extract_xvectors.sh --cmd "$train_cmd --mem 4G" --nj 3 \
+    $nnet_dir data/dev-2 \
+    $nnet_dir/xvectors_dev-2
 fi
 
 if [ $stage -le 11 ]; then
@@ -134,12 +138,13 @@ if [ $stage -le 14 ]; then
       "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_train/xvector.scp ark:- | transform-vec $nnet_dir/xvectors_train/transform.mat ark:- ark:- | ivector-normalize-length ark:-  ark:- |" \
       $nnet_dir/xvectors_train/plda || exit 1;
 fi
-exit
+
 
 if [ $stage -le 15 ]; then
     echo "$0: Scoring."
   diarization/nnet3/xvector/score_plda.sh --cmd "$train_cmd --mem 4G" \
-    --nj 20 $nnet_dir/xvectors_dev-1 \
+    --nj 20 \
+    $nnet_dir/xvectors_dev-1 \
     $nnet_dir/xvectors_dev-2 \
     $nnet_dir/xvectors_rats_sad/plda_scores
 fi
