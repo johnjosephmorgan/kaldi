@@ -116,9 +116,9 @@ if [ $stage -le 11 ]; then
     $nnet_dir/xvectors_train/mean.vec || exit 1;
 fi
 
+lda_dim=200
 if [ $stage -le 12 ]; then
   echo "$0: Use LDA to decrease the dimensionality prior to PLDA."
-  lda_dim=200
   $train_cmd $nnet_dir/xvectors_train/log/lda.log \
     ivector-compute-lda --total-covariance-factor=0.0 --dim=$lda_dim \
     "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_train/xvector.scp ark:- |" \
@@ -126,11 +126,22 @@ if [ $stage -le 12 ]; then
 fi
 
 if [ $stage -le 13 ]; then
-  echo "$0: Evaluate with Logistic Regression."
-  local/run_logistic_regression.sh
+  echo "$0 Do LDA on dev-1."
+  $train_cmd $nnet_dir/xvectors_dev-1/log/lda.log \
+    ivector-compute-lda --total-covariance-factor=0.0 --dim=$lda_dim \
+    "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_dev-1/xvector.scp ark:- |" \
+    ark:data/dev-1/utt2spk $nnet_dir/xvectors_dev-1/transform.mat || exit 1;
 fi
 
 if [ $stage -le 14 ]; then
+  echo "$0 Do LDA on dev-2."
+  $train_cmd $nnet_dir/xvectors_dev-2/log/lda.log \
+    ivector-compute-lda --total-covariance-factor=0.0 --dim=$lda_dim \
+    "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_dev-2/xvector.scp ark:- |" \
+    ark:data/dev-2/utt2spk $nnet_dir/xvectors_dev-2/transform.mat || exit 1;
+fi
+
+if [ $stage -le 15 ]; then
   echo "$0: Train the PLDA model."
   $train_cmd $nnet_dir/xvectors_train/log/plda.log \
     ivector-compute-plda \
@@ -139,7 +150,8 @@ if [ $stage -le 14 ]; then
       $nnet_dir/xvectors_train/plda || exit 1;
 fi
 
-if [ $stage -le 15 ]; then
+if [ $stage -le 16 ]; then
+  echo "$0: Compute plda on dev-1."
   $train_cmd $nnet_dir/xvectors_dev-1/log/plda.log \
     ivector-compute-plda \
       ark:data/dev-1/spk2utt \
@@ -147,7 +159,8 @@ if [ $stage -le 15 ]; then
       $nnet_dir/xvectors_dev-1/plda || exit 1;
 fi
 
-if [ $stage -le 16 ]; then
+if [ $stage -le 18 ]; then
+  echo "$: PLDA on dev-2."
   $train_cmd $nnet_dir/xvectors_dev-2/log/plda.log \
     ivector-compute-plda \
       ark:data/dev-2/spk2utt \
@@ -155,7 +168,7 @@ if [ $stage -le 16 ]; then
       $nnet_dir/xvectors_dev-2/plda || exit 1;
 fi
 
-if [ $stage -le 17 ]; then
+if [ $stage -le 19 ]; then
     echo "$0: Scoring."
   diarization/nnet3/xvector/score_plda.sh --cmd "$train_cmd --mem 4G" \
     --nj 20 \
@@ -163,3 +176,9 @@ if [ $stage -le 17 ]; then
     $nnet_dir/xvectors_dev-1 \
     $nnet_dir/xvectors_rats_sad/plda_scores
 fi
+
+if [ $stage -le 15 ]; then
+  echo "$0: Evaluate with Logistic Regression."
+  local/run_logistic_regression.sh
+fi
+
