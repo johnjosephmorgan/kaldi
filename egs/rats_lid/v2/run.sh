@@ -175,7 +175,7 @@ if [ $stage -le 18 ]; then
   cp data/dev-1/utt2spk $nnet_dir/xvectors_dev-1
   local/score_plda.sh --cmd "$train_cmd --mem 4G" \
     --nj 20 \
-    $nnet_dir/xvectors_train/plda \
+    $nnet_dir/xvectors_train \
     $nnet_dir/xvectors_dev-1 \
     $nnet_dir/xvectors_rats_sad/plda_scores
 fi
