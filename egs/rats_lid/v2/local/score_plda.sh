@@ -53,10 +53,10 @@ done
 cp $xvecdir/xvector.scp $dir/tmp/feats.scp
 cp $xvecdir/spk2utt $dir/tmp/
 cp $xvecdir/utt2spk $dir/tmp/
-cp $xvecdir/segments $dir/tmp/
+#cp $xvecdir/segments $dir/tmp/
 cp $xvecdir/spk2utt $dir/
 cp $xvecdir/utt2spk $dir/
-cp $xvecdir/segments $dir/
+#cp $xvecdir/segments $dir/
 
 utils/fix_data_dir.sh $dir/tmp > /dev/null
 
