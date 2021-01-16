@@ -110,10 +110,11 @@ if [ $stage -le 10 ]; then
 fi
 
 if [ $stage -le 11 ]; then
-  echo "$0: Compute the mean vector for centering the evaluation xvectors."
-  $train_cmd $nnet_dir/xvectors_train/log/compute_mean.log \
-    ivector-mean scp:$nnet_dir/xvectors_train/xvector.scp \
-    $nnet_dir/xvectors_train/mean.vec || exit 1;
+    echo "$0: Compute the mean vector for centering the evaluation xvectors."
+  for f in dev-1 dev-2 train; do
+    $train_cmd $nnet_dir/xvectors_${f}/log/compute_mean.log \
+    ivector-mean scp:$nnet_dir/xvectors_${f}/xvector.scp \
+    $nnet_dir/xvectors_${f}/mean.vec || exit 1;
 fi
 
 lda_dim=200
@@ -184,3 +185,4 @@ if [ $stage -le 19 ]; then
   echo "$0: Evaluate with Logistic Regression."
   local/run_logistic_regression.sh
 fi
+
