@@ -144,4 +144,5 @@ utils/data/subsegment_data_dir.sh $working_dir/speechactivity \
 
 echo "$0 Stage 9: Make .wav files from segmentation."
 local/speechactivity2wav.pl $src
-} <$list;
+  done
+} < $list;
