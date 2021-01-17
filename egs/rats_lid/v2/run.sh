@@ -18,7 +18,8 @@ if [ $stage -le 0 ]; then
     find $datadir/$f/sad -type f -name "*.tab" | xargs cat > \
       data/$f/annotation.txt
     echo "Writing utt2lang for $f."
-    cut -f 2,9 data/$f/annotation.txt > data/$f/utt2lang.txt
+    #cut -f 2,9 data/$f/annotation.txt > data/$f/utt2lang.txt
+    cut -f 2,9 data/$f/annotation.txt | grep src > data/$f/utt2lang.txt
   done
 fi
 
