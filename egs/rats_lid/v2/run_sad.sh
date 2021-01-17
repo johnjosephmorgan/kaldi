@@ -74,7 +74,7 @@ mkdir -p $working_dir
     --config=$mfcc_hires_config \
     scp,p:$working_dir/wav.scp ark:- '|' copy-feats \
     --write-num-frames=ark,t:$working_dir/utt2num_frames --compress=$compress \
-    ark:- ark,t,scp:$(pwd)/$working_dir/raw_mfcc.txt,$(pwd)/$working_dir/raw_mfcc.scp || exit 1;
+    ark:- ark,t,scp:$working_dir/raw_mfcc.txt,$working_dir/raw_mfcc.scp || exit 1;
 
 echo "$0 stage 2: Segmentation: Propagate features through the raw SAD neural network model."
 run.pl  $working_dir/log/propagate_features_thru_nnet.log \
