@@ -10,9 +10,9 @@
 echo "$0 $@"
 
 if [ $# -ne 1 ]; then
-  echo "USAGE $0 <SRC_FLAC_FILE>"
+  echo "USAGE $0 <FLAC_FILE_LIST>"
   echo "For example:"
-  echo "$0 ./10002_20705_alv_A.flac"
+  echo "$0 data/train/flac.txt"
   exit 1
 fi
 
@@ -48,26 +48,27 @@ min_segment_dur=0.5   # Minimum duration (in seconds) required for a segment to 
 segment_padding=0.1
 # end of setting configuration variables
 
-# Get input arguments from command line
-src=$1
-
+# Get file list from command line
+list=$1
 # Make the working directory
-base=$(basename $src .$input_extension)
-# Remove the file extension to get the directory name
-working_dir=${base}
-mkdir -p $working_dir/speechactivity
+working_dir=$(pwd)/speechactivity
+mkdir -p $working_dir
 
-echo "$0 Stage 0: Write parameter files for Kaldi SAD."
-# wav.scp
-echo "$base sox -t $input_extension $src -t wav -r $sad_sampling_rate -b 16 - channels 1 |"> $working_dir/speechactivity/wav.scp
-# the utt2spk file is simple since we process 1 recording 
-echo "$base $base" > $working_dir/speechactivity/utt2spk
-# spk2utt
-echo "$base $base" > $working_dir/speechactivity/spk2utt
+{
+  while read src; do
+      base=$(basename $src .$input_extension)
+      mkdir -p speechactivity/$base
+    echo "$0 Stage 0: Write parameter files for Kaldi SAD."
+    # wav.scp
+    echo "$base sox -t $input_extension $src -t wav -r $sad_sampling_rate -b 16 - channels 1 |"> $working_dir/speechactivity/wav.scp
+    # the utt2spk file is simple since we process 1 recording 
+    echo "$base $base" > $working_dir/speechactivity/utt2spk
+    # spk2utt
+    echo "$base $base" > $working_dir/speechactivity/spk2utt
 
-echo "$0 Stage 1: Waveform Preprocessing"
-echo "Extract MFCC feature vectors for SAD."
-run.pl  $working_dir/speechactivity/log/make_mfcc_hires.log \
+    echo "$0 Stage 1: Waveform Preprocessing"
+    echo "Extract MFCC feature vectors for SAD."
+    run.pl  $working_dir/speechactivity/log/make_mfcc_hires.log \
   compute-mfcc-feats \
     --write-utt2dur=ark,t:$working_dir/speechactivity/utt2dur \
     --config=$mfcc_hires_config \
@@ -143,3 +144,4 @@ utils/data/subsegment_data_dir.sh $working_dir/speechactivity \
 
 echo "$0 Stage 9: Make .wav files from segmentation."
 local/speechactivity2wav.pl $src
+} <$list;
