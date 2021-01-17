@@ -69,9 +69,9 @@ mkdir -p $dir/log
 feats="ark:ivector-subtract-global-mean $pldadir/mean.vec scp:$ir/feats.scp ark:- | transform-vec $pldadir/transform.mat ark:- ark:- | ivector-normalize-length ark:- ark:- |"
 if [ $stage -le 0 ]; then
   echo "$0: scoring xvectors"
-  $cmd $dir/log/plda_scoring.JOB.log \
+  $cmd $dir/log/plda_scoring.log \
     ivector-plda-scoring-dense --target-energy=$target_energy $pldadir/plda \
-      ark:$sdata/JOB/spk2utt "$feats" ark,scp:$dir/scores.JOB.ark,$dir/scores.JOB.scp || exit 1;
+      ark:$dir/spk2utt "$feats" ark,scp:$dir/scores.ark,$dir/scores.scp || exit 1;
 fi
 
 if [ $stage -le 1 ]; then
