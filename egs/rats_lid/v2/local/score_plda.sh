@@ -61,7 +61,7 @@ cp $xvecdir/utt2spk $dir/
 utils/fix_data_dir.sh $dir/tmp > /dev/null
 
 sdata=$dir/tmp/split$nj;
-utils/split_data.sh $dir/tmp $nj || exit 1;
+#utils/split_data.sh $dir/tmp $nj || exit 1;
 
 # Set various variables.
 mkdir -p $dir/log
@@ -69,7 +69,7 @@ mkdir -p $dir/log
 feats="ark:ivector-subtract-global-mean $pldadir/mean.vec scp:$sdata/JOB/feats.scp ark:- | transform-vec $pldadir/transform.mat ark:- ark:- | ivector-normalize-length ark:- ark:- |"
 if [ $stage -le 0 ]; then
   echo "$0: scoring xvectors"
-  $cmd JOB=1:$nj $dir/log/plda_scoring.JOB.log \
+  $cmd $dir/log/plda_scoring.JOB.log \
     ivector-plda-scoring-dense --target-energy=$target_energy $pldadir/plda \
       ark:$sdata/JOB/spk2utt "$feats" ark,scp:$dir/scores.JOB.ark,$dir/scores.JOB.scp || exit 1;
 fi
