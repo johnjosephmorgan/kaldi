@@ -66,7 +66,7 @@ sdata=$dir/tmp/split$nj;
 # Set various variables.
 mkdir -p $dir/log
 
-feats="ark:ivector-subtract-global-mean $pldadir/mean.vec scp:$sdata/JOB/feats.scp ark:- | transform-vec $pldadir/transform.mat ark:- ark:- | ivector-normalize-length ark:- ark:- |"
+feats="ark:ivector-subtract-global-mean $pldadir/mean.vec scp:$ir/feats.scp ark:- | transform-vec $pldadir/transform.mat ark:- ark:- | ivector-normalize-length ark:- ark:- |"
 if [ $stage -le 0 ]; then
   echo "$0: scoring xvectors"
   $cmd $dir/log/plda_scoring.JOB.log \
