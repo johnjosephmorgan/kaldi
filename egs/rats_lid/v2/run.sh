@@ -94,7 +94,7 @@ local/nnet3/xvector/run_xvector.sh --stage $stage --train-stage -1 \
 fi
 
 if [ $stage -le 10 ]; then
-  echo "$0: Extract x-vectors 
+  echo "$0: Extract x-vectors."
   sid/nnet3/xvector/extract_xvectors.sh --cmd "$train_cmd --mem 4G" --nj 5 \
     $nnet_dir data/train \
     $nnet_dir/xvectors_train
