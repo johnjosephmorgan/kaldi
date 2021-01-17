@@ -118,7 +118,7 @@ if [ $stage -le 11 ]; then
   done
 fi
 
-if [ $stage -le 19 ]; then
+if [ $stage -le 12 ]; then
   echo "$0: Evaluate with Logistic Regression."
   local/run_logistic_regression.sh
 fi
