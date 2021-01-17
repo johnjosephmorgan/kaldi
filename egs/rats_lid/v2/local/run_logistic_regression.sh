@@ -10,14 +10,16 @@
 set -e
 
 train_dir=exp/xvector_nnet_1a/xvectors_train
-test_dir=exp/xvector_nnet_1a/xvectors_dev-1
+dev_dir=exp/xvector_nnet_1a/xvectors_dev-1
+test_dir=exp/xvector_nnet_1a/xvectors_dev-2
 model_dir=exp/xvector_nnet_1a/xvectors_train
 train_utt2lang=data/train/utt2lang
-test_utt2lang=data/dev-1/utt2lang
+dev_utt2lang=data/dev-1/utt2lang
+test_utt2lang=data/dev-2/utt2lang
 prior_scale=1.0
-apply_log=true # If true, the output of the binary
-               # logistic-regression-eval are log-posteriors.
-               # Probabilities are the output if this is false.
+apply_log=true
+# If apply_log is true, the output of the binary logistic-regression-eval are log-posteriors.
+# Probabilities are the output if apply_log is false.
 conf=conf/logistic-regression.conf
 languages=local/langs.txt
 
@@ -30,6 +32,8 @@ model=$model_dir/logistic_regression
 model_rebalanced=$model_dir/logistic_regression_rebalanced
 train_xvectors="ark:ivector-normalize-length \
          scp:$train_dir/xvector.scp ark:- |";
+dev_xvectors="ark:ivector-normalize-length \
+         scp:$dev_dir/xvector.scp ark:- |";
 test_xvectors="ark:ivector-normalize-length \
          scp:$test_dir/xvector.scp ark:- |";
 classes="ark:lid/remove_dialect.pl $train_utt2lang \
@@ -98,3 +102,21 @@ cat $test_dir/posteriors | \
 echo "$0: Compute Word Error Rate for test data."
 compute-wer --text ark:<(lid/remove_dialect.pl $test_utt2lang) \
   ark:$test_dir/output
+# Evaluate on dev data.
+echo "$0: Evaluate on dev data?"
+logistic-regression-eval --apply-log=$apply_log \
+  $model_rebalanced \
+  "$dev_xvectors" \
+  ark,t:$dev_dir/posteriors
+
+echo "$0: Write dev output."
+cat $dev_dir/posteriors | \
+  awk '{max=$3; argmax=3; for(f=3;f<NF;f++) { if ($f>max) 
+                          { max=$f; argmax=f; }}  
+                          print $1, (argmax - 3); }' | \
+  utils/int2sym.pl -f 2 $languages \
+    >$dev_dir/output
+
+echo "$0: Compute Word Error Rate for dev data."
+compute-wer --text ark:<(lid/remove_dialect.pl $dev_utt2lang) \
+  ark:$dev_dir/output

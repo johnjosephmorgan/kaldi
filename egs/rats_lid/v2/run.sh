@@ -94,7 +94,7 @@ local/nnet3/xvector/run_xvector.sh --stage $stage --train-stage -1 \
 fi
 
 if [ $stage -le 10 ]; then
-  echo "$0: Extract x-vectors for centering, LDA, and PLDA training."
+  echo "$0: Extract x-vectors 
   sid/nnet3/xvector/extract_xvectors.sh --cmd "$train_cmd --mem 4G" --nj 5 \
     $nnet_dir data/train \
     $nnet_dir/xvectors_train
@@ -118,72 +118,7 @@ if [ $stage -le 11 ]; then
   done
 fi
 
-lda_dim=200
-if [ $stage -le 12 ]; then
-  echo "$0: Use LDA to decrease the dimensionality prior to PLDA."
-  $train_cmd $nnet_dir/xvectors_train/log/lda.log \
-    ivector-compute-lda --total-covariance-factor=0.0 --dim=$lda_dim \
-    "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_train/xvector.scp ark:- |" \
-    ark:data/train/utt2spk $nnet_dir/xvectors_train/transform.mat || exit 1;
-fi
-
-if [ $stage -le 13 ]; then
-  echo "$0 Do LDA on dev-1."
-  $train_cmd $nnet_dir/xvectors_dev-1/log/lda.log \
-    ivector-compute-lda --total-covariance-factor=0.0 --dim=$lda_dim \
-    "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_dev-1/xvector.scp ark:- |" \
-    ark:data/dev-1/utt2spk $nnet_dir/xvectors_dev-1/transform.mat || exit 1;
-fi
-
-if [ $stage -le 14 ]; then
-  echo "$0 Do LDA on dev-2."
-  $train_cmd $nnet_dir/xvectors_dev-2/log/lda.log \
-    ivector-compute-lda --total-covariance-factor=0.0 --dim=$lda_dim \
-    "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_dev-2/xvector.scp ark:- |" \
-    ark:data/dev-2/utt2spk $nnet_dir/xvectors_dev-2/transform.mat || exit 1;
-fi
-
-if [ $stage -le 15 ]; then
-  echo "$0: Train the PLDA model."
-  $train_cmd $nnet_dir/xvectors_train/log/plda.log \
-    ivector-compute-plda \
-      ark:data/train/spk2utt \
-      "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_train/xvector.scp ark:- | transform-vec $nnet_dir/xvectors_train/transform.mat ark:- ark:- | ivector-normalize-length ark:-  ark:- |" \
-      $nnet_dir/xvectors_train/plda || exit 1;
-fi
-
-if [ $stage -le 16 ]; then
-  echo "$0: Compute plda on dev-1."
-  $train_cmd $nnet_dir/xvectors_dev-1/log/plda.log \
-    ivector-compute-plda \
-      ark:data/dev-1/spk2utt \
-      "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_dev-1/xvector.scp ark:- | transform-vec $nnet_dir/xvectors_dev-1/transform.mat ark:- ark:- | ivector-normalize-length ark:-  ark:- |" \
-      $nnet_dir/xvectors_dev-1/plda || exit 1;
-fi
-
-if [ $stage -le 17 ]; then
-  echo "$0: PLDA on dev-2."
-  $train_cmd $nnet_dir/xvectors_dev-2/log/plda.log \
-    ivector-compute-plda \
-      ark:data/dev-2/spk2utt \
-      "ark:ivector-subtract-global-mean scp:$nnet_dir/xvectors_dev-2/xvector.scp ark:- | transform-vec $nnet_dir/xvectors_dev-2/transform.mat ark:- ark:- | ivector-normalize-length ark:-  ark:- |" \
-      $nnet_dir/xvectors_dev-2/plda || exit 1;
-fi
-
-if [ $stage -le 18 ]; then
-  echo "$0: Scoring."
-  cp data/train/spk2utt $nnet_dir/xvectors_train/plda
-  cp data/dev-1/spk2utt $nnet_dir/xvectors_dev-1
-  cp data/dev-1/utt2spk $nnet_dir/xvectors_dev-1
-  local/score_plda.sh --cmd "$train_cmd --mem 4G" \
-    --nj 3 \
-    $nnet_dir/xvectors_train \
-    $nnet_dir/xvectors_dev-1 \
-    $nnet_dir/xvectors_rats_sad/plda_scores
-fi
-
 if [ $stage -le 19 ]; then
   echo "$0: Evaluate with Logistic Regression."
   local/run_logistic_regression.sh
 fi
-
