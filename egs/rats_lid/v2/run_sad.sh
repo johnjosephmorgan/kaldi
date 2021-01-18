@@ -135,7 +135,7 @@ EOF
       --min-segment-dur $min_segment_dur     \
       --merge-consecutive-max-dur $merge_consecutive_max_dur     --cmd run.pl \
       --frame-shift $(perl -e "print 3 * 0.01")     $working_dir \
-      $working_dir $working_dir 
+      $working_dir/$base $working_dir/$base
 
     mv $working_dir/$base/segments $working_dir/$base/segs
     echo "$0 Stage 8: Get subsegments."
