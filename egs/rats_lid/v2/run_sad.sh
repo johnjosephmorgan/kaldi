@@ -112,7 +112,7 @@ EOF
       --osymbols=$working_dir/$base/graph_output/words.txt '>' $working_dir/$base/graph_output/HCLG.fst
 
     echo "$0 Stage 5: Get the matrix of probability transforms."
-    steps/segmentation/internal/get_transform_probs_mat.py --priors=$sad_nnet_dir/post_output.vec --sil-scale=$sil_scale > $working_dir/$base/transform_probs.mat
+    local/get_transform_probs_mat.py --priors=$sad_nnet_dir/post_output.vec --sil-scale=$sil_scale > $working_dir/$base/transform_probs.mat
 
     echo "$0 Stage 6: Run viterbi alignment."
     run.pl $working_dir/$base/log/get_viterbi_alignments.log \
