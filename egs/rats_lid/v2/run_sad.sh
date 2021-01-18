@@ -137,10 +137,10 @@ EOF
       --frame-shift $(perl -e "print 3 * 0.01") \
       $working_dir $working_dir $working_dir || exit 1;
 
-    mv $working_dir/segments $working_dir/segs
+    mv -v $working_dir/segments $working_dir/segs
     echo "$0 Stage 8: Get subsegments."
     utils/data/subsegment_data_dir.sh $working_dir \
-      $working_dir/segments.1 $working_dir/subsegments
+      $working_dir/segments.1 $working_dir/subsegments || exit 1;
 
     echo "$0 Stage 9: Make .wav files from segmentation."
     local/speechactivity2wav.pl 
