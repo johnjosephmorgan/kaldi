@@ -181,7 +181,7 @@ if [ $stage -le 14 ] && false; then
     data/train_clean_100 data/lang exp/tri4b exp/tri4b_ali_clean_100
 
   # This nnet2 training script is deprecated.
-  local/nnet2/run_5a_clean_100.sh
+  #local/nnet2/run_5a_clean_100.sh
 fi
 
 if [ $stage -le 15 ]; then
@@ -241,22 +241,6 @@ if [ $stage -le 18 ]; then
   # as it is faster.
   steps/train_quick.sh --cmd "$train_cmd" \
                        7000 150000 data/train_960 data/lang exp/tri5b_ali_960 exp/tri6b
-
-  # decode using the tri6b model
-  utils/mkgraph.sh data/lang_test_tgsmall \
-                   exp/tri6b exp/tri6b/graph_tgsmall
-  for test in test_clean test_other dev_clean dev_other; do
-      steps/decode_fmllr.sh --nj 20 --cmd "$decode_cmd" \
-                            exp/tri6b/graph_tgsmall data/$test exp/tri6b/decode_tgsmall_$test
-      steps/lmrescore.sh --cmd "$decode_cmd" data/lang_test_{tgsmall,tgmed} \
-                         data/$test exp/tri6b/decode_{tgsmall,tgmed}_$test
-      steps/lmrescore_const_arpa.sh \
-        --cmd "$decode_cmd" data/lang_test_{tgsmall,tglarge} \
-        data/$test exp/tri6b/decode_{tgsmall,tglarge}_$test
-      steps/lmrescore_const_arpa.sh \
-        --cmd "$decode_cmd" data/lang_test_{tgsmall,fglarge} \
-        data/$test exp/tri6b/decode_{tgsmall,fglarge}_$test
-  done
 fi
 
 
@@ -265,7 +249,7 @@ if [ $stage -le 19 ]; then
   # the neural net and chain systems.  (although actually it was pretty clean already.)
   local/run_cleanup_segmentation.sh
 fi
-
+exit
 # steps/cleanup/debug_lexicon.sh --remove-stress true  --nj 200 --cmd "$train_cmd" data/train_clean_100 \
 #    data/lang exp/tri6b data/local/dict/lexicon.txt exp/debug_lexicon_100h
 
@@ -308,3 +292,20 @@ fi
 # ## The following is an older version of the online-nnet2 recipe, without "multi-splice".  It's faster
 # ## to train but slightly worse.
 # # local/online/run_nnet2.sh
+if [ $stage -le 21 ];then
+  # decode using the tri6b model
+  utils/mkgraph.sh data/lang_test_tgsmall \
+                   exp/tri6b exp/tri6b/graph_tgsmall
+  for test in test_clean test_other dev_clean dev_other; do
+      steps/decode_fmllr.sh --nj 20 --cmd "$decode_cmd" \
+                            exp/tri6b/graph_tgsmall data/$test exp/tri6b/decode_tgsmall_$test
+      steps/lmrescore.sh --cmd "$decode_cmd" data/lang_test_{tgsmall,tgmed} \
+                         data/$test exp/tri6b/decode_{tgsmall,tgmed}_$test
+      steps/lmrescore_const_arpa.sh \
+        --cmd "$decode_cmd" data/lang_test_{tgsmall,tglarge} \
+        data/$test exp/tri6b/decode_{tgsmall,tglarge}_$test
+      steps/lmrescore_const_arpa.sh \
+        --cmd "$decode_cmd" data/lang_test_{tgsmall,fglarge} \
+        data/$test exp/tri6b/decode_{tgsmall,fglarge}_$test
+  done
+fi
