@@ -6,8 +6,6 @@ use Carp;
 
 BEGIN {
   @ARGV == 1 or croak "USAGE: $0 <SRC_FLAC_FILE>
-For example:
-$0 src/data/flac/DH_0001.flac
 ";
 }
 
