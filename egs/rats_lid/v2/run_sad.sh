@@ -60,7 +60,7 @@ mkdir -p $working_dir
       mkdir -p $working_dir/$base
     echo "$0 Stage 0: Write parameter files for Kaldi SAD."
     # wav.scp
-    echo "$base sox -t $input_extension $src -t wav -r $sad_sampling_rate -b 16 - channels 1 |"> $working_dir/wav.scp
+    echo "$base sox -t $input_extension $src -t wav -r $sad_sampling_rate -b 16 - channels 1 |"> $working_dir/$base/wav.scp
     # the utt2spk file is simple since we process 1 recording 
     echo "$base $base" > $working_dir/$base/utt2spk
     # spk2utt
