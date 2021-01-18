@@ -63,7 +63,7 @@ mkdir -p speechactivity
     echo "$base sox -t $input_extension $src -t wav -r $sad_sampling_rate -b 16 - channels 1 |"> $working_dir/wav.scp
     # the utt2spk file is simple since we process 1 recording 
     echo "$base $base" > $working_dir/utt2spk
-    # spk2utt
+    # spk2utt<
     echo "$base $base" > $working_dir/spk2utt
 
     echo "$0 Stage 1: Waveform Preprocessing"
@@ -135,12 +135,11 @@ EOF
       --min-segment-dur $min_segment_dur     \
       --merge-consecutive-max-dur $merge_consecutive_max_dur     --cmd run.pl \
       --frame-shift $(perl -e "print 3 * 0.01") \
-      $working_dir/$base \
-      $working_dir/$base $working_dir/$base
+      $working_dir $working_dir $working_dir || exit 1;
 
     mv $working_dir/segments $working_dir/segs
     echo "$0 Stage 8: Get subsegments."
-    utils/data/subsegment_data_dir.sh $working_dir/$base \
+    utils/data/subsegment_data_dir.sh $working_dir \
       $working_dir/segments.1 $working_dir/subsegments
 
     echo "$0 Stage 9: Make .wav files from segmentation."
