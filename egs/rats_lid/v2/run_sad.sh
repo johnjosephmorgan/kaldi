@@ -131,7 +131,7 @@ EOF
 
     echo "1" > $working_dir/$base/num_jobs
     echo "$0 Stage 7: Get the segments from the alignments."
-    steps/segmentation/post_process_sad_to_segments.sh     --segment-padding 0.2 \
+    local/post_process_sad_to_segments.sh     --segment-padding 0.2 \
       --min-segment-dur $min_segment_dur     \
       --merge-consecutive-max-dur $merge_consecutive_max_dur     --cmd run.pl \
       --frame-shift $(perl -e "print 3 * 0.01")     $working_dir \
