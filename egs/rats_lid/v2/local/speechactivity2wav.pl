@@ -15,7 +15,7 @@ use File::Copy;
 my ($src) = @ARGV;
 my $base = basename $src, ".flac";
 my $in = "$base/speechactivity/subsegments/segments";
-my $out_dir = "$base/speechactivity/segmented_audio";
+my $out_dir = "speechactivity/$base/segmented_audio";
 
 mkdir $out_dir;
 
