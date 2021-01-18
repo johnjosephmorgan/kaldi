@@ -10,7 +10,7 @@ data=/export/corpora5
 data_url=www.openslr.org/resources/12
 lm_url=www.openslr.org/resources/11
 mfccdir=mfcc
-stage=1
+stage=0
 
 . ./cmd.sh
 . ./path.sh
@@ -20,15 +20,16 @@ stage=1
 set -e
 
 
-if [ $stage -le 1 ]; then
+if [ $stage -le 0 ]; then
   # download the data.  Note: we're using the 100 hour setup for
   # now; later in the script we'll download more and use it to train neural
   # nets.
   for part in dev-clean test-clean dev-other test-other train-clean-100; do
     local/download_and_untar.sh $data $data_url $part
   done
+fi
 
-
+if [ $stage -le 1 ]; then
   # download the LM resources
   local/download_lm.sh $lm_url data/local/lm
 fi
