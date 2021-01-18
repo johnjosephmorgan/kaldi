@@ -143,6 +143,6 @@ EOF
       $working_dir/segments.1 $working_dir/subsegments || exit 1;
 
     echo "$0 Stage 9: Make .wav files from segmentation."
-    local/speechactivity2wav.pl 
+    local/speechactivity2wav.pl $src
   done
 } < $list;
