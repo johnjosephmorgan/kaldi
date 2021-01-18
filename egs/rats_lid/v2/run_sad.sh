@@ -140,7 +140,7 @@ EOF
 
     mv $working_dir/$base/segments $working_dir/$base/segs
     echo "$0 Stage 8: Get subsegments."
-    utils/data/subsegment_data_dir.sh $working_dir \
+    utils/data/subsegment_data_dir.sh $working_dir/$base \
       $working_dir/$base/segments.1 $working_dir/$base/subsegments
 
     echo "$0 Stage 9: Make .wav files from segmentation."
