@@ -158,6 +158,9 @@ if [ $stage -le 13 ]; then
   # and re-create the lang directory.
   steps/get_prons.sh --cmd "$train_cmd" \
                      data/train_clean_100 data/lang_nosp exp/tri4b
+fi
+
+if [ $stage -le 14 ]; then
   utils/dict_dir_add_pronprobs.sh --max-normalize true \
                                   data/local/dict_nosp \
                                   exp/tri4b/pron_counts_nowb.txt exp/tri4b/sil_counts_nowb.txt \
@@ -173,7 +176,7 @@ if [ $stage -le 13 ]; then
     data/local/lm/lm_fglarge.arpa.gz data/lang data/lang_test_fglarge
 fi
 
-if [ $stage -le 14 ] && false; then
+if [ $stage -le 15 ] && false; then
   # This stage is for nnet2 training on 100 hours; we're commenting it out
   # as it's deprecated.
   # align train_clean_100 using the tri4b model
@@ -184,7 +187,7 @@ if [ $stage -le 14 ] && false; then
   #local/nnet2/run_5a_clean_100.sh
 fi
 
-if [ $stage -le 15 ]; then
+if [ $stage -le 16 ]; then
   local/download_and_untar.sh $data $data_url train-clean-360
 
   # now add the "clean-360" subset to the mix ...
@@ -200,7 +203,7 @@ if [ $stage -le 15 ]; then
     data/train_clean_460 data/train_clean_100 data/train_clean_360
 fi
 
-if [ $stage -le 16 ]; then
+if [ $stage -le 17 ]; then
   # align the new, combined set, using the tri4b model
   steps/align_fmllr.sh --nj 40 --cmd "$train_cmd" \
                        data/train_clean_460 data/lang exp/tri4b exp/tri4b_ali_clean_460
@@ -216,7 +219,7 @@ fi
 ## train a NN model on the 460 hour set
 #local/nnet2/run_6a_clean_460.sh
 
-if [ $stage -le 17 ]; then
+if [ $stage -le 18 ]; then
   # prepare the remaining 500 hours of data
   local/download_and_untar.sh $data $data_url train-other-500
 
@@ -233,7 +236,7 @@ if [ $stage -le 17 ]; then
     data/train_960 data/train_clean_460 data/train_other_500
 fi
 
-if [ $stage -le 18 ]; then
+if [ $stage -le 19 ]; then
   steps/align_fmllr.sh --nj 40 --cmd "$train_cmd" \
                        data/train_960 data/lang exp/tri5b exp/tri5b_ali_960
 
@@ -244,7 +247,7 @@ if [ $stage -le 18 ]; then
 fi
 
 
-if [ $stage -le 19 ]; then
+if [ $stage -le 20 ]; then
   # this does some data-cleaning. The cleaned data should be useful when we add
   # the neural net and chain systems.  (although actually it was pretty clean already.)
   local/run_cleanup_segmentation.sh
@@ -271,7 +274,7 @@ exit
 #     --rnnlm-tag "h150-me3-400-nce20" $data data/local/lm
 
 
-if [ $stage -le 20 ]; then
+if [ $stage -le 21 ]; then
   # train and test nnet3 tdnn models on the entire data with data-cleaning.
   local/chain/run_tdnn.sh # set "--stage 11" if you have already run local/nnet3/run_tdnn.sh
 fi
@@ -292,7 +295,7 @@ fi
 # ## The following is an older version of the online-nnet2 recipe, without "multi-splice".  It's faster
 # ## to train but slightly worse.
 # # local/online/run_nnet2.sh
-if [ $stage -le 21 ];then
+if [ $stage -le 22 ];then
   # decode using the tri6b model
   utils/mkgraph.sh data/lang_test_tgsmall \
                    exp/tri6b exp/tri6b/graph_tgsmall
