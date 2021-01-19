@@ -20,7 +20,7 @@ stage=0
 set -e
 
 
-if [ $stage -le 0 ]; then
+if [ $stage -le 0 ] && false; then
   # download the data.  Note: we're using the 100 hour setup for
   # now; later in the script we'll download more and use it to train neural
   # nets.
@@ -187,9 +187,11 @@ if [ $stage -le 15 ] && false; then
   #local/nnet2/run_5a_clean_100.sh
 fi
 
-if [ $stage -le 16 ]; then
+if [ $stage -le 16 ] && false; then
   local/download_and_untar.sh $data $data_url train-clean-360
+fi
 
+if [ $stage -le 17 ]; then
   # now add the "clean-360" subset to the mix ...
   local/data_prep.sh \
     $data/LibriSpeech/train-clean-360 data/train_clean_360
@@ -203,7 +205,7 @@ if [ $stage -le 16 ]; then
     data/train_clean_460 data/train_clean_100 data/train_clean_360
 fi
 
-if [ $stage -le 17 ]; then
+if [ $stage -le 18 ]; then
   # align the new, combined set, using the tri4b model
   steps/align_fmllr.sh --nj 40 --cmd "$train_cmd" \
                        data/train_clean_460 data/lang exp/tri4b exp/tri4b_ali_clean_460
@@ -219,10 +221,12 @@ fi
 ## train a NN model on the 460 hour set
 #local/nnet2/run_6a_clean_460.sh
 
-if [ $stage -le 18 ]; then
+if [ $stage -le 19 ] && false; then
   # prepare the remaining 500 hours of data
   local/download_and_untar.sh $data $data_url train-other-500
+fi
 
+if [ $stage -le 20 ]; then
   # prepare the 500 hour subset.
   local/data_prep.sh \
     $data/LibriSpeech/train-other-500 data/train_other_500
@@ -236,7 +240,7 @@ if [ $stage -le 18 ]; then
     data/train_960 data/train_clean_460 data/train_other_500
 fi
 
-if [ $stage -le 19 ]; then
+if [ $stage -le 21 ]; then
   steps/align_fmllr.sh --nj 40 --cmd "$train_cmd" \
                        data/train_960 data/lang exp/tri5b exp/tri5b_ali_960
 
@@ -247,7 +251,7 @@ if [ $stage -le 19 ]; then
 fi
 
 
-if [ $stage -le 20 ]; then
+if [ $stage -le 22 ]; then
   # this does some data-cleaning. The cleaned data should be useful when we add
   # the neural net and chain systems.  (although actually it was pretty clean already.)
   local/run_cleanup_segmentation.sh
@@ -274,7 +278,7 @@ exit
 #     --rnnlm-tag "h150-me3-400-nce20" $data data/local/lm
 
 
-if [ $stage -le 21 ]; then
+if [ $stage -le 23 ]; then
   # train and test nnet3 tdnn models on the entire data with data-cleaning.
   local/chain/run_tdnn.sh # set "--stage 11" if you have already run local/nnet3/run_tdnn.sh
 fi
@@ -295,7 +299,7 @@ fi
 # ## The following is an older version of the online-nnet2 recipe, without "multi-splice".  It's faster
 # ## to train but slightly worse.
 # # local/online/run_nnet2.sh
-if [ $stage -le 22 ];then
+if [ $stage -le 24 ];then
   # decode using the tri6b model
   utils/mkgraph.sh data/lang_test_tgsmall \
                    exp/tri6b exp/tri6b/graph_tgsmall
