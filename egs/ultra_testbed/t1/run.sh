@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
-src=$1
+if [ "$#" != "1" ]; then
+    echo "USAGE: $0 <DIRECTORY>"
+    echo "For example:"
+    echo "$0 multi_tamsa_librispeech_tamsa"
+exit 1
+fi
+  src=$1
 
 . ./path.sh
 
@@ -23,26 +29,27 @@ for s in adel anwar bubaker hisham mukhtar redha  srj yousef; do
     cat data/$s/recordings/$f >> data/test/$f
   done
 
-  mkdir -p exp/$src/decode_online/$s
+  mkdir -p exp/$src/decode_online/$s/log
 
-  online2-wav-nnet3-latgen-faster \
-    --do-endpointing=false \
-    --frames-per-chunk=20 \
-    --extra-left-context-initial=0 \
-    --online=true \
-    --frame-subsampling-factor=3 \
-    --config=conf/online.conf \
-    --min-active=200 \
-    --max-active=7000 \
-    --beam=15.0 \
-    --lattice-beam=6.0 \
-    --acoustic-scale=1.0 \
-    --word-symbol-table=exp/$src/words.txt \
-    exp/$src/final.mdl \
-    exp/$src/HCLG.fst \
-    ark:data/$s/recordings/spk2utt \
-    "ark,s,cs:wav-copy scp,p:data/$s/recordings/wav.scp ark:- |" \
-    "ark:|lattice-scale --acoustic-scale=10.0 ark:- ark,t:- > exp/$src/decode_online/$s/lat.txt"
+  run.pl exp/$src/decode_online/$s/log/decode.log \
+    online2-wav-nnet3-latgen-faster \
+      --do-endpointing=false \
+      --frames-per-chunk=20 \
+      --extra-left-context-initial=0 \
+      --online=true \
+      --frame-subsampling-factor=3 \
+      --config=conf/online.conf \
+      --min-active=200 \
+      --max-active=7000 \
+      --beam=15.0 \
+      --lattice-beam=6.0 \
+      --acoustic-scale=1.0 \
+      --word-symbol-table=exp/$src/words.txt \
+      exp/$src/final.mdl \
+      exp/$src/HCLG.fst \
+      ark:data/$s/recordings/spk2utt \
+      "ark,s,cs:wav-copy scp,p:data/$s/recordings/wav.scp ark:- |" \
+      "ark:|lattice-scale --acoustic-scale=10.0 ark:- ark,t:- > exp/$src/decode_online/$s/lat.txt"
 
   cat exp/$src/decode_online/$s/lat.txt >> exp/$src/decode_online/lat.1
 done
