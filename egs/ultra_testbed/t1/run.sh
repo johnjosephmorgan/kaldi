@@ -1,34 +1,44 @@
 #!/usr/bin/env bash
 
+# This recipe runs a decoder test on recordings in the following directory:
+$datadir=$PWD/Libyan_msa_arl
+speakers=(adel anwar bubaker hisham mukhtar redha srj yousef)
 . ./path.sh
 stage=0
 . utils/parse_options.sh
 
 
 if [ "$#" != "1" ]; then
-    echo "USAGE: $0 <DIRECTORY>"
-    echo "For example:"
-    echo "$0 multi_tamsa_librispeech_tamsa"
+  echo "USAGE: $0 <DIRECTORY>"
+  echo "<DIRECTORY should contain models and  other resources."
+  echo "For example:"
+  echo "$0 exp/multi_tamsa_librispeech_tamsa"
 exit 1
 fi
 
 src=$1
 
-if [ $stage -le 0 ]; then
-  for s in adel anwar bubaker hisham mukhtar redha  srj yousef; do
-    echo "Making kaldi directory for $s."
-    mkdir -vp data/$s
-    find Libyan_msa_arl -type f -name "*${s}*.wav" | sort > \
-      data/$s/recordings_wav.txt
+# Check that resources exist
+for f in HCLG.fst final.mdl tree words.txt; do
+  echo "Checking $f." 
+  [ ! -f $src/$f ] && echo "$f is missing." && exit 1;
+done
 
-    local/test_recordings_make_lists.pl \
-        Libyan_msa_arl/$s/data/transcripts/recordings/${s}_recordings.tsv $s libyan \
-        || exit 1;
-    utils/utt2spk_to_spk2utt.pl data/$s/recordings/utt2spk | sort > \
-      data/$s/recordings/spk2utt || exit 1;
+if [ $stage -le 0 ]; then
+  for s in ${speakers[@]}; do
+  echo "Making kaldi directory for $s."
+  mkdir -vp data/$s
+  find Libyan_msa_arl -type f -name "*${s}*.wav" | sort > \
+    data/$s/recordings_wav.txt
+
+  local/test_recordings_make_lists.pl \
+    Libyan_msa_arl/$s/data/transcripts/recordings/${s}_recordings.tsv $s libyan \
+    || exit 1;
+  utils/utt2spk_to_spk2utt.pl data/$s/utt2spk | sort > \
+      data/$s/spk2utt || exit 1;
   done
 fi
-
+exit
 if [ $stage -le 1 ]; then
   for s in adel anwar bubaker hisham mukhtar redha  srj yousef; do
     echo "Extract features for $s."
