@@ -78,7 +78,7 @@ if [ $stage -le 3 ]; then
         "ark:|lattice-scale --acoustic-scale=1.0 ark:- ark,t:- > $src/decode_online/$s/lat.txt"
   done
 fi
-exit
+
 if [ $stage -le 4 ]; then
   for s in adel anwar bubaker hisham mukhtar redha  srj yousef; do
     echo "Concatenating lattice for $s."
