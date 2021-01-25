@@ -38,14 +38,15 @@ if [ $stage -le 0 ]; then
       data/$s/spk2utt || exit 1;
   done
 fi
-exit
+
+# Extract Mel Frequency Cepstral Coefficients from input recordings
 if [ $stage -le 1 ]; then
-  for s in adel anwar bubaker hisham mukhtar redha  srj yousef; do
-    echo "Extract features for $s."
-    steps/make_mfcc.sh data/$s/recordings
+  for s in ${speakers[@]}; do
+  echo "Extract features for $s."
+    steps/make_mfcc.sh data/$s
   done
 fi
-
+exit
 if [ $stage -le 2 ]; then
   mkdir -vp data/test
   for s in adel anwar bubaker hisham mukhtar redha  srj yousef; do
