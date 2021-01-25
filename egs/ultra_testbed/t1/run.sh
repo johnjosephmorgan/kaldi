@@ -79,15 +79,18 @@ if [ $stage -le 3 ]; then
   done
 fi
 
+# Concatenate output lattices
 if [ $stage -le 4 ]; then
-  for s in adel anwar bubaker hisham mukhtar redha  srj yousef; do
+  for s in ${speakers[@]}; do
     echo "Concatenating lattice for $s."
-    cat exp/$src/decode_online/$s/lat.txt >> exp/$src/decode_online/lat.1
+    cat $src/decode_online/$s/lat.txt >> $src/decode_online/lat.1
   done
-  if [ -f exp/$src/decode_online/lat.1.gz ]; then
-    rm exp/$src/decode_online/lat.1.gz
+  # Remove old zip lat file
+  if [ -f $src/decode_online/lat.1.gz ]; then
+    rm $src/decode_online/lat.1.gz
   fi
-  gzip exp/$src/decode_online/lat.1
+  # zip new lat file
+  gzip $src/decode_online/lat.1
 fi
 
 if [ $stage -le 5 ]; then
