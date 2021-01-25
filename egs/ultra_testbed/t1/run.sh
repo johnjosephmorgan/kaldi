@@ -59,15 +59,16 @@ if [ $stage -le 3 ]; then
     mkdir -p $src/decode_online/$s/log
     run.pl $src/decode_online/$s/log/decode.log \
       online2-wav-nnet3-latgen-faster \
-        --acoustic-scale=1.0 \
-        --beam=15.0 \
-        --config=conf/online.conf \
+        --acoustic-scale=0.1 \
+        --beam=10.0 \
+        --config=$src/conf/online.conf \
         --do-endpointing=false \
         --extra-left-context-initial=0 \
         --frame-subsampling-factor=3 \
-        --frames-per-chunk=20 \
+        --frames-per-chunk=150 \
+	--ivector-extraction-config=$src/conf/ivector_extractor.conf \
         --lattice-beam=4.0 \
-        --max-active=7000 \
+        --max-active=2147483647 \
         --min-active=200 \
         --online=true \
         --word-symbol-table=$src/words.txt \
