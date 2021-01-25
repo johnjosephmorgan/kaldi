@@ -93,9 +93,10 @@ if [ $stage -le 4 ]; then
   gzip $src/decode_online/lat.1
 fi
 
+# Run scoring
 if [ $stage -le 5 ]; then
-  ./steps/scoring/score_kaldi_wer.sh --cmd run.pl data/test exp/$src \
-    exp/$src/decode_online
+  ./steps/scoring/score_kaldi_wer.sh --cmd run.pl data/test $src \
+    $src/decode_online
 fi
 exit 0
 
