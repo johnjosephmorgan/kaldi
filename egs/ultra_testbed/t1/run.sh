@@ -46,15 +46,10 @@ if [ $stage -le 1 ]; then
     steps/make_mfcc.sh data/$s
   done
 fi
-exit
+
 if [ $stage -le 2 ]; then
-  mkdir -vp data/test
-  for s in adel anwar bubaker hisham mukhtar redha  srj yousef; do
-    echo "Concatenate $s spk2utt, text, utt2spk and wav.scp in test directory."
-    for f in spk2utt utt2spk text wav.scp; do
-      cat data/$s/recordings/$f >> data/test/$f
-    done
-  done
+  utils/combine_data.sh data/test data/adel data/anwar data/bubaker data/hisham \
+    data/mukhtar data/redha data/srj data/yousef
 fi
 
 if [ $stage -le 3 ]; then
