@@ -1,0 +1,33 @@
+* Get the text to train the LM
+cat /mnt/corpora/ultra/arabic_lm_text/ar/*.txt > lm_text.txt
+* Make the lm
+./local/prepare_lm.sh ./lm_text.txt
+The above command creates the file:
+data/local/lm/trigram.arpa.gz
+* Get the lexicon
+cp /mnt/corpora/Tunisian_MSA/lexicon.txt ./
+* Format the LM as an fst
+utils/format_lm.sh data/lang data/local/lm/trigram.arpa.gz data/local/dict/lexicon.txt data/lang_test
+data/lang was written by the tunisian_msa system build.
+The file data/local/dict/lexicon.txt should be Zak's lexicon.
+* Make the decoding graph:
+utils/mkgraph.sh data/lang_test exp/chain2/tdnn_multi/tamsa/ exp/chain2/tdnn_multi/tamsa/graph
+* Get the files required for decoding 
+mkdir -p exp/multi_tamsa_librispeech_tamsa
+- graph
+scp john@$GPUTHREE:/home/john/kaldi_jjm/egs/tunisian_msa/s5/exp/chain2/tdnn_multi/tamsa/graph/HCLG.fst exp/multi_tamsa_librispeech_tamsa
+- Get the word list
+scp john@$GPUTHREE:/home/john/kaldi_jjm/egs/tunisian_msa/s5/exp/chain2/tdnn_multi/tamsa/graph/words.txt exp/multi_tamsa_librispeech_tamsa/
+- Get the tree
+scp john@$GPUTHREE:/home/john/kaldi_jjm/egs/tunisian_msa/s5/exp/chain2/tdnn_multi/tamsa/tree exp/multi_tamsa_librispeech_tamsa/
+- Get the tdnn model
+scp john@$GPUTHREE:/home/john/kaldi_jjm/egs/tunisian_msa/s5/exp/chain2/tdnn_multi/tamsa/final.mdl exp/multi_tamsa_librispeech_tamsa/
+- Get the ivector extractor
+scp -r john@$GPUTHREE:/home/john/kaldi_jjm/egs/tunisian_msa/s5/exp/nnet3/extractor exp/multi_tamsa_librispeech_tamsa/extractor
+mv exp/multi_tamsa_librispeech_tamsa/extractor exp/multi_tamsa_librispeech_tamsa/ivector_extractor
+* Write Config files in exp/multi_tamsa_librispeech_tamsa/conf
+- online.conf
+- mfcc.conf
+- ivector_extractor.conf
+- online_cmvn.conf
+*& Run the decoding
