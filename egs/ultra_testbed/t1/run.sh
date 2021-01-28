@@ -9,7 +9,34 @@ acoustic_scale=0.1 #  Scaling factor for acoustic log-likelihoods (float, defaul
 add_pitch=false  #  Append pitch features to raw MFCC/PLP/filterbank features [but not for iVector extraction] (bool, default = false)
 beam=16.0 # Decoding beam.  Larger->slower, more accurate. (float, default = 16)
 beam_delta=0.5 # Increment used in decoding-- this parameter is obscure and relates to a speedup in the way the max-active constraint is applied.  Larger is more accurate. (float, default = 0.5)
-do_endpointing=false
+chunk_length=0.18 # Length of chunk size in seconds, that we process.  Set to <= 0 to use all input in one chunk. (float, default = 0.18)
+computation_debug=false # If true, turn on debug for the neural net computation (very verbose!) Will be turned on regardless if --verbose >= 5 (bool, default = false)
+cmvn_config= # Configuration file for online cmvn features (e.g. conf/online_cmvn.conf). Controls features on nnet3 input (not ivector features). If not set, the OnlineCmvn is disabled. (string, default = "")
+debug_computation=true # If true, turn on debug for the actual computation (very verbose!) (bool, default = false)
+delta=0.000976562 # Tolerance used in determinization (float, default = 0.000976562)
+determinize_lattice=true # If true, determinize the lattice (lattice-determinization, keeping only best pdf-sequence for each word-sequence). (bool, default = true)
+do_endpointing=false # If true, apply endpoint detection (bool, default = false)
+endpoint_rule1_max_relative_cost=inf # This endpointing rule requires relative-cost of final-states to be <= this value (describes how good the probability of final-states is). (float, default = inf)
+endpoint_rule1_min_trailing_silence=5 # This endpointing rule requires duration of trailing silence(in seconds) to be >= this value. (float, default = 5)
+endpoint_rule1_min_utterance_length=1.0 # This endpointing rule requires utterance-length (in seconds) to be >= this value. (float, default = 0)
+endpoint_rule1_must_contain_nonsilence=true # If true, for this endpointing rule to apply there must be nonsilence in the best-path traceback. (bool, default = false)
+endpoint_rule2_max_relative_cost=2 # This endpointing rule requires relative-cost of final-states to be <= this value (describes how good the probability of final-states is). (float, default = 2)
+endpoint_rule2_min_trailing_silence=0.5 # This endpointing rule requires duration of trailing silence(in seconds) to be >= this value. (float, default = 0.5)
+endpoint_rule2_min_utterance_length=2 # This endpointing rule requires utterance-length (in seconds) to be >= this value. (float, default = 0)
+endpoint_rule2_must_contain_nonsilence=true # If true, for this endpointing rule to apply there must be nonsilence in the best-path traceback. (bool, default = true)
+endpoint_rule3_max_relative_cost=8 # This endpointing rule requires relative-cost of final-states to be <= this value (describes how good the probability of final-states is). (float, default = 8)
+endpoint_rule3_min_trailing_silence=1 # This endpointing rule requires duration of trailing silence(in seconds) to be >= this value. (float, default = 1)
+endpoint_rule3_min_utterance_length=2 # This endpointing rule requires utterance-length (in seconds) to be >= this value. (float, default = 0)
+endpoint_rule3_must_contain_nonsilence=true # If true, for this endpointing rule to apply there must be nonsilence in the best-path traceback. (bool, default = true)
+endpoint_rule4_max_relative_cost=inf # This endpointing rule requires relative-cost of final-states to be <= this value (describes how good the probability of final-states is). (float, default = inf)
+endpoint_rule4_min_trailing_silence=2 # This endpointing rule requires duration of trailing silence(in seconds) to be >= this value. (float, default = 2)
+endpoint_rule4_min_utterance_length=0 # This endpointing rule requires utterance-length (in seconds) to be >= this value. (float, default = 0)
+endpoint_rule4_must_contain_nonsilence=true # If true, for this endpointing rule to apply there must be nonsilence in the best-path traceback. (bool, default = true)
+endpoint_rule5_max_relative_cost=inf # This endpointing rule requires relative-cost of final-states to be <= this value (describes how good the probability of final-states is). (float, default = inf)
+endpoint_rule5_min_trailing_silence=5 # This endpointing rule requires duration of trailing silence(in seconds) to be >= this value. (float, default = 0)
+endpoint_rule5_min_utterance_length=20 # This endpointing rule requires utterance-length (in seconds) to be >= this value. (float, default = 20)
+endpoint_rule5_must_contain_nonsilence=true # If true, for this endpointing rule to apply there must be nonsilence in the best-path traceback. (bool, default = false)
+endpoint_silence_phones=""  # List of phones that are considered to be silence phones by the endpointing code. (string, default = "")
 extra_left_context_initial=0
 frame_subsampling_factor=3
 frames_per_chunk=20
@@ -85,8 +112,34 @@ if [ $stage -le 3 ]; then
         --add-pitch=$add_pitch \
         --beam=$beam \
         --beam-delta=$beam_delta \
+	--chunk-length=$chunk_length \
+        --computation.debug=$computation_debug \
         --config=$src/conf/online.conf \
+	--debug-computation=$debug_computation \
+	--delta=$delta \
+	--determinize-lattice=$determinize_lattice \
         --do-endpointing=$do_endpointing \
+        --endpoint.rule1.max-relative-cost=$endpoint_rule1_max_relative_cost \
+        --endpoint.rule1.min-trailing-silence=$endpoint_rule1_min_trailing_silence \
+        --endpoint.rule1.min-utterance-length=$endpoint_rule1_min_utterance_length \
+        --endpoint.rule1.must-contain-nonsilence=$endpoint_rule1_must_contain_nonsilence \
+        --endpoint.rule2.max-relative-cost=$endpoint_rule2_max_relative_cost \
+        --endpoint.rule2.min-trailing-silence=$endpoint_rule2_min_trailing_silence \
+        --endpoint.rule2.min-utterance-length=$endpoint_rule2_min_utterance_length \
+        --endpoint.rule2.must-contain-nonsilence=$endpoint_rule2_must_contain_nonsilence \
+        --endpoint.rule3.max-relative-cost=$endpoint_rule3_max_relative_cost \
+        --endpoint.rule3.min-trailing-silence=$endpoint_rule3_min_trailing_silence \
+        --endpoint.rule3.min-utterance-length=$endpoint_rule3_min_utterance_length \
+        --endpoint.rule3.must-contain-nonsilence=$endpoint_rule3_must_contain_nonsilence \
+        --endpoint.rule4.max-relative-cost=$endpoint_rule4_max_relative_cost \
+        --endpoint.rule4.min-trailing-silence=$endpoint_rule4_min_trailing_silence \
+        --endpoint.rule4.min-utterance-length=$endpoint_rule4_min_utterance_length \
+        --endpoint.rule4.must-contain-nonsilence=$endpoint_rule4_must_contain_nonsilence \
+        --endpoint.rule5.max-relative-cost=$endpoint_rule5_max_relative_cost \
+        --endpoint.rule5.min-trailing-silence=$endpoint_rule5_min_trailing_silence \
+        --endpoint.rule5.min-utterance-length=$endpoint_rule5_min_utterance_length \
+        --endpoint.rule5.must-contain-nonsilence=$endpoint_rule5_must_contain_nonsilence \
+        --endpoint.silence-phones=$endpoint_silence_phones \
         --extra-left-context-initial=$extra_left_context_initial \
         --frame-subsampling-factor=$frame_subsampling_factor \
         --frames-per-chunk=$frames_per_chunk \
@@ -132,36 +185,6 @@ if [ $stage -le 5 ]; then
 fi
 exit 0
 
-
-
-  --chunk-length              : Length of chunk size in seconds, that we process.  Set to <= 0 to use all input in one chunk. (float, default = 0.18)
-  --cmvn-config               : Configuration file for online cmvn features (e.g. conf/online_cmvn.conf). Controls features on nnet3 input (not ivector features). If not set, the OnlineCmvn is disabled. (string, default = "")
-  --computation.debug         : If true, turn on debug for the neural net computation (very verbose!) Will be turned on regardless if --verbose >= 5 (bool, default = false)
-  --debug-computation         : If true, turn on debug for the actual computation (very verbose!) (bool, default = false)
-  --delta                     : Tolerance used in determinization (float, default = 0.000976562)
-  --determinize-lattice       : If true, determinize the lattice (lattice-determinization, keeping only best pdf-sequence for each word-sequence). (bool, default = true)
-  --do-endpointing            : If true, apply endpoint detection (bool, default = false)
-  --endpoint.rule1.max-relative-cost : This endpointing rule requires relative-cost of final-states to be <= this value (describes how good the probability of final-states is). (float, default = inf)
-  --endpoint.rule1.min-trailing-silence : This endpointing rule requires duration of trailing silence(in seconds) to be >= this value. (float, default = 5)
-  --endpoint.rule1.min-utterance-length : This endpointing rule requires utterance-length (in seconds) to be >= this value. (float, default = 0)
-  --endpoint.rule1.must-contain-nonsilence : If true, for this endpointing rule to apply there must be nonsilence in the best-path traceback. (bool, default = false)
-  --endpoint.rule2.max-relative-cost : This endpointing rule requires relative-cost of final-states to be <= this value (describes how good the probability of final-states is). (float, default = 2)
-  --endpoint.rule2.min-trailing-silence : This endpointing rule requires duration of trailing silence(in seconds) to be >= this value. (float, default = 0.5)
-  --endpoint.rule2.min-utterance-length : This endpointing rule requires utterance-length (in seconds) to be >= this value. (float, default = 0)
-  --endpoint.rule2.must-contain-nonsilence : If true, for this endpointing rule to apply there must be nonsilence in the best-path traceback. (bool, default = true)
-  --endpoint.rule3.max-relative-cost : This endpointing rule requires relative-cost of final-states to be <= this value (describes how good the probability of final-states is). (float, default = 8)
-  --endpoint.rule3.min-trailing-silence : This endpointing rule requires duration of trailing silence(in seconds) to be >= this value. (float, default = 1)
-  --endpoint.rule3.min-utterance-length : This endpointing rule requires utterance-length (in seconds) to be >= this value. (float, default = 0)
-  --endpoint.rule3.must-contain-nonsilence : If true, for this endpointing rule to apply there must be nonsilence in the best-path traceback. (bool, default = true)
-  --endpoint.rule4.max-relative-cost : This endpointing rule requires relative-cost of final-states to be <= this value (describes how good the probability of final-states is). (float, default = inf)
-  --endpoint.rule4.min-trailing-silence : This endpointing rule requires duration of trailing silence(in seconds) to be >= this value. (float, default = 2)
-  --endpoint.rule4.min-utterance-length : This endpointing rule requires utterance-length (in seconds) to be >= this value. (float, default = 0)
-  --endpoint.rule4.must-contain-nonsilence : If true, for this endpointing rule to apply there must be nonsilence in the best-path traceback. (bool, default = true)
-  --endpoint.rule5.max-relative-cost : This endpointing rule requires relative-cost of final-states to be <= this value (describes how good the probability of final-states is). (float, default = inf)
-  --endpoint.rule5.min-trailing-silence : This endpointing rule requires duration of trailing silence(in seconds) to be >= this value. (float, default = 0)
-  --endpoint.rule5.min-utterance-length : This endpointing rule requires utterance-length (in seconds) to be >= this value. (float, default = 20)
-  --endpoint.rule5.must-contain-nonsilence : If true, for this endpointing rule to apply there must be nonsilence in the best-path traceback. (bool, default = false)
-  --endpoint.silence-phones   : List of phones that are considered to be silence phones by the endpointing code. (string, default = "")
   --extra-left-context-initial : Extra left context to use at the first frame of an utterance (note: this will just consist of repeats of the first frame, and should not usually be necessary. (int, default = 0)
   --fbank-config              : Configuration file for filterbank features (e.g. conf/fbank.conf) (string, default = "")
   --feature-type              : Base feature type [mfcc, plp, fbank] (string, default = "mfcc")
@@ -205,4 +228,3 @@ exit 0
   --plp-config                : Configuration file for PLP features (e.g. conf/plp.conf) (string, default = "")
   --prune-interval            : Interval (in frames) at which to prune tokens (int, default = 25)
   --word-determinize          : If true, do a second pass of determinization on words only (see also --phone-determinize) (bool, default = true)
-
