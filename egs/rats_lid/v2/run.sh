@@ -5,7 +5,7 @@
 set -e
 
 tabdir=/mnt/corpora/LDC2015S02/RATS_SAD/data
-datadir=/mnt/disk01/jjm/speechactivity
+datadir=/mnt/disk01/jjm/kaldi_rats_lid_segmented/speechactivity
 #datadir=/export/corpora5/LC/LDC2015S02/data
 nnet_dir=exp/xvector_nnet_1a
 stage=0
