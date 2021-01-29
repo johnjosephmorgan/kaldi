@@ -16,7 +16,7 @@ if [ $stage -le 0 ]; then
   for f in dev-1 dev-2 train; do
     echo "Retrieving $f supervision files."
     mkdir -p data/$f
-    find $datadir/$f/sad -type f -name "*.tab" | xargs cat > \
+    find $tabdir/$f/sad -type f -name "*.tab" | xargs cat > \
       data/$f/annotation.txt
     echo "Writing utt2lang for $f."
     #cut -f 2,9 data/$f/annotation.txt > data/$f/utt2lang.txt
