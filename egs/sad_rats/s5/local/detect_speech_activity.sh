@@ -163,3 +163,4 @@ fi
 
 echo "$0: Created output segmented kaldi data directory in data/${fld}_seg."
 exit 0
+

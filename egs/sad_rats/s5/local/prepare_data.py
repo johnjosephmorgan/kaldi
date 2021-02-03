@@ -168,3 +168,4 @@ if __name__ == "__main__":
     parser.add_argument('--min-length', default=0.0001, type=float, help="minimum length of segments to create")
     args=parser.parse_args()
     make_sad_data(**vars(args))
+
