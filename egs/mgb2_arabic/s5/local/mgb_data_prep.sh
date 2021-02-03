@@ -4,8 +4,8 @@
 #               2016-2019  Vimal Manohar
 #               2019 Dongji Gao
 
-if [ $# -ne 2 ]; then
-  echo "Usage: $0 <DB-dir> <mer-sel>
+if [ "$#" != "2" ]; then
+  echo "Usage: $0 <DB-dir> <mer-sel>"
   exit 1;
 fi
 
