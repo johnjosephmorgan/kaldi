@@ -4,14 +4,14 @@
 #               2016-2019  Vimal Manohar
 #               2019 Dongji Gao
 
-if [ $# -ne 3 ]; then
-  echo "Usage: $0 <DB-dir> <mer-sel> <process-xml>"
+if [ $# -ne 2 ]; then
+  echo "Usage: $0 <DB-dir> <mer-sel>
   exit 1;
 fi
 
 db_dir=$1
 mer=$2
-
+process_xml=python
 train_dir=data/train_mer$mer
 dev_dir=data/dev
 
