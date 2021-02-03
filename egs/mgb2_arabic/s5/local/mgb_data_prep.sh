@@ -15,13 +15,7 @@ process_xml=python
 train_dir=data/train_mer$mer
 dev_dir=data/dev
 
-for x in $train_dir $dev_dir; do
-  mkdir -p $x
-  if [ -f ${x}/wav.scp ]; then
-    mkdir -p ${x}/.backup
-    mv $x/{wav.scp,feats.scp,utt2spk,spk2utt,segments,text} ${x}/.backup
-  fi
-done
+mkdir -p $train_dir $dev_dir
 
 find $db_dir/train/wav -type f -name "*.wav" | \
   awk -F/ '{print $NF}' | perl -pe 's/\.wav//g' > \
@@ -33,33 +27,12 @@ head -500 $train_dir/wav_list > $train_dir/wav_list.short
 set -e -o pipefail
 
 xmldir=$db_dir/train/xml/bw
-if [ $process_xml == "python" ]; then
-  echo "using python to process xml file"
-  # check if bs4 and lxml are installin in python
-  local/check_tools.sh
-  # process xml file using python
-  cat $train_dir/wav_list | while read basename; do
+{
+  while read basename; do
     [ ! -e $xmldir/$basename.xml ] && echo "Missing $xmldir/$basename.xml" && exit 1
     local/process_xml.py $xmldir/$basename.xml - | local/add_to_datadir.py $basename $train_dir $mer
   done
-elif [ $process_xml == 'xml' ]; then
-  # check if xml binary exsits
-  if command -v xml >/dev/null 2>/dev/null; then
-    echo "using xml"
-    cat $train_dir/wav_list | while read basename; do
-      [ ! -e $xmldir/$basename.xml ] && echo "Missing $xmldir/$basename.xml" && exit 1
-      xml sel -t -m '//segments[@annotation_id="transcript_align"]' -m "segment" -n -v  "concat(@who,' ',@starttime,' ',@endtime,' ',@WMER,' ')" -m "element" -v "concat(text(),' ')" $xmldir/$basename.xml | local/add_to_datadir.py $basename $train_dir $mer
-      echo $basename $wavDir/$basename.wav >> $train_dir/wav.scp
-    done
-  else
-    echo "xml not found, you may use python by '--process-xml python'"
-    exit 1;
-  fi
-else
-  # invalid option
-  echo "$0: invalid option for --process-xml, choose from 'xml' or 'python'"
-  exit 1;
-fi
+} < $train_dir/wav_list 
 
 for x in text segments; do
   cp $db_dir/dev/${x}.all $dev_dir/${x}
