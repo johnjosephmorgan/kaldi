@@ -1,15 +1,28 @@
 * Get the text to train the LM
 cat /mnt/corpora/ultra/arabic_lm_text/ar/*.txt > lm_text.txt
+** Get a random subsample
+shuf -o lm_text_*.txt -n * lm_text.txt
+Replace "*" with a number indicating the size of the subsample.
 * Make the lm
-./local/prepare_lm.sh ./lm_text.txt
+rm -Rf data/local;mkdir -p data/local
+./local/prepare_lm.sh ./lm_text_*.txt
 The above command creates the file:
 data/local/lm/trigram.arpa.gz
+The "*" should be the same number as in the previous step.
 * Get the lexicon
 cp /mnt/corpora/Tunisian_MSA/lexicon.txt ./
+* Prepare the dictionary
+** Get a random subsample of the lexicon
+rm -Rf data/local/dict;mkdir -p data/local/dict
+shuf -n * lexicon.txt | tr "\$" "S" >  lexicon_*.txt 
+REplace "*" with the desired size of the lexicon.
+** Prepare dictionary for kaldi
+local/prepare_dict.sh lexicon_*.txt
+The "*' should be the same number as in the previous step.
+* Make the lang directory
+utils/prepare_lang.sh data/local/dict "<UNK>" data/local/lang data/lang
 * Format the LM as an fst
 utils/format_lm.sh data/lang data/local/lm/trigram.arpa.gz data/local/dict/lexicon.txt data/lang_test
-data/lang was written by the tunisian_msa system build.
-The file data/local/dict/lexicon.txt should be Zak's lexicon.
 * Make the decoding graph:
 utils/mkgraph.sh data/lang_test exp/chain2/tdnn_multi/tamsa/ exp/chain2/tdnn_multi/tamsa/graph
 * Get the files required for decoding 
@@ -17,7 +30,7 @@ mkdir -p exp/multi_tamsa_librispeech_tamsa
 - graph
 scp john@$GPUTHREE:/home/john/kaldi_jjm/egs/tunisian_msa/s5/exp/chain2/tdnn_multi/tamsa/graph/HCLG.fst exp/multi_tamsa_librispeech_tamsa
 - Get the word list
-scp john@$GPUTHREE:/home/john/kaldi_jjm/egs/tunisian_msa/s5/exp/chain2/tdnn_multi/tamsa/graph/words.txt exp/multi_tamsa_librispeech_tamsa/
+scp john@$GPUTHREE:/home/john/kaldi_jjm/egs/tunisian_msa/s5/./exp/chain2/tdnn_multi/tamsa/graph/words.txt exp/multi_tamsa_librispeech_tamsa/
 - Get the tree
 scp john@$GPUTHREE:/home/john/kaldi_jjm/egs/tunisian_msa/s5/exp/chain2/tdnn_multi/tamsa/tree exp/multi_tamsa_librispeech_tamsa/
 - Get the tdnn model
