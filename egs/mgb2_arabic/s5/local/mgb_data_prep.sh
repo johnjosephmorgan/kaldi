@@ -31,6 +31,7 @@ xmldir=$db_dir/train/xml/bw
   while read basename; do
     [ ! -e $xmldir/$basename.xml ] && echo "Missing $xmldir/$basename.xml" && exit 1
     local/process_xml.py $xmldir/$basename.xml - | local/add_to_datadir.py $basename $train_dir $mer
+    echo $basename $wavDir/$basename.wav >> $train_dir/wav.scp
   done
 } < $train_dir/wav_list 
 
