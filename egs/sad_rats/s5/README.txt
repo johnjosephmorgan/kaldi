@@ -8,7 +8,7 @@ The rats_sad corpus was created specifically for the SAD task.
 Documentation on the rats_sad corpus is available at:
 https://catalog.ldc.upenn.edu/docs/LDC2015S02/README.txt
 
-Notes:
+Note:
 The recipe follows the conventions set by other recipes in the Kaldi repository available at:
 https://github.com/kaldi_asr/kaldi.git
 Next, the files and directories are described.

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # Copyright 2017  Vimal Manohar
-# Copyright 2017  John Morgan (ARL)
+# Copyright 2021  John Morgan (ARL)
 # Apache 2.0
 
 import argparse
@@ -14,7 +14,7 @@ def get_args():
     parser = argparse.ArgumentParser(
         description="""This script writes to stdout a transformation matrix
     to convert a 2x1 probability vector to a
-    2x1 pseudo-likelihood vector by first dividing by 3x1 priors vector.""")
+    2x1 pseudo-likelihood vector by first dividing by 2x1 priors vector.""")
 
     parser.add_argument("--priors", type=str, default=None,
                         action=common_lib.NullstrToNoneAction,
@@ -29,14 +29,6 @@ def get_args():
     parser.add_argument("--speech-in-sil-weight", type=float,
                         default=0.0,
                         help="The fraction of speech probability "
-                        "to add to silence")
-    parser.add_argument("--garbage-in-speech-weight", type=float,
-                        default=0.0,
-                        help="The fraction of garbage probability "
-                        "to add to speech")
-    parser.add_argument("--garbage-in-sil-weight", type=float,
-                        default=0.0,
-                        help="The fraction of garbage probability "
                         "to add to silence")
     parser.add_argument("--sil-scale", type=float,
                         default=1.0, help="""Scale on the silence probability
@@ -72,3 +64,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
