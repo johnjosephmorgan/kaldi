@@ -65,7 +65,7 @@ for f in 3-gram.arpa.gz 3-gram.pruned.1e-7.arpa.gz 3-gram.pruned.3e-7.arpa.gz  \
   check_and_download $f || exit 1
 done
 
-dst_dir=$(readlink -f $dst_dir)
+dst_dir=$(utils/make_absolute.sh $dst_dir)
 ln -sf $dst_dir/3-gram.pruned.1e-7.arpa.gz $local_dir/lm_tgmed.arpa.gz
 ln -sf $dst_dir/3-gram.pruned.3e-7.arpa.gz $local_dir/lm_tgsmall.arpa.gz
 ln -sf $dst_dir/3-gram.arpa.gz $local_dir/lm_tglarge.arpa.gz
