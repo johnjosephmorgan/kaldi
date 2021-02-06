@@ -77,7 +77,7 @@ echo "$0 $@"  # Print the command line for logging
 . ./utils/parse_options.sh
 
 if ! cuda-compiled; then
-  cat <<EOF && exit 1
+  cat <<EOF #&& exit 1
 This script is intended to be used with GPUs but you have not compiled Kaldi with CUDA
 If you want to use GPUs (and have them), go to src/, and configure and make on a machine
 where "nvcc" is installed.
@@ -293,13 +293,13 @@ fi
 
 if [ $stage -le 19 ]; then
   echo "$0: about to randomize egs"
-  steps/chain2/randomize_egs.sh --frames-per-job 3000000 \
+  bash -x steps/chain2/randomize_egs.sh --frames-per-job 3000000 \
     ${dir}/processed_egs ${dir}/egs
 fi
 
 if [ $stage -le 20 ]; then
     echo "$0: Training pre-conditioning matrix"
-    num_lda_jobs=`find ${dir}/egs/ -iname 'train.*.scp' | wc -l | cut -d ' ' -f2`
+    num_lda_jobs=$(find ${dir}/egs -iname 'train.*.scp' | wc -l)
     steps/chain2/compute_preconditioning_matrix.sh --cmd "$train_cmd" \
         --nj $num_lda_jobs \
         $dir/configs/init.raw \
@@ -324,11 +324,13 @@ fi
 
 if [ $stage -le 22 ]; then
   echo "$0: about to train model"
-  steps/chain2/train.sh \
-    --stage $train_stage --cmd "$train_cmd" \
+  bash -x steps/chain2/train.sh \
+      --use-gpu no \
+      --stage $train_stage --cmd "$train_cmd" \
     --xent-regularize $xent_regularize --leaky-hmm-coefficient 0.1 \
     --max-param-change 2.0 \
-    --num-jobs-initial 2 --num-jobs-final 5 \
+    --num-jobs-initial 1 \
+    --num-jobs-final 2 \
     --minibatch-size 256,128,64 \
      $dir/egs $dir || exit 1;
 fi
@@ -368,3 +370,4 @@ if [ $stage -le 24 ]; then
 fi
 
 exit 0;
+<
