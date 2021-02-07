@@ -95,26 +95,29 @@ ivec_feat_suffix=${feat_suffix}
 if $use_pitch; then feat_suffix=${feat_suffix}_pitch ; fi
 if $use_pitch_ivector; then nnet3_affix=_pitch; ivec_feat_suffix=${feat_suffix}_pitch ; fi
 
-for lang_index in `seq 0 $[$num_langs-1]`; do
-  echo "$0: extract high resolution 40dim MFCC + pitch for speed-perturbed data "
-  echo "and extract alignment."
-  local/nnet3/run_common_langs.sh --stage $stage \
-    --feat-suffix $feat_suffix \
-    --use-pitch $use_pitch \
-    --speed-perturb $speed_perturb ${lang_list[$lang_index]} || exit 1;
-  if $use_pitch && ! $use_pitch_ivector; then
-    echo "$0: select MFCC features for ivector extraction."
-    featdir=data/${lang_list[$lang_index]}/train${suffix}${feat_suffix}
-    ivec_featdir=data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix}
-    mfcc_only_dim=`feat-to-dim scp:$featdir/feats.scp - | awk '{print $1-3}'`
-    if [ ! -f $ivec_featdir/.done ]; then
-      steps/select_feats.sh --cmd "$train_cmd" --nj 70 0-$[$mfcc_only_dim-1] \
-        $featdir ${ivec_featdir} || exit 1;
-      steps/compute_cmvn_stats.sh ${ivec_featdir} || exit 1;
-      touch ${ivec_featdir}/.done || exit 1;
+if [ $stage -le 0 ]; then
+  for lang_index in `seq 0 $[$num_langs-1]`; do
+    echo "$0: extract high resolution 40dim MFCC + pitch for speed-perturbed data "
+    echo "and extract alignment."
+    local/nnet3/run_common_langs.sh --stage $stage \
+      --feat-suffix $feat_suffix \
+      --use-pitch $use_pitch \
+      --speed-perturb $speed_perturb ${lang_list[$lang_index]} || exit 1;
+    if $use_pitch && ! $use_pitch_ivector; then
+      echo "$0: select MFCC features for ivector extraction."
+      featdir=data/${lang_list[$lang_index]}/train${suffix}${feat_suffix}
+      ivec_featdir=data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix}
+      mfcc_only_dim=`feat-to-dim scp:$featdir/feats.scp - | awk '{print $1-3}'`
+      if [ ! -f $ivec_featdir/.done ]; then
+        steps/select_feats.sh --cmd "$train_cmd" --nj 70 0-$[$mfcc_only_dim-1] \
+          $featdir ${ivec_featdir} || exit 1;
+        steps/compute_cmvn_stats.sh ${ivec_featdir} || exit 1;
+        touch ${ivec_featdir}/.done || exit 1;
+      fi
     fi
-  fi
-done
+  done
+fi
+
 if [ $stage -le 1 ]; then
   if $use_ivector; then
     ivector_suffix=""
