@@ -170,7 +170,7 @@ if [ $stage -le 3 ]; then
   if $use_ivector; then
     echo "$0: Extracts ivector for all languages using $global_extractor/extractor."
     for lang_index in `seq 0 $[$num_langs-1]`; do
-      local/nnet3/extract_ivector_lang.sh --stage $stage \
+      local/nnet3/extract_ivector_lang.sh --stage 0 \
         --train-set train${suffix}${ivec_feat_suffix} \
         --ivector-suffix "$ivector_suffix" \
         --nnet3-affix "$nnet3_affix" \
