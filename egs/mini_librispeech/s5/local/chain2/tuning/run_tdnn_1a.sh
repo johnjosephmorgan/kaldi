@@ -149,7 +149,6 @@ if [ $stage -le 1 ]; then
         touch $multi_data_dir_for_ivec/.done
       fi
     fi
-
   fi
 fi
 
@@ -164,6 +163,11 @@ if [ $stage -le 2 ]; then
         $multi_data_dir_for_ivec $global_extractor || exit 1;
       touch $global_extractor/extractor/.done
     fi
+  fi
+fi
+
+if [ $stage -le 3 ]; then
+  if $use_ivector; then
     echo "$0: Extracts ivector for all languages using $global_extractor/extractor."
     for lang_index in `seq 0 $[$num_langs-1]`; do
       local/nnet3/extract_ivector_lang.sh --stage $stage \
