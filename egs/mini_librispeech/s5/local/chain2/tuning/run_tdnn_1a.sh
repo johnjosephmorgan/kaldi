@@ -25,11 +25,11 @@ use_pitch=true  # if true, pitch feature used to train multilingual setup
 use_pitch_ivector=false # if true, pitch feature used in ivector extraction.
 use_ivector=true
 megs_dir=
-alidir=tri5_ali
+alidir=tri3b_ali
 stage=-1
 nj=30
 train_set=train
-gmm=tri5  # the gmm for the target data
+gmm=tri3b  # the gmm for the target data
 langdir=data/lang
 num_threads_ubm=1
 nnet3_affix=_cleaned  # cleanup affix for nnet3 and chain dirs, e.g. _cleaned
@@ -154,7 +154,7 @@ fi
 
 if [ $stage -le 2 ]; then
   global_extractor=exp/multi/nnet3${nnet3_affix}
-  ivector_extractor=$global_extractor/extractor
+  ivector_extractor=$global<_extractor/extractor
   if $use_ivector; then
     if [ ! -f $global_extractor/extractor/.done ]; then
       local/nnet3/run_shared_ivector_extractor.sh  \
