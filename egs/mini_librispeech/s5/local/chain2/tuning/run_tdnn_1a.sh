@@ -70,7 +70,7 @@ dir=exp/chain2${nnet3_affix}/tdnn${tdnn_affix}_multi
 suffix=
 if $speed_perturb; then
   suffix=_sp
-fi<
+fi
 
 num_langs=${#lang_list[@]}
 echo "$0 $@"  # Print the command line for logging
