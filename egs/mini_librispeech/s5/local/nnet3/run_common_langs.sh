@@ -49,7 +49,7 @@ if [ $stage -le 2 ]; then
   steps/align_fmllr.sh \
     --nj 16 --cmd "$train_cmd" \
     --boost-silence $boost_sil \
-    data/$lang/$train_set data/$lang/lang exp/$lang/tri3b exp/$lang/alignments_sp || exit 1;
+    data/$lang/$train_set data/$lang/lang exp/$lang/tri3b exp/$lang/tri3b_ali_sp || exit 1;
   touch exp/$lang/alignments_sp/.done
 fi
 
