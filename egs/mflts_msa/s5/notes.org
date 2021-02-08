@@ -1,0 +1,20 @@
+* Get some data
+cp ~/mflts/Modern\ Standard\ Arabic/Speech/primary\ data\ TRAINING\ ONLY/NISTMSA_G52_sM18iM04fM19_050810_sf.wav ./
+cp ~/mflts/Modern\ Standard\ Arabic/Speech/primary\ data\ TRAINING\ ONLY/NISTMSA_G52_sM18iM04fM19_050810_sif.wav ./
+* Change file format from wav to flac
+sox src/data/sf/wav/NISTMSA_G52_sM18iM04fM19_050810_sf.wav src/data/sf/flac/NISTMSA_G52_sM18iM04fM19_050810_sf.flac 
+sox src/data/sif/wav/NISTMSA_G52_sM18iM04fM19_050810_sif.wav src/data/sif/flac/NISTMSA_G52_sM18iM04fM19_050810_sif.flac
+* Create a silence file
+sox -n -r 16000 -c 1 silence_10.wav trim 0.0 10.0
+* Get SAD models
+** download SAD models from kaldi webpage
+wget http://kaldi-asr.org/models/12/0012_sad_v1.tar.gz
+** Unpack archive
+tar -zxf 0012_sad_v1.tar.gz 
+** Put the models in the right place
+mkdir -p exp
+cd exp
+ln -s ../0012_sad_v1/exp/segmentation_1a ./
+cd ..
+* Run SAD to get segmented data.
+./run_threshold_clustering.sh src/data/sif/flac/NISTMSA_G52_sM18iM04fM19_050810_sif.flac
