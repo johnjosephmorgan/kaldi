@@ -50,7 +50,7 @@ if [ $stage -le 2 ]; then
     --nj 16 --cmd "$train_cmd" \
     --boost-silence $boost_sil \
     data/$lang/$train_set data/$lang/lang exp/$lang/tri3b exp/$lang/tri3b_ali_sp || exit 1;
-  touch exp/$lang/tri3b_sp/.done
+  touch exp/$lang/tri3b_ali_sp/.done
 fi
 
 hires_config="--mfcc-config conf/mfcc_hires.conf"
