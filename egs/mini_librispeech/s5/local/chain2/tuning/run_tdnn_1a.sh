@@ -440,17 +440,20 @@ fi
 if [ $stage -le 18 ]; then
   echo "$0: Starting model training"
   steps/chain2/train.sh \
-    --stage $train_stage --cmd "$cuda_cmd" \
-    --multilingual-eg true \
-    --xent-regularize $xent_regularize --leaky-hmm-coefficient 0.25  \
-    --initial-effective-lrate $initial_effective_lrate \
+    --cmd "$cuda_cmd" \
     --final-effective-lrate $final_effective_lrate \
+    --initial-effective-lrate $initial_effective_lrate \
+    --l2-regularize 5e-5 \
+    --leaky-hmm-coefficient 0.25  \
     --max-param-change $max_param_change \
     --minibatch-size 128 \
-    --srand 1 \
+    --multilingual-eg true \
+    --num-jobs-final $num_jobs_final \
+    --num-jobs-initial $num_jobs_initial \
     --shuffle-buffer-size 5000 \
-    --l2-regularize 5e-5 \
-    --num-jobs-initial $num_jobs_initial --num-jobs-final $num_jobs_final \
+    --srand 1 \
+    --stage $train_stage \
+    --xent-regularize $xent_regularize \
      $common_egs_dir $dir
 fi
 
