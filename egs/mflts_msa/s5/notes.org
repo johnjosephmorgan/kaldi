@@ -1,20 +1,109 @@
-* Get some data
+* Step by step file conversions
+** Get some data
 cp ~/mflts/Modern\ Standard\ Arabic/Speech/primary\ data\ TRAINING\ ONLY/NISTMSA_G52_sM18iM04fM19_050810_sf.wav ./
 cp ~/mflts/Modern\ Standard\ Arabic/Speech/primary\ data\ TRAINING\ ONLY/NISTMSA_G52_sM18iM04fM19_050810_sif.wav ./
-* Change file format from wav to flac
+** Change file format from wav to flac
 sox src/data/sf/wav/NISTMSA_G52_sM18iM04fM19_050810_sf.wav src/data/sf/flac/NISTMSA_G52_sM18iM04fM19_050810_sf.flac 
 sox src/data/sif/wav/NISTMSA_G52_sM18iM04fM19_050810_sif.wav src/data/sif/flac/NISTMSA_G52_sM18iM04fM19_050810_sif.flac
-* Create a silence file
+** Get information on new flac file
+sox --i src/data/sf/flac/NISTMSA_G52_sM18iM04fM19_050810_sf.flac 
+*** info 
+
+Input File     : 'src/data/sf/flac/NISTMSA_G52_sM18iM04fM19_050810_sf.flac'
+Channels       : 2
+Sample Rate    : 44100
+Precision      : 16-bit
+Duration       : 00:22:43.34 = 60123191 samples = 102250 CDDA sectors
+File Size      : 62.1M
+Bit Rate       : 365k
+Sample Encoding: 16-bit FLAC
+Comment        : 'Comment=Processed by SoX'
+
+** Get channel 1
+sox  'src/data/sf/flac/NISTMSA_G52_sM18iM04fM19_050810_sf.flac' -c 1  'src/data/sf/flac/NISTMSA_G52_sM18iM04fM19_050810_sf_c1.flac'
+** info on new channel 1 file
+sox --i 'src/data/sf/flac/NISTMSA_G52_sM18iM04fM19_050810_sf_c1.flac'
+*** info
+
+Input File     : 'src/data/sf/flac/NISTMSA_G52_sM18iM04fM19_050810_sf_c1.flac'
+Channels       : 1
+Sample Rate    : 44100
+Precision      : 16-bit
+Duration       : 00:22:43.34 = 60123191 samples = 102250 CDDA sectors
+File Size      : 32.5M
+Bit Rate       : 191k
+Sample Encoding: 16-bit FLAC
+Comment        : 'Comment=Processed by SoX'
+** Downsample to 16k 
+sox 'src/data/sf/flac/NISTMSA_G52_sM18iM04fM19_050810_sf_c1.flac' -r 16000 'src/data/sf/flac/NISTMSA_G52_sM18iM04fM19_050810_sf_c1_16k.flac'
+** Get info on downsampled recording
+sox --i 'src/data/sf/flac/NISTMSA_G52_sM18iM04fM19_050810_sf_c1_16k.flac'
+*** info
+
+Input File     : 'src/data/sf/flac/NISTMSA_G52_sM18iM04fM19_050810_sf_c1_16k.flac'
+Channels       : 1
+Sample Rate    : 16000
+Precision      : 16-bit
+Duration       : 00:22:43.34 = 21813403 samples ~ 102250 CDDA sectors
+File Size      : 14.0M
+Bit Rate       : 82.4k
+Sample Encoding: 16-bit FLAC
+Comment        : 'Comment=Processed by SoX'
+
+Notice the bit rate.
+
+* Summary of file conversions
+sox 'src/data/sf/flac/NISTMSA_G52_sM18iM04fM19_050810_sf.flac' -c 1 -r 16000 'src/data/sf/flac/NISTMSA_G52_sM18iM04fM19_050810_sf_c1_16k.flac'
+* First attempt at creating an overlapped recording
+** Create a silence file
 sox -n -r 16000 -c 1 silence_10.wav trim 0.0 10.0
-* Get SAD models
-** download SAD models from kaldi webpage
+** Get SAD models
+*** download SAD models from kaldi webpage
 wget http://kaldi-asr.org/models/12/0012_sad_v1.tar.gz
-** Unpack archive
+*** Unpack archive
 tar -zxf 0012_sad_v1.tar.gz 
-** Put the models in the right place
+*** Put the models in the right place
 mkdir -p exp
 cd exp
 ln -s ../0012_sad_v1/exp/segmentation_1a ./
 cd ..
-* Run SAD to get segmented data.
-./run_threshold_clustering.sh src/data/sif/flac/NISTMSA_G52_sM18iM04fM19_050810_sif.flac
+** Run SAD to get segmented data.
+./run.sh src/data/sif/flac/NISTMSA_G52_sM18iM04fM19_050810_sif.flac
+This runs clustering without a priori knowledge of the number of speakers.
+It is not quite as accurate as running with the number of speakers known ahead of time.
+** Copy another recording
+cp ~/mflts/Modern\ Standard\ Arabic/Speech/primary\ data\ TRAINING\ ONLY/NISTMSA_G52_sM15iM14fM27_050910_sif.wav src/data/sif/wav/
+sox 'src/data/sf/flac/NISTMSA_G52_sM18iM04fM19_050810_sf.flac' -c 1 -r 16000 * Convert to flac format from wav
+sox src/data/sif/wav/NISTMSA_G52_sM15iM14fM27_050910_sif.wav src/data/sif/flac/NISTMSA_G52_sM15iM14fM27_050910_sif.flac
+** Run diarization 
+./run.sh src/data/sif/flac/NISTMSA_G52_sM15iM14fM27_050910_sif.flac 
+** Pick 2 files to work with
+NISTMSA_G52_sM15iM14fM27_050910_sif/audio_threshold/2/1011_32.97_36.47.wav
+NISTMSA_G52_sM18iM04fM19_050810_sif/audio_threshold/2/1021_83.9_87.38.wav
+** Get the durations
+sox --i NISTMSA_G52_sM15iM14fM27_050910_sif/audio_threshold/2/1011_32.97_36.47.wav | grep Duration | cut -d ":" -f 2- | cut -d "=" -f 1
+sox --i NISTMSA_G52_sM18iM04fM19_050810_sif/audio_threshold/2/1021_83.9_87.38.wav | grep Duration | cut -d ":" -f 2- | cut -d "=" -f 1
+** Compute durations to decide overlap
+...
+** Create  silence file
+sox -n -r 16000 -c 1 silence_1.wav trim 0.0 1.0
+** Get channel 1
+sox NISTMSA_G52_sM18iM04fM19_050810_sif/audio_threshold/2/1021_83.9_87.38.wav -c 1 -r 1`6000 8.wav
+sox NISTMSA_G52_sM15iM14fM27_050910_sif/audio_threshold/2/1011_32.97_36.47.wav -c 1 -r 16000 5.wav
+** Concatenate silence and part 2 
+sox silence_1.wav 8.wav a.wav
+** Merge  into a stereo recording
+sox -M 5.wav a.wav b.wav
+* Second try at creating an overlapped recording
+** Get the data and convert it.
+The following script retrieves 2 randomly selected files from the database of recordings and converts them from multichannel wav files sampled at 44100 to mono channel flac files sampled at 16000.
+#!/usr/bin/env bash
+datadir=~/mflts
+wavlist=$(find $datadir -type f -name "*sif.wav" | shuf -n 2)
+{
+  while read line; do
+    bn=$(basename "$line" .wav)
+    mkdir -p flacs
+    sox "$line" -c 1 -r 16000 flacs/$bn.flac
+done
+} < wavlist.txt;
