@@ -82,6 +82,26 @@ where "nvcc" is installed.
 EOF
 fi
 
+(
+  echo "$0: Link directories from heroico."
+  mkdir -p exp/heroico
+  cd exp/heroico
+  ln -s ../../../../heroico/s5/data/lang ./
+  ln -s ../ll/ll/ll/heroico/s5/data/train ./
+  ln -s ../../../../heroico/s5/exp/tri3b ./
+  ln -s ../../../../heroico/s5/exp/tri3b_ali ./
+)
+
+(
+  echo "Link to directories in mini_librispeech."
+  mkdir -p exp/mini_librispeech
+  cd exp/mini_librispeech
+  ln -s ../../data/lang ./
+  ln -s ../../data/train_clean_5 ./train
+  ln -s ../tri3b ./
+  ln -s ../tri3b_ali_train_clean_5 ./tri3b_ali
+)
+
 for lang_index in `seq 0 $[$num_langs-1]`; do
   for f in data/${lang_list[$lang_index]}/train/{feats.scp,text} exp/${lang_list[$lang_index]}/$alidir/ali.1.gz exp/${lang_list[$lang_index]}/$alidir/tree; do
     [ ! -f $f ] && echo "$0: no such file $f" && exit 1;
@@ -379,28 +399,34 @@ fi
 
 if [ $stage -le 14 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
-      lang_name=${lang_list[$lang_index]}
-      echo "$0: Generating raw egs for $lang_name"
-      train_ivector_dir=${multi_ivector_dirs[$lang_index]}
-      train_data_dir=${multi_data_dirs[$lang_index]}
-      lat_dir=${multi_ali_latdirs[$lang_index]}
-      if [ ! -f ${dir}/${lang_name}_processed_egs/.done ]; then
-          steps/chain2/get_raw_egs.sh --cmd "$train_cmd" \
-            --lang "$lang_name" \
-            --online-ivector-dir $train_ivector_dir \
-            --left-context $egs_left_context \
-            --right-context $egs_right_context \
-            --frame-subsampling-factor $frame_subsampling_factor \
-            --alignment-subsampling-factor $frame_subsampling_factor \
-            --frames-per-chunk $chunk_width \
-            ${train_data_dir} ${dir} ${lat_dir} ${dir}/${lang_name}_raw_egs || exit 1
+    lang_name=${lang_list[$lang_index]}
+    echo "$0: Generating raw egs for $lang_name"
+    train_ivector_dir=${multi_ivector_dirs[$lang_index]}
+    train_data_dir=${multi_data_dirs[$lang_index]}
+    lat_dir=${multi_ali_latdirs[$lang_index]}
+    if [ ! -f ${dir}/${lang_name}_processed_egs/.done ]; then
+      steps/chain2/get_raw_egs.sh \
+        --alignment-subsampling-factor $frame_subsampling_factor \
+        --cmd "$train_cmd" \
+        --frame-subsampling-factor $frame_subsampling_factor \
+        --frames-per-chunk $chunk_width \
+        --lang "$lang_name" \
+        --left-context $egs_left_context \
+        --online-ivector-dir $train_ivector_dir \
+        --right-context $egs_right_context \
+        ${train_data_dir} \
+	${dir} \
+	${lat_dir} \
+	${dir}/${lang_name}_raw_egs || exit 1
 
-          echo "$0: Processing raw egs for $lang_name"
-          steps/chain2/process_egs.sh  --cmd "$train_cmd" \
-              ${dir}/${lang_name}_raw_egs ${dir}/${lang_name}_processed_egs || exit 1
-          touch ${dir}/${lang_name}_processed_egs/.done
-          rm -r ${dir}/${lang_name}_raw_egs # save space
-      fi
+      echo "$0: Processing raw egs for $lang_name"
+      steps/chain2/process_egs.sh  \
+        --cmd "$train_cmd" \
+        ${dir}/${lang_name}_raw_egs \
+	${dir}/${lang_name}_processed_egs || exit 1
+      touch ${dir}/${lang_name}_processed_egs/.done
+      rm -r ${dir}/${lang_name}_raw_egs # save space
+    fi
   done
 fi
 
