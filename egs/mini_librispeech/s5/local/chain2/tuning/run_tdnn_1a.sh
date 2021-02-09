@@ -158,11 +158,14 @@ if [ $stage -le 2 ]; then
   if $use_ivector; then
     if [ ! -f $global_extractor/extractor/.done ]; then
       local/nnet3/run_shared_ivector_extractor.sh  \
-        --suffix "$suffix" --nnet3-affix "$nnet3_affix" \
+	--nnet3-affix "$nnet3_affix" \
         --feat-suffix "$ivec_feat_suffix" \
         --ivector-transform-type pca \
-        --stage $stage multi \
-        $multi_data_dir_for_ivec $global_extractor || exit 1;
+        --stage 0 \
+        --suffix "$suffix" \
+	multi \
+        $multi_data_dir_for_ivec \
+	$global_extractor || exit 1;
       touch $global_extractor/extractor/.done
     fi
   fi
