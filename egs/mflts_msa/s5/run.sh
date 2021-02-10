@@ -94,7 +94,7 @@ src=$1
 # Make the working directory
 base=$(basename $src .$input_extension)
 # Remove the file extension to get the directory name
-working_dir=${base}
+working_dir=out_dirized/${base}
 mkdir -p $working_dir/speechactivity
 
 if [ $stage -le 0 ]; then
@@ -202,7 +202,7 @@ fi
 
 if [ $stage -le 9 ]; then
   echo "$0 Stage 9: Make .wav files from segmentation."
-  local/speechactivity2wav.pl $src
+  local/speechactivity2wav.pl $src $working_dir
 fi
 
 if [ $stage -le 10 ]; then
@@ -292,7 +292,7 @@ fi
 
 if [ $stage -le 18 ]; then
   echo "$0 Stage 19: Writing .wav files from thresholded clustering."
-  ./local/labels2wav_3.pl $src
+  ./local/labels2wav_3.pl $src $working_dir
 fi
 exit
 if [ $stage -le 19 ]; then
