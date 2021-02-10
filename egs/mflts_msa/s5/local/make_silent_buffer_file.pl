@@ -21,7 +21,7 @@ $0 out_dirized/NISTMSA_A41_sM11iM16fM29_050910_sif/audio_threshold/1/1000_1.69_4
 use File::Basename;
 use File::Copy;
 
-my ($inwav,$samples,$percent) = @ARGV;
+my ($inwav,$samples,$overlap_percent) = @ARGV;
 
 # Store the samples info
 my %samples = ();
@@ -34,12 +34,13 @@ while ( my $line = <$SAMPLES> ) {
 }
 close $SAMPLES;
 
-my $duration = 0.0;
+my $duration = 1.0;
 
 foreach my $f (sort keys %samples) {
-  if ( defined $samples{$f} ) {
+    if ( defined $samples{$f} ) {
+	my $buffer_percent = (100 - $overlap_percent) / 100;
     # get the duration in number of samples
-    $duration = $samples{$f} / $percent;
+    $duration = $samples{$f} / $buffer_percent;
     # Append an "s" to indicate samples
     $duration = $duration . 's';
     my $base = basename $f;
