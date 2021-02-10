@@ -107,3 +107,31 @@ wavlist=$(find $datadir -type f -name "*sif.wav" | shuf -n 2)
     sox "$line" -c 1 -r 16000 flacs/$bn.flac
 done
 } < wavlist.txt;
+** Download kaldi models for SAD and Diarization 
+local/download_kaldi_models.sh
+** Perform Diarization
+for f in flacs/*; do
+  ./run.sh $f
+done
+** Get information from segmented files.
+local/get_info.sh
+This writes a file with 1 record per segment.
+Each record has 2 fields, the file name and the number of samples in the file.
+** Create a silence file.
+local/make_silent_buffer_file.pl
+This creates a silent file for each segment file.
+This is not quite what I need.
+I need to get a silent b uffer for a specific file.
+** Create overlap file
+*** Pick a random file
+a=$(find out_dirized -type f -name "*.wav" \! -name "sil_*"  | shuf -n 1)
+*** Pick another file
+b=$(find out_dirized -type f -name "*.wav" \! -name "sil_*"  | shuf -n 1)
+***
+*** Concatenate a's silent file with b.
+a_base=$(basename $a)
+a_dir=$(dirname $a)
+a_sil=$a_dir/sil_${a_base}
+sox $a_sil $b c.wav
+** Make a stereo file with a on channel 1 and c.wav on channel 2.
+sox $a c.wav -c 2 stereo.wav -M
