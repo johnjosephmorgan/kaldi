@@ -5,19 +5,19 @@ use warnings;
 use Carp;
 
 BEGIN {
-  @ARGV == 1 or croak "USAGE: $0 <SRC_FLAC_FILE>
+  @ARGV == 2 or croak "USAGE: $0 <SRC_FLAC_FILE> <OUTPUT_DIR>
 For example:
-$0 src/data/flac/DH_0001.flac
+$0 src/data/flac/DH_0001.flac diarized
 ";
 }
 
 use File::Basename;
 use File::Copy;
 
-my ($src) = @ARGV;
+my ($src,$out) = @ARGV;
 my $base = basename $src, ".flac";
-my $in = "$base/speechactivity/subsegments/segments";
-my $out_dir = "$base/speechactivity/segmented_audio";
+my $in = "$out/speechactivity/subsegments/segments";
+my $out_dir = "$out/speechactivity/segmented_audio";
 
 mkdir $out_dir;
 

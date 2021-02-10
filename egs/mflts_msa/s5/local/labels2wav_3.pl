@@ -6,19 +6,19 @@ use warnings;
 use Carp;
 
 BEGIN {
-  @ARGV == 1 or croak "USAGE: $0 <SRC_FLAC_FILE>
+  @ARGV == 2 or croak "USAGE: $0 <SRC_FLAC_FILE> <OUTPUT_DIR>
 For Example:
-$0 src/data/flac/DH_0001.flac
+$0 src/data/flac/DH_0001.flac out_diarized
 ";
 }
 
 use File::Basename;
 
-my ($src) = @ARGV;
+my ($src,$out) = @ARGV;
 
 my $base = basename $src, ".flac";
-my $labels = "$base/clusters/labels_threshold";
-my $out_dir = "$base/audio_threshold";
+my $labels = "$out/clusters/labels_threshold";
+my $out_dir = "$out/audio_threshold";
 
 mkdir $out_dir;
 
