@@ -15,7 +15,7 @@ set -e -o pipefail
 remove_egs=false
 cmd=queue.pl
 srand=-1
-stage=0
+stage=-1
 train_stage=-10
 get_egs_stage=-10
 decode_stage=-10
@@ -82,25 +82,27 @@ where "nvcc" is installed.
 EOF
 fi
 
-(
-  echo "$0: Link directories from heroico."
-  mkdir -p exp/heroico
-  cd exp/heroico
-  ln -s ../../../../heroico/s5/data/lang ./
-  ln -s ../ll/ll/ll/heroico/s5/data/train ./
-  ln -s ../../../../heroico/s5/exp/tri3b ./
-  ln -s ../../../../heroico/s5/exp/tri3b_ali ./
-)
+if [ $stage -le -1 ]; then
+  (
+    echo "$0: Link directories from heroico."
+    mkdir -p exp/heroico
+    cd exp/heroico
+    ln -s ../../../../heroico/s5/data/lang ./
+    ln -s ../ll/ll/ll/heroico/s5/data/train ./
+    ln -s ../../../../heroico/s5/exp/tri3b ./
+    ln -s ../../../../heroico/s5/exp/tri3b_ali ./
+  )
 
-(
-  echo "Link to directories in mini_librispeech."
-  mkdir -p exp/mini_librispeech
-  cd exp/mini_librispeech
-  ln -s ../../data/lang ./
-  ln -s ../../data/train_clean_5 ./train
-  ln -s ../tri3b ./
-  ln -s ../tri3b_ali_train_clean_5 ./tri3b_ali
-)
+  (
+    echo "Link to directories in mini_librispeech."
+    mkdir -p exp/mini_librispeech
+    cd exp/mini_librispeech
+    ln -s ../../data/lang ./
+    ln -s ../../data/train_clean_5 ./train
+    ln -s ../tri3b ./
+    ln -s ../tri3b_ali_train_clean_5 ./tri3b_ali
+  )
+fi
 
 for lang_index in `seq 0 $[$num_langs-1]`; do
   for f in data/${lang_list[$lang_index]}/train/{feats.scp,text} exp/${lang_list[$lang_index]}/$alidir/ali.1.gz exp/${lang_list[$lang_index]}/$alidir/tree; do
