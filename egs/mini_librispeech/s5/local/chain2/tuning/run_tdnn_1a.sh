@@ -241,8 +241,8 @@ if [ $stage -le 8 ]; then
         echo "$0: ${multi_lfmmi_lang[$lang_index]} already exists, not overwriting it; continuing"
       else
         echo "$0: ${multi_lfmmi_lang[$lang_index]} already exists and seems to be older than ${multi_lang[$lang_index]}..."
-        echo " ... not sure what to do.  Exiting."
-        exit 1;
+        echo " ... not sure what to do.  continuing."
+        #exit 1;
       fi
     else
       echo "$0: creating lang directory with one state per phone."
