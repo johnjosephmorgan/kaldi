@@ -113,7 +113,7 @@ done
 if [ "$speed_perturb" == "true" ]; then suffix=_sp; fi
 dir=${dir}${suffix}
 
-ivec_<featsuffix=${feat_suffix}
+ivec_featsuffix=${feat_suffix}
 if $use_pitch; then feat_suffix=${feat_suffix}_pitch ; fi
 if $use_pitch_ivector; then nnet3_affix=_pitch; ivec_feat_suffix=${feat_suffix}_pitch ; fi
 
