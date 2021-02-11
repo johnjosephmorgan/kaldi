@@ -523,15 +523,16 @@ if [ $stage -le 21 ]; then
       nspk=$(wc -l <data/${data}_hires/spk2utt)
       steps/nnet3/decode.sh \
           --acwt 1.0 \
-          --post-decode-acwt 10.0 \
+          --cmd "$decode_cmd"  \
           --extra-left-context $egs_left_context \
-          --extra-right-context $egs_right_context \
           --extra-left-context-initial 0 \
+          --extra-right-context $egs_right_context \
           --extra-right-context-final 0 \
           --frames-per-chunk $frames_per_chunk \
-          --nj $nspk --cmd "$decode_cmd"  \
+          --nj $nspk \
           --num-threads 4 \
-          --online-ivector-dir exp/nnet3${nnet3_affix}/ivectors_${data}_hires \
+          --online-ivector-dir exp/nnet3/ivectors_${data}_hires/ \
+          --post-decode-acwt 10.0 \
           $tree_dir/graph_tgsmall \
           data/${data}_hires \
           ${dir}/decode_tgsmall_${data} || exit 1
