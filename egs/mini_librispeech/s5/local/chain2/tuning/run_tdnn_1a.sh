@@ -513,6 +513,7 @@ if [ $stage -le 20 ]; then
       data/lang_test_tgsmall \
       $tree_dir \
       $tree_dir/graph_tgsmall || exit 1;
+  done
 fi
 
 if [ $stage -le 21 ]; then
