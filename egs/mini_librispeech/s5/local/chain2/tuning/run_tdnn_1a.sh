@@ -507,7 +507,7 @@ if [ $stage -le 20 ]; then
   # matched topology (since it gets the topology file from the model).
   for lang_index in `seq 0 $[$num_langs-1]`;do
     lang_name=${lang_list[$lang_index]}
-    tree_dir=${multi_ali_treedirs[$lang_index]}
+    tree_dir=exp/$lang_name/tree
     utils/mkgraph.sh \
       --self-loop-scale 1.0 \
       data/lang_test_tgsmall \
