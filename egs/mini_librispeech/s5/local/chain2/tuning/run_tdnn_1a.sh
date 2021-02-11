@@ -505,11 +505,14 @@ fi
 if [ $stage -le 20 ]; then
   # Note: it's not important to give mkgraph.sh the lang directory with the
   # matched topology (since it gets the topology file from the model).
-  utils/mkgraph.sh \
-    --self-loop-scale 1.0 \
-    data/lang_test_tgsmall \
-    $tree_dir \
-    $tree_dir/graph_tgsmall || exit 1;
+  for lang_index in `seq 0 $[$num_langs-1]`;do
+    lang_name=${lang_list[$lang_index]}
+    tree_dir=${multi_ali_treedirs[$lang_index]}
+    utils/mkgraph.sh \
+      --self-loop-scale 1.0 \
+      data/lang_test_tgsmall \
+      $tree_dir \
+      $tree_dir/graph_tgsmall || exit 1;
 fi
 
 if [ $stage -le 21 ]; then
