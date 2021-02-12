@@ -19,8 +19,6 @@ boost_sil=1.0 # Factor by which to boost silence likelihoods in alignment
 ivector_transform_type=lda # transformation used for iVector extraction
 
 [ ! -f ./conf/common_vars.sh ] && echo 'the file conf/common_vars.sh does not exist!' && exit 1;
->
-
 . conf/common_vars.sh || exit 1;
 
 . parse_options.sh || exit 1;
