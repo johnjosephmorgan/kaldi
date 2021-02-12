@@ -492,25 +492,25 @@ if [ $stage -le 18 ]; then
 fi
 
 if [ $stage -le 19 ]; then
-    echo "$0: Splitting models"
-    frame_subsampling_factor=`fgrep "frame_subsampling_factor" $dir/init/info.txt | awk '{print $2}'`
-    for lang_index in `seq 0 $[$num_langs-1]`;do
-        lang_name=${lang_list[$lang_index]}
-       [[ ! -d $dir/${lang_name} ]] && mkdir $dir/${lang_name}
-       nnet3-copy --edits="rename-node old-name=output new-name=output-dummy; rename-node old-name=output-${lang_name} new-name=output" \
-           $dir/final.raw - | \
-           nnet3-am-init $dir/init/${lang_name}_trans.mdl - $dir/${lang_name}/final.mdl
-       [[ ! -d $dir/${lang_name}/init ]] && mkdir $dir/${lang_name}/init
-       params="frame_subsampling_factor model_left_context model_right_context feat_dim left_context left_context_initial right_context right_context_final ivector_dim frames_per_chunk"
-       for param_name in $params; do
-            grep -m 1 "^$param_name " $dir/init/info.txt
-       done > $dir/${lang_name}/init/info.txt
-    done
+  echo "$0: Splitting models"
+  frame_subsampling_factor=`fgrep "frame_subsampling_factor" $dir/init/info.txt | awk '{print $2}'`
+  for lang_index in `seq 0 $[$num_langs-1]`;do
+    lang_name=${lang_list[$lang_index]}
+    [[ ! -d $dir/${lang_name} ]] && mkdir $dir/${lang_name}
+    nnet3-copy --edits="rename-node old-name=output new-name=output-dummy; rename-node old-name=output-${lang_name} new-name=output" \
+      $dir/final.raw - | \
+      nnet3-am-init $dir/init/${lang_name}_trans.mdl - $dir/${lang_name}/final.mdl
+    [[ ! -d $dir/${lang_name}/init ]] && mkdir $dir/${lang_name}/init
+    params="frame_subsampling_factor model_left_context model_right_context feat_dim left_context left_context_initial right_context right_context_final ivector_dim frames_per_chunk"
+    for param_name in $params; do
+      grep -m 1 "^$param_name " $dir/init/info.txt
+    done > $dir/${lang_name}/init/info.txt
+  done
 fi
 
 if [ $stage -le 20 ]; then
   # Note: it's not important to give mkgraph.sh the lang directory with the
-    # matched topology (since it gets the topology file from the model).
+  # matched topology (since it gets the topology file from the model).
   # Decode mini_librispeech
   tree_dir=exp/mini_librispeech/tree
   utils/mkgraph.sh \
@@ -525,30 +525,29 @@ if [ $stage -le 21 ]; then
   # Do the speaker-dependent decoding pass
   test_sets=dev_clean_2
   for data in $test_sets; do
-    (
-      nspk=$(wc -l <data/${data}_hires/spk2utt)
-      steps/nnet3/decode.sh \
-          --acwt 1.0 \
-          --cmd "$decode_cmd"  \
-          --extra-left-context $egs_left_context \
-          --extra-left-context-initial 0 \
-          --extra-right-context $egs_right_context \
-          --extra-right-context-final 0 \
-          --frames-per-chunk $frames_per_chunk \
-          --nj $nspk \
-          --num-threads 4 \
-          --online-ivector-dir exp/nnet3/ivectors_${data}_hires/ \
-          --post-decode-acwt 10.0 \
-          $tree_dir/graph_tgsmall \
-          data/${data}_hires \
-          ${dir}/decode_tgsmall_${data} || exit 1
-      steps/lmrescore_const_arpa.sh \
-        --cmd "$decode_cmd" \
-        data/lang_test_{tgsmall,tglarge} \
-        data/${data}_hires \
-        ${dir}/decode_{tgsmall,tglarge}_${data} || exit 1
-    ) || touch $dir/.error &
-  done
+  (
+    nspk=$(wc -l <data/${data}_hires/spk2utt)
+    steps/nnet3/decode.sh \
+      --acwt 1.0 \
+      --cmd "$decode_cmd"  \
+      --extra-left-context $egs_left_context \
+      --extra-left-context-initial 0 \
+      --extra-right-context $egs_right_context \
+      --extra-right-context-final 0 \
+      --frames-per-chunk $frames_per_chunk \
+      --nj $nspk \
+      --num-threads 4 \
+      --online-ivector-dir exp/multi/nnet3/ivectors_${data}_hires/ \
+      --post-decode-acwt 10.0 \
+      $tree_dir/graph_tgsmall \
+      data/${data}_hires \
+      exp/multi/decode_tgsmall_${data} || exit 1
+    steps/lmrescore_const_arpa.sh \
+      --cmd "$decode_cmd" \
+      data/lang_test_{tgsmall,tglarge} \
+      data/${data}_hires \
+      $dir/decode_{tgsmall,tglarge}_${data} || exit 1
+  ) || touch $dir/.error &
   wait
   [ -f $dir/.error ] && echo "$0: there was a problem while decoding" && exit 1
 fi
