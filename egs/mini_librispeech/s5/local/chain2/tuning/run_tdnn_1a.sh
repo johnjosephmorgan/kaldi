@@ -248,7 +248,7 @@ if [ $stage -le 8 ]; then
     #    #exit 1;
     #  fi
     #else
-      echo "$0: creating lang directory with one state per phone."
+      echo "$0: creating lang directory with one state per phone for ${multi_lang[$lang_index]}."
       cp -r ${multi_lang[$lang_index]}/ ${multi_lfmmi_lang[$lang_index]} # trailing slash makes sure soft links are copied
       silphonelist=$(cat ${multi_lfmmi_lang[$lang_index]}/phones/silence.csl) || exit 1;
       nonsilphonelist=$(cat ${multi_lfmmi_lang[$lang_index]}/phones/nonsilence.csl) || exit 1;
@@ -353,13 +353,13 @@ fi
 init_info=$dir/init/info.txt
 if [ $stage -le 12 ]; then
   if [ ! -f $dir/configs/ref.raw ]; then
-      echo "Expected $dir/configs/ref.raw to exist"
-      exit
+    echo "Expected $dir/configs/ref.raw to exist"
+    exit
   fi
   mkdir  -p $dir/init
   nnet3-info $dir/configs/ref.raw  > $dir/configs/temp.info 
-  model_left_context=`fgrep 'left-context' $dir/configs/temp.info | awk '{print $2}'`
-  model_right_context=`fgrep 'right-context' $dir/configs/temp.info | awk '{print $2}'`
+  model_left_context=$(fgrep 'left-context' $dir/configs/temp.info | awk '{print $2}')
+  model_right_context=$(fgrep 'right-context' $dir/configs/temp.info | awk '{print $2}')
   cat >$init_info <<EOF
 frame_subsampling_factor $frame_subsampling_factor
 langs $lang_list
