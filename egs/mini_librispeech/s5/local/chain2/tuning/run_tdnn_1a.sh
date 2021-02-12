@@ -451,21 +451,24 @@ fi
 if [ $stage -le 16 ]; then
   [ ! -d ${dir}/egs/misc ] && mkdir  ${dir}/egs/misc
   echo "$0: Copying den.fst to ${dir}/egs/misc"
-  for lang_index in `seq 0 $[$num_langs-1]`;do
-      lang_name=${lang_list[$lang_index]}
-      cp $dir/den_fsts/${lang_name}.*fst ${dir}/egs/misc/
-      cp $dir/init/${lang_name}_trans.mdl ${dir}/egs/misc/${lang_name}.trans_mdl
-      ln -rs $dir/egs/info.txt $dir/egs/info_${lang_name}.txt
+  for lang_index in $(seq 0 $[$num_langs-1]);do
+    lang_name=${lang_list[$lang_index]}
+    cp $dir/den_fsts/${lang_name}.*fst ${dir}/egs/misc/
+    cp $dir/init/${lang_name}_trans.mdl ${dir}/egs/misc/${lang_name}.trans_mdl
+    ln -rs $dir/egs/info.txt $dir/egs/info_${lang_name}.txt
   done
-  echo "$0: Create a dummy transition model that is never used"
+  echo "$0: Create a dummy transition model that is never used."
   first_lang_name=${lang_list[0]}
   [[ ! -f $dir/init/default_trans.mdl ]] && ln -r -s $dir/init/${first_lang_name}_trans.mdl $dir/init/default_trans.mdl
 fi
 
 if [ $stage -le 17 ]; then
-    echo "$0: Preparing initial acoustic model"
-    $cuda_cmd ${dir}/log/init_model.log \
-           nnet3-init --srand=${srand} ${dir}/configs/final.config ${dir}/init/multi.raw || exit 1
+  echo "$0: Preparing initial acoustic model"
+  $cuda_cmd ${dir}/log/init_model.log \
+  nnet3-init \
+    --srand=${srand} \
+    ${dir}/configs/final.config \
+    ${dir}/init/multi.raw || exit 1
 fi
 
 if [ $stage -le 18 ]; then
