@@ -362,7 +362,7 @@ if [ $stage -le 12 ]; then
   model_right_context=$(fgrep 'right-context' $dir/configs/temp.info | awk '{print $2}')
   cat >$init_info <<EOF
 frame_subsampling_factor $frame_subsampling_factor
-langs $lang_list
+langs ${lang_list[@]}
 model_left_context $model_left_context
 model_right_context $model_right_context
 EOF
