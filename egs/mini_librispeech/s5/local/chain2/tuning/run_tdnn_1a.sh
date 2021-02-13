@@ -561,6 +561,7 @@ if [ $stage -le 22 ]; then
     exp/mini_librispeech/tree/graph_tgsmall/HCLG.fst \
     'ark,s,cs:apply-cmvn  --utt2spk=ark:data/dev_clean_2_hires/utt2spk scp:data/dev_clean_2_hires/cmvn.scp scp:data/dev_clean_2_hires/feats.scp ark:- |' \
     'ark:|gzip -c >exp/mini_librispeech/tree/decode_tgsmall_dev_clean_2/lat.1.gz' 
+fi
 exit 0;
 <nnet-in>
 <fst-in|fsts-rspecifier>
