@@ -255,15 +255,15 @@ fi
 if [ $stage -le 8 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
     lang_name=${lang_list[$lang_index]}
-    #if [ -d ${multi_lfmmi_lang[$lang_index]} ]; then
-    #  if [ ${multi_lfmmi_lang[$lang_index]}/L.fst -nt ${multi_lang[$lang_index]}/L.fst ]; then
-    #    echo "$0: ${multi_lfmmi_lang[$lang_index]} already exists, not overwriting it; continuing"
-    #  else
-    #    echo "$0: ${multi_lfmmi_lang[$lang_index]} already exists and seems to be older than ${multi_lang[$lang_index]}..."
-    #    echo " ... not sure what to do.  continuing."
-    #    #exit 1;
-    #  fi
-    #else
+    if [ -d ${multi_lfmmi_lang[$lang_index]} ]; then
+      if [ ${multi_lfmmi_lang[$lang_index]}/L.fst -nt ${multi_lang[$lang_index]}/L.fst ]; then
+        echo "$0: ${multi_lfmmi_lang[$lang_index]} already exists, not overwriting it; continuing"
+      else
+        echo "$0: ${multi_lfmmi_lang[$lang_index]} already exists and seems to be older than ${multi_lang[$lang_index]}..."
+        echo " ... not sure what to do.  continuing."
+        exit 1;
+      fi
+    else
       echo "$0: creating lang directory with one state per phone for ${multi_lang[$lang_index]}."
       cp -r ${multi_lang[$lang_index]}/ ${multi_lfmmi_lang[$lang_index]} # trailing slash makes sure soft links are copied
       silphonelist=$(cat ${multi_lfmmi_lang[$lang_index]}/phones/silence.csl) || exit 1;
@@ -271,7 +271,7 @@ if [ $stage -le 8 ]; then
       # Use our special topology... note that later on may have to tune this
       # topology.
       steps/nnet3/chain/gen_topo.py $nonsilphonelist $silphonelist >${multi_lfmmi_lang[$lang_index]}/topo
-    #fi
+    fi
   done
 fi
 
