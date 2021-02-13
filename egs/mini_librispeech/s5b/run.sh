@@ -51,8 +51,13 @@ chunk_width=150
 extra_left_context=50
 extra_right_context=0
 common_egs_dir=  # you can set this to use previously dumped egs.
-langconf=local.conf
 
+lang_list=(heroico mini_librispeech)
+use_pitch=false
+use_ivector=true
+lda_mllt_lang=mini_librispeech
+lang2weight="0.3,0.7"
+decode_lang_list=(mini_librispeech)
 speed_perturb=true
 global_extractor=exp/multi/nnet3/extractor
 dir=exp/chain2${nnet3_affix}/tdnn${tdnn_affix}_multi
@@ -60,12 +65,6 @@ dir=exp/chain2${nnet3_affix}/tdnn${tdnn_affix}_multi
 . ./path.sh
 . ./cmd.sh
 . ./utils/parse_options.sh
-
-[ ! -f $langconf ] && echo 'Language configuration does not exist! Use the configurations in conf/lang/* as a startup' && exit 1;
-. $langconf || exit 1;
-
-[ ! -f local.conf ] && echo 'the file local.conf does not exist!' && exit 1;
-. local.conf || exit 1;
 
 suffix=
 if $speed_perturb; then
