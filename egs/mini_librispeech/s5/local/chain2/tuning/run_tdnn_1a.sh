@@ -527,6 +527,7 @@ if [ $stage -le 21 ]; then
   for data in $test_sets; do
   (
     nspk=$(wc -l <data/${data}_hires/spk2utt)
+    tree_dir=exp/mini_librispeech/tree
     steps/nnet3/decode.sh \
       --acwt 1.0 \
       --cmd "$decode_cmd"  \
@@ -552,5 +553,4 @@ if [ $stage -le 21 ]; then
   done
   [ -f $dir/.error ] && echo "$0: there was a problem while decoding" && exit 1
 fi
-
-exit 0;
+it 0;
