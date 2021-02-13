@@ -549,6 +549,7 @@ if [ $stage -le 21 ]; then
       $dir/decode_{tgsmall,tglarge}_${data} || exit 1
   ) || touch $dir/.error &
   wait
+  done
   [ -f $dir/.error ] && echo "$0: there was a problem while decoding" && exit 1
 fi
 
