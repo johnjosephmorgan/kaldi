@@ -106,7 +106,7 @@ if [ $stage -le -1 ]; then
     echo "Link to data directories in mini_librispeech."
     [ -d data/mini_librispeech ] || mkdir -p data/mini_librispeech;
     cd data/mini_librispeech
-    [ -L lang ] || ln -s ../../../s5/data/lang ./;
+    [ -L "lang" ] || ln -s ../../../s5/data/lang ./;
     [ -L train] || ln -s ../../../s5/data/train_clean_5 ./train;
   )
 
