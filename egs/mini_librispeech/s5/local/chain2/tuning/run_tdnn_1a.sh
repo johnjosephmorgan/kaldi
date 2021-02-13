@@ -538,7 +538,7 @@ if [ $stage -le 21 ]; then
       --frames-per-chunk $frames_per_chunk \
       --nj $nspk \
       --num-threads 4 \
-      --online-ivector-dir exp/multi/nnet3/ivectors_${data}_hires/ \
+      --online-ivector-dir exp/multi/nnet3_cleaned/ivectors_${data}_hires/ \
       --post-decode-acwt 10.0 \
       $tree_dir/graph_tgsmall \
       data/${data}_hires \
@@ -553,4 +553,17 @@ if [ $stage -le 21 ]; then
   done
   [ -f $dir/.error ] && echo "$0: there was a problem while decoding" && exit 1
 fi
-it 0;
+
+if [ $stage -le 22 ]; then
+  nnet3-latgen-faster \
+    --word-symbol-table=exp/mini_librispeech/tree/graph_tgsmall/words.txt \
+    exp/mini_librispeech/tree/final.mdl \
+    exp/mini_librispeech/tree/graph_tgsmall/HCLG.fst \
+    'ark,s,cs:apply-cmvn  --utt2spk=ark:data/dev_clean_2_hires/utt2spk scp:data/dev_clean_2_hires/cmvn.scp scp:data/dev_clean_2_hires/feats.scp ark:- |' \
+    'ark:|gzip -c >exp/mini_librispeech/tree/decode_tgsmall_dev_clean_2/lat.1.gz' 
+exit 0;
+<nnet-in>
+<fst-in|fsts-rspecifier>
+<features-rspecifier>
+<lattice-wspecifier>
+[ <words-wspecifier> [<alignments-wspecifier>] ]
