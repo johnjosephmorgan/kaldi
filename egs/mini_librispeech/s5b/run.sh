@@ -86,37 +86,37 @@ if [ $stage -le -1 ]; then
   # Link data directories from heroico
   (
     echo "$0: Link data directories from heroico."
-    mkdir -p data/heroico
+    [ -d data/heroico ] || mkdir -p data/heroico;
     cd data/heroico
-    ln -s ../../../../heroico/s5/data/lang ./
-    ln -s ../../../../heroico/s5/data/train ./
+    [ -L lang ] || ln -s ../../../../heroico/s5/data/lang ./;
+    [ -L train ] || ln -s ../../../../heroico/s5/data/train ./;
   )
 
   # Link exp directories from heroico
   (
     echo "Link exp directories from heroico."
-    mkdir -p exp/heroico
+    [ -d exp/heroico ] || mkdir -p exp/heroico;
     cd exp/heroico
-    ln -s ../../../../heroico/s5/exp/tri3b ./
-    ln -s ../../../../heroico/s5/exp/tri3b_ali ./
+    [ -L tri3b ] || ln -s ../../../../heroico/s5/exp/tri3b ./;
+    [ -L tri3b_ali ] || ln -s ../../../../heroico/s5/exp/tri3b_ali ./;
   )
 
   # Link mini_librispeech data directories
   (
     echo "Link to data directories in mini_librispeech."
-    mkdir -p data/mini_librispeech
+    [ -d data/mini_librispeech ] || mkdir -p data/mini_librispeech;
     cd data/mini_librispeech
-    ln -s ../../../s5/data/lang ./
-    ln -s ../../../s5/data/train_clean_5 ./train
+    [ -L lang ] || ln -s ../../../s5/data/lang ./;
+    [ -L train] || ln -s ../../../s5/data/train_clean_5 ./train;
   )
 
   # Link to mini_librispeech exp directories
   (
     echo "Linking to mini_librispeech exp directories."
-    mkdir -p exp/mini_librispeech
+    [ -d data/mini_librispeech ] || mkdir -p exp/mini_librispeech;
     cd exp/mini_librispeech
-    ln -s ../../../s5/exp/tri3b ./
-    ln -s ../../../s5/exp/tri3b_ali_train_clean_5 ./tri3b_ali
+    [ -L tri3b ] || ln -s ../../../s5/exp/tri3b ./;
+    [ -L tri3b_ali ] || ln -s ../../../s5/exp/tri3b_ali_train_clean_5 ./tri3b_ali;
   )
 fi
 
