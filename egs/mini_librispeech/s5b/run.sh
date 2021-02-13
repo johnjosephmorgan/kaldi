@@ -388,10 +388,10 @@ fi
 model_left_context=$(awk '/^model_left_context/ {print $2;}' $dir/init/info.txt)
 model_right_context=$(awk '/^model_right_context/ {print $2;}' $dir/init/info.txt)
 if [ -z $model_left_context ]; then
-    echo "ERROR: Cannot find entry for model_left_context in $dir/init/info.txt"
+  echo "ERROR: Cannot find entry for model_left_context in $dir/init/info.txt"
 fi
 if [ -z $model_right_context ]; then
-    echo "ERROR: Cannot find entry for model_right_context in $dir/init/info.txt"
+  echo "ERROR: Cannot find entry for model_right_context in $dir/init/info.txt"
 fi
 egs_left_context=$[model_left_context+(frame_subsampling_factor/2)+extra_left_context]
 egs_right_context=$[model_right_context+(frame_subsampling_factor/2)+extra_right_context]
@@ -531,7 +531,7 @@ if [ $stage -le 20 ]; then
   tree_dir=exp/mini_librispeech/tree
   utils/mkgraph.sh \
     --self-loop-scale 1.0 \
-    data/lang_test_tgsmall \
+    data/mini_librispeech/lang \
     $tree_dir \
     $tree_dir/graph_tgsmall || exit 1;
 fi
@@ -584,3 +584,4 @@ exit 0;
 <features-rspecifier>
 <lattice-wspecifier>
 [ <words-wspecifier> [<alignments-wspecifier>] ]
+q
