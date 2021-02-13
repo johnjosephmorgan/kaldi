@@ -11,7 +11,7 @@
 # for multilingual training.
 
 set -e -o pipefail
-
+lda_mllt_lang=mini_librispeech
 remove_egs=false
 cmd=queue.pl
 srand=-1
