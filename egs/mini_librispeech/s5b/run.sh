@@ -106,6 +106,7 @@ if [ $stage -le -1 ]; then
     [ -d data/mini_librispeech ] || mkdir -p data/mini_librispeech;
     cd data/mini_librispeech
     [ -L lang ] || ln -s ../../../s5/data/lang ./;
+    [ -L lang_nosp_test_tgsmall ] || ln -s ../../../s5/data/data/lang_nosp_test_tgsmall ./;
     [ -L train ] || ln -s ../../../s5/data/train_clean_5 ./train;
   )
 
@@ -531,7 +532,7 @@ if [ $stage -le 20 ]; then
   tree_dir=exp/mini_librispeech/tree
   utils/mkgraph.sh \
     --self-loop-scale 1.0 \
-    data/mini_librispeech/lang_chain \
+    data/mini_librispeech/data/lang_nosp_test_tgsmall \
     $tree_dir \
     $tree_dir/graph_tgsmall || exit 1;
 fi
