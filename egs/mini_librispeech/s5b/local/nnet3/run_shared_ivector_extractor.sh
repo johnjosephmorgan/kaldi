@@ -34,10 +34,6 @@ multi_data_dir=$2
 global_extractor_dir=$3
 
 langconf=conf/$lda_mllt_lang/lang.conf
-[ ! -f $langconf ] && \
-   echo "Language configuration lang.conf does not exist.  Start with configurations in conf/${lda_mllt_lang}/*." && exit 1
-. $langconf || exit 1;
-
 if [ $stage -le 4 ]; then
   # We need to build a small system just because we need the LDA+MLLT or PCA transform
   # to train the diag-UBM on top of.  We use --num-iters 13 because after we get
