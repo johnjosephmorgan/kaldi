@@ -544,7 +544,7 @@ if [ $stage -le 21 ]; then
     cd data
     [ -L data/dev_clean_2 ] || ln -s ../s5/data/dev_clean_2;
   )
-  test_sets=data/dev_clean_2
+  test_sets=dev_clean_2
   for data in $test_sets; do
   (
     nspk=$(wc -l <data/${data}_hires/spk2utt)
