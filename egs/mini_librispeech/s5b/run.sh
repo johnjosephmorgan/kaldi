@@ -542,7 +542,7 @@ if [ $stage -le 21 ]; then
   # Do the speaker-dependent decoding pass
   (
     cd data
-    [ -L data/dev_clean_2 ] || ln -s ../s5/data/dev_clean_2;
+    [ -L data/dev_clean_2 ] || ln -s ../../s5/data/dev_clean_2 ./;
   )
   test_sets=dev_clean_2
   for data in $test_sets; do
