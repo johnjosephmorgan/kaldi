@@ -540,7 +540,7 @@ fi
 if [ $stage -le 21 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   # Do the speaker-dependent decoding pass
-  [ -L ../s5/data/dev_cleand_2 ] || ln -s ../s5/data/dev_clean_2;
+  [ -L data/dev_clean_2 ] || ln -s ../s5/data/dev_clean_2;
   test_sets=data/dev_clean_2
   for data in $test_sets; do
   (
