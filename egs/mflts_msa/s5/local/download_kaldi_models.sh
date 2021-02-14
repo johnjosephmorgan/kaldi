@@ -6,7 +6,7 @@ if [ ! -f 0012_sad_v1.tar.gz ]; then
   (
     mkdir -p exp
     cd exp
-    if [ ! -d segmentation_1a ]; then
+    if [ ! -L segmentation_1a ]; then
       ln -s ../0012_sad_v1/exp/segmentation_1a ./
     fi
   )
@@ -17,7 +17,7 @@ if [ ! -f 0012_diarization_v1.tar.gz ]; then
   tar -zxf 0012_diarization_v1.tar.gz
   (
     cd exp
-    if [ ! -d xvector_nnet_1a ]; then
+    if [ ! -L xvector_nnet_1a ]; then
       ln -s ../0012_diarization_v1/exp/xvector_nnet_1a ./
     fi
   )

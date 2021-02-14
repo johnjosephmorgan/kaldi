@@ -97,16 +97,7 @@ sox -M 5.wav a.wav b.wav
 * Second try at creating an overlapped recording
 ** Get the data and convert it.
 The following script retrieves 2 randomly selected files from the database of recordings and converts them from multichannel wav files sampled at 44100 to mono channel flac files sampled at 16000.
-#!/usr/bin/env bash
-datadir=~/mflts
-wavlist=$(find $datadir -type f -name "*sif.wav" | shuf -n 2)
-{
-  while read line; do
-    bn=$(basename "$line" .wav)
-    mkdir -p flacs
-    sox "$line" -c 1 -r 16000 flacs/$bn.flac
-done
-} < wavlist.txt;
+local/get_and_convert_data.sh
 ** Download kaldi models for SAD and Diarization 
 local/download_kaldi_models.sh
 ** Perform Diarization
@@ -121,13 +112,14 @@ Each record has 2 fields, the file name and the number of samples in the file.
 local/make_silent_buffer_file.pl
 This creates a silent file for each segment file.
 This is not quite what I need.
-I need to get a silent b uffer for a specific file.
+I need to get a silent buffer for a specific file.
+I wrote a script that loops over all the segment files and runs the above script.
+local/make_silent_buffer_file.sh
 ** Create overlap file
 *** Pick a random file
-a=$(find out_dirized -type f -name "*.wav" \! -name "sil_*"  | shuf -n 1)
+a=$(find out_diarized -type f -name "*.wav" \! -name "sil_*"  | shuf -n 1)
 *** Pick another file
-b=$(find out_dirized -type f -name "*.wav" \! -name "sil_*"  | shuf -n 1)
-***
+b=$(find out_diarized -type f -name "*.wav" \! -name "sil_*"  | shuf -n 1)
 *** Concatenate a's silent file with b.
 a_base=$(basename $a)
 a_dir=$(dirname $a)
