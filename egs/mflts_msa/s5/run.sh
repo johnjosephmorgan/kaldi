@@ -286,13 +286,6 @@ local/get_info.sh
 echo "Make silence buffer files."
 local/make_silent_buffer_file.sh
 
-# Start the overlap creation 
-echo "Get a random segment file."
-a=$(find out_diarized -type f -name "*.wav" \! -name "sil_*"  | shuf -n 1)
-echo "Get another random segment file."
-b=$(find out_diarized -type f -name "*.wav" \! -name "sil_*"  | shuf -n 1)
-
-# Prepend silence buffer
-echo "Concatenate a's silent file with b."
+local/overlap.sh
 
 exit
