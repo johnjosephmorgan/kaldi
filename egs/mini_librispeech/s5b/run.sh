@@ -29,7 +29,6 @@ langdir=data/lang
 num_threads_ubm=1
 tree_affix=  # affix for tree directory, e.g. "a" or "b", in case we change the configuration.
 tdnn_affix=  #affix for TDNN directory, e.g. "a" or "b", in case we change the configuration.
-feat_suffix=_hires      
 
 label_delay=5
 frame_subsampling_factor=3
@@ -47,20 +46,18 @@ extra_right_context=0
 common_egs_dir=  # you can set this to use previously dumped egs.
 
 lang_list=(heroico mini_librispeech)
-use_pitch=false
-use_ivector=true
 lda_mllt_lang=mini_librispeech
 lang2weight="0.3,0.7"
 decode_lang_list=(mini_librispeech)
-global_extractor=exp/multi/nnet3/extractor
-dir=exp/chain2${nnet3_affix}/tdnn${tdnn_affix}_multi
+global_extractor=exp/multi/extractor
+dir=exp/chain2_multi
+suffix=_sp
+num_langs=${#lang_list[@]}
 
 . ./path.sh
 . ./cmd.sh
 . ./utils/parse_options.sh
 
-suffix=_sp
-num_langs=${#lang_list[@]}
 echo "$0 $@"  # Print the command line for logging
 if ! cuda-compiled; then
   cat <<EOF && exit 1
@@ -117,36 +114,20 @@ done
 
 dir=${dir}${suffix}
 
-ivec_featsuffix=${feat_suffix}
-
 if [ $stage -le 0 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`; do
     echo "$0: extract features from $lang_list[$lang_index]."
     echo "Speed-perturbed data then extract high resolution 40dim MFCCs."
     echo "Extract alignments."
     local/nnet3/run_common_langs.sh \
-      --feat-suffix $feat_suffix \
-      --speed-perturb true \
       ${lang_list[$lang_index]} || exit 1;
-    if $use_pitch && ! $use_pitch_ivector; then
-      echo "$0: select MFCC features for ivector extraction."
-      featdir=data/${lang_list[$lang_index]}/train${suffix}${feat_suffix}
-      ivec_featdir=data/${lang_list[$lang_index]}/train${suffix}${ivec_feat_suffix}
-      mfcc_only_dim=`feat-to-dim scp:$featdir/feats.scp - | awk '{print $1-3}'`
-      if [ ! -f $ivec_featdir/.done ]; then
-        steps/select_feats.sh --cmd "$train_cmd" --nj 70 0-$[$mfcc_only_dim-1] \
-          $featdir ${ivec_featdir} || exit 1;
-        steps/compute_cmvn_stats.sh ${ivec_featdir} || exit 1;
-        touch ${ivec_featdir}/.done || exit 1;
-      fi
-    fi
   done
 fi
 
 if [ $stage -le 1 ]; then
   ivector_suffix=""
   mkdir -p data/multi
-  global_extractor=exp/multi/nnet3${nnet3_affix}
+  global_extractor=exp/multi
   mkdir -p $global_extractor
   ivector_extractor=$global_extractor/extractor
   multi_data_dir_for_ivec=data/multi/train${suffix}${ivec_feat_suffix}
@@ -169,7 +150,7 @@ if [ $stage -le 2 ]; then
   ivector_extractor=$global_extractor/extractor
   multi_data_dir_for_ivec=data/multi/train${suffix}${ivec_feat_suffix}
   local/nnet3/run_shared_ivector_extractor.sh  \
-    --ivector-transform-type pca \
+    --ivector-transform-type lda \
     --suffix "$suffix" \
     $lda_mllt_lang \
     $multi_data_dir_for_ivec \
