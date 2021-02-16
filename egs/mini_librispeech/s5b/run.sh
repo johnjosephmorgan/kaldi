@@ -126,7 +126,7 @@ if [ $stage -le 0 ]; then
     echo "Extract alignments."
     local/nnet3/run_common_langs.sh \
       --feat-suffix $feat_suffix \
-      --<speed-perturb true \
+      --speed-perturb true \
       ${lang_list[$lang_index]} || exit 1;
     if $use_pitch && ! $use_pitch_ivector; then
       echo "$0: select MFCC features for ivector extraction."
