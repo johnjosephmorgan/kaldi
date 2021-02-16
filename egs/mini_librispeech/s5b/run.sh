@@ -135,13 +135,11 @@ if $use_pitch_ivector; then nnet3_affix=_pitch; ivec_feat_suffix=${feat_suffix}_
 if [ $stage -le 0 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`; do
     echo "$0: extract features from $lang_list[$lang_index]."
-    echo "Speed-perturbeds data then extract high resolution 40dim MFCCs."
-    echo "Then extract alignment."
+    echo "Speed-perturbed data then extract high resolution 40dim MFCCs."
+    echo "Extract alignments."
     local/nnet3/run_common_langs.sh \
       --feat-suffix $feat_suffix \
       --speed-perturb $speed_perturb \
-      --stage $stage \
-      --use-pitch $use_pitch \
       ${lang_list[$lang_index]} || exit 1;
     if $use_pitch && ! $use_pitch_ivector; then
       echo "$0: select MFCC features for ivector extraction."
