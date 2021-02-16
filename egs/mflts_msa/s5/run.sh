@@ -72,6 +72,7 @@ lid_nnet_dir=exp/lid_xvector_nnet_1a
 apply_log=true
 model_rebalanced=exp/lid_xvector_nnet_1a/xvectors_train/logistic_regression_rebalanced
 languages=langs.txt
+num_overlaps=1000
 # end of setting configuration variables
 mkdir -p out_diarized
 # Get the source waveform files
@@ -286,6 +287,8 @@ local/get_info.sh
 echo "Make silence buffer files."
 local/make_silent_buffer_file.sh
 
-local/overlap.sh
-
+for ((i=0;i<=num_overlaps;i++)); do
+  echo "$i run of overlap writing."
+  local/overlap.sh
+done
 exit
