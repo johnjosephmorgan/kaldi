@@ -118,7 +118,6 @@ done
 dir=${dir}${suffix}
 
 ivec_featsuffix=${feat_suffix}
-feat_suffix=${feat_suffix}_pitch ;
 
 if [ $stage -le 0 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`; do
@@ -127,7 +126,7 @@ if [ $stage -le 0 ]; then
     echo "Extract alignments."
     local/nnet3/run_common_langs.sh \
       --feat-suffix $feat_suffix \
-      --speed-perturb true \
+      --<speed-perturb true \
       ${lang_list[$lang_index]} || exit 1;
     if $use_pitch && ! $use_pitch_ivector; then
       echo "$0: select MFCC features for ivector extraction."
