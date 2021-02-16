@@ -3,8 +3,7 @@
 # Copyright 2016 Pegah Ghahremani
 # Copyright 2020 Srikanth Madikeri (Idiap Research Institute)
 
-# This script is used to train multilingual LF-MMI system with a multi-task training
-# setup.
+# Train a multilingual LF-MMI system with a multi-task training setup.
 
 # local.conf should exists (check README.txt), which contains configs for
 # multilingual training such as lang_list as array of space-separated languages used
@@ -113,7 +112,7 @@ if [ $stage -le -1 ]; then
   # Link to mini_librispeech exp directories
   (
     echo "Linking to mini_librispeech exp directories."
-    [ -d data/mini_librispeech ] || mkdir -p exp/mini_librispeech;
+    [ -d exp/mini_librispeech ] || mkdir -p exp/mini_librispeech;
     cd exp/mini_librispeech
     [ -L tri3b ] || ln -s ../../../s5/exp/tri3b ./;
     [ -L tri3b_ali ] || ln -s ../../../s5/exp/tri3b_ali_train_clean_5 ./tri3b_ali;
@@ -590,3 +589,25 @@ exit 0;
 <lattice-wspecifier>
 [ <words-wspecifier> [<alignments-wspecifier>] ]
 
+nohup bash -x steps/nnet3/decode.sh --online-ivector-dir exp/mini_librispeech/nnet3_cleaned/ivectors_train_sp exp/mini_librispeech/tree/graph_tgsmall data/mini_librispeech/train_sp_hires exp/chain2_cleaned/tdnn_multi_sp/mini_librispeech/decode_train > XXI &
+nnet3-latgen-faster \
+    --online-ivectors=scp:exp/mini_librispeech/nnet3_cleaned/ivectors_train_sp/ivector_online.scp \
+    --online-ivector-period=10 \
+    --frame-subsampling-factor=3 \
+    --frames-per-chunk=50 \
+    --extra-left-context=0 \
+    --extra-right-context=0 \
+    --extra-left-context-initial=-1 \
+    --extra-right-context-final=-1 \
+    --minimize=false \
+    --max-active=7000 \
+    --min-active=200 \
+    --beam=15.0 \
+    --lattice-beam=8.0 \
+    --acoustic-scale=0.1 \
+    --allow-partial=true \
+    --word-symbol-table=exp/mini_librispeech/tree/graph_tgsmall/words.txt \
+    exp/chain2_cleaned/tdnn_multi_sp/mini_librispeech/final.mdl \
+    exp/mini_librispeech/tree/graph_tgsmall/HCLG.fst \
+    "ark,s,cs:apply-cmvn --norm-means=false --norm-vars=false --utt2spk=ark:data/mini_librispeech/train_sp_hires/split4/1/utt2spk scp:data/mini_librispeech/train_sp_hires/split4/1/cmvn.scp scp:data/mini_librispeech/train_sp_hires/split4/1/feats.scp ark:- |" \
+    "ark:|gzip -c >exp/chain2_cleaned/tdnn_multi_sp/mini_librispeech/decode_train/lat.1.gz" 
