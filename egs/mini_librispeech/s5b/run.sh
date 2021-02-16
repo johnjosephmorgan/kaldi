@@ -31,7 +31,6 @@ train_set=train
 gmm=tri3b  # the gmm for the target data
 langdir=data/lang
 num_threads_ubm=1
-nnet3_affix=_cleaned  # cleanup affix for nnet3 and chain dirs, e.g. _cleaned
 tree_affix=  # affix for tree directory, e.g. "a" or "b", in case we change the configuration.
 tdnn_affix=  #affix for TDNN directory, e.g. "a" or "b", in case we change the configuration.
 feat_suffix=_hires      
@@ -537,7 +536,7 @@ if [ $stage -le 21 ]; then
       --frames-per-chunk $frames_per_chunk \
       --nj $nspk \
       --num-threads 4 \
-      --online-ivector-dir exp/multi/nnet3_cleaned/extractor/ \
+      --online-ivector-dir exp/multi/extractor/ \
       --post-decode-acwt 10.0 \
       $tree_dir/graph_tgsmall \
       data/${data}_hires \
@@ -556,7 +555,7 @@ fi
 if [ $stage -le 22 ]; then
   nnet3-latgen-faster \
     --word-symbol-table=exp/mini_librispeech/tree/graph_tgsmall/words.txt \
-    exp/chain2_cleaned/tdnn_multi_sp/mini_librispeech/final.mdl \
+    exp/chain2/tdnn_multi_sp/mini_librispeech/final.mdl \
     exp/mini_librispeech/tree/graph_tgsmall/HCLG.fst \
     'ark,s,cs:apply-cmvn  --utt2spk=ark:../s5/data/dev_clean_2_hires/utt2spk scp:../s5/data/dev_clean_2_hires/cmvn.scp scp:../s5/data/dev_clean_2_hires/feats.scp ark:- |' \
     'ark:|gzip -c > ./lat.1.gz' 
@@ -568,9 +567,9 @@ exit 0;
 <lattice-wspecifier>
 [ <words-wspecifier> [<alignments-wspecifier>] ]
 
-nohup bash -x steps/nnet3/decode.sh --online-ivector-dir exp/mini_librispeech/nnet3_cleaned/ivectors_train_sp exp/mini_librispeech/tree/graph_tgsmall data/mini_librispeech/train_sp_hires exp/chain2_cleaned/tdnn_multi_sp/mini_librispeech/decode_train > XXI &
+nohup bash -x steps/nnet3/decode.sh --online-ivector-dir exp/mini_librispeech/ivectors_train_sp exp/mini_librispeech/tree/graph_tgsmall data/mini_librispeech/train_sp_hires exp/chain2_cleaned/tdnn_multi_sp/mini_librispeech/decode_train > XXI &
 nnet3-latgen-faster \
-    --online-ivectors=scp:exp/mini_librispeech/nnet3_cleaned/ivectors_train_sp/ivector_online.scp \
+    --online-ivectors=scp:exp/mini_librispeech/ivectors_train_sp/ivector_online.scp \
     --online-ivector-period=10 \
     --frame-subsampling-factor=3 \
     --frames-per-chunk=50 \
@@ -586,7 +585,7 @@ nnet3-latgen-faster \
     --acoustic-scale=0.1 \
     --allow-partial=true \
     --word-symbol-table=exp/mini_librispeech/tree/graph_tgsmall/words.txt \
-    exp/chain2_cleaned/tdnn_multi_sp/mini_librispeech/final.mdl \
+    exp/chain2/tdnn_multi_sp/mini_librispeech/final.mdl \
     exp/mini_librispeech/tree/graph_tgsmall/HCLG.fst \
     "ark,s,cs:apply-cmvn --norm-means=false --norm-vars=false --utt2spk=ark:data/mini_librispeech/train_sp_hires/split4/1/utt2spk scp:data/mini_librispeech/train_sp_hires/split4/1/cmvn.scp scp:data/mini_librispeech/train_sp_hires/split4/1/feats.scp ark:- |" \
-    "ark:|gzip -c >exp/chain2_cleaned/tdnn_multi_sp/mini_librispeech/decode_train/lat.1.gz" 
+    "ark:|gzip -c >exp/chain2/tdnn_multi_sp/mini_librispeech/decode_train/lat.1.gz" 

@@ -51,7 +51,7 @@ declare -A shadow_more_kwlists
 
 if [ $# -ne 3 ]; then
   echo "Usage: $0 [options] <lda-mllt-lang> <data-dir> <ivector-extractor-dir>"
-  echo "e.g.: $0  tamsa data/multi/train exp/multi/nnet3_cleaned"
+  echo "e.g.: $0  tamsa data/multi/train exp/multi"
   exit 1;
 fi
 
@@ -65,14 +65,14 @@ if [ $stage -le 4 ]; then
   # to train the diag-UBM on top of.  We use --num-iters 13 because after we get
   # the transform (12th iter is the last), any further training is pointless.
   # this decision is based on fisher_english
-  mkdir -p exp/$lda_mllt_lang/nnet3${nnet3_affix}
+  mkdir -p exp/$lda_mllt_lang}
   case $ivector_transform_type in
   lda)
     steps/train_lda_mllt.sh --cmd "$train_cmd" --num-iters 13 \
       --splice-opts "--left-context=3 --right-context=3" \
       --boost-silence $boost_sil \
       $numLeavesMLLT $numGaussMLLT data/$lda_mllt_lang/train${suffix}${feat_suffix} \
-      data/$lda_mllt_lang/lang exp/$lda_mllt_lang/tri3b_ali${suffix} exp/$lda_mllt_lang/nnet3${nnet3_affix}/tri3b
+      data/$lda_mllt_lang/lang exp/$lda_mllt_lang/tri3b_ali${suffix} exp/$lda_mllt_lang/tri3b
     ;;
   pca)
     echo "$0: computing a PCA transform from the hires data."
@@ -80,7 +80,7 @@ if [ $stage -le 4 ]; then
       --splice-opts "--left-context=3 --right-context=3" \
       --max-utts 10000 --subsample 2 \
       data/$lda_mllt_lang/train${suffix}${feat_suffix} \
-      exp/$lda_mllt_lang/nnet3${nnet3_affix}/tri3b
+      exp/$lda_mllt_lang/tri3b
     ;;
   *) echo "$0: invalid iVector transformation type $ivector_transform_type" && exit 1;
     ;;
@@ -95,7 +95,7 @@ if [ $stage -le 5 ]; then
     --num-frames 200000 \
     $multi_data_dir \
     $numGaussUBM \
-    exp/$lda_mllt_lang/nnet3${nnet3_affix}/tri3b \
+    exp/$lda_mllt_lang/tri3b \
     $global_extractor_dir/diag_ubm
 fi
 
