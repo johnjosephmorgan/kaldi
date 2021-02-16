@@ -19,10 +19,6 @@ train_stage=-10
 get_egs_stage=-10
 decode_stage=-10
 
-speed_perturb=true
-use_pitch=false  # if true, pitch feature used to train multilingual setup
-use_pitch_ivector=false # if true, pitch feature used in ivector extraction.
-use_ivector=true
 megs_dir=
 alidir=tri3b_ali
 stage=-1
@@ -56,7 +52,6 @@ use_ivector=true
 lda_mllt_lang=mini_librispeech
 lang2weight="0.3,0.7"
 decode_lang_list=(mini_librispeech)
-speed_perturb=true
 global_extractor=exp/multi/nnet3/extractor
 dir=exp/chain2${nnet3_affix}/tdnn${tdnn_affix}_multi
 
@@ -64,11 +59,7 @@ dir=exp/chain2${nnet3_affix}/tdnn${tdnn_affix}_multi
 . ./cmd.sh
 . ./utils/parse_options.sh
 
-suffix=
-if $speed_perturb; then
-  suffix=_sp
-fi
-
+suffix=_sp
 num_langs=${#lang_list[@]}
 echo "$0 $@"  # Print the command line for logging
 if ! cuda-compiled; then
@@ -124,12 +115,10 @@ for lang_index in `seq 0 $[$num_langs-1]`; do
   done
 done
 
-if [ "$speed_perturb" == "true" ]; then suffix=_sp; fi
 dir=${dir}${suffix}
 
 ivec_featsuffix=${feat_suffix}
-if $use_pitch; then feat_suffix=${feat_suffix}_pitch ; fi
-if $use_pitch_ivector; then nnet3_affix=_pitch; ivec_feat_suffix=${feat_suffix}_pitch ; fi
+feat_suffix=${feat_suffix}_pitch ;
 
 if [ $stage -le 0 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`; do
@@ -138,7 +127,7 @@ if [ $stage -le 0 ]; then
     echo "Extract alignments."
     local/nnet3/run_common_langs.sh \
       --feat-suffix $feat_suffix \
-      --speed-perturb $speed_perturb \
+      --speed-perturb true \
       ${lang_list[$lang_index]} || exit 1;
     if $use_pitch && ! $use_pitch_ivector; then
       echo "$0: select MFCC features for ivector extraction."
@@ -177,11 +166,10 @@ if [ $stage -le 1 ]; then
 fi
 
 if [ $stage -le 2 ]; then
-  global_extractor=exp/multi/nnet3${nnet3_affix}
+  global_extractor=exp/multi
   ivector_extractor=$global_extractor/extractor
+  multi_data_dir_for_ivec=data/multi/train${suffix}${ivec_feat_suffix}
   local/nnet3/run_shared_ivector_extractor.sh  \
-    --nnet3-affix "$nnet3_affix" \
-    --feat-suffix "$ivec_feat_suffix" \
     --ivector-transform-type pca \
     --suffix "$suffix" \
     $lda_mllt_lang \
