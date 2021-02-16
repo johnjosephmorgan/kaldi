@@ -12,12 +12,6 @@ speed_perturb=true
 stage=1
 train_stage=-10
 
-[ ! -f ./conf/common_vars.sh ] && echo 'the file conf/common_vars.sh does not exist!' && exit 1
-
-. conf/common_vars.sh || exit 1;
-
-[ -f local.conf ] && . ./local.conf
-
 . ./utils/parse_options.sh
 
 lang=$1
