@@ -6,6 +6,8 @@
 
 . ./cmd.sh
 set -e
+
+boost_sil=1.0 # Factor by which to boost silence likelihoods in alignment
 feat_suffix=_hires  # feature suffix for training data
 generate_alignments=true # If true, it regenerates alignments.
 speed_perturb=true
