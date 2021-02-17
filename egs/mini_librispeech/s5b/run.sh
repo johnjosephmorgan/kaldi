@@ -116,11 +116,13 @@ dir=${dir}${suffix}
 
 if [ $stage -le 0 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`; do
-    echo "$0: extract features from $lang_list[$lang_index]."
-    echo "Speed-perturbed data then extract high resolution 40dim MFCCs."
-    echo "Extract alignments."
+    echo "$0: extract features."
+    echo "Speed-perturbedation"
+ echo "Extract high resolution 40dim MFCCs"
+    echo "Extract alignments"
     local/nnet3/run_common_langs.sh \
-      ${lang_list[$lang_index]} || exit 1;
+    --feat-suffix _hires \
+    ${lang_list[$lang_index]} || exit 1;
   done
 fi
 
