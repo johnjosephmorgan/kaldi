@@ -45,7 +45,7 @@ extra_left_context=50
 extra_right_context=0
 common_egs_dir=  # you can set this to use previously dumped egs.
 
-lang_list=(heroico mini_librispeech)
+lang_list=(mini_librispeech heroico)
 lda_mllt_lang=mini_librispeech
 lang2weight="0.3,0.7"
 decode_lang_list=(mini_librispeech)
