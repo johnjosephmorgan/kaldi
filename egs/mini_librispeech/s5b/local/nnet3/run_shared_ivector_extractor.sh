@@ -12,9 +12,9 @@ stage=4
 suffix=_sp
 feat_suffix=_hires # feat_suffix used in train_set for lda_mllt training.
 nnet3_affix=
-numLeavesMLLT=2500
-numGaussMLLT=36000
-numGaussUBM=1024
+numLeavesMLLT=1000
+numGaussMLLT=10000
+numGaussUBM=512
 boost_sil=1.0 # Factor by which to boost silence likelihoods in alignment
 ivector_transform_type=lda # transformation used for iVector extraction
 #keyword search default
@@ -109,9 +109,11 @@ if [ $stage -le 6 ]; then
   # iVector extractors can be sensitive to the amount of data, but this one has a
   # fairly small dim (defaults to 100) so we don't use all of it, we use just the
   # 100k subset (just under half the data).
-  steps/online/nnet2/train_ivector_extractor.sh --cmd "$train_cmd" --nj 50 \
-    $multi_data_dir  \
-    $global_extractor_dir/diag_ubm \
-    $global_extractor_dir/extractor || exit 1;
+  steps/online/nnet2/train_ivector_extractor.sh \
+      --cmd "$train_cmd" \
+      --nj 50 \
+      $multi_data_dir  \
+      $global_extractor_dir/diag_ubm \
+      $global_extractor_dir/extractor || exit 1;
 fi
 exit 0;
