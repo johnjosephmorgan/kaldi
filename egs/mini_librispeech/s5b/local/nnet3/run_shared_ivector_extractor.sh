@@ -68,11 +68,17 @@ if [ $stage -le 4 ]; then
   mkdir -p exp/$lda_mllt_lang}
   case $ivector_transform_type in
   lda)
-    steps/train_lda_mllt.sh --cmd "$train_cmd" --num-iters 13 \
+    steps/train_lda_mllt.sh \
+      --cmd "$train_cmd" \
+      --num-iters 13 \
       --splice-opts "--left-context=3 --right-context=3" \
       --boost-silence $boost_sil \
-      $numLeavesMLLT $numGaussMLLT data/$lda_mllt_lang/train${suffix}${feat_suffix} \
-      data/$lda_mllt_lang/lang exp/$lda_mllt_lang/tri3b_ali${suffix} exp/$lda_mllt_lang/tri3b
+      $numLeavesMLLT \
+      $numGaussMLLT \
+      data/$lda_mllt_lang/train${suffix}${feat_suffix} \
+      data/$lda_mllt_lang/lang \
+      exp/$lda_mllt_lang/tri3b_ali${suffix} \
+      exp/$lda_mllt_lang/tri3b
     ;;
   pca)
     echo "$0: computing a PCA transform from the hires data."
@@ -93,7 +99,7 @@ if [ $stage -le 5 ]; then
     --cmd "$train_cmd" \
     --nj 100 \
     --num-frames 200000 \
-    $multi_data_dir \
+    data/$lda_mllt_lang/train${suffix}${feat_suffix} \
     $numGaussUBM \
     exp/$lda_mllt_lang/tri3b \
     $global_extractor_dir/diag_ubm
