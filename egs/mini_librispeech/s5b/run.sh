@@ -10,6 +10,7 @@
 # for multilingual training.
 
 set -e -o pipefail
+boost_sil=1.0 # Factor by which to boost silence likelihoods in alignment
 lda_mllt_lang=mini_librispeech
 remove_egs=false
 cmd=queue.pl
@@ -116,13 +117,39 @@ dir=${dir}${suffix}
 
 if [ $stage -le 0 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`; do
-    echo "$0: extract features."
-    echo "Speed-perturbedation"
- echo "Extract high resolution 40dim MFCCs"
-    echo "Extract alignments"
-    local/nnet3/run_common_langs.sh \
-    --feat-suffix _hires \
-    ${lang_list[$lang_index]} || exit 1;
+    lang=${lang_list[$lang_index]}
+    echo "Speed perturbing $lang training data."
+    ./utils/data/perturb_data_dir_speed_3way.sh \
+      data/$lang/train \
+      data/$lang/train_sp
+    # Extract  features for perturbed data.
+    steps/make_mfcc.sh \
+      --cmd "$train_cmd" \
+      --nj 16 \
+      data/$lang/train_sp 
+    steps/compute_cmvn_stats.sh \
+      data/$lang/train_sp
+    utils/fix_data_dir.sh data/$lang/train_sp
+    echo "Get alignments for perturbed $lang training data."
+    steps/align_fmllr.sh \
+      --nj 16 \
+      --cmd "$train_cmd" \
+      --boost-silence $boost_sil \
+      data/$lang/train_sp \
+      data/$lang/lang \
+      exp/$lang/tri3b \
+      exp/$lang/tri3b_ali_sp || exit 1;
+    echo "Extract high resolution 40dim MFCCs"
+    utils/copy_data_dir.sh data/$lang/train_sp\
+      data/$lang/train_sp_hires || exit 1;
+    steps/make_mfcc.sh \
+      --nj 16 \
+      --mfcc-config conf/mfcc_hires.conf \
+      --cmd "$train_cmd" \
+      data/$lang/train_sp_hires || exit 1;
+    steps/compute_cmvn_stats.sh \
+      data/$lang/train_sp_hires || exit 1;
+    utils/fix_data_dir.sh data/$lang/train_sp_hires
   done
 fi
 
