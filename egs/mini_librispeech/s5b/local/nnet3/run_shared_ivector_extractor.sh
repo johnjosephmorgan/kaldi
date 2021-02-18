@@ -97,7 +97,7 @@ if [ $stage -le 5 ]; then
   # To train a diagonal UBM we don't need very much data, so use the smallest subset.
   steps/online/nnet2/train_diag_ubm.sh \
     --cmd "$train_cmd" \
-    --nj 100 \
+    --nj 87 \
     --num-frames 200000 \
     data/$lda_mllt_lang/train${suffix}${feat_suffix} \
     $numGaussUBM \
