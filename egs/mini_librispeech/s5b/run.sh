@@ -71,39 +71,39 @@ fi
 if [ $stage -le -1 ]; then
   # Link data directories from heroico
   (
-    echo "$0: Link data directories from heroico."
+    echo "$0: Copy data directories from heroico."
     [ -d data/heroico ] || mkdir -p data/heroico;
     cd data/heroico
-    [ -L lang ] || ln -s ../../../../heroico/s5/data/lang ./;
-    [ -L train ] || ln -s ../../../../heroico/s5/data/train ./;
+    [ -d lang ] || cp -R ../../../../heroico/s5/data/lang ./;
+    [ -d train ] || cp -R ../../../../heroico/s5/data/train ./;
   )
 
-  # Link exp directories from heroico
+  # Copy exp directories from heroico
   (
-    echo "Link exp directories from heroico."
+    echo "Copy exp directories from heroico."
     [ -d exp/heroico ] || mkdir -p exp/heroico;
     cd exp/heroico
-    [ -L tri3b ] || ln -s ../../../../heroico/s5/exp/tri3b ./;
-    [ -L tri3b_ali ] || ln -s ../../../../heroico/s5/exp/tri3b_ali ./;
+    [ -d tri3b ] || cp -R ../../../../heroico/s5/exp/tri3b ./;
+    [ -d tri3b_ali ] || cp -R ../../../../heroico/s5/exp/tri3b_ali ./;
   )
 
-  # Link mini_librispeech data directories
+  # Copy mini_librispeech data directories
   (
-    echo "Link to data directories in mini_librispeech."
+    echo "Copy data directories in mini_librispeech."
     [ -d data/mini_librispeech ] || mkdir -p data/mini_librispeech;
     cd data/mini_librispeech
-    [ -L lang ] || ln -s ../../../s5/data/lang ./;
-    [ -L lang_nosp_test_tgsmall ] || ln -s ../../../s5/data/data/lang_nosp_test_tgsmall ./;
-    [ -L train ] || ln -s ../../../s5/data/train_clean_5 ./train;
+    [ -d lang ] || cp -R ../../../s5/data/lang ./;
+    [ -d lang_nosp_test_tgsmall ] || cp -R ../../../s5/data/data/lang_nosp_test_tgsmall ./;
+    [ -d train ] || cp -R ../../../s5/data/train_clean_5 ./train;
   )
 
-  # Link to mini_librispeech exp directories
+  # Copy mini_librispeech exp directories
   (
-    echo "Linking to mini_librispeech exp directories."
+    echo "Copy mini_librispeech exp directories."
     [ -d exp/mini_librispeech ] || mkdir -p exp/mini_librispeech;
     cd exp/mini_librispeech
-    [ -L tri3b ] || ln -s ../../../s5/exp/tri3b ./;
-    [ -L tri3b_ali ] || ln -s ../../../s5/exp/tri3b_ali_train_clean_5 ./tri3b_ali;
+    [ -d tri3b ] || cp -R ../../../s5/exp/tri3b ./;
+    [ -d tri3b_ali ] || cp -R ../../../s5/exp/tri3b_ali_train_clean_5 ./tri3b_ali;
   )
 fi
 
@@ -132,9 +132,9 @@ if [ $stage -le 0 ]; then
     utils/fix_data_dir.sh data/$lang/train_sp
     echo "Get alignments for perturbed $lang training data."
     steps/align_fmllr.sh \
-      --nj 16 \
-      --cmd "$train_cmd" \
       --boost-silence $boost_sil \
+      --cmd "$train_cmd" \
+      --nj 16 \
       data/$lang/train_sp \
       data/$lang/lang \
       exp/$lang/tri3b \
