@@ -89,11 +89,11 @@ if [ $stage -le -1 ]; then
 
   # Copy mini_librispeech data directories
   (
-    echo "Copy data directories in mini_librispeech."
+    echo "Copy data directories from mini_librispeech."
     [ -d data/mini_librispeech ] || mkdir -p data/mini_librispeech;
     cd data/mini_librispeech
     [ -d lang ] || cp -R ../../../s5/data/lang ./;
-    [ -d lang_nosp_test_tgsmall ] || cp -R ../../../s5/data/data/lang_nosp_test_tgsmall ./;
+    [ -d lang_nosp_test_tgsmall ] || cp -R ../../../s5/data/lang_nosp_test_tgsmall ./;
     [ -d train ] || cp -R ../../../s5/data/train_clean_5 ./train;
   )
 
