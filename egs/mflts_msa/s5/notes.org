@@ -127,3 +127,38 @@ a_sil=$a_dir/sil_${a_base}
 sox $a_sil $b c.wav
 ** Make a stereo file with a on channel 1 and c.wav on channel 2.
 sox $a c.wav -c 2 stereo.wav -M
+* Third Attempt
+The previous attempt is incorrect.
+The overlap was computed only using the number of samples in the first file.
+This is incorrect.
+Consider the example:
+a has 10 samples
+b has 20 samples
+20% of a is 2 samples.
+I was starting the overlap at 8 samples.
+The overlap file c would have 28 samples.
+But 20 %  of 28 is  5.6 
+So the overlap should start at either 4 or 5  not 8 samples.
+I need the resulting file to have 20% overlap.
+
+** pseudo code
+seg_1 = c_1
+seg_2 = c_2
+target_percent_overlap=p
+current_total> = |seg_1| + |seg_2|
+current_overlap_distance = 0
+marker(0) = |seg_1| + |seg_2|
+marker(1) = 0
+shift(1) = | marker(1) - marker(0) | / 2
+marker(2) = shift(1) + |marker(1) |
+current_overlap_distance = | |seg_1| - marker(2) |
+current_total = marker(2) + | seg_2|
+current_overlap_percentage = current_overlap_distance / current_total
+if current_overlap_percentage = target_percent then write marker(2)
+else if current_overlap_percentage < target_percentage then 
+marker(3) = | marker(2) - marker(1) | / 2 - marker(2)
+else if current_overlap_percentage > target_percentage then 
+marker(3) = | marker(2) - marker(1) | / 2 + marker(2)
+.
+.
+.
