@@ -1,21 +1,16 @@
 #!/usr/bin/env bash
 
-mkdir -p out_diarized/tmp
-
 for r in out_diarized/work/*; do
   for s in $r/audio_threshold/*; do
-    for f in $s/*; do
-      sox --i $f | egrep "Input|Duration" >> out_diarized/tmp/info.txt
+    for f in $s/wavs/*.wav; do
       base=$(basename $f .wav)
-      dir=$(dirname $f)
-      sox --i $f | egrep "Input|Duration" > $dir/${base}_info.txt
-      cat $dir/${base}_info.txt | grep Duration | cut -d "=" -f 2 | cut -d "~" -f 1 | cut -d " " -f 2 > $dir/${base}_duration.txt
-      cat $dir/${base}_info.txt | grep "Input" | cut -d ":" -f 2 | tr -d "'" > $dir/${base}_filename.txt
-      paste $dir/${base}_filename.txt $dir/${base}_duration.txt > $dir/${base}_samples.txt
+      wavsdir=$(dirname $f)
+      dir=$(dirname $wavsdir)
+      [ -d $dir/infos ] || mkdir -p $dir/infos;
+      sox --i $f | egrep "Input|Duration" > $dir/infos/${base}_info.txt
+      cat $dir/infos/${base}_info.txt | grep Duration | cut -d "=" -f 2 | cut -d "~" -f 1 | cut -d " " -f 2 > $dir/infos/${base}_duration.txt
+      cat $dir/infos/${base}_info.txt | grep "Input" | cut -d ":" -f 2 | tr -d "'" > $dir/infos/${base}_filename.txt
+      paste $dir/infos/${base}_filename.txt $dir/infos/${base}_duration.txt > $dir/infos/${base}_samples.txt
     done
   done
 done
-
-cat out_diarized/tmp/info.txt | grep Duration | cut -d "=" -f 2 | cut -d "~" -f 1 | cut -d " " -f 2 > out_diarized/tmp/durations.txt
-cat out_diarized/tmp/info.txt | grep "Input" | cut -d ":" -f 2 | tr -d "'" > out_diarized/tmp/filenames.txt
-paste out_diarized/tmp/filenames.txt out_diarized/tmp/durations.txt > out_diarized/tmp/samples.txt
