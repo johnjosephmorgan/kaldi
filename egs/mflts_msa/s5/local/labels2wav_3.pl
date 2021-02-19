@@ -34,8 +34,8 @@ while ( my $line = <$LABELS> ) {
   $end = $end * 1000;
   $end = $end / 100000;
   my $dur = $end - $start;
-  mkdir "$out_dir/$name";
-  my $out = "$out_dir/$name/${i}_${start}_${end}.wav";
+  system "mkdir -p $out_dir/$name/wavs";
+  my $out = "$out_dir/$name/wavs/${i}_${start}_${end}.wav";
   system "sox $src $out trim $start $dur";
   $i++;
 }
