@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
+if [ $# -ne 1 ]; then
+    echo "UsAGE: $0 <ITERATION>"
+    exit 1;
+fi
 
-for r in out_diarized/work/*; do
+i=$1
+for r in out_diarized/work/$i/*; do
   for s in $r/audio_threshold/*; do
     for f in $s/wavs/*.wav; do
       base=$(basename $f .wav)
