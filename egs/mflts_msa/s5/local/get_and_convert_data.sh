@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
-# retrieve 2 randomly selected wav files .
+# retrieve 1 randomly selected wav file.
 # Convert fiels from 2 channel wav files sampled at 44100 to single channel flac files sampled at 16k
 datadir=~/mflts
+[ -d $datadir ] || exit 1;
+
 # Write a file with a list of the input source waveform files
-$(find $datadir -type f -name "*sif.wav" | shuf -n 2 > out_diarized/wavlist.txt)
+$(find $datadir -type f -name "*sif.wav" | shuf -n 1 > out_diarized/wavlist.txt)
 {
   while read line; do
     bn=$(basename "$line" .wav)
