@@ -5,23 +5,27 @@ use strict;
 use warnings;
 use Carp;
 
-# Input: 3 arguments, 2 file names and a number
+# Input: 3 arguments, 2 file names and a number.
 # The 2 files are the segmetns we want to overlap.
-# We want the 2 files to overlap by the percentage given by the third argument.
+# We want the resulting file to overlap by a percentage given by the third argument.
 # OUtput: A number indicating the sample where the overlap begins.
-# Writes to a file under a directory called marks
+# Writes to a file under a directory called marks.
+# This script assumes that:
+# The input segment wav files have been written to a directory called wavs
+# Information about the input segments has been written to a directory called infos
+# The information is in a file with extension _samples.txt.
 
 BEGIN {
     @ARGV == 3 or croak "USAGE $0 <First_Segment_file_name> <second_Segment_file_name> <Target_overlap_percentage>";
 }
 
 use File::Basename;
+use List::Util qw( min max );
 
+# Get the input arguments.
 my ($seg_1,$seg_2,$target_percentage) = @ARGV;
 
-# We will store the markers in an array
-my @marker = ();
-
+# First we need the lengths of the 2 segments
 # Get the info file corresponding to the first segment
 # Get the basename of the first segment
 my $seg_1_base = basename $seg_1, ".wav";
@@ -31,21 +35,26 @@ my $seg_1_wavs_dir = dirname $seg_1;
 my $seg_1_spk_dir = dirname $seg_1_wavs_dir;
 # Make the output directory
 system "mkdir -p $seg_1_spk_dir/marks";
-# Open the output marker file
+# Open the output marker file for writing
 open my $MARKER, '+>', "$seg_1_spk_dir/marks/${seg_1_base}_marker.txt" or croak "Problem with $seg_1_spk_dir/marks/${seg_1_base}_marker.txt $!";
-# Get the path to the infos directory for the first segment
+# Set the path to the infos directory for the first segment
 my $seg_1_infos_dir = "$seg_1_spk_dir/infos";
 # Piece together the name of the samples file for the first segment
 my $seg_1_samples_fn = "$seg_1_infos_dir/${seg_1_base}_samples.txt";
+# Check the the samples file exists
 croak "$!" if ( -z $seg_1_samples_fn );
+# Set 2 dummy variables that do not get used.
 my $fn_1 = "";
 my $fn_2 = "";
+# Initialize the variables that will hold the number of samples in the 2 segments.
 my $samples_1 = 0;
 my $samples_2 = 0;
+# Open the file with the first segment's sample count for reading.
 open my $SEGONESAMPLES, '<', $seg_1_samples_fn or croak "Problem with file $seg_1_samples_fn $!";
-# Get the total number of samples in the first segment
+# Get the total number of samples in the first segment.
 while ( my $line = <$SEGONESAMPLES> ) {
     chomp $line;
+    # The samples file has 2 fields, the file name and the number of samples.
     ($fn_1,$samples_1) = split /\t/, $line, 2;
 }
 close $SEGONESAMPLES;
@@ -57,42 +66,44 @@ my $seg_2_spk_dir = dirname $seg_2_wavs_dir;
 my $seg_2_infos_dir = "$seg_2_spk_dir/infos";
 my $seg_2_samples_fn = "$seg_2_infos_dir/${seg_2_base}_samples.txt";
 open my $SEGTWOSAMPLES, '<', $seg_2_samples_fn or croak "Problem with file $seg_2_samples_fn $!";
-# Get the total number of samples in the second segment
 while ( my $line = <$SEGTWOSAMPLES> ) {
     chomp $line;
     ($fn_2,$samples_2) = split /\t/, $line, 2;
 }
-
 close $SEGTWOSAMPLES;
 
-# Initialize variables
-$marker[0] = 0;
-my $current_total_distance = $marker[0] + $samples_2;
-$marker[1] = $samples_1;
-$current_total_distance = $marker[1] + $samples_2;
-my $current_overlap_distance = 0;
-my $current_overlap_percentage = $current_overlap_distance / $current_total_distance;
-if ( $current_overlap_percentage == $target_percentage ) {
-    print "$marker[1]\n";
-    croak "Done getting marker."
-} elsif ( $current_overlap_percentage < $target_percentage ) {
-    $marker[2] = abs($marker[1] - $marker[0] ) / 2 - $marker[0];
-} elsif ( $current_overlap_percentage > $target_percentage ) {
-$marker[2] = abs( $marker[1] - $marker[0] ) / 2 + $marker[0];
-}
+# Set theinitial conditions for the algorithm.
+my $marker = $samples_1;
+# Initialize the overlap length to 0.
+my $current_overlap_length = 0;
+# We add the lengths of the 2 segments to get the total length.
+my $current_total_length = $samples_1 + $samples_2;
+# The overlap percentage is equal to the current length over the total.
+my $current_overlap_percentage = $current_overlap_length / $current_total_length;
+# express target percentage as a decimal
+my $decimal_target_percentage = $target_percentage / 100;
+# Variable to display current percentage between 0 and 100 
+my $show_percentage = 0;
 
-for my $i ( 3 .. ( $samples_1 + $samples_2 )) {
-    $current_overlap_percentage = $current_overlap_distance / $current_total_distance;
-    if ( $current_overlap_percentage == $target_percentage ) {
-	print "$marker[$i - 1]";
-    } elsif ( $current_overlap_percentage < $target_percentage ) {
-	$marker[$i] = abs( $marker[$i - 1] - $marker[$i - 2]) / 2 + $marker[$i - 1];
-    } elsif ( $current_overlap_percentage > $target_percentage ) {
-	$marker[$i] = abs( $marker[$i - 1] - $marker[$i -2 ]) / 2 + $marker[$i - 1];
-    }
-    if ( $i == ( $samples_1 + $samples_2 ) ) {
-	print $MARKER "$marker[$i]\n";
-	croak "Done getting marker.";
+# Use a loop to step down 
+SAMPLE: for my $i ( 0 .. ($samples_1 + $samples_2 ) ) {
+    # Get the total length of the current segment
+    $current_total_length = $current_total_length -= 1;
+    # Get the current overlap length
+    $current_overlap_length += 1;
+    # Get the current overlap percentage
+    $current_overlap_percentage = $current_overlap_length / $current_total_length;
+    # Store the current marker
+    $marker = $samples_1 - $i; 
+    $show_percentage = $current_overlap_percentage * 100;
+    # Check if we are there
+    if ( $current_overlap_percentage == $decimal_target_percentage ) {
+	print $MARKER $marker;
+	croak "We hit the target!";
+    } elsif ( $current_overlap_percentage > $decimal_target_percentage ) {
+	print $MARKER $marker;
+	$show_percentage = $current_overlap_percentage * 100;
+	croak "We overshot the target !\nDone getting marker for $seg_1 and $seg_2.\nTarget Percent: $target_percentage\n Achieved percentage: $show_percentage.\noverlap length: $current_overlap_length\nTotal length: $current_total_length\n";
     }
 }
 close $MARKER;

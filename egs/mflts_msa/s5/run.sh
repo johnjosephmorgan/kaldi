@@ -16,21 +16,33 @@ mkdir -p out_diarized
 
 # Each iteration of the following loop processes a pair of recordings
 for ((i=0;i<=num_pairs;i++)); do
-  # Get the source waveform files
-  echo "Getting pairs of recordings number $i."
+  # Get the first source waveform recording file
+  echo "Getting the first recording of pair number $i."
   local/get_and_convert_data.sh
 
   # segment and diarize
-  local/run_segmentation.sh
+  local/run_segmentation.sh $i
 
   # use sox to get information about wav files
   echo "Getting file info."
-  local/get_info.sh
+  local/get_info.sh $i
+
+  # Get the second source waveform recording file
+  echo "Getting the second recording of pair number $i."
+  local/get_and_convert_data.sh
+
+  # segment and diarize the second recording
+  s=$(($i + 1))
+  local/run_segmentation.sh $s
+
+  # use sox to get information about wav files in the second recording
+  echo "Getting file info for the second recording."
+  local/get_info.sh $s
 
   # Each iteration of the following loop generates overlaps
   for ((j=0;j<=num_overlaps;j++)); do
     echo "$j run of overlap writing."
-    local/overlap.sh
+    local/overlap.sh $i
   done
 done
 exit
