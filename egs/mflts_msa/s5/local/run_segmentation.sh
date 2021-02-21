@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+i=$1
 # Input: A recording with speech from several speakers.
 # Output: A segmentation of the recording and a clustering of the segments by speaker.
 
@@ -75,7 +75,7 @@ languages=langs.txt
     # Make the working directory
     base=$(basename $src .$input_extension)
     # Remove the file extension to get the directory name
-    working_dir=out_diarized/work/${base}
+    working_dir=out_diarized/work/$i/${base}
     mkdir -p $working_dir/speechactivity
 
     #echo "$0 Stage 0: Write parameter files for Kaldi SAD."
@@ -165,7 +165,7 @@ echo "1" > $working_dir/speechactivity/num_jobs
     --min-segment-dur $min_segment_dur     \
     --merge-consecutive-max-dur $merge_consecutive_max_dur     --cmd run.pl \
     --frame-shift $(perl -e "print 3 * 0.01")     $working_dir/speechactivity \
-    $working_dir/speechactivity $working_dir/speechactivity 
+    $working_dir/speechactivity $working_dir/speechactivity > /dev/null 2> /dev/null
 
   mv $working_dir/speechactivity/segments $working_dir/speechactivity/segs
 
@@ -173,7 +173,7 @@ echo "1" > $working_dir/speechactivity/num_jobs
 
   #echo "$0 Stage 8: Get subsegments."
   utils/data/subsegment_data_dir.sh $working_dir/speechactivity \
-    $working_dir/speechactivity/segments.1 $working_dir/speechactivity/subsegments
+    $working_dir/speechactivity/segments.1 $working_dir/speechactivity/subsegments > /dev/null 2> /dev/null
 
 
 
@@ -184,7 +184,10 @@ echo "1" > $working_dir/speechactivity/num_jobs
 
   #echo "$0 Stage 10: Speaker Representation"
   #echo "Make a new segmented directory."
-  utils/data/subsegment_data_dir.sh $working_dir/speechactivity $working_dir/speechactivity/subsegments/segments $working_dir/segmented/init
+  utils/data/subsegment_data_dir.sh \
+    $working_dir/speechactivity \
+    $working_dir/speechactivity/subsegments/segments \
+    $working_dir/segmented/init > /dev/null 2> /dev/null
 
   #echo "Overwrite wav.scp with sox command for 16k sampling rate."
   echo "$base sox -t $input_extension $src -t wav -r $diarization_sampling_rate -b 16 - channels 1 |"> $working_dir/segmented/init/wav.scp
@@ -192,16 +195,36 @@ echo "1" > $working_dir/speechactivity/num_jobs
 
 
   #echo "$0 Stage 11: Extract segments and extract MFCCs for diarization xvector extraction."
+  run.pl $working_dir/segmented/init/log/extract_segments.log \
   extract-segments \
-    scp,p:$working_dir/segmented/init/wav.scp $working_dir/segmented/init/segments ark:- | \
+    scp,p:$working_dir/segmented/init/wav.scp \
+    $working_dir/segmented/init/segments \
+    ark:$working_dir/segmented/init/extracted_segments.ark 
+
+  run.pl $working_dir/segmented/init/log/compute_mfcc_feats.log \
     compute-mfcc-feats \
       --write-utt2dur=ark,t:$working_dir/segmented/init/utt2dur \
       --config=conf/mfcc_hires.conf \
-      ark:- ark:- | \
+      ark:$working_dir/segmented/init/extracted_segments.ark \
+      ark:$working_dir/segmented/init/features.ark 
+
+  run.pl $working_dir/segmented/init/log/copy_feats.log \
     copy-feats \
       --compress=$compress \
       --write-num-frames=ark,t:$working_dir/segmented/init/utt2num_frames \
-      ark:- ark,scp:$(pwd)/$working_dir/segmented/init/raw_mfcc.ark,$(pwd)/$working_dir/segmented/init/raw_mfcc.scp || exit 1;
+      ark:$working_dir/segmented/init/features.ark \
+      ark,scp:$(pwd)/$working_dir/segmented/init/raw_mfcc.ark,$(pwd)/$working_dir/segmented/init/raw_mfcc.scp 
+
+#  extract-segments \
+#    scp,p:$working_dir/segmented/init/wav.scp $working_dir/segmented/init/segments ark:- | \
+#    compute-mfcc-feats \
+#      --write-utt2dur=ark,t:$working_dir/segmented/init/utt2dur \
+#      --config=conf/mfcc_hires.conf \
+#      ark:- ark:- | \
+#    copy-feats \
+#      --compress=$compress \
+#      --write-num-frames=ark,t:$working_dir/segmented/init/utt2num_frames \
+#      ark:- ark,scp:$(pwd)/$working_dir/segmented/init/raw_mfcc.ark,$(pwd)/$working_dir/segmented/init/raw_mfcc.scp 
 
 
   feats="ark,s,cs:apply-cmvn-sliding --norm-vars=$norm_vars --center=true --cmn-window=$cmn_window scp:$working_dir/segmented/subsegmented/feats.scp ark:- |"
