@@ -162,3 +162,31 @@ marker(3) = | marker(2) - marker(1) | / 2 + marker(2)
 .
 .
 .
+* Fourth Attempt:
+Use arrays.
+Store the samples in the first segment into an array
+Step back from the end of the array.
+At each step compute:
+- Total length
+- overlap length
+- Percent of overlap
+Stop when step crosses target percentage.
+** Pseudo code:
+input: segment1 segment2 Target_percentage
+
+store segment 1 in an array
+
+Initialize variables:
+current_total_length=length(segmetnt1) + length(segment2)
+current_overlap_length=0
+current_overlap_percentage=0
+
+for i=length(segment1) + length( segment2), i=0; i--; do
+current_total_length -= i
+current_overlap += i
+current_overlap_percentage = current_overlap_length / current_total_length
+if current_overlap_percentage >= target_overlap_percentage then
+write length(segment1) - i
+
+
+
