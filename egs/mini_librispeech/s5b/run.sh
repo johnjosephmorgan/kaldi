@@ -236,13 +236,13 @@ for lang_index in `seq 0 $[$num_langs-1]`; do
   multi_lores_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}
   multi_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train_sp_hires
   multi_egs_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/egs${feat_suffix}${ivector_suffix}
-  multi_ali_dirs[$lang_index]=exp/${lang_list[$lang_index]}/${alidir}${suffix}
+  multi_ali_dirs[$lang_index]=exp/${lang_list[$lang_index]}/${alidir<}${suffix}
   multi_ivector_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/ivectors_train${suffix}${ivec_feat_suffix}${ivector_suffix}
   multi_ali_treedirs[$lang_index]=exp/${lang_list[$lang_index]}/tree${tree_affix}
   multi_ali_latdirs[$lang_index]=exp/${lang_list[$lang_index]}/chain/${gmm}_train${suffix}_lats
   multi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang
   multi_lfmmi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang_chain
-  multi_gmm_dir[$lang_index]=exp/${lang_list[$lang_index]}/$gmm
+  multi_gmm_dir[$lang_index]=exp/${lang_list[$lang_index]}/<$gmm
   multi_chain_dir[$lang_index]=exp/${lang_list[$lang_index]}/chain/$dir_basename
 done
 
@@ -276,29 +276,35 @@ if [ $stage -le 9 ]; then
   # Get the alignments as lattices (gives the chain training more freedom).
   # use the same num-jobs as the alignments
   for lang_index in `seq 0 $[$num_langs-1]`;do
-    langdir=${multi_lang[$lang_index]}
-    lores_train_data_dir=${multi_lores_data_dirs[$lang_index]}
+    # Get alignments for languages separately
+      langdir=${multi_lang[$lang_index]}
+      # Use low resolution features
+      lores_train_data_dir=${multi_lores_data_dirs[$lang_index]}
+      # Use tri3b in this recipe
     gmm_dir=${multi_gmm_dir[$lang_index]}
     lat_dir=${multi_ali_latdirs[$lang_index]}
 
-    steps/align_fmllr_lats.sh --nj $nj --cmd "$train_cmd" ${lores_train_data_dir} \
-      $langdir $gmm_dir $lat_dir
+    steps/align_fmllr_lats.sh \
+      --nj $nj \
+      --cmd "$train_cmd" \
+      ${lores_train_data_dir} \
+      $langdir \
+      $gmm_dir \
+      $lat_dir
     rm $lat_dir/fsts.*.gz # save space
   done
 fi 
 
 if [ $stage -le 10 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
+    # A tree for each separate language
     lang_name=${lang_list[$lang_index]}
     echo "$0: Building tree for $lang_name"
     tree_dir=${multi_ali_treedirs[$lang_index]}
+    # low resolution
     ali_dir=${multi_ali_dirs[$lang_index]}
     lores_train_data_dir=${multi_lores_data_dirs[$lang_index]}
     lang_dir=${multi_lfmmi_lang[$lang_index]}
-    if [ -f $tree_dir/final.mdl -a -f $tree_dir/tree ]; then
-      echo "$0: $tree_dir/final.mdl already exists, refusing to overwrite it."
-      continue
-    fi
     steps/nnet3/chain/build_tree.sh \
       --cmd "$train_cmd" \
       --context-opts "--context-width=2 --central-position=1" \
