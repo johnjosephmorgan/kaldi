@@ -215,7 +215,7 @@ if [ $stage -le 6 ]; then
   global_extractor=exp/multi/extractor
   echo "$0: Extracts ivector for all languages using $global_extractor."
   for lang_index in `seq 0 $[$num_langs-1]`; do
-    lang=$lang_list[$lang_index]
+    lang=${lang_list[$lang_index]}
     utils/data/modify_speaker_info.sh \
       --utts-per-spk-max 2 \
       data/$lang/train_sp_hires \
