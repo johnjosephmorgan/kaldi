@@ -242,7 +242,7 @@ for lang_index in `seq 0 $[$num_langs-1]`; do
   multi_ali_latdirs[$lang_index]=exp/${lang_list[$lang_index]}/chain/${gmm}_train${suffix}_lats
   multi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang
   multi_lfmmi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang_chain
-  multi_gmm_dir[$lang_index]=exp/${lang_list[$lang_index]}/<$gmm
+  multi_gmm_dir[$lang_index]=exp/${lang_list[$lang_index]}/$gmm
   multi_chain_dir[$lang_index]=exp/${lang_list[$lang_index]}/chain/$dir_basename
 done
 
