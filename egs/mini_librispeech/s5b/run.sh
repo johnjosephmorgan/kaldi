@@ -181,10 +181,10 @@ fi
 if [ $stage -le 2 ]; then
   global_extractor=exp/multi
   ivector_extractor=$global_extractor/extractor
-  multi_data_dir_for_ivec=data/multi/train${suffix}${ivec_feat_suffix}
+  multi_data_dir_for_ivec=data/multi/train_sp_hires
   local/nnet3/run_shared_ivector_extractor.sh  \
     --ivector-transform-type lda \
-    --suffix "$suffix" \
+    --suffix "_sp_hires" \
     $lda_mllt_lang \
     $multi_data_dir_for_ivec \
     $global_extractor || exit 1;
