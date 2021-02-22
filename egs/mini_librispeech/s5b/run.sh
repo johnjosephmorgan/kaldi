@@ -184,7 +184,7 @@ if [ $stage -le 2 ]; then
   multi_data_dir_for_ivec=data/multi/train_sp_hires
   local/nnet3/run_shared_ivector_extractor.sh  \
     --ivector-transform-type lda \
-    --suffix "_sp_hires" \
+    --suffix "" \
     $lda_mllt_lang \
     $multi_data_dir_for_ivec \
     $global_extractor || exit 1;
