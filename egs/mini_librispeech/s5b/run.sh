@@ -210,23 +210,27 @@ if [ $stage -le 5 ]; then
     $global_extractor/diag_ubm \
     $global_extractor/extractor || exit 1;
 fi
-exit
-if [ $stage -le 6 ]; then
-  local/nnet3/run_shared_ivector_extractor.sh  \
-    --ivector-transform-type lda \
-    --suffix "" \
-    $lda_mllt_lang \
-    $multi_data_dir_for_ivec \
-    $global_extractor || exit 1;
-fi
 
-if [ $stage -le 3 ]; then
-  global_extractor=exp/multi/nnet3${nnet3_affix}
-  ivector_extractor=$global_extractor/extractor
-  if $use_ivector; then
-    echo "$0: Extracts ivector for all languages using $global_extractor/extractor."
-    for lang_index in `seq 0 $[$num_langs-1]`; do
-      local/nnet3/extract_ivector_lang.sh \
+if [ $stage -le 6 ]; then
+  global_extractor=exp/multi/extractor
+  echo "$0: Extracts ivector for all languages using $global_extractor."
+  for lang_index in `seq 0 $[$num_langs-1]`; do
+    lang=$lang_list[$lang_index]
+    utils/data/modify_speaker_info.sh \
+      --utts-per-spk-max 2 \
+      data/$lang/train_sp_hires \
+      data/$lang/train_sp_hires_max2
+
+    steps/online/nnet2/extract_ivectors_online.sh \
+      --cmd "$train_cmd" \
+      --nj 200 \
+      data/$lang/$train_sp_hires_max2 \
+      $global_extractor \
+      exp/$lang/ivectors_train_sp_hires || exit 1;
+  done
+fi
+exit
+    local/nnet3/extract_ivector_lang.sh \
         --ivector-suffix "$ivector_suffix" \
         --nnet3-affix "$nnet3_affix" \
         --stage 0 \
@@ -237,7 +241,7 @@ if [ $stage -le 3 ]; then
   fi
 fi
 
-  dir_basename=`basename $dir`
+  dir_basename=$(basename $dir)
   for lang_index in `seq 0 $[$num_langs-1]`; do
     lang_name=${lang_list[$lang_index]}
     multi_lores_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}
