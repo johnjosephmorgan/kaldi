@@ -229,41 +229,25 @@ if [ $stage -le 6 ]; then
       exp/$lang/ivectors_train_sp_hires || exit 1;
   done
 fi
-exit
-    local/nnet3/extract_ivector_lang.sh \
-        --ivector-suffix "$ivector_suffix" \
-        --nnet3-affix "$nnet3_affix" \
-        --stage 0 \
-        --train-set train${suffix}${ivec_feat_suffix} \
-        ${lang_list[$lang_index]} \
-        $ivector_extractor || exit;
-    done
-  fi
-fi
 
-  dir_basename=$(basename $dir)
-  for lang_index in `seq 0 $[$num_langs-1]`; do
-    lang_name=${lang_list[$lang_index]}
-    multi_lores_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}
-    multi_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}${feat_suffix}
-    multi_egs_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/egs${feat_suffix}${ivector_suffix}
-    multi_ali_dirs[$lang_index]=exp/${lang_list[$lang_index]}/${alidir}${suffix}
-    multi_ivector_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/ivectors_train${suffix}${ivec_feat_suffix}${ivector_suffix}
-    multi_ali_treedirs[$lang_index]=exp/${lang_list[$lang_index]}/tree${tree_affix}
-    multi_ali_latdirs[$lang_index]=exp/${lang_list[$lang_index]}/chain/${gmm}_train${suffix}_lats
-    multi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang
-    multi_lfmmi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang_chain
-    multi_gmm_dir[$lang_index]=exp/${lang_list[$lang_index]}/$gmm
-    multi_chain_dir[$lang_index]=exp/${lang_list[$lang_index]}/chain/$dir_basename
-  done
+dir_basename=$(basename $dir)
+for lang_index in `seq 0 $[$num_langs-1]`; do
+  lang_name=${lang_list[$lang_index]}
+  multi_lores_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}
+  multi_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train_sp_hires
+  multi_egs_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/egs${feat_suffix}${ivector_suffix}
+  multi_ali_dirs[$lang_index]=exp/${lang_list[$lang_index]}/${alidir}${suffix}
+  multi_ivector_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/ivectors_train${suffix}${ivec_feat_suffix}${ivector_suffix}
+  multi_ali_treedirs[$lang_index]=exp/${lang_list[$lang_index]}/tree${tree_affix}
+  multi_ali_latdirs[$lang_index]=exp/${lang_list[$lang_index]}/chain/${gmm}_train${suffix}_lats
+  multi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang
+  multi_lfmmi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang_chain
+  multi_gmm_dir[$lang_index]=exp/${lang_list[$lang_index]}/$gmm
+  multi_chain_dir[$lang_index]=exp/${lang_list[$lang_index]}/chain/$dir_basename
+done
 
-  if $use_ivector; then
-    ivector_dim=$(feat-to-dim scp:${multi_ivector_dirs[0]}/ivector_online.scp -) || exit 1;
-  else
-    echo "$0: Not using iVectors in multilingual training."
-    ivector_dim=0
-  fi
-  feat_dim=`feat-to-dim scp:${multi_data_dirs[0]}/feats.scp -`
+ivector_dim=$(feat-to-dim scp:exp/mini_librispeech/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
+feat_dim=`feat-to-dim scp:data/mini_librispeech/train_sp_hires/feats.scp -`
 
 if [ $stage -le 8 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
@@ -273,7 +257,7 @@ if [ $stage -le 8 ]; then
         echo "$0: ${multi_lfmmi_lang[$lang_index]} already exists, not overwriting it; continuing"
       else
         echo "$0: ${multi_lfmmi_lang[$lang_index]} already exists and seems to be older than ${multi_lang[$lang_index]}..."
-        echo " ... not sure what to do.  continuing."
+        echo " ... not sure what to do.  exiting."
         exit 1;
       fi
     else
