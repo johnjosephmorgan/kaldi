@@ -13,7 +13,7 @@ set -e -o pipefail
 boost_sil=1.0 # Factor by which to boost silence likelihoods in alignment
 lda_mllt_lang=mini_librispeech
 remove_egs=false
-cmd=queue.pl
+cmd=run.pl
 srand=-1
 stage=-1
 train_stage=-10
@@ -182,6 +182,14 @@ if [ $stage -le 2 ]; then
   global_extractor=exp/multi
   ivector_extractor=$global_extractor/extractor
   multi_data_dir_for_ivec=data/multi/train_sp_hires
+  steps/online/nnet2/get_pca_transform.sh \
+    --cmd "$train_cmd" \
+    --splice-opts "--left-context=3 --right-context=3" \
+    --max-utts 10000 \
+    --subsample 2 \
+    data/$lda_mllt_lang/train_sp_hisres \
+    exp/$lda_mllt_lang/tri_lda_mllt
+exit
   local/nnet3/run_shared_ivector_extractor.sh  \
     --ivector-transform-type lda \
     --suffix "" \
