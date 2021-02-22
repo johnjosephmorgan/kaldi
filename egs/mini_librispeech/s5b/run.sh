@@ -187,7 +187,7 @@ if [ $stage -le 2 ]; then
     --splice-opts "--left-context=3 --right-context=3" \
     --max-utts 10000 \
     --subsample 2 \
-    data/$lda_mllt_lang/train_sp_hisres \
+    data/$lda_mllt_lang/train_sp_hires \
     exp/$lda_mllt_lang/tri_lda_mllt
 exit
   local/nnet3/run_shared_ivector_extractor.sh  \
