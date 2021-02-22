@@ -19,7 +19,7 @@ stage=-1
 train_stage=-10
 get_egs_stage=-10
 decode_stage=-10
-
+numGaussUBM=512
 megs_dir=
 alidir=tri3b_ali
 stage=-1
@@ -189,6 +189,15 @@ if [ $stage -le 2 ]; then
     --subsample 2 \
     data/$lda_mllt_lang/train_sp_hires \
     exp/$lda_mllt_lang/tri_lda_mllt
+
+  steps/online/nnet2/train_diag_ubm.sh \
+    --cmd "$train_cmd" \
+    --nj 87 \
+    --num-frames 200000 \
+    data/$lda_mllt_lang/train_sp_hires \
+    $numGaussUBM \
+    exp/$lda_mllt_lang/tri_lda_mllt \
+    $global_extractor_dir/diag_ubm
 exit
   local/nnet3/run_shared_ivector_extractor.sh  \
     --ivector-transform-type lda \
