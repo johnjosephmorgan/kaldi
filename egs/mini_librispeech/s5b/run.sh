@@ -236,7 +236,7 @@ for lang_index in `seq 0 $[$num_langs-1]`; do
   multi_lores_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}
   multi_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train_sp_hires
   multi_egs_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/egs${feat_suffix}${ivector_suffix}
-  multi_ali_dirs[$lang_index]=exp/${lang_list[$lang_index]}/${alidir<}${suffix}
+  multi_ali_dirs[$lang_index]=exp/${lang_list[$lang_index]}/${alidir}${suffix}
   multi_ivector_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/ivectors_train${suffix}${ivec_feat_suffix}${ivector_suffix}
   multi_ali_treedirs[$lang_index]=exp/${lang_list[$lang_index]}/tree${tree_affix}
   multi_ali_latdirs[$lang_index]=exp/${lang_list[$lang_index]}/chain/${gmm}_train${suffix}_lats
