@@ -201,8 +201,17 @@ if [ $stage -le 4 ]; then
     exp/$lda_mllt_lang/tri_lda_mllt \
     $global_extractor/diag_ubm
 fi
-exit
+
 if [ $stage -le 5 ]; then
+  steps/online/nnet2/train_ivector_extractor.sh \
+    --cmd "$train_cmd" \
+    --nj 50 \
+    $multi_data_dir_for_ivec \
+    $global_extractor/diag_ubm \
+    $global_extractor/extractor || exit 1;
+fi
+exit
+if [ $stage -le 6 ]; then
   local/nnet3/run_shared_ivector_extractor.sh  \
     --ivector-transform-type lda \
     --suffix "" \
