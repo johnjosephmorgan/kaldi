@@ -163,7 +163,7 @@ if [ $stage -le 2 ]; then
   ivector_suffix=_gb
   echo "$0: combine training data using all langs for training global i-vector extractor."
   echo "Pooling training data in $multi_data_dir_for_ivec on" `date`
-  mkdir -p $multi_data_dir_for_ivec
+  mkdir -p $multi_data_dir_for<_ivec
   combine_lang_list=""
   for lang_index in `seq 0 $[$num_langs-1]`;do
     lang_name=${lang_list[$lang_index]}
@@ -206,7 +206,7 @@ if [ $stage -le 5 ]; then
   steps/online/nnet2/train_ivector_extractor.sh \
     --cmd "$train_cmd" \
     --nj 50 \
-    $multi_data_dir_for_ivec \
+    data/multi/train_sp_hires \
     $global_extractor/diag_ubm \
     $global_extractor/extractor || exit 1;
 fi
