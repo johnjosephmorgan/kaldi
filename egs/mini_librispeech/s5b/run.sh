@@ -428,29 +428,25 @@ if [ $stage -le 14 ]; then
     train_ivector_dir=${multi_ivector_dirs[$lang_index]}
     train_data_dir=${multi_data_dirs[$lang_index]}
     lat_dir=${multi_ali_latdirs[$lang_index]}
-    if [ ! -f ${dir}/${lang_name}_processed_egs/.done ]; then
-      steps/chain2/get_raw_egs.sh \
-        --alignment-subsampling-factor $frame_subsampling_factor \
-        --cmd "$train_cmd" \
-        --frame-subsampling-factor $frame_subsampling_factor \
-        --frames-per-chunk $chunk_width \
-        --lang "$lang_name" \
-        --left-context $egs_left_context \
-        --online-ivector-dir $train_ivector_dir \
-        --right-context $egs_right_context \
-        ${train_data_dir} \
-	${dir} \
-	${lat_dir} \
-	${dir}/${lang_name}_raw_egs || exit 1
+    steps/chain2/get_raw_egs.sh \
+      --alignment-subsampling-factor $frame_subsampling_factor \
+      --cmd "$train_cmd" \
+      --frame-subsampling-factor $frame_subsampling_factor \
+      --frames-per-chunk $chunk_width \
+      --lang "$lang_name" \
+      --left-context $egs_left_context \
+      --online-ivector-dir $train_ivector_dir \
+      --right-context $egs_right_context \
+      ${train_data_dir} \
+      ${dir} \
+      ${lat_dir} \
+      ${dir}/${lang_name}_raw_egs || exit 1
 
-      echo "$0: Processing raw egs for $lang_name"
-      steps/chain2/process_egs.sh  \
-        --cmd "$train_cmd" \
-        ${dir}/${lang_name}_raw_egs \
-	${dir}/${lang_name}_processed_egs || exit 1
-      touch ${dir}/${lang_name}_processed_egs/.done
-      rm -r ${dir}/${lang_name}_raw_egs # save space
-    fi
+    echo "$0: Processing raw egs for $lang_name"
+    steps/chain2/process_egs.sh  \
+      --cmd "$train_cmd" \
+      ${dir}/${lang_name}_raw_egs \
+      ${dir}/${lang_name}_processed_egs || exit 1
   done
 fi
 
