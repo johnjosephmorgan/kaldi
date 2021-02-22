@@ -224,7 +224,7 @@ if [ $stage -le 6 ]; then
     steps/online/nnet2/extract_ivectors_online.sh \
       --cmd "$train_cmd" \
       --nj 200 \
-      data/$lang/$train_sp_hires_max2 \
+      data/$lang/train_sp_hires_max2 \
       $global_extractor \
       exp/$lang/ivectors_train_sp_hires || exit 1;
   done
