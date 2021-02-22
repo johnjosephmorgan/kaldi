@@ -50,7 +50,7 @@ lang_list=(mini_librispeech heroico)
 lda_mllt_lang=mini_librispeech
 lang2weight="0.3,0.7"
 decode_lang_list=(mini_librispeech)
-global_extractor=exp/multi/extractor
+global_extractor=exp/multi
 dir=exp/chain2_multi
 suffix=_sp
 num_langs=${#lang_list[@]}
@@ -225,7 +225,7 @@ if [ $stage -le 6 ]; then
       --cmd "$train_cmd" \
       --nj 200 \
       data/$lang/train_sp_hires_max2 \
-      $global_extractor \
+      $global_extractor/extractor \
       exp/$lang/ivectors_train_sp_hires || exit 1;
   done
 fi
