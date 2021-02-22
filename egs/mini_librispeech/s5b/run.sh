@@ -199,7 +199,7 @@ if [ $stage -le 4 ]; then
     data/$lda_mllt_lang/train_sp_hires \
     $numGaussUBM \
     exp/$lda_mllt_lang/tri_lda_mllt \
-    $global_extractor_dir/diag_ubm
+    $global_extractor/diag_ubm
 fi
 exit
 if [ $stage -le 5 ]; then
