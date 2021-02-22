@@ -68,7 +68,7 @@ where "nvcc" is installed.
 EOF
 fi
 
-if [ $stage -le -1 ]; then
+if [ $stage -le 0 ]; then
   # Link data directories from heroico
   (
     echo "$0: Copy data directories from heroico."
@@ -115,7 +115,7 @@ done
 
 dir=${dir}${suffix}
 
-if [ $stage -le 0 ]; then
+if [ $stage -le 1 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`; do
     lang=${lang_list[$lang_index]}
     echo "Speed perturbing $lang training data."
@@ -153,7 +153,7 @@ if [ $stage -le 0 ]; then
   done
 fi
 
-if [ $stage -le 1 ]; then
+if [ $stage -le 2 ]; then
   ivector_suffix=""
   mkdir -p data/multi
   global_extractor=exp/multi
@@ -178,7 +178,7 @@ if [ $stage -le 1 ]; then
   utils/validate_data_dir.sh --no-feats $multi_data_dir_for_ivec
 fi
 
-if [ $stage -le 2 ]; then
+if [ $stage -le 3 ]; then
   global_extractor=exp/multi
   ivector_extractor=$global_extractor/extractor
   multi_data_dir_for_ivec=data/multi/train_sp_hires
@@ -189,7 +189,9 @@ if [ $stage -le 2 ]; then
     --subsample 2 \
     data/$lda_mllt_lang/train_sp_hires \
     exp/$lda_mllt_lang/tri_lda_mllt
+fi
 
+if [ $stage -le 4 ]; then
   steps/online/nnet2/train_diag_ubm.sh \
     --cmd "$train_cmd" \
     --nj 87 \
@@ -198,7 +200,9 @@ if [ $stage -le 2 ]; then
     $numGaussUBM \
     exp/$lda_mllt_lang/tri_lda_mllt \
     $global_extractor_dir/diag_ubm
+fi
 exit
+if [ $stage -le 5 ]; then
   local/nnet3/run_shared_ivector_extractor.sh  \
     --ivector-transform-type lda \
     --suffix "" \
