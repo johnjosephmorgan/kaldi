@@ -456,8 +456,8 @@ if [ $stage -le 15 ]; then
     egs_opts="--lang2weight '$lang2weight'"
   fi
   egs_dir_list=$(
-    for ((lang_index=0;lang_index<=($[$num_langs-1]);${lang_index}++)); do
-      lang_name=${lang_list[$lang_index]};
+    for ((l=0;l<=($[$num_langs-1]);l++)); do
+      lang_name=${lang_list[$l]};
       echo $dir/${lang_name}_processed_egs;
     done
   )
