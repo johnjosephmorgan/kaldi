@@ -451,15 +451,22 @@ if [ $stage -le 14 ]; then
 fi
 
 if [ $stage -le 15 ]; then
-    echo "$0: Combining egs"
-    if [ ! -z "$lang2weight" ]; then
-        egs_opts="--lang2weight '$lang2weight'"
-    fi
-    egs_dir_list=$(for lang_index in `seq 0 $[$num_langs-1]`;do lang_name=${lang_list[$lang_index]}; echo ${dir}/${lang_name}_processed_egs; done)
-    
-    steps/chain2/combine_egs.sh $egs_opts \
-        --cmd "$train_cmd" \
-        $num_langs $egs_dir_list ${dir}/egs
+  echo "$0: Combining egs"
+  if [ ! -z "$lang2weight" ]; then
+    egs_opts="--lang2weight '$lang2weight'"
+  fi
+  egs_dir_list=$(
+    for ((lang_index=0;lang_index<=($[$num_langs-1]);${lang_index}++)); do
+      lang_name=${lang_list[$lang_index]};
+      echo $dir/${lang_name}_processed_egs;
+    done
+  )
+  steps/chain2/combine_egs.sh \
+    $egs_opts \
+    --cmd "$train_cmd" \
+    $num_langs \
+    $egs_dir_list \
+    $dir/egs
 fi
 [[ -z $common_egs_dir ]] && common_egs_dir=${dir}/egs
 
