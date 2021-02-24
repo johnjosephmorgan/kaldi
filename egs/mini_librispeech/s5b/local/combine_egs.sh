@@ -20,7 +20,7 @@ right_context=9
 # TODO: add lang2weight support
 lang2weight=            # array of weights one per input languge to scale example's output
                         # w.r.t its input language during training.
-lang_list=(heroico mini_librispeech)
+lang_list=(mini_librispeech heroico)
 
 echo "$0 $@"  # Print the command line for logging
 
