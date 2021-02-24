@@ -459,7 +459,7 @@ if [ $stage -le 15 ]; then
   steps/chain2/combine_egs.sh \
     $egs_opts \
     --cmd "$train_cmd" \
-    --lang-list ${lang_list[@]} \
+    --lang-list "${lang_list[@]}" \
     $num_langs \
     $egs_dir_list \
     $dir/egs
