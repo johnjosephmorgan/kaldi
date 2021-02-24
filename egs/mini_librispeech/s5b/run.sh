@@ -472,7 +472,7 @@ if [ $stage -le 16 ]; then
     lang_name=${lang_list[$lang_index]}
     cp $dir/den_fsts/${lang_name}.*fst ${dir}/egs/misc/
     cp $dir/init/${lang_name}_trans.mdl ${dir}/egs/misc/${lang_name}.trans_mdl
-    ln -rs $dir/egs/info.txt $dir/egs/info_${lang_name}.txt
+    [ -L $dir/egs/info_${lang_name}.txt ] || ln -rs $dir/egs/info.txt $dir/egs/info_${lang_name}.txt
   done
   echo "$0: Create a dummy transition model that is never used."
   first_lang_name=${lang_list[0]}
