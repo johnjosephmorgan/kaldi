@@ -456,7 +456,7 @@ if [ $stage -le 15 ]; then
     egs_opts="--lang2weight '$lang2weight'"
   fi
   egs_dir_list=$(for lang_index in `seq 0 $[$num_langs-1]`;do lang_name=${lang_list[$lang_index]}; echo ${dir}/${lang_name}_processed_egs; done)
-  steps/chain2/combine_egs.sh \
+  local/combine_egs.sh \
     $egs_opts \
     --cmd "$train_cmd" \
     --lang-list "(${lang_list[@]})" \
