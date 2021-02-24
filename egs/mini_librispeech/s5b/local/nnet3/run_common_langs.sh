@@ -31,10 +31,16 @@ if [ $stage -le 1 ]; then
   #Although the nnet model will be trained by high resolution data, we still have to perturbe the normal data to get the alignment
   # _sp stands for speed-perturbed
   for datadir in train; do
-    ./utils/data/perturb_data_dir_speed_3way.sh data/$lang/${datadir} data/$lang/${datadir}_sp
+    ./utils/data/perturb_data_dir_speed_3way.sh \
+      data/$lang/${datadir} \
+      data/$lang/${datadir}_sp
     # Extract  features for perturbed data.
-    steps/make_mfcc.sh --cmd "$train_cmd" --nj 16 data/$lang/${datadir}_sp 
-    steps/compute_cmvn_stats.sh data/$lang/${datadir}_sp
+    steps/make_mfcc.sh \
+      --cmd "$train_cmd" \
+      --nj 16 \
+      data/$lang/${datadir}_sp 
+    steps/compute_cmvn_stats.sh \
+      data/$lang/${datadir}_sp
     utils/fix_data_dir.sh data/$lang/${datadir}_sp
   done
 fi
@@ -68,7 +74,7 @@ if [ $stage -le 3 ] && [ ! -f data/$lang/${train_set}${feat_suffix}/.done ]; the
     # scale the waveforms, this is useful as we don't use CMVN
     utils/data/perturb_data_dir_volume.sh $data_dir || exit 1;
 
-    steps/make_mfcc${mfcc_affix}.sh --nj 16 $hires_config \
+<    steps/make_mfcc${mfcc_affix}.sh --nj 16 $hires_config \
       --cmd "$train_cmd" ${data_dir} $log_dir $mfccdir;
 
     steps/compute_cmvn_stats.sh ${data_dir} $log_dir $mfccdir;
