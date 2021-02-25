@@ -18,7 +18,7 @@ frames_per_job=1500000
 left_context=13
 right_context=9
 # TODO: add lang2weight support
-lang2weight=(0.3 0.7)            # array of weights one per input languge to scale example's output
+lang2weight=("0.3" "0.7"); # array of weights one per input languge to scale example's output
                         # w.r.t its input language during training.
 lang_list=(mini_librispeech heroico)
 
