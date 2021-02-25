@@ -18,12 +18,13 @@ my ($src,$out) = @ARGV;
 
 my $base = basename $src, ".flac";
 my $labels = "$out/clusters/labels_threshold";
-my $out_dir = "$out/audio_threshold";
+my $out_dir = "out_diarized/speakers/$base";
 
 mkdir $out_dir;
 
 open my $LABELS, '<', $labels or croak "Problem with $labels $!";
 my $i = 1000;
+my $speaker_dir = "";
 while ( my $line = <$LABELS> ) {
   chomp $line;
   my ($utt,$name) = split /\s+/, $line, 2;
@@ -34,9 +35,13 @@ while ( my $line = <$LABELS> ) {
   $end = $end * 1000;
   $end = $end / 100000;
   my $dur = $end - $start;
-  system "mkdir -p $out_dir/$name/wavs";
-  my $out = "$out_dir/$name/wavs/${i}_${start}_${end}.wav";
-  system "sox $src $out trim $start $dur";
-  $i++;
+  if $name ne "" {
+    $speaker_dir = $out_dir . "_${name}";
+    system "mkdir -p $speaker_dir/wavs";
+    my $out = "$speaker_dir/wavs/${i}_${start}_${end}.wav";
+    system "sox $src $out trim $start $dur";
+    $i++;
+  }
+  $speaker_dir = "";
 }
 close $LABELS;

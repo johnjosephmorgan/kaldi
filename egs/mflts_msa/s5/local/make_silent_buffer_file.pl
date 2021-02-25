@@ -21,9 +21,7 @@ use File::Copy;
 my ($marker) = @ARGV;
 
 # Store the samples info
-my $base = basename $marker, "_marker.txt";
 my $marker_dir = dirname $marker;
-my $dir = dirname $marker_dir;
 open my $SAMPLES, '<', "$marker" or croak "Problem with $marker !";
 my $samples = <$SAMPLES>;
 chomp $samples;
@@ -33,9 +31,7 @@ my $duration = 1.0;
 
 # Append an "s" to indicate samples
 $duration = $samples . 's';
-# Make the sils directory
-system "mkdir -p $dir/sils";
 # Make a name for the output silence file
-my $silwav = "$dir/sils/$base.wav";
+my $silwav = "$marker_dir/sil.wav";
 # Write the silent wav file with sox
 system "sox -n -r 16000  $silwav trim 0.0 $duration";

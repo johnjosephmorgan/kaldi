@@ -9,7 +9,7 @@ use Carp;
 # The 2 files are the segmetns we want to overlap.
 # We want the resulting file to overlap by a percentage given by the third argument.
 # OUtput: A number indicating the sample where the overlap begins.
-# Writes to a file under a directory called marks.
+
 # This script assumes that:
 # The input segment wav files have been written to a directory called wavs
 # Information about the input segments has been written to a directory called infos
@@ -32,15 +32,13 @@ my $seg_1_base = basename $seg_1, ".wav";
 # Get the path to the wavs directory containing the first segment
 my $seg_1_wavs_dir = dirname $seg_1;
 # Get the path to the speaker directory containing the previous wavs directory
-my $seg_1_spk_dir = dirname $seg_1_wavs_dir;
-# Make the output directory
-system "mkdir -p $seg_1_spk_dir/marks";
-# Open the output marker file for writing
-open my $MARKER, '+>', "$seg_1_spk_dir/marks/${seg_1_base}_marker.txt" or croak "Problem with $seg_1_spk_dir/marks/${seg_1_base}_marker.txt $!";
+my $seg_1_spk_path = dirname $seg_1_wavs_dir;
+# Get the basename of the speaker
+my $seg_1_spk_base = basename $seg_1_spk_path;
 # Set the path to the infos directory for the first segment
-my $seg_1_infos_dir = "$seg_1_spk_dir/infos";
+my $seg_1_infos_path = "$seg_1_spk_path/infos";
 # Piece together the name of the samples file for the first segment
-my $seg_1_samples_fn = "$seg_1_infos_dir/${seg_1_base}_samples.txt";
+my $seg_1_samples_fn = "$seg_1_infos_path/${seg_1_base}_samples.txt";
 # Check the the samples file exists
 croak "$!" if ( -z $seg_1_samples_fn );
 # Set 2 dummy variables that do not get used.
@@ -61,17 +59,22 @@ close $SEGONESAMPLES;
 
 # Repeat the above for the second segment
 my $seg_2_base = basename $seg_2, ".wav";
-my $seg_2_wavs_dir = dirname $seg_2;
-my $seg_2_spk_dir = dirname $seg_2_wavs_dir;
-my $seg_2_infos_dir = "$seg_2_spk_dir/infos";
-my $seg_2_samples_fn = "$seg_2_infos_dir/${seg_2_base}_samples.txt";
+my $seg_2_wavs_path = dirname $seg_2;
+my $seg_2_spk_path = dirname $seg_2_wavs_path;
+my $seg_2_spk_base = basename $seg_2_spk_path;
+my $seg_2_infos_path = "$seg_2_spk_path/infos";
+my $seg_2_samples_fn = "$seg_2_infos_path/${seg_2_base}_samples.txt";
 open my $SEGTWOSAMPLES, '<', $seg_2_samples_fn or croak "Problem with file $seg_2_samples_fn $!";
 while ( my $line = <$SEGTWOSAMPLES> ) {
     chomp $line;
     ($fn_2,$samples_2) = split /\t/, $line, 2;
 }
 close $SEGTWOSAMPLES;
-
+# Make the output directory
+my $output_marker_path = "out_diarized/overlaps/${seg_1_spk_base}_${seg_2_spk_base}_${seg_1_base}_${seg_2_base}";
+system "mkdir -p $output_marker_path";
+# Open the output marker file for writing
+open my $MARKER, '+>', "$output_marker_path/marker.txt" or croak "Problem with $output_marker_path/marker.txt $!";
 # Set theinitial conditions for the algorithm.
 my $marker = $samples_1;
 # Initialize the overlap length to 0.
@@ -103,6 +106,7 @@ SAMPLE: for my $i ( 0 .. ($samples_1 + $samples_2 ) ) {
     } elsif ( $current_overlap_percentage > $decimal_target_percentage ) {
 	print $MARKER $marker;
 	$show_percentage = $current_overlap_percentage * 100;
+	exit();
 	croak "We overshot the target !\nDone getting marker for $seg_1 and $seg_2.\nTarget Percent: $target_percentage\n Achieved percentage: $show_percentage.\noverlap length: $current_overlap_length\nTotal length: $current_total_length\n";
     }
 }

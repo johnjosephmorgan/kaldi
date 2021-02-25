@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
-i=$1
-# Input: A recording with speech from several speakers.
-# Output: A segmentation of the recording and a clustering of the segments by speaker.
+
+# segment   and  cluster  the segments by speaker.
+
+# source the path.sh file to get the value of the KALDI_ROOT variable.
+. ./path.sh
+. utils/parse_options.sh
+stage=0
 
 # begin setting configuration variables
 input_extension=flac
 mfcc_hires_config=conf/mfcc_hires.conf
 sad_sampling_rate=16k
 compress=true
-src=
 # SAD options
 extra_left_context=0
 extra_left_context_initial=-1
@@ -71,15 +74,15 @@ languages=langs.txt
 # end of setting configuration variables
 
 # loop over source flac files
-  for src in out_diarized/flacs/*; do
-    # Make the working directory
-    base=$(basename $src .$input_extension)
-    # Remove the file extension to get the directory name
-    working_dir=out_diarized/work/$i/${base}
-    mkdir -p $working_dir/speechactivity
+for src in out_diarized/flacs/*; do
+  # Make the working directory
+  base=$(basename $src .$input_extension)
+  # Remove the file extension to get the directory name
+  working_dir=out_diarized/work/$i/${base}
+  mkdir -p $working_dir/speechactivity
 
-    #echo "$0 Stage 0: Write parameter files for Kaldi SAD."
-    # wav.scp
+  #echo "$0 Stage 0: Write parameter files for Kaldi SAD."
+  # wav.scp
   echo "$base sox -t $input_extension $src -t wav -r $sad_sampling_rate -b 16 - channels 1 |"> $working_dir/speechactivity/wav.scp
   # the utt2spk file is simple since we process 1 recording 
   echo "$base $base" > $working_dir/speechactivity/utt2spk
@@ -286,12 +289,4 @@ echo "1" > $working_dir/speechactivity/num_jobs
     $working_dir/segmented/init/segments \
     $working_dir/clusters/labels_threshold \
     $working_dir/clusters/rttm || exit 1;
-
-
-
-  #echo "$0 Stage 19: Writing .wav files from thresholded clustering."
-  ./local/labels2wav_3.pl $src $working_dir
-
-
-
 done

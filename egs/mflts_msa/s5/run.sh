@@ -4,45 +4,49 @@
 
 # source the path.sh file to get the value of the KALDI_ROOT variable.
 . ./path.sh
+num_pairs=10000
+num_overlaps=10000
 stage=0
-num_pairs=1000
-num_overlaps=1000
 . utils/parse_options.sh
-# Get the Kaldi SAD and Diarization models
-local/download_kaldi_models.sh
+
+
+if [ $stage -le 0 ]; then
+  # Get the Kaldi SAD and Diarization models
+  local/download_kaldi_models.sh
+fi
 
 # Make the directory where we store all the work
 mkdir -p out_diarized
 
-# Each iteration of the following loop processes a pair of recordings
-for ((i=0;i<=num_pairs;i++)); do
-  # Get the first source waveform recording file
-  echo "Getting the first recording of pair number $i."
+if [ $stage -le 1 ]; then
+  # Get and prepare the  source waveform recording files
   local/get_and_convert_data.sh
+fi
 
-  # segment and diarize
-  local/run_segmentation.sh $i
+if [ $stage -le 2 ]; then
+  # segment and diarize the recordings
+  local/run_segmentation.sh
+fi
 
-  # use sox to get information about wav files
-  echo "Getting file info."
-  local/get_info.sh $i
-
-  # Get the second source waveform recording file
-  echo "Getting the second recording of pair number $i."
-  local/get_and_convert_data.sh
-
-  # segment and diarize the second recording
-  s=$(($i + 1))
-  local/run_segmentation.sh $s
-
-  # use sox to get information about wav files in the second recording
-  echo "Getting file info for the second recording."
-  local/get_info.sh $s
-
-  # Each iteration of the following loop generates overlaps
-  for ((j=0;j<=num_overlaps;j++)); do
-    echo "$j run of overlap writing."
-    local/overlap.sh $i
+if [ $stage -le 3 ]; then
+  for rec in out_diarized/flacs/*; do
+    # Write segment .wav files from thresholded clustering."
+    base=$(basename $rec .flac)
+    ./local/labels2wav_3.pl $rec out_diarized/work/$base
   done
-done
-exit
+fi
+
+if [ $stage -le 4 ]; then
+  # use sox to get information about wav files
+  local/get_info.sh
+fi
+
+if [ $stage -le 5 ]; then
+  mkdir -p out_diarized/overlaps
+  n=$(find out_diarized/speakers -type f -name "*.wav" | wc -l)
+  for ((i=0;i<=n;i++)); do
+    s1=$(find out_diarized/speakers -type f -name "*.wav" | shuf -n 1)
+    s2=$(find out_diarized/speakers -type f -name "*.wav" | shuf -n 1)
+    local/overlap.sh $s1 $s2
+  done
+fi
