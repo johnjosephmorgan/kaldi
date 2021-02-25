@@ -452,9 +452,6 @@ fi
 
 if [ $stage -le 15 ]; then
   echo "$0: Combining egs"
-  if [ ! -z "$lang2weight" ]; then
-    egs_opts="--lang2weight '$lang2weight'"
-  fi
   egs_dir_list=$(for lang_index in `seq 0 $[$num_langs-1]`;do lang_name=${lang_list[$lang_index]}; echo ${dir}/${lang_name}_processed_egs; done)
   local/combine_egs.sh \
     $egs_opts \
