@@ -18,7 +18,7 @@ frames_per_job=1500000
 left_context=13
 right_context=9
 # TODO: add lang2weight support
-lang2weight=            # array of weights one per input languge to scale example's output
+lang2weight=(0.3 0.7)            # array of weights one per input languge to scale example's output
                         # w.r.t its input language during training.
 lang_list=(mini_librispeech heroico)
 
@@ -108,7 +108,7 @@ echo "num_scp_files $num_scp_files" >> $megs_dir/info.txt
 sed_cmd=
 for lang in $(seq 0 $[$num_langs-1]);do
     lang_name=${lang_list[$lang]}
-    weight=$(echo $lang2weight | tr ',' ' ' | tr "'" " " | cut -d ' ' -f$[$lang+1])
+    weight=$lang2weight[$lang]
     sed_cmd="$sed_cmd s/.*lang=${lang_name}.*/$weight/;"
 done
 
