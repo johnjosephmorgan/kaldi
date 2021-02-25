@@ -108,7 +108,7 @@ echo "num_scp_files $num_scp_files" >> $megs_dir/info.txt
 sed_cmd=
 for lang in $(seq 0 $[$num_langs-1]);do
     lang_name=${lang_list[$lang]}
-    weight=$lang2weight[$lang]
+    weight=${lang2weight[$lang]}
     sed_cmd="$sed_cmd s/.*lang=${lang_name}.*/$weight/;"
 done
 
