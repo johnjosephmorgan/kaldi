@@ -179,6 +179,7 @@ if [ $stage -le 3 ]; then
 fi
 
 if [ $stage -le 4 ]; then
+  # Train a diagonal universal background model
   steps/online/nnet2/train_diag_ubm.sh \
     --cmd "$train_cmd" \
     --nj 87 \
@@ -186,7 +187,7 @@ if [ $stage -le 4 ]; then
     data/$lda_mllt_lang/train_sp_hires \
     $numGaussUBM \
     exp/$lda_mllt_lang/tri_lda_mllt \
-    $global_extractor/diag_ubm
+    exp/multi/diag_ubm || exit 1;
 fi
 
 if [ $stage -le 5 ]; then
