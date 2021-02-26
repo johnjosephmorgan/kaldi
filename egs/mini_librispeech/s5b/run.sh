@@ -540,7 +540,7 @@ if [ $stage -le 21 ]; then
     data/mini_librispeech/dev_clean_2_hires || exit 1;
     steps/compute_cmvn_stats.sh \
       data/mini_librispeech/dev_clean_2_hires || exit 1;
-    utils/fix_data_dir.sh data/mini_librispeech/dev__clean_2hires
+    utils/fix_data_dir.sh data/mini_librispeech/dev_clean_2_hires || exit 1;
   # Do the speaker-dependent decoding pass
   steps/online/nnet2/extract_ivectors_online.sh \
     --cmd "$train_cmd" \
