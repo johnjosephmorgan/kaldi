@@ -548,7 +548,7 @@ if [ $stage -le 21 ]; then
     exp/mini_librispeech/ivectors_dev_clean_2_hires || exit 1;
 
   (
-    nspk=$(wc -l <data/${data}_hires/spk2utt)
+    nspk=$(wc -l <data/mini_librispeech/dev_clean_2_hires/spk2utt)
     tree_dir=exp/mini_librispeech/tree
     steps/nnet3/decode.sh \
       --acwt 1.0 \
