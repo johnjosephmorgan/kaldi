@@ -217,19 +217,18 @@ if [ $stage -le 6 ]; then
 fi
 
 dir_basename=$(basename $dir)
-for lang_index in `seq 0 $[$num_langs-1]`; do
-  lang_name=${lang_list[$lang_index]}
-  multi_lores_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train${suffix}
-  multi_data_dirs[$lang_index]=data/${lang_list[$lang_index]}/train_sp_hires
-  multi_egs_dirs[$lang_index]=exp/${lang_list[$lang_index]}/nnet3${nnet3_affix}/egs${feat_suffix}${ivector_suffix}
-  multi_ali_dirs[$lang_index]=exp/${lang_list[$lang_index]}/${alidir}${suffix}
-  multi_ivector_dirs[$lang_index]=exp/${lang_list[$lang_index]}/ivectors_train_sp_hires
-  multi_ali_treedirs[$lang_index]=exp/${lang_list[$lang_index]}/tree${tree_affix}
-  multi_ali_latdirs[$lang_index]=exp/${lang_list[$lang_index]}/chain/${gmm}_train${suffix}_lats
-  multi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang
-  multi_lfmmi_lang[$lang_index]=data/${lang_list[$lang_index]}/lang_chain
-  multi_gmm_dir[$lang_index]=exp/${lang_list[$lang_index]}/$gmm
-  multi_chain_dir[$lang_index]=exp/${lang_list[$lang_index]}/chain/$dir_basename
+for lang in mini_librispeech heroico; do
+  multi_lores_data_dirs[$lang]=data/$lang/train_sp
+  multi_data_dirs[$lang]=data/$lang/train_sp_hires
+  multi_egs_dirs[$lang]=exp/$lang/egs
+  multi_ali_dirs[$lang]=exp/$lang
+  multi_ivector_dirs[$lang]=exp/$lang/ivectors_train_sp_hires
+  multi_ali_treedirs[$lang]=exp/$lang/tree_affix}
+  multi_ali_latdirs[$lang]=exp/$lang/chain/tri3b_train_sp_lats
+  multi_lang[$lang]=data/$lang/lang
+  multi_lfmmi_lang[$lang]=data/$lang/lang_chain
+  multi_gmm_dir[$lang]=exp/$lang/tri3b
+  multi_chain_dir[$lang]=exp/$lang/chain/$dir_basename
 done
 
 ivector_dim=$(feat-to-dim scp:exp/mini_librispeech/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
