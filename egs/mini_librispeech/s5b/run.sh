@@ -234,25 +234,24 @@ done
 ivector_dim=$(feat-to-dim scp:exp/mini_librispeech/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
 feat_dim=`feat-to-dim scp:data/mini_librispeech/train_sp_hires/feats.scp -`
 
-if [ $stage -le 8 ]; then
-  for lang_index in `seq 0 $[$num_langs-1]`;do
-    lang_name=${lang_list[$lang_index]}
-    if [ -d ${multi_lfmmi_lang[$lang_index]} ]; then
-      if [ ${multi_lfmmi_lang[$lang_index]}/L.fst -nt ${multi_lang[$lang_index]}/L.fst ]; then
-        echo "$0: ${multi_lfmmi_lang[$lang_index]} already exists, not overwriting it; continuing"
+if [ $stage -le 7 ]; then
+  for lang in mini_librispeech heroico;do
+    if [ -d ${multi_lfmmi_lang[$lang]} ]; then
+      if [ ${multi_lfmmi_lang[$lang]}/L.fst -nt ${multi_lang[$lang]}/L.fst ]; then
+        echo "$0: ${multi_lfmmi_lang[$lang]} already exists, not overwriting it; continuing"
       else
-        echo "$0: ${multi_lfmmi_lang[$lang_index]} already exists and seems to be older than ${multi_lang[$lang_index]}..."
+        echo "$0: ${multi_lfmmi_lang[$lang]} already exists and seems to be older than ${multi_lang[$lang]}..."
         echo " ... not sure what to do.  exiting."
         exit 1;
       fi
     else
-      echo "$0: creating lang directory with one state per phone for ${multi_lang[$lang_index]}."
-      cp -r ${multi_lang[$lang_index]}/ ${multi_lfmmi_lang[$lang_index]} # trailing slash makes sure soft links are copied
-      silphonelist=$(cat ${multi_lfmmi_lang[$lang_index]}/phones/silence.csl) || exit 1;
-      nonsilphonelist=$(cat ${multi_lfmmi_lang[$lang_index]}/phones/nonsilence.csl) || exit 1;
+      echo "$0: creating lang directory with one state per phone for ${multi_lang[$lang]}."
+      cp -r ${multi_lang[$lang]}/ ${multi_lfmmi_lang[$lang]} # trailing slash makes sure soft links are copied
+      silphonelist=$(cat ${multi_lfmmi_lang[$lang]}/phones/silence.csl) || exit 1;
+      nonsilphonelist=$(cat ${multi_lfmmi_lang[$lang]}/phones/nonsilence.csl) || exit 1;
       # Use our special topology... note that later on may have to tune this
       # topology.
-      steps/nnet3/chain/gen_topo.py $nonsilphonelist $silphonelist >${multi_lfmmi_lang[$lang_index]}/topo
+      steps/nnet3/chain/gen_topo.py $nonsilphonelist $silphonelist >${multi_lfmmi_lang[$lang]}/topo
     fi
   done
 fi
