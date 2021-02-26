@@ -569,7 +569,6 @@ if [ $stage -le 21 ]; then
       exp/multi/mini_librispeech/decode_tgsmall_dev_clean_2_hires || exit 1
   ) || touch $dir/.error &
   wait
-  done
   [ -f $dir/.error ] && echo "$0: there was a problem while decoding" && exit 1
 fi
 
