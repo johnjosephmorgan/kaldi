@@ -564,7 +564,7 @@ if [ $stage -le 21 ]; then
       --post-decode-acwt 10.0 \
       $tree_dir/graph_tgsmall \
       data/mini_librispeech/dev_clean_2_hires \
-      exp/multi/mini_librispeech/decode_tgsmall_dev_clean_2_hires || exit 1
+      exp/chain2_multi_sp/mini_librispeech/decode_tgsmall_dev_clean_2_hires || exit 1
   ) || touch $dir/.error &
   wait
   [ -f $dir/.error ] && echo "$0: there was a problem while decoding" && exit 1
