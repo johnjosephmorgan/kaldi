@@ -149,7 +149,6 @@ fi
 if [ $stage -le 2 ]; then
   ivector_suffix=""
   mkdir -p data/multi
-  global_extractor=exp/multi
   mkdir -p $global_extractor
   ivector_extractor=$global_extractor/extractor
   multi_data_dir_for_ivec=data/multi/train_sp_hires
@@ -172,7 +171,6 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ]; then
-  global_extractor=exp/multi
   ivector_extractor=$global_extractor/extractor
   multi_data_dir_for_ivec=data/multi/train_sp_hires
   steps/online/nnet2/get_pca_transform.sh \
@@ -546,7 +544,7 @@ if [ $stage -le 21 ]; then
     --cmd "$train_cmd" \
     --nj 20 \
     data/mini_librispeech/dev_clean_2_hires \
-    $global_extractor \
+    exp/multi/extractor \
     exp/mini_librispeech/ivectors_dev_clean_2_hires || exit 1;
 
   (
