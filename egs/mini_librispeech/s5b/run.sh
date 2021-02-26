@@ -195,8 +195,8 @@ if [ $stage -le 5 ]; then
     --cmd "$train_cmd" \
     --nj 50 \
     data/multi/train_sp_hires \
-    $global_extractor/diag_ubm \
-    $global_extractor/extractor || exit 1;
+    exp/multi/diag_ubm \
+    exp/multi/extractor || exit 1;
 fi
 
 if [ $stage -le 6 ]; then
