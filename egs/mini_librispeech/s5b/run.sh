@@ -5,53 +5,46 @@
 
 # Train a multilingual LF-MMI system with a multi-task training setup.
 
-# local.conf should exists (check README.txt), which contains configs for
-# multilingual training such as lang_list as array of space-separated languages used
-# for multilingual training.
-
 set -e -o pipefail
-boost_sil=1.0 # Factor by which to boost silence likelihoods in alignment
-lda_mllt_lang=mini_librispeech
-remove_egs=false
-cmd=run.pl
-srand=-1
-stage=-1
-train_stage=-10
-get_egs_stage=-10
-decode_stage=-10
-numGaussUBM=512
-megs_dir=
-alidir=tri3b_ali
-stage=-1
-nj=30
-train_set=train
-gmm=tri3b  # the gmm for the target data
-langdir=data/lang
-num_threads_ubm=1
-tree_affix=  # affix for tree directory, e.g. "a" or "b", in case we change the configuration.
-tdnn_affix=  #affix for TDNN directory, e.g. "a" or "b", in case we change the configuration.
 
-label_delay=5
-frame_subsampling_factor=3
-xent_regularize=0.01
-max_param_change=2.0
-initial_effective_lrate=0.001
-final_effective_lrate=0.0001
-num_jobs_initial=1
-num_jobs_final=1
+# Start setting variables
+alidir=tri3b_ali
+boost_sil=1.0 # Factor by which to boost silence likelihoods in alignment
 chunk_width=150
+cmd=run.pl
+common_egs_dir=  # you can set this to use previously dumped egs.
+decode_lang_list=(mini_librispeech)
+decode_stage=-10
+dir=exp/chain2_multi
 extra_left_context=50
 extra_right_context=0
-common_egs_dir=  # you can set this to use previously dumped egs.
-
-lang_list=(mini_librispeech heroico)
-lda_mllt_lang=mini_librispeech
-lang2weight="0.3,0.7"
-decode_lang_list=(mini_librispeech)
+final_effective_lrate=0.0001
+frame_subsampling_factor=3
+get_egs_stage=-10
 global_extractor=exp/multi
-dir=exp/chain2_multi
+gmm=tri3b  # the gmm for the target data
+initial_effective_lrate=0.001
+label_delay=5
+lang2weight="0.3,0.7"
+lang_list=(mini_librispeech heroico)
+langdir=data/lang
+lda_mllt_lang=mini_librispeech
+max_param_change=2.0
+megs_dir=
+nj=30
+numGaussUBM=512
+num_jobs_final=1
+num_jobs_initial=1
+num_threads_ubm=1
+remove_egs=false
+srand=-1
+stage=-1
 suffix=_sp
-num_langs=${#lang_list[@]}
+tdnn_affix=  #affix for TDNN directory, e.g. "a" or "b", in case we change the configuration.
+train_set=train
+train_stage=-10
+tree_affix=  # affix for tree directory, e.g. "a" or "b", in case we change the configuration.
+xent_regularize=0.01
 
 . ./path.sh
 . ./cmd.sh
@@ -93,6 +86,7 @@ if [ $stage -le 0 ]; then
     [ -d lang ] || cp -R ../../../s5/data/lang ./;
     [ -d lang_nosp_test_tgsmall ] || cp -R ../../../s5/data/lang_nosp_test_tgsmall ./;
     [ -d train ] || cp -R ../../../s5/data/train_clean_5 ./train;
+    [ -d dev_clean_2 ] || cp -R ../../../s5/data/dev_clean_2 ./train;
   )
 
   # Copy mini_librispeech exp directories
@@ -105,7 +99,8 @@ if [ $stage -le 0 ]; then
   )
 fi
 
-for lang_index in `seq 0 $[$num_langs-1]`; do
+num_langs=${#lang_list[@]}
+for lang_index in $(seq 0 $[$num_langs-1]); do
   for f in data/${lang_list[$lang_index]}/train/{feats.scp,text} exp/${lang_list[$lang_index]}/$alidir/ali.1.gz exp/${lang_list[$lang_index]}/$alidir/tree; do
     [ ! -f $f ] && echo "$0: no such file $f" && exit 1;
   done
@@ -114,7 +109,7 @@ done
 dir=${dir}${suffix}
 
 if [ $stage -le 1 ]; then
-  for lang_index in `seq 0 $[$num_langs-1]`; do
+  for lang_index in $(seq 0 $[$num_langs-1]); do
     lang=${lang_list[$lang_index]}
     echo "Speed perturbing $lang training data."
     ./utils/data/perturb_data_dir_speed_3way.sh \
@@ -534,13 +529,26 @@ fi
 
 if [ $stage -le 21 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
+  # Extract high resolution MFCCs from dev data
+  utils/copy_data_dir.sh \
+    data/mini_librispeech/dev_clean_2 \
+    data/mini_librispeech/dev_clean_2_hires || exit 1;
+  steps/make_mfcc.sh \
+    --cmd "$train_cmd" \
+    --mfcc-config conf/mfcc_hires.conf \
+    --nj 16 \
+    data/mini_librispeech/dev_clean_2_hires || exit 1;
+    steps/compute_cmvn_stats.sh \
+      data/mini_librispeech/dev_clean_2_hires || exit 1;
+    utils/fix_data_dir.sh data/mini_librispeech/dev__clean_2hires
   # Do the speaker-dependent decoding pass
-  (
-    cd data
-    [ -L dev_clean_2_hires ] || ln -s ../../s5/data/dev_clean_2_hires ./;
-  )
-  test_sets=dev_clean_2
-  for data in $test_sets; do
+  steps/online/nnet2/extract_ivectors_online.sh \
+    --cmd "$train_cmd" \
+    --nj 20 \
+    data/mini_librispeech/dev_clean_2_hires \
+    $global_extractor/extractor \
+    exp/mini_librispeech/ivectors_dev_clean_2_hires || exit 1;
+
   (
     nspk=$(wc -l <data/${data}_hires/spk2utt)
     tree_dir=exp/mini_librispeech/tree
@@ -554,16 +562,11 @@ if [ $stage -le 21 ]; then
       --frames-per-chunk $frames_per_chunk \
       --nj $nspk \
       --num-threads 4 \
-      --online-ivector-dir exp/multi/extractor/ \
+      --online-ivector-dir exp/mini_librispeech/ivectors_dev_clean_2_hires \
       --post-decode-acwt 10.0 \
       $tree_dir/graph_tgsmall \
-      data/${data}_hires \
-      exp/multi/decode_tgsmall_${data} || exit 1
-    steps/lmrescore_const_arpa.sh \
-      --cmd "$decode_cmd" \
-      data/lang_test_{tgsmall,tglarge} \
-      data/${data}_hires \
-      $dir/decode_{tgsmall,tglarge}_${data} || exit 1
+      data/mini_librispeech/dev_clean_2_hires \
+      exp/multi/mini_librispeech/decode_tgsmall_dev_clean_2_hires || exit 1
   ) || touch $dir/.error &
   wait
   done
