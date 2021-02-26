@@ -27,12 +27,12 @@ if [ $stage -le 2 ]; then
   # segment and diarize the recordings
   local/run_segmentation.sh
 fi
-
+exit
 if [ $stage -le 3 ]; then
   for rec in out_diarized/flacs/*; do
     # Write segment .wav files from thresholded clustering."
     base=$(basename $rec .flac)
-    ./local/labels2wav_3.pl $rec out_diarized/work/$base
+    ./local/labels2wav_3.pl $rec out_diarized/work/recordings/$base
   done
 fi
 
@@ -43,10 +43,19 @@ fi
 
 if [ $stage -le 5 ]; then
   mkdir -p out_diarized/overlaps
-  n=$(find out_diarized/speakers -type f -name "*.wav" | wc -l)
+  n=$(find out_diarized/work/speakers -type f -name "*.wav" | wc -l)
   for ((i=0;i<=n;i++)); do
-    s1=$(find out_diarized/speakers -type f -name "*.wav" | shuf -n 1)
-    s2=$(find out_diarized/speakers -type f -name "*.wav" | shuf -n 1)
+    s1=$(find out_diarized/work/speakers -type f -name "*.wav" | shuf -n 1)
+    s2=$(find out_diarized/work/speakers -type f -name "*.wav" | shuf -n 1)
     local/overlap.sh $s1 $s2
+    rm $s1 $s2
+  done
+fi
+
+if [ $stage -le 6 ]; then
+    mkdir -p out_diarized/concats
+  n=$(find out_diarized/overlaps -type f -name "max.wav" | wc -l)
+  for ((i=0;i<=n;i++)); do
+    local/concatenate_wavs.sh $i
   done
 fi
