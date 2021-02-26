@@ -201,19 +201,18 @@ fi
 
 if [ $stage -le 6 ]; then
   global_extractor=exp/multi/extractor
-  echo "$0: Extracts ivector for all languages using $global_extractor."
-  for lang_index in `seq 0 $[$num_langs-1]`; do
-    lang=${lang_list[$lang_index]}
+  echo "$0: Extracts ivector for all languages  ."
+  for lang in mini_librispeech heroico; do
     utils/data/modify_speaker_info.sh \
       --utts-per-spk-max 2 \
       data/$lang/train_sp_hires \
-      data/$lang/train_sp_hires_max2
+      data/$lang/train_sp_hires_max2 || exit 1;
 
     steps/online/nnet2/extract_ivectors_online.sh \
       --cmd "$train_cmd" \
       --nj 200 \
       data/$lang/train_sp_hires_max2 \
-      $global_extractor/extractor \
+      exp/multi/extractor \
       exp/$lang/ivectors_train_sp_hires || exit 1;
   done
 fi
