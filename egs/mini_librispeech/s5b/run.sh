@@ -25,7 +25,7 @@ global_extractor=exp/multi
 gmm=tri3b  # the gmm for the target data
 initial_effective_lrate=0.001
 label_delay=5
-lang2weight="0.3,0.7"
+lang2weight="0.2,0.8"
 lang_list=(mini_librispeech heroico)
 langdir=data/lang
 lda_mllt_lang=mini_librispeech
@@ -45,6 +45,7 @@ train_set=train
 train_stage=-10
 tree_affix=  # affix for tree directory, e.g. "a" or "b", in case we change the configuration.
 xent_regularize=0.01
+# done setting variables
 
 . ./path.sh
 . ./cmd.sh
@@ -58,14 +59,15 @@ If you want to use GPUs (and have them), go to src/, and configure and make on a
 where "nvcc" is installed.
 EOF
 fi
-
+# Copy data directories from heroico
 if [ $stage -le 0 ]; then
-  # Link data directories from heroico
   (
     echo "$0: Copy data directories from heroico."
     [ -d data/heroico ] || mkdir -p data/heroico;
     cd data/heroico
+    # Copy the lang directory
     [ -d lang ] || cp -R ../../../../heroico/s5/data/lang ./;
+    # Copy the train directory
     [ -d train ] || cp -R ../../../../heroico/s5/data/train ./;
   )
 
@@ -74,7 +76,9 @@ if [ $stage -le 0 ]; then
     echo "Copy exp directories from heroico."
     [ -d exp/heroico ] || mkdir -p exp/heroico;
     cd exp/heroico
+    # Copy the tri3b directory
     [ -d tri3b ] || cp -R ../../../../heroico/s5/exp/tri3b ./;
+    # Copy the tri3b_ali
     [ -d tri3b_ali ] || cp -R ../../../../heroico/s5/exp/tri3b_ali ./;
   )
 
@@ -565,6 +569,11 @@ if [ $stage -le 21 ]; then
       $tree_dir/graph_tgsmall \
       data/mini_librispeech/dev_clean_2_hires \
       exp/chain2_multi_sp/mini_librispeech/decode_tgsmall_dev_clean_2_hires || exit 1
+    steps/lmrescore_const_arpa.sh \
+      --cmd "$decode_cmd" \
+      data/lang_dev_tgsmall \
+      data/mini_librispeech/dev_clean_2_hires \
+      exp/chain2_multi_sp/decode_tgsmall_dev_clean_sp_hires || exit 1
   ) || touch $dir/.error &
   wait
   [ -f $dir/.error ] && echo "$0: there was a problem while decoding" && exit 1
