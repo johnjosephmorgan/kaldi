@@ -256,17 +256,17 @@ if [ $stage -le 7 ]; then
   done
 fi
 
-if [ $stage -le 9 ]; then
+if [ $stage -le 8 ]; then
   # Get the alignments as lattices (gives the chain training more freedom).
   # use the same num-jobs as the alignments
-  for lang_index in `seq 0 $[$num_langs-1]`;do
+  for lang in mini_librispeech heroico;do
     # Get alignments for languages separately
-      langdir=${multi_lang[$lang_index]}
+      langdir=${multi_lang[$lang]}
       # Use low resolution features
-      lores_train_data_dir=${multi_lores_data_dirs[$lang_index]}
+      lores_train_data_dir=${multi_lores_data_dirs[$lang]}
       # Use tri3b in this recipe
-    gmm_dir=${multi_gmm_dir[$lang_index]}
-    lat_dir=${multi_ali_latdirs[$lang_index]}
+    gmm_dir=${multi_gmm_dir[$lang]}
+    lat_dir=${multi_ali_latdirs[$lang]}
 
     steps/align_fmllr_lats.sh \
       --nj $nj \
@@ -279,7 +279,7 @@ if [ $stage -le 9 ]; then
   done
 fi 
 
-if [ $stage -le 10 ]; then
+if [ $stage -le 9 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
     # A tree for each separate language
     lang_name=${lang_list[$lang_index]}
