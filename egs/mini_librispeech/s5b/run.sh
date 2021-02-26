@@ -200,7 +200,6 @@ if [ $stage -le 5 ]; then
 fi
 
 if [ $stage -le 6 ]; then
-  global_extractor=exp/multi/extractor
   echo "$0: Extracts ivector for all languages  ."
   for lang in mini_librispeech heroico; do
     utils/data/modify_speaker_info.sh \
