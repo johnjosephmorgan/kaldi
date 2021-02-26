@@ -544,7 +544,7 @@ if [ $stage -le 21 ]; then
     --cmd "$train_cmd" \
     --nj 20 \
     data/mini_librispeech/dev_clean_2_hires \
-    exp/multi/extractor \
+    exp/multi/extractor/extractor \
     exp/mini_librispeech/ivectors_dev_clean_2_hires || exit 1;
 
   (
