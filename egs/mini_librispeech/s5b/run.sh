@@ -149,24 +149,19 @@ if [ $stage -le 1 ]; then
 fi
 
 if [ $stage -le 2 ]; then
-  ivector_suffix=""
-  mkdir -p data/multi
-  mkdir -p $global_extractor
-  ivector_extractor=$global_extractor/extractor
+  mkdir -p data/multi exp/multi
   multi_data_dir_for_ivec=data/multi/train_sp_hires
-  ivector_suffix=_gb
-  echo "$0: combine training data using all langs for training global i-vector extractor."
-  echo "Pooling training data in $multi_data_dir_for_ivec on" `date`
-  mkdir -p $multi_data_dir_for<_ivec
+  echo "$0: combine training data from all langs to training i-vector extractor."
+  echo "Pooling training data in $multi_data_dir_for_ivec on" $(date)
+  mkdir -p $multi_data_dir_for_ivec
   combine_lang_list=""
-  for lang_index in `seq 0 $[$num_langs-1]`;do
-    lang_name=${lang_list[$lang_index]}
+  for lang in mini_librispeech heroico;do
     utils/copy_data_dir.sh \
-      --spk-prefix ${lang_name}- \
-      --utt-prefix ${lang_name}- \
-      data/${lang_list[$lang_index]}/train_sp_hires \
-      data/${lang_list[$lang_index]}/train_sp_hires_prefixed || exit 1
-    combine_lang_list="$combine_lang_list data/${lang_list[$lang_index]}/train_sp_hires_prefixed"
+      --spk-prefix ${lang}- \
+      --utt-prefix ${lang}- \
+      data/$lang/train_sp_hires \
+      data/$lang/train_sp_hires_prefixed || exit 1
+    combine_lang_list="$combine_lang_list data/$lang/train_sp_hires_prefixed"
   done
   utils/combine_data.sh $multi_data_dir_for_ivec $combine_lang_list
   utils/validate_data_dir.sh --no-feats $multi_data_dir_for_ivec
