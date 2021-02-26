@@ -110,16 +110,13 @@ for lang_index in $(seq 0 $[$num_langs-1]); do
   done
 done
 
-dir=${dir}${suffix}
-
 if [ $stage -le 1 ]; then
-  for lang_index in $(seq 0 $[$num_langs-1]); do
-    lang=${lang_list[$lang_index]}
+  for lang in mini_librispeech heroico; do
     echo "Speed perturbing $lang training data."
     ./utils/data/perturb_data_dir_speed_3way.sh \
       data/$lang/train \
       data/$lang/train_sp
-    # Extract  features for perturbed data.
+    # Extract  features for perturbed $lang data.
     steps/make_mfcc.sh \
       --cmd "$train_cmd" \
       --nj 16 \
@@ -137,16 +134,17 @@ if [ $stage -le 1 ]; then
       exp/$lang/tri3b \
       exp/$lang/tri3b_ali_sp || exit 1;
     echo "Extract high resolution 40dim MFCCs"
-    utils/copy_data_dir.sh data/$lang/train_sp\
+    utils/copy_data_dir.sh \
+      data/$lang/train_sp\
       data/$lang/train_sp_hires || exit 1;
     steps/make_mfcc.sh \
-      --nj 16 \
-      --mfcc-config conf/mfcc_hires.conf \
       --cmd "$train_cmd" \
+      --mfcc-config conf/mfcc_hires.conf \
+      --nj 16 \
       data/$lang/train_sp_hires || exit 1;
     steps/compute_cmvn_stats.sh \
       data/$lang/train_sp_hires || exit 1;
-    utils/fix_data_dir.sh data/$lang/train_sp_hires
+    utils/fix_data_dir.sh data/$lang/train_sp_hires || exit 1;
   done
 fi
 
