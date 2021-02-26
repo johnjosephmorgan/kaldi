@@ -168,8 +168,7 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ]; then
-  ivector_extractor=$global_extractor/extractor
-  multi_data_dir_for_ivec=data/multi/train_sp_hires
+  # Compute PCA transform
   steps/online/nnet2/get_pca_transform.sh \
     --cmd "$train_cmd" \
     --splice-opts "--left-context=3 --right-context=3" \
