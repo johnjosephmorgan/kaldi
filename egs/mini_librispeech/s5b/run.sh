@@ -287,7 +287,7 @@ if [ $stage -le 9 ]; then
     tree_dir=exp/$lang
     # low resolution
     ali_dir=exp/$lang
-    lores_train_data_dir=${multi_lores_data_dirs[$lang_index]}
+    lores_train_data_dir=data/$lang/train_sp
     lang_dir=data/$lang/train_sp
     steps/nnet3/chain/build_tree.sh \
       --cmd "$train_cmd" \
