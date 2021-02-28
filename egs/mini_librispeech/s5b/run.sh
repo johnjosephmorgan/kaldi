@@ -302,7 +302,7 @@ if [ $stage -le 9 ]; then
   done
 fi
 
-if [ $stage -le 11 ]; then
+if [ $stage -le 10 ]; then
   echo "$0: creating multilingual neural net configs using the xconfig parser";
   if [ -z $bnf_dim ]; then
     bnf_dim=80
@@ -354,7 +354,7 @@ EOF
 fi
 
 init_info=$dir/init/info.txt
-if [ $stage -le 12 ]; then
+if [ $stage -le 11 ]; then
   if [ ! -f $dir/configs/ref.raw ]; then
     echo "Expected $dir/configs/ref.raw to exist"
     exit
