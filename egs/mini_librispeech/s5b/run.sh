@@ -315,8 +315,8 @@ if [ $stage -le 10 ]; then
     ivector_to_append=", ReplaceIndex(ivector, t, 0)"
   fi
   learning_rate_factor=$(echo "print (0.5/$xent_regularize)" | python)
-  dummy_tree_dir=${multi_ali_treedirs[0]}
-  num_targets=`tree-info $dummy_tree_dir/tree 2>/dev/null | grep num-pdfs | awk '{print $2}'` || exit 1;
+  dummy_tree_dir=exp/mini_librispeech
+  num_targets=$(tree-info $dummy_tree_dir/tree 2>/dev/null | grep num-pdfs | awk '{print $2}') || exit 1;
   cat <<EOF > $dir/configs/network.xconfig
   input dim=$feat_dim name=input
   $ivector_node_xconfig
