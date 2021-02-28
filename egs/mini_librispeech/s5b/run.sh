@@ -286,9 +286,9 @@ if [ $stage -le 9 ]; then
     echo "$0: Building tree for $lang"
     tree_dir=exp/$lang
     # low resolution
-    ali_dir=exp/$lang
+    ali_dir=exp/$lang/tri3b_ali_sp
     lores_train_data_dir=data/$lang/train_sp
-    lang_dir=data/$lang/lang
+    lang_dir=data/$lang/lang_chain
     steps/nnet3/chain/build_tree.sh \
       --cmd "$train_cmd" \
       --context-opts "--context-width=2 --central-position=1" \
