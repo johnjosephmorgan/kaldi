@@ -218,17 +218,17 @@ fi
 
 dir_basename=$(basename $dir)
 for lang in mini_librispeech heroico; do
-  multi_lores_data_dirs[$lang]=data/$lang/train_sp
-  multi_data_dirs[$lang]=data/$lang/train_sp_hires
-  multi_egs_dirs[$lang]=exp/$lang/egs
-  multi_ali_dirs[$lang]=exp/$lang
-  multi_ivector_dirs[$lang]=exp/$lang/ivectors_train_sp_hires
-  multi_ali_treedirs[$lang]=exp/$lang/tree_affix}
-  multi_ali_latdirs[$lang]=exp/$lang/chain/tri3b_train_sp_lats
-  multi_lang[$lang]=data/$lang/lang
-  multi_lfmmi_lang[$lang]=data/$lang/lang_chain
-  multi_gmm_dir[$lang]=exp/$lang/tri3b
-  multi_chain_dir[$lang]=exp/$lang/chain/$dir_basename
+  multi_lores_data_dirs[${lang}]=data/$lang/train_sp
+  multi_data_dirs[${lang}]=data/$lang/train_sp_hires
+  multi_egs_dirs[${lang}]=exp/$lang/egs
+  multi_ali_dirs[${lang}]=exp/$lang
+  multi_ivector_dirs[${lang}]=exp/$lang/ivectors_train_sp_hires
+  multi_ali_treedirs[${lang}]=exp/$lang/tree_affix}
+  multi_ali_latdirs[${lang}]=exp/$lang/chain/tri3b_train_sp_lats
+  multi_lang[${lang}]=data/$lang/lang
+  multi_lfmmi_lang[${lang}]=data/$lang/lang_chain
+  multi_gmm_dir[${lang}]=exp/$lang/tri3b
+  multi_chain_dir[${lang}]=exp/$lang/chain/$dir_basename
 done
 
 ivector_dim=$(feat-to-dim scp:exp/mini_librispeech/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
@@ -236,22 +236,24 @@ feat_dim=`feat-to-dim scp:data/mini_librispeech/train_sp_hires/feats.scp -`
 
 if [ $stage -le 7 ]; then
   for lang in mini_librispeech heroico;do
-    if [ -d ${multi_lfmmi_lang[$lang]} ]; then
-      if [ ${multi_lfmmi_lang[$lang]}/L.fst -nt ${multi_lang[$lang]}/L.fst ]; then
-        echo "$0: ${multi_lfmmi_lang[$lang]} already exists, not overwriting it; continuing"
+    if [ -d data/$lang/lang_chain ]; then
+      if [ data/$lang/lang_chain/L.fst -nt data/$lang/lang/L.fst ]; then
+        echo "$0: data/$lang/lang_chain already exists, not overwriting it; continuing"
       else
-        echo "$0: ${multi_lfmmi_lang[$lang]} already exists and seems to be older than ${multi_lang[$lang]}..."
+        echo "$0: data/$lang/lang_chain already exists and seems to be older than data/$lang/lang ..."
         echo " ... not sure what to do.  exiting."
         exit 1;
       fi
     else
-      echo "$0: creating lang directory with one state per phone for ${multi_lang[$lang]}."
-      cp -r ${multi_lang[$lang]}/ ${multi_lfmmi_lang[$lang]} # trailing slash makes sure soft links are copied
-      silphonelist=$(cat ${multi_lfmmi_lang[$lang]}/phones/silence.csl) || exit 1;
-      nonsilphonelist=$(cat ${multi_lfmmi_lang[$lang]}/phones/nonsilence.csl) || exit 1;
+      echo "$0: creating lang directory with one state per phone for data/${lang}."
+      cp -r data/$lang/ data/$lang/lang_chain # trailing slash makes sure soft links are copied
+      silphonelist=$(cat data/$lang/lang_chain/phones/silence.csl) || exit 1;
+      nonsilphonelist=$(cat data/$lang/lang_chain/phones/nonsilence.csl) || exit 1;
       # Use our special topology... note that later on may have to tune this
       # topology.
-      steps/nnet3/chain/gen_topo.py $nonsilphonelist $silphonelist >${multi_lfmmi_lang[$lang]}/topo
+      steps/nnet3/chain/gen_topo.py \
+        $nonsilphonelist \
+ $silphonelist > data/$lang/lang_chian/topo
     fi
   done
 fi
@@ -261,17 +263,16 @@ if [ $stage -le 8 ]; then
   # use the same num-jobs as the alignments
   for lang in mini_librispeech heroico;do
     # Get alignments for languages separately
-      langdir=${multi_lang[$lang]}
-      # Use low resolution features
-      lores_train_data_dir=${multi_lores_data_dirs[$lang]}
-      # Use tri3b in this recipe
-    gmm_dir=${multi_gmm_dir[$lang]}
-    lat_dir=${multi_ali_latdirs[$lang]}
-
+    langdir=data/$lang/lang
+    # Use low resolution features
+    lores_train_data_dir=data/$lang/train_sp
+    # Use tri3b in this recipe
+    gmm_dir=exp/$lang/tri3b
+    lat_dir=exp/$lang/chain/tri3b_train_sp_lats
     steps/align_fmllr_lats.sh \
-      --nj $nj \
       --cmd "$train_cmd" \
-      ${lores_train_data_dir} \
+      --nj $nj \
+      $lores_train_data_dir \
       $langdir \
       $gmm_dir \
       $lat_dir
