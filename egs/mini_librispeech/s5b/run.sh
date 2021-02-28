@@ -253,7 +253,7 @@ if [ $stage -le 7 ]; then
       # topology.
       steps/nnet3/chain/gen_topo.py \
         $nonsilphonelist \
- $silphonelist > data/$lang/lang_chian/topo
+ $silphonelist > data/$lang/lang_chain/topo
     fi
   done
 fi
