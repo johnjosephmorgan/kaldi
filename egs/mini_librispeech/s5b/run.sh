@@ -246,7 +246,7 @@ if [ $stage -le 7 ]; then
       fi
     else
       echo "$0: creating lang directory with one state per phone for data/${lang}."
-      cp -r data/$lang/ data/$lang/lang_chain # trailing slash makes sure soft links are copied
+      cp -r data/$lang/lang/ data/$lang/lang_chain # trailing slash makes sure soft links are copied
       silphonelist=$(cat data/$lang/lang_chain/phones/silence.csl) || exit 1;
       nonsilphonelist=$(cat data/$lang/lang_chain/phones/nonsilence.csl) || exit 1;
       # Use our special topology... note that later on may have to tune this
