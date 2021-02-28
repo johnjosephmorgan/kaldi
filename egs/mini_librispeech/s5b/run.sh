@@ -281,22 +281,21 @@ if [ $stage -le 8 ]; then
 fi 
 
 if [ $stage -le 9 ]; then
-  for lang_index in `seq 0 $[$num_langs-1]`;do
+  for lang in mini_librispeech heroico;do
     # A tree for each separate language
-    lang_name=${lang_list[$lang_index]}
-    echo "$0: Building tree for $lang_name"
-    tree_dir=${multi_ali_treedirs[$lang_index]}
+    echo "$0: Building tree for $lang"
+    tree_dir=exp/$lang
     # low resolution
-    ali_dir=${multi_ali_dirs[$lang_index]}
+    ali_dir=exp/$lang
     lores_train_data_dir=${multi_lores_data_dirs[$lang_index]}
-    lang_dir=${multi_lfmmi_lang[$lang_index]}
+    lang_dir=data/$lang/train_sp
     steps/nnet3/chain/build_tree.sh \
       --cmd "$train_cmd" \
       --context-opts "--context-width=2 --central-position=1" \
       --frame-subsampling-factor $frame_subsampling_factor \
       --leftmost-questions-truncate -1 \
       4000 \
-      ${lores_train_data_dir} \
+      $lores_train_data_dir \
       $lang_dir \
       $ali_dir \
       $tree_dir
