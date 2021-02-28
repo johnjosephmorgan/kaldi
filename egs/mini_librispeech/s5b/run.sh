@@ -338,17 +338,16 @@ if [ $stage -le 10 ]; then
   output-layer name=output-xent input=tdnn7 dim=$num_targets learning-rate-factor=$learning_rate_factor max-change=1.5
 EOF
   # added separate outptut layer and softmax for all languages.
-  for lang_index in `seq 0 $[$num_langs-1]`;do
-    tree_dir=${multi_ali_treedirs[$lang_index]}
-    num_targets=`tree-info $tree_dir/tree 2>/dev/null | grep num-pdfs | awk '{print $2}'` || exit 1;
+  for lang in mini_librispeech heroico;do
+    tree_dir=exp/$lang
+    num_targets=$(tree-info $tree_dir/tree 2>/dev/null | grep num-pdfs | awk '{print $2}') || exit 1;
 
-    lang_name=${lang_list[${lang_index}]}
     #echo "relu-renorm-layer name=prefinal-affine-lang-${lang_name} input=tdnn7 dim=450 target-rms=0.5"
-    echo "output-layer name=output-${lang_name} dim=$num_targets input=tdnn7  max-change=1.5 include-log-softmax=false"
-    echo "output-layer name=output-${lang_name}-xent input=tdnn7 dim=$num_targets  learning-rate-factor=$learning_rate_factor max-change=1.5"
+    echo "output-layer name=output-${lang} dim=$num_targets input=tdnn7  max-change=1.5 include-log-softmax=false"
+    echo "output-layer name=output-${lang}-xent input=tdnn7 dim=$num_targets  learning-rate-factor=$learning_rate_factor max-change=1.5"
   done >> $dir/configs/network.xconfig
 
-  lang_name=${lang_list[0]}
+  lang_name=mini_librispeech
   steps/nnet3/xconfig_to_configs.py --xconfig-file $dir/configs/network.xconfig \
     --config-dir $dir/configs/ 
 fi
