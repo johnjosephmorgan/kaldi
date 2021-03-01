@@ -447,29 +447,28 @@ fi
 [[ -z $common_egs_dir ]] && common_egs_dir=${dir}/egs
 
 if [ $stage -le 15 ]; then
-  [ ! -d ${dir}/egs/misc ] && mkdir  ${dir}/egs/misc
-  echo "$0: Copying den.fst to ${dir}/egs/misc"
-  for lang_index in $(seq 0 $[$num_langs-1]);do
-    lang_name=${lang_list[$lang_index]}
-    cp $dir/den_fsts/${lang_name}.*fst ${dir}/egs/misc/
-    cp $dir/init/${lang_name}_trans.mdl ${dir}/egs/misc/${lang_name}.trans_mdl
-    [ -L $dir/egs/info_${lang_name}.txt ] || ln -rs $dir/egs/info.txt $dir/egs/info_${lang_name}.txt
+  [ ! -d $dir/egs/misc ] && mkdir  $dir/egs/misc
+  echo "$0: Copying den.fst to $dir/egs/misc"
+  for lang in mini_librispeech heroico;do
+    cp $dir/den_fsts/${lang}.*fst $dir/egs/misc/
+    cp $dir/init/${lang}_trans.mdl $dir/egs/misc/${lang}.trans_mdl
+    [ -L $dir/egs/info_${lang}.txt ] || ln -rs $dir/egs/info.txt $dir/egs/info_${lang}.txt
   done
   echo "$0: Create a dummy transition model that is never used."
-  first_lang_name=${lang_list[0]}
+  first_lang_name=mini_librispeech
   [[ ! -f $dir/init/default_trans.mdl ]] && ln -r -s $dir/init/${first_lang_name}_trans.mdl $dir/init/default_trans.mdl
 fi
 
-if [ $stage -le 17 ]; then
+if [ $stage -le 16 ]; then
   echo "$0: Preparing initial acoustic model"
-  $cuda_cmd ${dir}/log/init_model.log \
+  $cuda_cmd $dir/log/init_model.log \
   nnet3-init \
     --srand=${srand} \
-    ${dir}/configs/final.config \
-    ${dir}/init/multi.raw || exit 1
+    $dir/configs/final.config \
+    $dir/init/multi.raw || exit 1
 fi
 
-if [ $stage -le 18 ]; then
+if [ $stage -le 17 ]; then
   echo "$0: Starting model training"
   steps/chain2/train.sh \
     --cmd "$cuda_cmd" \
