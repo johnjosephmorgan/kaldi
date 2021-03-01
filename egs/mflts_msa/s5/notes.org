@@ -190,3 +190,18 @@ write length(segment1) - i
 
 
 
+* Markers
+I think I have the merker for the beginning.
+I keep a running sum of  the markers.
+As long as we skip the corner cases, this should work.
+The corner cases occur when one of the segments is too short.
+Too short means that one segment covers the other.
+Let t denote the target overlap percentage.
+If the length of one of the segments is smaller than t times the length of the other segment then the larger segment completely covers the other segment.
+In this case the overlapping region would go from the beginning of the smaller segment to the end of the smaller segment.
+Where would the next overlapping region start?
+If I onlhy consider the cases where the segments are large enough relative to each other so that they only partially overlap, then it is easier to find the endpoints of the next overlapping region.
+The start of the next overlapping region will be at the summ of the current marker and the next marker.
+Where will the end points be located
+The end of the overlapping region wil be given by the sum of the current marker and the distance between the current marker and the end of the first of the 2 segments being processed.
+?
