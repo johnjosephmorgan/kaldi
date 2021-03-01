@@ -382,7 +382,7 @@ fi
 egs_left_context=$[model_left_context+(frame_subsampling_factor/2)+extra_left_context]
 egs_right_context=$[model_right_context+(frame_subsampling_factor/2)+extra_right_context]
 
-if [ $stage -le 13 ]; then
+if [ $stage -le 12 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
       lang_name=${lang_list[$lang_index]}
       tree_dir=${multi_ali_treedirs[$lang_index]}
