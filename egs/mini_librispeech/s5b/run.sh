@@ -393,7 +393,7 @@ if [ $stage -le 12 ]; then
       chain-est-phone-lm \
         --num-extra-lm-states=2000 \
         "ark:gunzip -c $ali_dir/ali.*.gz | ali-to-phones $gmm_dir/final.mdl ark:- ark:- |" \
-        $dir/den_fsts/${lang_name}.phone_lm.fst || exit 1;
+        $dir/den_fsts/${lang}.phone_lm.fst || exit 1;
     echo "$0: creating denominator FST for $lang"
     copy-transition-model $tree_dir/final.mdl $dir/init/${lang}_trans.mdl  || exit 1;
     $train_cmd $dir/den_fsts/log/make_den_fst.log \
