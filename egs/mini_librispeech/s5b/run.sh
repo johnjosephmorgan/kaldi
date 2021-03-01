@@ -508,7 +508,7 @@ if [ $stage -le 19 ]; then
   # Note: it's not important to give mkgraph.sh the lang directory with the
   # matched topology (since it gets the topology file from the model).
   # Decode mini_librispeech
-  tree_dir=exp/mini_librispeech/tree
+  tree_dir=exp/mini_librispeech
   utils/mkgraph.sh \
     --self-loop-scale 1.0 \
     data/mini_librispeech/lang_nosp_test_tgsmall \
