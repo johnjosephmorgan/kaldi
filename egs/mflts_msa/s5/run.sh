@@ -27,7 +27,7 @@ if [ $stage -le 2 ]; then
   # segment and diarize the recordings
   local/run_segmentation.sh
 fi
-exit
+
 if [ $stage -le 3 ]; then
   for rec in out_diarized/flacs/*; do
     # Write segment .wav files from thresholded clustering."
@@ -42,17 +42,23 @@ if [ $stage -le 4 ]; then
 fi
 
 if [ $stage -le 5 ]; then
+  local/get_samples.sh
+fi
+
+if [ $stage -le 6 ]; then
   mkdir -p out_diarized/overlaps
-  n=$(find out_diarized/work/speakers -type f -name "*.wav" | wc -l)
+  n=$(find out_diarized/work/speakers -type f -name "*_samples.txt" | wc -l)
+  echo "There are $n sample files."
   for ((i=0;i<=n;i++)); do
-    s1=$(find out_diarized/work/speakers -type f -name "*.wav" | shuf -n 1)
-    s2=$(find out_diarized/work/speakers -type f -name "*.wav" | shuf -n 1)
+    # randomly choose files to process
+    s1=$(find out_diarized/work/speakers -type f -name "*_samples.txt" | shuf -n 1)
+    s2=$(find out_diarized/work/speakers -type f -name "*_samples.txt" | shuf -n 1)
     local/overlap.sh $s1 $s2
     rm $s1 $s2
   done
 fi
 
-if [ $stage -le 6 ]; then
+if [ $stage -le 7 ]; then
     mkdir -p out_diarized/concats
   n=$(find out_diarized/overlaps -type f -name "max.wav" | wc -l)
   for ((i=0;i<=n;i++)); do
