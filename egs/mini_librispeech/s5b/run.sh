@@ -540,7 +540,7 @@ if [ $stage -le 20 ]; then
 
   (
     nspk=$(wc -l <data/mini_librispeech/dev_clean_2_hires/spk2utt)
-    tree_dir=exp/mini_librispeech/tree
+    tree_dir=exp/mini_librispeech
     steps/nnet3/decode.sh \
       --acwt 1.0 \
       --cmd "$decode_cmd"  \
