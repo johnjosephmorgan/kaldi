@@ -424,12 +424,12 @@ if [ $stage -le 13 ]; then
       ${train_data_dir} \
       ${dir} \
       ${lat_dir} \
-      ${dir}/${lang_name}_raw_egs || exit 1
+      $dir/${lang}_raw_egs || exit 1
 
     echo "$0: Processing raw egs for $lang"
     steps/chain2/process_egs.sh  \
       --cmd "$train_cmd" \
-      ${dir}/${lang}_raw_egs \
+      $dir/${lang}_raw_egs \
       ${dir}/${lang}_processed_egs || exit 1
   done
 fi
