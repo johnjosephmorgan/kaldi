@@ -383,24 +383,26 @@ egs_left_context=$[model_left_context+(frame_subsampling_factor/2)+extra_left_co
 egs_right_context=$[model_right_context+(frame_subsampling_factor/2)+extra_right_context]
 
 if [ $stage -le 12 ]; then
-  for lang_index in `seq 0 $[$num_langs-1]`;do
-      lang_name=${lang_list[$lang_index]}
-      tree_dir=${multi_ali_treedirs[$lang_index]}
-      ali_dir=${multi_ali_dirs[$lang_index]}
-      gmm_dir=${multi_gmm_dir[$lang_index]}
-
-      cp $tree_dir/tree $dir/${lang_name}.tree
-      echo "$0: creating phone language-model for $lang_name"
-      $train_cmd $dir/den_fsts/log/make_phone_lm_${lang_name}.log \
-        chain-est-phone-lm --num-extra-lm-states=2000 \
-           "ark:gunzip -c $ali_dir/ali.*.gz | ali-to-phones $gmm_dir/final.mdl ark:- ark:- |" \
-           $dir/den_fsts/${lang_name}.phone_lm.fst || exit 1
-      echo "$0: creating denominator FST for $lang_name"
-      copy-transition-model $tree_dir/final.mdl $dir/init/${lang_name}_trans.mdl  || exit 1 
-      $train_cmd $dir/den_fsts/log/make_den_fst.log \
-         chain-make-den-fst $dir/${lang_name}.tree \
-            $dir/init/${lang_name}_trans.mdl $dir/den_fsts/${lang_name}.phone_lm.fst \
-            $dir/den_fsts/${lang_name}.den.fst $dir/den_fsts/${lang_name}.normalization.fst || exit 1;
+  for lang in mini_librispeech heroico;do
+    tree_dir=exp/$lang
+    ali_dir=exp/$lang/tri3b_ali_sp
+      gmm_dir=exp/$lang/tri3b
+    cp $tree_dir/tree $dir/${lang}.tree
+     echo "$0: creating phone language-model for $lang"
+    $train_cmd $dir/den_fsts/log/make_phone_lm_${lang}.log \
+      chain-est-phone-lm \
+        --num-extra-lm-states=2000 \
+        "ark:gunzip -c $ali_dir/ali.*.gz | ali-to-phones $gmm_dir/final.mdl ark:- ark:- |" \
+        $dir/den_fsts/${lang_name}.phone_lm.fst || exit 1;
+    echo "$0: creating denominator FST for $lang"
+    copy-transition-model $tree_dir/final.mdl $dir/init/${lang}_trans.mdl  || exit 1;
+    $train_cmd $dir/den_fsts/log/make_den_fst.log \
+      chain-make-den-fst \
+        $dir/${lang_name}.tree \
+        $dir/init/${lang}_trans.mdl \
+	$dir/den_fsts/${lang}.phone_lm.fst \
+        $dir/den_fsts/${lang}.den.fst \
+	$dir/den_fsts/${lang}.normalization.fst || exit 1;
   done
 fi
 
