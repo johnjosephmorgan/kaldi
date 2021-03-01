@@ -488,24 +488,23 @@ if [ $stage -le 17 ]; then
      $common_egs_dir $dir
 fi
 
-if [ $stage -le 19 ]; then
+if [ $stage -le 18 ]; then
   echo "$0: Splitting models"
   frame_subsampling_factor=`fgrep "frame_subsampling_factor" $dir/init/info.txt | awk '{print $2}'`
-  for lang_index in `seq 0 $[$num_langs-1]`;do
-    lang_name=${lang_list[$lang_index]}
-    [[ ! -d $dir/${lang_name} ]] && mkdir $dir/${lang_name}
-    nnet3-copy --edits="rename-node old-name=output new-name=output-dummy; rename-node old-name=output-${lang_name} new-name=output" \
+  for lang in mini_librispeech heroico;do
+    [[ ! -d $dir/$lang ]] && mkdir $dir/$lang
+    nnet3-copy --edits="rename-node old-name=output new-name=output-dummy; rename-node old-name=output-$lang new-name=output" \
       $dir/final.raw - | \
-      nnet3-am-init $dir/init/${lang_name}_trans.mdl - $dir/${lang_name}/final.mdl
-    [[ ! -d $dir/${lang_name}/init ]] && mkdir $dir/${lang_name}/init
+      nnet3-am-init $dir/init/${lang}_trans.mdl - $dir/$lang/final.mdl
+    [[ ! -d $dir/$lang/init ]] && mkdir $dir/$lang/init
     params="frame_subsampling_factor model_left_context model_right_context feat_dim left_context left_context_initial right_context right_context_final ivector_dim frames_per_chunk"
     for param_name in $params; do
       grep -m 1 "^$param_name " $dir/init/info.txt
-    done > $dir/${lang_name}/init/info.txt
+    done > $dir/$lang/init/info.txt
   done
 fi
 
-if [ $stage -le 20 ]; then
+if [ $stage -le 19 ]; then
   # Note: it's not important to give mkgraph.sh the lang directory with the
   # matched topology (since it gets the topology file from the model).
   # Decode mini_librispeech
@@ -517,7 +516,7 @@ if [ $stage -le 20 ]; then
     $tree_dir/graph_tgsmall || exit 1;
 fi
 
-if [ $stage -le 21 ]; then
+if [ $stage -le 20 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   # Extract high resolution MFCCs from dev data
   utils/copy_data_dir.sh \
