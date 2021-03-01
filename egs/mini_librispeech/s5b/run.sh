@@ -407,18 +407,17 @@ if [ $stage -le 12 ]; then
 fi
 
 if [ $stage -le 13 ]; then
-  for lang_index in `seq 0 $[$num_langs-1]`;do
-    lang_name=${lang_list[$lang_index]}
-    echo "$0: Generating raw egs for $lang_name"
-    train_ivector_dir=${multi_ivector_dirs[$lang_index]}
-    train_data_dir=${multi_data_dirs[$lang_index]}
-    lat_dir=${multi_ali_latdirs[$lang_index]}
+  for lang in mini_librispeech heroico;do
+    echo "$0: Generating raw egs for $lang"
+    train_ivector_dir=exp/$lang/ivectors_train_sp_hires
+    train_data_dir=data/$lang/train_sp_hires
+    lat_dir=exp/$lang/chain/tri3b_train_sp_lats
     steps/chain2/get_raw_egs.sh \
       --alignment-subsampling-factor $frame_subsampling_factor \
       --cmd "$train_cmd" \
       --frame-subsampling-factor $frame_subsampling_factor \
       --frames-per-chunk $chunk_width \
-      --lang "$lang_name" \
+      --lang "$lang" \
       --left-context $egs_left_context \
       --online-ivector-dir $train_ivector_dir \
       --right-context $egs_right_context \
@@ -427,15 +426,15 @@ if [ $stage -le 13 ]; then
       ${lat_dir} \
       ${dir}/${lang_name}_raw_egs || exit 1
 
-    echo "$0: Processing raw egs for $lang_name"
+    echo "$0: Processing raw egs for $lang"
     steps/chain2/process_egs.sh  \
       --cmd "$train_cmd" \
-      ${dir}/${lang_name}_raw_egs \
-      ${dir}/${lang_name}_processed_egs || exit 1
+      ${dir}/${lang}_raw_egs \
+      ${dir}/${lang}_processed_egs || exit 1
   done
 fi
 
-if [ $stage -le 15 ]; then
+if [ $stage -le 14 ]; then
   echo "$0: Combining egs"
   egs_dir_list=$(for lang_index in `seq 0 $[$num_langs-1]`;do lang_name=${lang_list[$lang_index]}; echo ${dir}/${lang_name}_processed_egs; done)
   local/combine_egs.sh \
