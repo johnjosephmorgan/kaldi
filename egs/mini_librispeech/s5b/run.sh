@@ -436,7 +436,7 @@ fi
 
 if [ $stage -le 14 ]; then
   echo "$0: Combining egs"
-  egs_dir_list=$(for lang in mini_librispeech heroico; do ; echo $dir/${lang}_processed_egs; done)
+  egs_dir_list=($dir/mini_librispeech_processed_egs $dir/heroico_processed_egs)
   local/combine_egs.sh \
     $egs_opts \
     --cmd "$train_cmd" \
