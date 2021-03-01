@@ -436,7 +436,7 @@ fi
 
 if [ $stage -le 14 ]; then
   echo "$0: Combining egs"
-  egs_dir_list=$(for lang_index in `seq 0 $[$num_langs-1]`;do lang_name=${lang_list[$lang_index]}; echo ${dir}/${lang_name}_processed_egs; done)
+  egs_dir_list=$(for lang in mini_librispeech heroico;do ; echo $dir/${lang}_processed_egs; done)
   local/combine_egs.sh \
     $egs_opts \
     --cmd "$train_cmd" \
@@ -446,7 +446,7 @@ if [ $stage -le 14 ]; then
 fi
 [[ -z $common_egs_dir ]] && common_egs_dir=${dir}/egs
 
-if [ $stage -le 16 ]; then
+if [ $stage -le 15 ]; then
   [ ! -d ${dir}/egs/misc ] && mkdir  ${dir}/egs/misc
   echo "$0: Copying den.fst to ${dir}/egs/misc"
   for lang_index in $(seq 0 $[$num_langs-1]);do
