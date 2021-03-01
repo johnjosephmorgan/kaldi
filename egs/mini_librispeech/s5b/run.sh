@@ -398,7 +398,7 @@ if [ $stage -le 12 ]; then
     copy-transition-model $tree_dir/final.mdl $dir/init/${lang}_trans.mdl  || exit 1;
     $train_cmd $dir/den_fsts/log/make_den_fst.log \
       chain-make-den-fst \
-        $dir/${lang_name}.tree \
+        $dir/${lang}.tree \
         $dir/init/${lang}_trans.mdl \
 	$dir/den_fsts/${lang}.phone_lm.fst \
         $dir/den_fsts/${lang}.den.fst \
@@ -406,7 +406,7 @@ if [ $stage -le 12 ]; then
   done
 fi
 
-if [ $stage -le 14 ]; then
+if [ $stage -le 13 ]; then
   for lang_index in `seq 0 $[$num_langs-1]`;do
     lang_name=${lang_list[$lang_index]}
     echo "$0: Generating raw egs for $lang_name"
