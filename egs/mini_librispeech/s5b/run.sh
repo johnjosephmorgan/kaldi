@@ -98,8 +98,6 @@ if [ $stage -le 0 ]; then
   )
 fi
 
-
-for lang_index in $(seq 0 $[$num_langs-1]); do
 if [ $stage -le 1 ]; then
   for lang in mini_librispeech heroico; do
     echo "Speed perturbing $lang training data."
