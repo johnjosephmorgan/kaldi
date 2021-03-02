@@ -85,7 +85,7 @@ if [ $stage -le 0 ]; then
     [ -d lang ] || cp -R ../../../s5/data/lang ./;
     [ -d lang_nosp_test_tgsmall ] || cp -R ../../../s5/data/lang_nosp_test_tgsmall ./;
     [ -d train ] || cp -R ../../../s5/data/train_clean_5 ./train;
-    [ -d dev_clean_2 ] || cp -R ../../../s5/data/dev_clean_2 ./train;
+    [ -d dev_clean_2 ] || cp -R ../../../s5/data/dev_clean_2 ./;
   )
 
   # Copy mini_librispeech exp directories
