@@ -555,7 +555,7 @@ if [ $stage -le 20 ]; then
       --post-decode-acwt 10.0 \
       $tree_dir/graph_tgsmall \
       data/mini_librispeech/dev_clean_2_hires \
-      exp/chain2_multi_sp/mini_librispeech/decode_tgsmall_dev_clean_2_hires || exit 1
+      exp/chain2_multi/mini_librispeech/decode_tgsmall_dev_clean_2_hires || exit 1
     steps/lmrescore_const_arpa.sh \
       --cmd "$decode_cmd" \
       data/lang_dev_tgsmall \
