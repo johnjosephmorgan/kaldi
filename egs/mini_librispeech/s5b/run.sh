@@ -1,49 +1,44 @@
 #!/bin/bash
-# chain2 recipe for monolingual systems for BABEL
+
+# chain2 recipe for mini_librispeech and heroico
+
 # Copyright 2016 Pegah Ghahremani
 # Copyright 2020 Srikanth Madikeri (Idiap Research Institute)
 
 # Train a multilingual LF-MMI system with a multi-task training setup.
+# This script assumes the following 2 recipes have been run:
+# - ../s5/run.sh 
+# - ../../heroico/s5/run.sh 
 
 set -e -o pipefail
 
 # Start setting variables
-alidir=tri3b_ali
 boost_sil=1.0 # Factor by which to boost silence likelihoods in alignment
 chunk_width=150
 cmd=run.pl
 common_egs_dir=  # you can set this to use previously dumped egs.
 decode_lang_list=(mini_librispeech)
-decode_stage=-10
 dir=exp/chain2_multi
 extra_left_context=50
 extra_right_context=0
 final_effective_lrate=0.0001
 frame_subsampling_factor=3
-get_egs_stage=-10
-global_extractor=exp/multi
 gmm=tri3b  # the gmm for the target data
 initial_effective_lrate=0.001
-label_delay=5
 lang2weight="0.2,0.8"
 lang_list=(mini_librispeech heroico)
 langdir=data/lang
 lda_mllt_lang=mini_librispeech
 max_param_change=2.0
-megs_dir=
 nj=30
 numGaussUBM=512
 num_jobs_final=1
 num_jobs_initial=1
-num_threads_ubm=1
-remove_egs=false
+num_langs=2
 srand=-1
 stage=-1
-suffix=_sp
-tdnn_affix=  #affix for TDNN directory, e.g. "a" or "b", in case we change the configuration.
 train_set=train
 train_stage=-10
-tree_affix=  # affix for tree directory, e.g. "a" or "b", in case we change the configuration.
 xent_regularize=0.01
 # done setting variables
 
@@ -51,7 +46,6 @@ xent_regularize=0.01
 . ./cmd.sh
 . ./utils/parse_options.sh
 
-echo "$0 $@"  # Print the command line for logging
 if ! cuda-compiled; then
   cat <<EOF && exit 1
 This script is intended to be used with GPUs but you have not compiled Kaldi with CUDA
@@ -59,6 +53,7 @@ If you want to use GPUs (and have them), go to src/, and configure and make on a
 where "nvcc" is installed.
 EOF
 fi
+
 # Copy data directories from heroico
 if [ $stage -le 0 ]; then
   (
@@ -103,13 +98,8 @@ if [ $stage -le 0 ]; then
   )
 fi
 
-num_langs=${#lang_list[@]}
-for lang_index in $(seq 0 $[$num_langs-1]); do
-  for f in data/${lang_list[$lang_index]}/train/{feats.scp,text} exp/${lang_list[$lang_index]}/$alidir/ali.1.gz exp/${lang_list[$lang_index]}/$alidir/tree; do
-    [ ! -f $f ] && echo "$0: no such file $f" && exit 1;
-  done
-done
 
+for lang_index in $(seq 0 $[$num_langs-1]); do
 if [ $stage -le 1 ]; then
   for lang in mini_librispeech heroico; do
     echo "Speed perturbing $lang training data."
@@ -223,7 +213,7 @@ for lang in mini_librispeech heroico; do
   multi_egs_dirs[${lang}]=exp/$lang/egs
   multi_ali_dirs[${lang}]=exp/$lang
   multi_ivector_dirs[${lang}]=exp/$lang/ivectors_train_sp_hires
-  multi_ali_treedirs[${lang}]=exp/$lang/tree_affix}
+  multi_ali_treedirs[${lang}]=exp/$lang
   multi_ali_latdirs[${lang}]=exp/$lang/chain/tri3b_train_sp_lats
   multi_lang[${lang}]=data/$lang/lang
   multi_lfmmi_lang[${lang}]=data/$lang/lang_chain
@@ -556,50 +546,5 @@ if [ $stage -le 20 ]; then
       $tree_dir/graph_tgsmall \
       data/mini_librispeech/dev_clean_2_hires \
       exp/chain2_multi/mini_librispeech/decode_tgsmall_dev_clean_2_hires || exit 1
-    steps/lmrescore_const_arpa.sh \
-      --cmd "$decode_cmd" \
-      data/lang_dev_tgsmall \
-      data/mini_librispeech/dev_clean_2_hires \
-      exp/chain2_multi_sp/decode_tgsmall_dev_clean_sp_hires || exit 1
-  ) || touch $dir/.error &
-  wait
-  [ -f $dir/.error ] && echo "$0: there was a problem while decoding" && exit 1
+  )
 fi
-
-if [ $stage -le 22 ]; then
-  nnet3-latgen-faster \
-    --word-symbol-table=exp/mini_librispeech/tree/graph_tgsmall/words.txt \
-    exp/chain2/tdnn_multi_sp/mini_librispeech/final.mdl \
-    exp/mini_librispeech/tree/graph_tgsmall/HCLG.fst \
-    'ark,s,cs:apply-cmvn  --utt2spk=ark:../s5/data/dev_clean_2_hires/utt2spk scp:../s5/data/dev_clean_2_hires/cmvn.scp scp:../s5/data/dev_clean_2_hires/feats.scp ark:- |' \
-    'ark:|gzip -c > ./lat.1.gz' 
-fi
-exit 0;
-<nnet-in>
-<fst-in|fsts-rspecifier>
-<features-rspecifier>
-<lattice-wspecifier>
-[ <words-wspecifier> [<alignments-wspecifier>] ]
-
-nohup bash -x steps/nnet3/decode.sh --online-ivector-dir exp/mini_librispeech/ivectors_train_sp exp/mini_librispeech/tree/graph_tgsmall data/mini_librispeech/train_sp_hires exp/chain2_cleaned/tdnn_multi_sp/mini_librispeech/decode_train > XXI &
-nnet3-latgen-faster \
-    --online-ivectors=scp:exp/mini_librispeech/ivectors_train_sp/ivector_online.scp \
-    --online-ivector-period=10 \
-    --frame-subsampling-factor=3 \
-    --frames-per-chunk=50 \
-    --extra-left-context=0 \
-    --extra-right-context=0 \
-    --extra-left-context-initial=-1 \
-    --extra-right-context-final=-1 \
-    --minimize=false \
-    --max-active=7000 \
-    --min-active=200 \
-    --beam=15.0 \
-    --lattice-beam=8.0 \
-    --acoustic-scale=0.1 \
-    --allow-partial=true \
-    --word-symbol-table=exp/mini_librispeech/tree/graph_tgsmall/words.txt \
-    exp/chain2/tdnn_multi_sp/mini_librispeech/final.mdl \
-    exp/mini_librispeech/tree/graph_tgsmall/HCLG.fst \
-    "ark,s,cs:apply-cmvn --norm-means=false --norm-vars=false --utt2spk=ark:data/mini_librispeech/train_sp_hires/split4/1/utt2spk scp:data/mini_librispeech/train_sp_hires/split4/1/cmvn.scp scp:data/mini_librispeech/train_sp_hires/split4/1/feats.scp ark:- |" \
-    "ark:|gzip -c >exp/chain2/tdnn_multi_sp/mini_librispeech/decode_train/lat.1.gz" 
