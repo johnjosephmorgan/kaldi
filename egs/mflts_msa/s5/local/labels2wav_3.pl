@@ -20,8 +20,6 @@ my $base = basename $src, ".flac";
 my $labels = "$out/clusters/labels_threshold";
 my $out_dir = "out_diarized/speakers/$base";
 
-mkdir $out_dir;
-
 open my $LABELS, '<', $labels or croak "Problem with $labels $!";
 my $i = 1000;
 my $speaker_dir = "";
@@ -35,10 +33,10 @@ while ( my $line = <$LABELS> ) {
   $end = $end * 1000;
   $end = $end / 100000;
   my $dur = $end - $start;
-  if $name ne "" {
+  if ( $name ne "" ) {
     $speaker_dir = $out_dir . "_${name}";
-    system "mkdir -p $speaker_dir/wavs";
-    my $out = "$speaker_dir/wavs/${i}_${start}_${end}.wav";
+    system "mkdir -p $speaker_dir";
+    my $out = "$speaker_dir/${i}_${start}_${end}.wav";
     system "sox $src $out trim $start $dur";
     $i++;
   }

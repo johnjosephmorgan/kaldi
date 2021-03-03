@@ -6,40 +6,33 @@ if [ $# -ne 2 ]; then
 fi
 
 # The 2 input files have the pattern:
-# out_diarized/speakers/<REC>_{1,2,3}/wavs/<base>.wav
+# out_diarized/work/speakers/<REC>_{1,2,3}/<base>_samples.txt
 
 # Get the 2 input files 
 a=$1
 b=$2
 
-percent_of_overlap=10
+percent_of_overlap=5
 
-# Get the path to the wavs directory containing the input files
-a_wavs_dir=$(dirname $a)
-#echo "a wavs dir $a_wavs_dir"
+# Get the path to the speaker directory containing the input files
+a_spk_dir=$(dirname $a)
+#echo "a spk dir $a_spk_dir"
 
-b_wavs_dir=$(dirname $b)
-#echo "b wavs dir $b_wavs_dir"
-
-# Get the path to the directory 1 level up
-a_dir=$(dirname $a_wavs_dir)
-#echo "a dir $a_dir"
-
-b_dir=$(dirname $b_wavs_dir)
-#echo "b dir $b_dir"
+b_spk_dir=$(dirname $b)
+#echo "b spk dir $b_spk_dir"
 
 # Get the basename of the input files 
-a_base=$(basename $a .wav)
+a_base=$(basename $a _samples.txt)
 #echo "a base $a_base"
 
-b_base=$(basename $b .wav)
+b_base=$(basename $b _samples.txt)
 #echo "b base $b_base"
 
 # Get the speaker id
-a_spk=$(basename $a_dir)
+a_spk=$(basename $a_spk_dir)
 #echo " a spk $a_spk"
 
-b_spk=$(basename $b_dir)
+b_spk=$(basename $b_spk_dir)
 #echo "b spk $b_spk"
 
 # Make a name for the directory that will contain the overlapped file
@@ -47,35 +40,49 @@ a_b_base_dir=out_diarized/overlaps/${a_spk}_${b_spk}_${a_base}_${b_base}
 #echo "a b base dir $a_b_base_dir"
 mkdir -p $a_b_base_dir
 
-# Get the overlap marker
-local/get_overlap_marker.pl $a $b $percent_of_overlap
+# We need to pass the wav file to the marker script
+a_wav=out_diarized/speakers/$a_spk/$a_base.wav
+#echo "a wav $a_wav"
 
-# Make the name for the marker file
-a_marker=$a_b_base_dir/marker.txt
-#echo "a marker $a_marker"
+b_wav=out_diarized/speakers/$b_spk/$b_base.wav
+#echo "b wav $b_wav"
+
+# check that the wav files exist
+[ -f $a_wav ] || exit 1;
+[ -f $b_wav ] || exit 1;
+
+# Get the overlap endpoint markers and the total length
+local/get_overlap_marker.pl $a_wav $b_wav $percent_of_overlap
+
+# Make the name for the start marker file
+a_start=$a_b_base_dir/start.txt
+#echo "a start $a_start"
+
+# Check that the start marker file exists
+[ -f $a_start ] || exit 1;
 
 # Make a silence buffer
-local/make_silent_buffer_file.pl $a_marker
+local/make_silent_buffer_file.pl $a_start
 
 # Make a name for the silence buffer
 sil=$a_b_base_dir/sil.wav
 #echo "sil $sil"
 
 # Make a name for the buffered b
-buff=$a_b_base_dir/b_buff.wav
+buff=$a_b_base_dir/buff.wav
 #echo "buff $buff"
 
 # Concatenate the silent buffer with b
-#echo "Concatenating $sil and $b and storing in $b_buff"
-sox $sil $b $buff
+#echo "Concatenating $sil and $b_wav and storing in $buff"
+sox $sil $b_wav $buff
 
 # Make the name for the stereo file
 stereo=$a_b_base_dir/stereo.wav
 #echo "stereo $stereo"
 
 # Make the stereo recording
-#echo "Write a stereo file with $a and $buff"
-sox $a $buff -c 2 $stereo -M
+#echo "Write a stereo file with $a_wav and $buff"
+sox $a_wav $buff -c 2 $stereo -M
 
 #Make a name for the overlapping file
 overlap=$a_b_base_dir/overlap.wav
@@ -91,14 +98,14 @@ max=$a_b_base_dir/max.wav
 
 # Make a name for thestats file
 vc=$a_b_base_dir/vc.txt
-echo "vc $vc"
+#echo "vc $vc"
 
 # Get stats for the overlapping file
 sox $overlap -n stat -v 2> $vc
-echo "Getting stats."
+#echo "Getting stats."
 
 # Write the volume maxed file
-echo "Maxing volume." 
+#echo "Maxing volume." 
 sox -v $(cat $vc) $overlap $max
 exit
   b_samples=$(find $b_dir/infos -type f -name "*_samples.txt" | shuf -n 1) || break 1;

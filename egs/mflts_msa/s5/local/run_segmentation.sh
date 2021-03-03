@@ -78,7 +78,7 @@ for src in out_diarized/flacs/*; do
   # Make the working directory
   base=$(basename $src .$input_extension)
   # Remove the file extension to get the directory name
-  working_dir=out_diarized/work/$i/${base}
+  working_dir=out_diarized/work/recordings/$i/${base}
   mkdir -p $working_dir/speechactivity
 
   #echo "$0 Stage 0: Write parameter files for Kaldi SAD."
