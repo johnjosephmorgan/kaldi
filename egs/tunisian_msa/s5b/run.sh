@@ -74,7 +74,7 @@ if [ $stage -le 0 ]; then
     # Copy the tri3b directory
     [ -d tri3b ] || cp -R ../../../s5a/exp/tri3b ./;
     # Copy the tri3b_ali
-    [ -d tri3b_ali ] || cp -R /../../../s5a/exp/tri3b_ali ./;
+    [ -d tri3b_ali ] || cp -R ../../../s5a/exp/tri3b_ali ./;
   )
 
   # Copy mini_librispeech data directories
