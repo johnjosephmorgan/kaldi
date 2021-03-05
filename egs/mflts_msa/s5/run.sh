@@ -52,7 +52,6 @@ if [ $stage -le 6 ]; then
   n=$(find out_diarized/work/speakers -type f -name "*_samples.txt" | wc -l)
   #echo "There are $n sample files."
   # Loop a lot of times
-  n=5
   for ((i=0;i<=n;i++)); do
     # randomly choose files to process
     s1=$(find out_diarized/work/speakers -type f -name "*_samples.txt" | shuf -n 1)
