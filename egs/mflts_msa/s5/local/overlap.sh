@@ -54,8 +54,30 @@ b_wav=out_diarized/speakers/$b_spk/$b_base.wav
 # Get the overlap endpoint markers and the total length
 local/get_overlap_marker.pl $a_wav $b_wav $percent_of_overlap
 
-# Make the name for the start marker file
-a_start=$a_b_base_dir/start.txt
+# Piece  together the name of the  rttm files
+a_rttm=$a_b_base_dir/segment_1.rttm
+#echo "a rttm $a_rttm"
+
+# Check that the first rttm file exists
+[ -f $a_rttm ] || exit 1;
+
+b_rttm=$a_b_base_dir/segment_2.rttm
+#echo "b rttm $b_rttm"
+
+# Check that the second rttm file exists
+[ -f $b_rttm ] || exit 1;
+
+# make a name for the concatenation of the 2 rttm files
+a_b_rttm=$a_b_base_dir/overlap.rttm
+
+# concatenate the 2 rttm files
+a_b_rttm=$(cat $a_rttm $b_rttm > $a_b_rttm)
+
+# Check that the concatenation of rttm files exists
+[ -f $a_b_rttm ] || exit 1;
+
+# Piece  together the name of the start marker file
+a_start=$a_b_base_dir/segment_2_start.txt
 #echo "a start $a_start"
 
 # Check that the start marker file exists
@@ -65,7 +87,7 @@ a_start=$a_b_base_dir/start.txt
 local/make_silent_buffer_file.pl $a_start
 
 # Make a name for the silence buffer
-sil=$a_b_base_dir/sil.wav
+sil=$a_b_base_dir/sil_seconds.wav
 #echo "sil $sil"
 
 # Make a name for the buffered b
@@ -109,7 +131,7 @@ sox $overlap -n stat -v 2> $vc
 sox -v $(cat $vc) $overlap $max
 exit
   b_samples=$(find $b_dir/infos -type f -name "*_samples.txt" | shuf -n 1) || break 1;
-  echo "b  samples $b_samples"
+  #echo "b  samples $b_samples"
 
   # Get the name of the directory containing the first chosen  file
   a_wavs_dir=$(dirname $a)
@@ -141,7 +163,7 @@ exit
 
   # Get the original name of b?
   b=$b_dir/wavs/$b_base.wav
-  echo "b $b"
+  #echo "b $b"
 
   # Make a name for the silence buffered version of b
   b_buff=$a_dir/buffs/${a_base}_${b_base}.wav

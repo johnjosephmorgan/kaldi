@@ -28,10 +28,15 @@ chomp $samples;
 close $SAMPLES;
 
 # Append an "s" to indicate samples
-my $duration = $samples . 's';
-
+my $duration = $samples . 's';# express duration in seconds
+my $duration_in_seconds = 0.0;
+#warn "duration in samples: $duration";
+$duration_in_seconds = $samples / 32000;
+#warn "duration in seconds: $duration_in_seconds";
 # Make a name for the output silence file
-my $silwav = "$marker_dir/sil.wav";
-# Write the silent wav file with sox
-#warn "duration: $duration";
-system "sox -n -r 16000  $silwav trim 0s $duration";
+my $silwav_seconds = "$marker_dir/sil_seconds.wav";
+my $silwav_samples = "$marker_dir/sil_samples.wav";
+# Write the silent wav file with sox using samples
+system "sox -n -r 16000  $silwav_samples trim 0s $duration";
+# Write the silent wav file with sox using seconds
+system "sox -n -r 16000  $silwav_seconds trim 0.0 $duration_in_seconds";

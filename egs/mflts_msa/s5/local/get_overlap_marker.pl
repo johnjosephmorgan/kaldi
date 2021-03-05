@@ -63,30 +63,54 @@ my $seg_2_samples_fn = "out_diarized/work/speakers/$seg_2_spk/${seg_2_base}_samp
 croak "$!" if ( -z $seg_2_samples_fn );
     open my $SEGTWOSAMPLES, '<', $seg_2_samples_fn or croak "Problem with file $seg_2_samples_fn $!";
 while ( my $line = <$SEGTWOSAMPLES> ) {
-    chomp $line;
-    ($fn_2,$samples_2) = split /\t/, $line, 2;
+  chomp $line;
+  ($fn_2,$samples_2) = split /\t/, $line, 2;
 }
 close $SEGTWOSAMPLES;
-
 # express target percentage as a decimal
 my $decimal_target_percentage = $target_percentage / 100;
+# Recording ID
+my $rec_id = "${seg_1_spk}_${seg_2_spk}_${seg_1_base}_${seg_2_base}";
 # Make the output directory
-my $output_marker_path = "out_diarized/overlaps/${seg_1_spk}_${seg_2_spk}_${seg_1_base}_${seg_2_base}";
+my $output_marker_path = "out_diarized/overlaps/$rec_id";
 system "mkdir -p $output_marker_path";
-# Open the output marker file for writing
-open my $START, '+>', "$output_marker_path/start.txt" or croak "Problem with $output_marker_path/start.txt $!";
-open my $END, '+>', "$output_marker_path/end.txt" or croak "Problem with $output_marker_path/end.txt $!";
+# Open the output start and end marker files for writing
+my $segment_2_start = "$output_marker_path/segment_2_start.txt";
+open my $START, '+>', $segment_2_start or croak "Problem with $segment_2_start $!";
+my $segment_1_end = "$output_marker_path/overlap_segment_1_end.txt";
+open my $END, '+>', "$segment_1_end" or croak "Problem with $segment_1_end $!";
+# The end of the first overlap region is the number of samples in segment 1
 print $END "$samples_1";
 close $END;
-open my $TOT, '+>', "$output_marker_path/total.txt" or croak "Problem with $output_marker_path/total.txt $!";
+# Open a file to track the total length of the 2 segments after overlapping
+my $segment_2_end = "$output_marker_path/segment_2_end.txt";
+open my $TOT, '+>', $segment_2_end or croak "Problem with $segment_2_end $!";
+# Open a file to track the duration of the overlapping region
 open my $DUR, '+>', "$output_marker_path/overlap_duration.txt" or croak "Problem with $output_marker_path/overlap_duration.txt $!";
+# open  files to store the speaker IDs
+open my $SPKONE, '+>', "$output_marker_path/speaker_1.txt" or croak "Problem with $output_marker_path/speaker_1.txt $!";
+open my $SPKTWO, '+>', "$output_marker_path/speaker_2.txt" or croak "Problem with $output_marker_path/speaker_2.txt $!";
+# write the speaker IDs
+print $SPKONE "$seg_1_spk";
+print $SPKTWO "$seg_2_spk";
+close $SPKONE;
+close $SPKTWO;
+# Open the    file for writing the recording ID
+open my $RECID, '+>', "$output_marker_path/rec_id.txt" or croak "Problem with $output_marker_path/rec_id.txt $!";
+# write the rec id
+print $RECID "$rec_id";
+close $RECID;
+# Open the rttm info file for segment 1
+open my $RTTMONE, '+>', "$output_marker_path/segment_1.rttm" or croak "Problem with $output_marker_path/segment_1.rttm $!";
+# Open the rttm info file for segment 2
+open my $RTTMTWO, '+>', "$output_marker_path/segment_2.rttm" or croak "Problem with $output_marker_path/segment_2.rttm $!";
 # Set theinitial conditions for the algorithm.
-my $start = $samples_1;
+my $_segment_2_start = $samples_1;
 # Initialize the overlap length to 0.
 my $current_overlap_length = 0;
 # We add the lengths of the 2 segments to get the total length.
 my $current_total_length = $samples_1 + $samples_2;
-warn "Initial total: $current_total_length";
+#warn "Initial total: $current_total_length";
 # The overlap percentage is equal to the current length over the total.
 my $current_overlap_percentage = $current_overlap_length / $current_total_length;
 # Variable to display current percentage between 0 and 100 
@@ -96,7 +120,8 @@ my $show_percentage = 0;
 SAMPLE: for my $i ( 0 .. ($samples_1 + $samples_2 ) ) {
     # Get the total length of the current segment
     $current_total_length = $current_total_length -= 1;
-    warn "Current total length $current_total_length\nsamples 1 $samples_1\noverlap $current_overlap_length\nsamples 2 $samples_2";
+    #warn "Current total length $current_total_length\nsamples 1 $samples_1\noverlap $current_overlap_length\nsamples 2 $samples_2";
+    # Check if segment 2 is too small
     if ( $current_total_length <= ( $samples_1 + $current_overlap_length ) ) {
 	croak "Segment 2 too short";
     }
@@ -105,16 +130,19 @@ SAMPLE: for my $i ( 0 .. ($samples_1 + $samples_2 ) ) {
     # Get the current overlap percentage
     $current_overlap_percentage = $current_overlap_length / $current_total_length;
     # Store the current marker
-    $start = $samples_1 - $i; 
+    $segment_2_start = $samples_1 - $i; 
     $show_percentage = $current_overlap_percentage * 100;
     # Check if we are there
     if ( $current_overlap_percentage == $decimal_target_percentage ) {
+	# check if segments   are too small
 	if ( ( $current_overlap_length >= $samples_1 ) or ( $current_overlap_length >= $samples_2 ) ) {
 	    croak "Segment too small.";
 	}
-	print $START $start;
+	print $START $segment_2_start;
 	print $TOT $current_total_length;
 	print $DUR $current_overlap_length;
+	print $RTTMONE "SPEAKER $rec_id 0 0       $samples_1 <NA> <NA> $seg_1_spk <NA> <NA>";
+print $RTTMTWO "SPEAKER $rec_id 0 $segment_2_start       $current_overlap_length <NA> <NA> $seg_2_spk <NA> <NA>";
 	#croak "We hit the target!";
 	exit()
     } elsif ( $current_overlap_percentage > $decimal_target_percentage ) {
@@ -124,16 +152,23 @@ SAMPLE: for my $i ( 0 .. ($samples_1 + $samples_2 ) ) {
 	#warn "samples 1: $samples_1";
 	#warn "samples 2: $samples_2";
 	#warn "total length: $current_total_length";
-	#warn "marker: $start";
+	#warn "marker: $segment_2_start";
+	# check if segments are too small
 	if ( ( $current_overlap_length >= $samples_1 ) or ( $current_overlap_length >= $samples_2 ) ) {
 	    croak "Segment too small.";
 	}
-	print $START $start;
+	print $START $segment_2_start;
 	print $TOT $current_total_length;
 	print $DUR $current_overlap_length;
+	print $RTTMONE "SPEAKER $rec_id 0 0       $samples_1 <NA> <NA> $seg_1_spk <NA> <NA>";
+	print $RTTMTWO "SPEAKER $rec_id 0 $segment_2_start       $current_overlap_length <NA> <NA> $seg_2_spk <NA> <NA>";
 	$show_percentage = $current_overlap_percentage * 100;
 	exit();
 	croak "We overshot the target !\nDone getting marker for $seg_1 and $seg_2.\nTarget Percent: $target_percentage\n Achieved percentage: $show_percentage.\noverlap length: $current_overlap_length\nTotal length: $current_total_length\n";
     }
 }
 close $START;
+close $TOT;
+close $DUR;
+close $RTTMONE;
+close $RTTMTWO;
