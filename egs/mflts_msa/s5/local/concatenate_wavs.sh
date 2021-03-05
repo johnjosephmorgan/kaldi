@@ -3,7 +3,7 @@
 declare -a a
 i=$1
 # set the number of pairs to concatenate
-n=5
+n=100
 # make the output directory
 mkdir -p out_diarized/concats/$i
 

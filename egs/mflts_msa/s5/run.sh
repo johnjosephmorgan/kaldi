@@ -50,14 +50,17 @@ fi
 if [ $stage -le 6 ]; then
   mkdir -p out_diarized/overlaps
   n=$(find out_diarized/work/speakers -type f -name "*_samples.txt" | wc -l)
-  echo "There are $n sample files."
+  #echo "There are $n sample files."
   # Loop a lot of times
+  n=5
   for ((i=0;i<=n;i++)); do
     # randomly choose files to process
     s1=$(find out_diarized/work/speakers -type f -name "*_samples.txt" | shuf -n 1)
     s2=$(find out_diarized/work/speakers -type f -name "*_samples.txt" | shuf -n 1)
     local/overlap.sh $s1 $s2
-    #rm $s1 $s2
+    # delete the 2 files we just processed
+    # this should implement sampling without replacement
+    rm $s1 $s2
   done
 fi
 
@@ -67,4 +70,11 @@ if [ $stage -le 7 ]; then
   for ((i=0;i<=n;i++)); do
     local/concatenate_wavs.sh $i
   done
+fi
+
+# write the rttm files
+if [ $stage -le 8 ]; then
+   for i in out_diarized/concats/*; do
+       local/pairs2rttm.pl $i
+   done
 fi
