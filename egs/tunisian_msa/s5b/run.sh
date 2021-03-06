@@ -424,7 +424,7 @@ fi
 
 if [ $stage -le 14 ]; then
   echo "$0: Combining egs"
-  egs_dir_list="$dir/mini_librispeech_processed_egs $dir/tunisian_msa_processed_egs"
+  egs_dir_list="$dir/tunisian_msa_processed_egs $dir/mini_librispeech_processed_egs"
   local/combine_egs.sh \
     $egs_opts \
     --cmd "$train_cmd" \
@@ -432,7 +432,7 @@ if [ $stage -le 14 ]; then
     $egs_dir_list \
     $dir/egs
 fi
-[[ -z $common_egs_dir ]] && common_egs_dir=${dir}/egs
+[[ -z $common_egs_dir ]] && common_egs_dir=$dir/egs
 
 if [ $stage -le 15 ]; then
   [ ! -d $dir/egs/misc ] && mkdir  $dir/egs/misc
@@ -473,7 +473,8 @@ if [ $stage -le 17 ]; then
     --srand 1 \
     --stage $train_stage \
     --xent-regularize $xent_regularize \
-     $common_egs_dir $dir
+    $common_egs_dir \
+    $dir
 fi
 
 if [ $stage -le 18 ]; then
