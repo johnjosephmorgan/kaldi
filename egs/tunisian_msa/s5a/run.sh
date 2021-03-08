@@ -85,46 +85,62 @@ if [ $stage -le 11 ]; then
   echo "$0: Starting exp/tri3b_ali"
   steps/align_fmllr.sh data/train data/lang exp/tri3b exp/tri3b_ali
 fi
-exit
-if [ $stage -le 3 ]; then
+
+if [ $stage -le 12 ]; then
   echo "lm training."
   local/prepare_lm.sh  ./lm_text.txt
 fi
 
-if [ $stage -le 8 ]; then
+if [ $stage -le 13 ]; then
   echo "Making grammar fst."
   utils/format_lm.sh \
-    data/lang data/local/lm/trigram.arpa.gz data/local/dict/lexicon.txt \
+    data/lang \
+    data/local/lm/trigram.arpa.gz \
+    data/local/dict/lexicon.txt \
     data/lang_test
 fi
 
-if [ $stage -le 17 ]; then
+if [ $stage -le 14 ]; then
   (
     #  make decoding FSTs for tri2b models
-    utils/mkgraph.sh data/lang_test exp/tri2b exp/tri2b/graph
+    utils/mkgraph.sh \
+      data/lang_test \
+      exp/tri2b \
+      exp/tri2b/graph
 
     # decode  test with tri2b models
     for x in devtest test; do
       nspk=$(wc -l < data/$x/spk2utt)
-      steps/decode.sh --nj $nspk exp/tri2b/graph data/$x exp/tri2b/decode_${x}
+      steps/decode.sh \
+        --nj $nspk \
+        exp/tri2b/graph \
+        data/$x \
+        exp/tri2b/decode_${x} || exit 1;
     done
   ) &
 fi
 
-if [ $stage -le 20 ]; then
+if [ $stage -le 15 ]; then
   (
     # make decoding graphs for SAT models
-    utils/mkgraph.sh data/lang_test exp/tri3b exp/tri3b/graph
+    utils/mkgraph.sh \
+      data/lang_test \
+      exp/tri3b \
+      exp/tri3b/graph || exit 1;
 
     # decode test sets with tri3b models
     for x in devtest test; do
       nspk=$(wc -l < data/$x/spk2utt)
-      steps/decode_fmllr.sh --nj $nspk exp/tri3b/graph data/$x exp/tri3b/decode_${x}
+      steps/decode_fmllr.sh \
+        --nj $nspk \
+        exp/tri3b/graph \
+        data/$x \
+        exp/tri3b/decode_${x} || exit 1;
     done
   ) &
 fi
 
-if [ $stage -le 22 ]; then
+if [ $stage -le 16 ]; then
   # train and test chain models
   local/chain/run_tdnn.sh
 fi
