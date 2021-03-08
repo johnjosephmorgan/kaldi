@@ -567,27 +567,27 @@ if [ $stage -le 20 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   # Extract high resolution MFCCs from dev data
   utils/copy_data_dir.sh \
-    data/mini_librispeech/dev_clean_2 \
-    data/mini_librispeech/dev_clean_2_hires || exit 1;
+    data/tunisian_msa/devtest \
+    data/tunisian_msa/devtest_hires || exit 1;
   steps/make_mfcc.sh \
     --cmd "$train_cmd" \
     --mfcc-config conf/mfcc_hires.conf \
     --nj 16 \
-    data/mini_librispeech/dev_clean_2_hires || exit 1;
+    data/tunisian_msa/devtest_hires || exit 1;
     steps/compute_cmvn_stats.sh \
-      data/mini_librispeech/dev_clean_2_hires || exit 1;
-    utils/fix_data_dir.sh data/mini_librispeech/dev_clean_2_hires || exit 1;
-  # Do the speaker-dependent decoding pass
+      data/tunisian_msa/devtest_hires || exit 1;
+    utils/fix_data_dir.sh data/tunisian_msa/devtest_hires || exit 1;
+  # Do the  decoding pass
   steps/online/nnet2/extract_ivectors_online.sh \
     --cmd "$train_cmd" \
     --nj 20 \
-    data/mini_librispeech/dev_clean_2_hires \
+    data/tunisian_msa/devtest_hires \
     exp/multi/extractor \
-    exp/mini_librispeech/ivectors_dev_clean_2_hires || exit 1;
+    exp/tunisian_msa/ivectors_devtest_hires || exit 1;
 
   (
-    nspk=$(wc -l <data/mini_librispeech/dev_clean_2_hires/spk2utt)
-    tree_dir=exp/mini_librispeech
+    nspk=$(wc -l <data/tunisian_msa/devtest_hires/spk2utt)
+    tree_dir=exp/tunisian_msa || exit 1;
     steps/nnet3/decode.sh \
       --acwt 1.0 \
       --cmd "$decode_cmd"  \
@@ -598,10 +598,10 @@ if [ $stage -le 20 ]; then
       --frames-per-chunk $frames_per_chunk \
       --nj $nspk \
       --num-threads 4 \
-      --online-ivector-dir exp/mini_librispeech/ivectors_dev_clean_2_hires \
+      --online-ivector-dir exp/tunisian_msa/ivectors_devtest_hires \
       --post-decode-acwt 10.0 \
-      $tree_dir/graph_tgsmall \
-      data/mini_librispeech/dev_clean_2_hires \
-      exp/chain2_multi/mini_librispeech/decode_tgsmall_dev_clean_2_hires || exit 1
+      $tree_dir/graph \
+      data/tunisian_msa/devtest_hires \
+      exp/chain2_multi/tunisian_msa/decode_devtest_hires || exit 1
   )
 fi
