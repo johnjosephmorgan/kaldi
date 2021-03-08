@@ -64,6 +64,10 @@ if [ $stage -le 0 ]; then
     [ -d lang ] || cp -R ../../../s5a/data/lang ./;
     # Copy the train directory
     [ -d train ] || cp -R ../../../s5a/data/train ./;
+    # Copy the devtest directory
+    [ -d devtest ] || cp -R ../../../s5a/data/devtest ./;
+    # Copy the test directory
+    [ -d test ] || cp -R ../../../s5a/data/test ./;
   )
 
   # Copy exp directories from tunisian_msa
@@ -458,6 +462,7 @@ fi
 
 if [ $stage -le 17 ]; then
   echo "$0: Starting model training"
+  [ -f $dir/.error ] && echo "WARNING: $dir/.error exists";
   steps/chain2/train.sh \
     --cmd "$cuda_cmd" \
     --final-effective-lrate $final_effective_lrate \
@@ -501,6 +506,59 @@ if [ $stage -le 19 ]; then
   utils/mkgraph.sh \
     --self-loop-scale 1.0 \
     data/mini_librispeech/lang_nosp_test_tgsmall \
+    $tree_dir \
+    $tree_dir/graph_tgsmall || exit 1;
+fi
+
+if [ $stage -le 20 ]; then
+  frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
+  # Extract high resolution MFCCs from dev data
+  utils/copy_data_dir.sh \
+    data/mini_librispeech/dev_clean_2 \
+    data/mini_librispeech/dev_clean_2_hires || exit 1;
+  steps/make_mfcc.sh \
+    --cmd "$train_cmd" \
+    --mfcc-config conf/mfcc_hires.conf \
+    --nj 16 \
+    data/mini_librispeech/dev_clean_2_hires || exit 1;
+    steps/compute_cmvn_stats.sh \
+      data/mini_librispeech/dev_clean_2_hires || exit 1;
+    utils/fix_data_dir.sh data/mini_librispeech/dev_clean_2_hires || exit 1;
+  # Do the speaker-dependent decoding pass
+  steps/online/nnet2/extract_ivectors_online.sh \
+    --cmd "$train_cmd" \
+    --nj 20 \
+    data/mini_librispeech/dev_clean_2_hires \
+    exp/multi/extractor \
+    exp/mini_librispeech/ivectors_dev_clean_2_hires || exit 1;
+
+  (
+    nspk=$(wc -l <data/mini_librispeech/dev_clean_2_hires/spk2utt)
+    tree_dir=exp/mini_librispeech
+    steps/nnet3/decode.sh \
+      --acwt 1.0 \
+      --cmd "$decode_cmd"  \
+      --extra-left-context $egs_left_context \
+      --extra-left-context-initial 0 \
+      --extra-right-context $egs_right_context \
+      --extra-right-context-final 0 \
+      --frames-per-chunk $frames_per_chunk \
+      --nj $nspk \
+      --num-threads 4 \
+      --online-ivector-dir exp/mini_librispeech/ivectors_dev_clean_2_hires \
+      --post-decode-acwt 10.0 \
+      $tree_dir/graph_tgsmall \
+      data/mini_librispeech/dev_clean_2_hires \
+      exp/chain2_multi/mini_librispeech/decode_tgsmall_dev_clean_2_hires || exit 1
+  )
+fi
+
+if [ $stage -le 21 ]; then
+  # Decode Tunisian MSA
+  tree_dir=exp/tunisian_msa
+  utils/mkgraph.sh \
+    --self-loop-scale 1.0 \
+    data/tunisian_msa/lang \
     $tree_dir \
     $tree_dir/graph_tgsmall || exit 1;
 fi
