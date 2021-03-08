@@ -68,6 +68,8 @@ if [ $stage -le 0 ]; then
     [ -d devtest ] || cp -R ../../../s5a/data/devtest ./;
     # Copy the test directory
     [ -d test ] || cp -R ../../../s5a/data/test ./;
+    # Copy the lang_test directory
+    [ -d lang_test ] || cp -R ../../../s5a/data/lang_test ./;
   )
 
   # Copy exp directories from tunisian_msa
@@ -558,9 +560,9 @@ if [ $stage -le 21 ]; then
   tree_dir=exp/tunisian_msa
   utils/mkgraph.sh \
     --self-loop-scale 1.0 \
-    data/tunisian_msa/lang \
+    data/tunisian_msa/lang_test \
     $tree_dir \
-    $tree_dir/graph_tgsmall || exit 1;
+    $tree_dir/graph || exit 1;
 fi
 
 if [ $stage -le 20 ]; then
