@@ -565,7 +565,7 @@ if [ $stage -le 21 ]; then
     $tree_dir/graph || exit 1;
 fi
 
-if [ $stage -le 20 ]; then
+if [ $stage -le 22 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   # Extract high resolution MFCCs from dev data
   utils/copy_data_dir.sh \
