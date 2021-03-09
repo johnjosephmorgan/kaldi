@@ -574,7 +574,7 @@ if [ $stage -le 22 ]; then
   steps/make_mfcc.sh \
     --cmd "$train_cmd" \
     --mfcc-config conf/mfcc_hires.conf \
-    --nj 16 \
+    --nj 2 \
     data/tunisian_msa/devtest_hires || exit 1;
     steps/compute_cmvn_stats.sh \
       data/tunisian_msa/devtest_hires || exit 1;
@@ -582,7 +582,7 @@ if [ $stage -le 22 ]; then
   # Do the  decoding pass
   steps/online/nnet2/extract_ivectors_online.sh \
     --cmd "$train_cmd" \
-    --nj 20 \
+    --nj 2 \
     data/tunisian_msa/devtest_hires \
     exp/multi/extractor \
     exp/tunisian_msa/ivectors_devtest_hires || exit 1;
