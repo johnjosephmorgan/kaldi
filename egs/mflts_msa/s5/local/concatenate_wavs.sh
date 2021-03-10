@@ -73,3 +73,10 @@ for m in ${a[@]}; do
 done
 
 paste out_diarized/concats/$i/wavs.txt out_diarized/concats/$i/starts.txt out_diarized/concats/$i/durs.txt > out_diarized/concats/$i/segment_info.txt
+
+# remove the process files
+# We do not want to use them again
+# this should implement sampling without replacement
+for m in ${a[@]}; do
+  [ -f $m ] || rm $m
+done
