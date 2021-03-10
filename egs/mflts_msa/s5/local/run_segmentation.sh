@@ -8,6 +8,7 @@
 stage=0
 
 # begin setting configuration variables
+workdir=work
 input_extension=flac
 mfcc_hires_config=conf/mfcc_hires.conf
 sad_sampling_rate=16k
@@ -74,11 +75,12 @@ languages=langs.txt
 # end of setting configuration variables
 
 # loop over source flac files
-for src in out_diarized/flacs/*; do
+for src in
+    $workdir/flacs/*; do
   # Make the working directory
   base=$(basename $src .$input_extension)
   # Remove the file extension to get the directory name
-  working_dir=out_diarized/work/recordings/$i/${base}
+  working_dir=$workdir/recordings/$i/${base}
   mkdir -p $working_dir/speechactivity
 
   #echo "$0 Stage 0: Write parameter files for Kaldi SAD."
