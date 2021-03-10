@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 # Download and unpack in the main directory
-if [ ! -f 0012_sad_v1.tar.gz ]; th
-   en
+if [ ! -f 0012_sad_v1.tar.gz ]; then
   wget http://kaldi-asr.org/models/12/0012_sad_v1.tar.gz
   tar -zxf 0012_sad_v1.tar.gz
   (
