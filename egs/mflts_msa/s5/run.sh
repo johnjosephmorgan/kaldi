@@ -6,7 +6,7 @@
 . ./path.sh
 
 # Start setting variables
-datadir=/mnt/corpora/MFLTS_MSA
+datadir=/mnt/corpora/mflts
 num_pairs=10000
 num_overlaps=10000
 stage=0
