@@ -4,11 +4,15 @@
 
 # source the path.sh file to get the value of the KALDI_ROOT variable.
 . ./path.sh
+
+# Start setting variables
+datadir=/mnt/corpora/MFLTS_MSA
 num_pairs=10000
 num_overlaps=10000
 stage=0
-. utils/parse_options.sh
+# Stop setting variables
 
+. utils/parse_options.sh
 
 if [ $stage -le 0 ]; then
   # Get the Kaldi SAD and Diarization models
@@ -16,11 +20,11 @@ if [ $stage -le 0 ]; then
 fi
 
 # Make the directory where we store all the work
-mkdir -p out_diarized
+mkdir -p work
 
 if [ $stage -le 1 ]; then
   # Get and prepare the  source waveform recording files
-  local/get_and_convert_data.sh
+  local/get_and_convert_data.sh $datadir
 fi
 
 if [ $stage -le 2 ]; then
