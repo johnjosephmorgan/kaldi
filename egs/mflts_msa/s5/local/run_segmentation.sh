@@ -75,8 +75,7 @@ languages=langs.txt
 # end of setting configuration variables
 
 # loop over source flac files
-for src in
-    $workdir/flacs/*; do
+for src in $workdir/flacs/*; do
   # Make the working directory
   base=$(basename $src .$input_extension)
   # Remove the file extension to get the directory name
