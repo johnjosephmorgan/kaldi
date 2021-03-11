@@ -170,7 +170,7 @@ if [ $stage -le 2 ]; then
   echo "Pooling training data in $multi_data_dir_for_ivec on" $(date)
   mkdir -p $multi_data_dir_for_ivec
   combine_lang_list=""
-  for lang in mini_librispeech tunisian_msa;do
+  for lang in mini_librispeech tunisian_msa heroico;do
     utils/copy_data_dir.sh \
       --spk-prefix ${lang}- \
       --utt-prefix ${lang}- \
@@ -216,7 +216,7 @@ fi
 
 if [ $stage -le 6 ]; then
   echo "$0: Extracts ivector for all languages  ."
-  for lang in mini_librispeech tunisian_msa; do
+  for lang in mini_librispeech tunisian_msa heroico; do
     utils/data/modify_speaker_info.sh \
       --utts-per-spk-max 2 \
       data/$lang/train_sp_hires \
@@ -232,7 +232,7 @@ if [ $stage -le 6 ]; then
 fi
 
 dir_basename=$(basename $dir)
-for lang in mini_librispeech tunisian_msa; do
+for lang in mini_librispeech tunisian_msa heroico; do
   multi_lores_data_dirs[${lang}]=data/$lang/train_sp
   multi_data_dirs[${lang}]=data/$lang/train_sp_hires
   multi_egs_dirs[${lang}]=exp/$lang/egs
@@ -250,7 +250,7 @@ ivector_dim=$(feat-to-dim scp:exp/mini_librispeech/ivectors_train_sp_hires/ivect
 feat_dim=`feat-to-dim scp:data/mini_librispeech/train_sp_hires/feats.scp -`
 
 if [ $stage -le 7 ]; then
-  for lang in mini_librispeech tunisian_msa;do
+  for lang in mini_librispeech tunisian_msa heroico;do
     if [ -d data/$lang/lang_chain ]; then
       if [ data/$lang/lang_chain/L.fst -nt data/$lang/lang/L.fst ]; then
         echo "$0: data/$lang/lang_chain already exists, not overwriting it; continuing"
@@ -276,7 +276,7 @@ fi
 if [ $stage -le 8 ]; then
   # Get the alignments as lattices (gives the chain training more freedom).
   # use the same num-jobs as the alignments
-  for lang in mini_librispeech tunisian_msa;do
+  for lang in mini_librispeech tunisian_msa heroico;do
     # Get alignments for languages separately
     langdir=data/$lang/lang
     # Use low resolution features
@@ -296,7 +296,7 @@ if [ $stage -le 8 ]; then
 fi 
 
 if [ $stage -le 9 ]; then
-  for lang in mini_librispeech tunisian_msa;do
+  for lang in mini_librispeech tunisian_msa heroico;do
     # A tree for each separate language
     echo "$0: Building tree for $lang"
     tree_dir=exp/$lang
@@ -353,7 +353,7 @@ if [ $stage -le 10 ]; then
   output-layer name=output-xent input=tdnn7 dim=$num_targets learning-rate-factor=$learning_rate_factor max-change=1.5
 EOF
   # added separate outptut layer and softmax for all languages.
-  for lang in mini_librispeech tunisian_msa;do
+  for lang in mini_librispeech tunisian_msa heroico;do
     tree_dir=exp/$lang
     num_targets=$(tree-info $tree_dir/tree 2>/dev/null | grep num-pdfs | awk '{print $2}') || exit 1;
 
@@ -398,7 +398,7 @@ egs_left_context=$[model_left_context+(frame_subsampling_factor/2)+extra_left_co
 egs_right_context=$[model_right_context+(frame_subsampling_factor/2)+extra_right_context]
 
 if [ $stage -le 12 ]; then
-  for lang in mini_librispeech tunisian_msa;do
+  for lang in mini_librispeech tunisian_msa heroico;do
     tree_dir=exp/$lang
     ali_dir=exp/$lang/tri3b_ali_sp
       gmm_dir=exp/$lang/tri3b
@@ -422,7 +422,7 @@ if [ $stage -le 12 ]; then
 fi
 
 if [ $stage -le 13 ]; then
-  for lang in mini_librispeech tunisian_msa;do
+  for lang in mini_librispeech tunisian_msa heroico;do
     echo "$0: Generating raw egs for $lang"
     train_ivector_dir=exp/$lang/ivectors_train_sp_hires
     train_data_dir=data/$lang/train_sp_hires
@@ -464,7 +464,7 @@ fi
 if [ $stage -le 15 ]; then
   [ ! -d $dir/egs/misc ] && mkdir  $dir/egs/misc
   echo "$0: Copying den.fst to $dir/egs/misc"
-  for lang in mini_librispeech tunisian_msa;do
+  for lang in mini_librispeech tunisian_msa heroico;do
     cp $dir/den_fsts/${lang}.*fst $dir/egs/misc/
     cp $dir/init/${lang}_trans.mdl $dir/egs/misc/${lang}.trans_mdl
     [ -L $dir/egs/info_${lang}.txt ] || ln -rs $dir/egs/info.txt $dir/egs/info_${lang}.txt
@@ -508,7 +508,7 @@ fi
 if [ $stage -le 18 ]; then
   echo "$0: Splitting models"
   frame_subsampling_factor=`fgrep "frame_subsampling_factor" $dir/init/info.txt | awk '{print $2}'`
-  for lang in mini_librispeech tunisian_msa;do
+  for lang in mini_librispeech tunisian_msa heroico;do
     [[ ! -d $dir/$lang ]] && mkdir $dir/$lang
     nnet3-copy --edits="rename-node old-name=output new-name=output-dummy; rename-node old-name=output-$lang new-name=output" \
       $dir/final.raw - | \
