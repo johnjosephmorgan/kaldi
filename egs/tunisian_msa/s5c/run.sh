@@ -109,7 +109,7 @@ if [ $stage -le 0 ]; then
     echo "Copy data directories from heroico."
     [ -d data/heroico ] || mkdir -p data/heroico;
     cd data/heroico
-    [ -d lang ] || cp -R ../../../../heroico/s5a/data/lang ./;
+    [ -d lang ] || cp -R ../../../../heroico/s5/data/lang ./;
     [ -d lang_test ] || cp -R ../../../../heroico/s5/data/lang ./;
     [ -d train ] || cp -R ../../../../heroico/s5/data/train ./train;
     [ -d devtest ] || cp -R ../../../../heroico/s5/data/devtest ./;
