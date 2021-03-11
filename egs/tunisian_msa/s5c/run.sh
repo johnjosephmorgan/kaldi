@@ -121,7 +121,7 @@ if [ $stage -le 0 ]; then
     [ -d exp/heroico ] || mkdir -p exp/heroico;
     cd exp/heroico
     [ -d tri3b ] || cp -R ../../../../heroico/s5/exp/tri3b ./;
-    [ -d tri3b_ali ] || cp -R ../../../../heroico/s5/exp/tri3b_ali_train ./tri3b_ali;
+    [ -d tri3b_ali ] || cp -R ../../../../heroico/s5/exp/tri3b_ali ./tri3b_ali;
   )
 fi
 
