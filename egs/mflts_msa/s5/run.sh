@@ -37,7 +37,7 @@ if [ $stage -le 3 ]; then
   for rec in work/flacs/*; do
     # Write segment .wav files from thresholded clustering."
     base=$(basename $rec .flac)
-    ./local/labels2wav.pl $rec work/segments/$base
+    ./local/labels2wav.pl $rec work/recordings/$base
   done
 fi
 
@@ -53,7 +53,7 @@ if [ $stage -le 5 ]; then
 fi
 
 if [ $stage -le 6 ]; then
-  mkdir -p out_diarized/overlaps
+  mkdir -p work/overlaps
   n=$(find out_diarized/work/speakers -type f -name "*_samples.txt" | wc -l)
   #echo "There are $n sample files."
   # Loop a lot of times
