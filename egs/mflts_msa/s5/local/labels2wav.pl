@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# labels2wav_3.pl - Make audio files from diarization.
+# labels2wav.pl - Make audio files from diarization.
 
 use strict;
 use warnings;
@@ -18,7 +18,7 @@ my ($src,$out) = @ARGV;
 
 my $base = basename $src, ".flac";
 my $labels = "$out/clusters/labels_threshold";
-my $out_dir = "out_diarized/speakers/$base";
+my $out_dir = "work/speakers/$base";
 
 open my $LABELS, '<', $labels or croak "Problem with $labels $!";
 my $i = 1000;
