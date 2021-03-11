@@ -33,10 +33,11 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ]; then
-  for rec in out_diarized/flacs/*; do
+  mkdir -p work/segmented
+  for rec in work/flacs/*; do
     # Write segment .wav files from thresholded clustering."
     base=$(basename $rec .flac)
-    ./local/labels2wav_3.pl $rec out_diarized/work/recordings/$base
+    ./local/labels2wav.pl $rec work/segments/$base
   done
 fi
 
