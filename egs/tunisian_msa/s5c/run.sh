@@ -451,7 +451,7 @@ fi
 
 if [ $stage -le 14 ]; then
   echo "$0: Combining egs"
-  egs_dir_list="$dir/tunisian_msa_processed_egs $dir/mini_librispeech_processed_egs"
+  egs_dir_list="$dir/tunisian_msa_processed_egs $dir/mini_librispeech_processed_egs $dir/heroico_processed_egs"
   local/combine_egs.sh \
     $egs_opts \
     --cmd "$train_cmd" \
