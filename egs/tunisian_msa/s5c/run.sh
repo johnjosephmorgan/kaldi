@@ -126,7 +126,7 @@ if [ $stage -le 0 ]; then
 fi
 
 if [ $stage -le 1 ]; then
-  for lang in mini_librispeech tunisian_msa; do
+  for lang in mini_librispeech tunisian_msa heroico; do
     echo "Speed perturbing $lang training data."
     ./utils/data/perturb_data_dir_speed_3way.sh \
       data/$lang/train \
