@@ -50,20 +50,20 @@ fi
 
 if [ $stage -le 5 ]; then
   # Write the duration information to file
-    # We ran the previous stage separately because it uses sox
-    # We store the files under work/samples
+  # We ran the previous stage separately because it uses sox
+  # We store the files under work/samples
   local/get_samples.sh
 fi
 
 if [ $stage -le 6 ]; then
   mkdir -p work/overlaps
-  n=$(find work/speakers -type f -name "*_samples.txt" | wc -l)
+  n=$(find work/samples -type f -name "*_samples.txt" | wc -l)
   #echo "There are $n sample files."
   # Loop a lot of times
   for ((i=0;i<=n;i++)); do
     # randomly choose files to process
-    s1=$(find out_diarized/work/speakers -type f -name "*_samples.txt" | shuf -n 1)
-    s2=$(find out_diarized/work/speakers -type f -name "*_samples.txt" | shuf -n 1)
+    s1=$(find work/samples -type f -name "*_samples.txt" | shuf -n 1)
+    s2=$(find work/samples -type f -name "*_samples.txt" | shuf -n 1)
     local/overlap.sh $s1 $s2
     # delete the 2 files we just processed
     # this should implement sampling without replacement

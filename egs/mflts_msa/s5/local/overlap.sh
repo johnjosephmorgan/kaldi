@@ -6,7 +6,7 @@ if [ $# -ne 2 ]; then
 fi
 
 # The 2 input files have the pattern:
-# out_diarized/work/speakers/<REC>_{1,2,3}/<base>_samples.txt
+# work/samples/<REC>_{1,2,3}/<base>_samples.txt
 
 # Get the 2 input files 
 a=$1
@@ -36,15 +36,15 @@ b_spk=$(basename $b_spk_dir)
 #echo "b spk $b_spk"
 
 # Make a name for the directory that will contain the overlapped file
-a_b_base_dir=out_diarized/overlaps/${a_spk}_${b_spk}_${a_base}_${b_base}
+a_b_base_dir=work/overlaps/${a_spk}_${b_spk}_${a_base}_${b_base}
 #echo "a b base dir $a_b_base_dir"
 mkdir -p $a_b_base_dir
 
 # We need to pass the wav file to the marker script
-a_wav=out_diarized/speakers/$a_spk/$a_base.wav
+a_wav=work/speakers/$a_spk/$a_base.wav
 #echo "a wav $a_wav"
 
-b_wav=out_diarized/speakers/$b_spk/$b_base.wav
+b_wav=work/speakers/$b_spk/$b_base.wav
 #echo "b wav $b_wav"
 
 # check that the wav files exist
