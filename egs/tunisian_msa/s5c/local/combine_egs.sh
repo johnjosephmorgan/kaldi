@@ -18,8 +18,9 @@ frames_per_job=1500000
 left_context=13
 right_context=9
 # TODO: add lang2weight support
-lang2weight[0]="0.3";
-lang2weight[1]="0.7";
+lang2weight[0]="0.6";
+lang2weight[1]="0.2";
+lang2weight[2]="0.2";
                         # w.r.t its input language during training.
 lang_list=(tunisian_msa mini_librispeech heroico)
 
