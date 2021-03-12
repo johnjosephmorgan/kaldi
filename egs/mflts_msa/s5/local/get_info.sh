@@ -4,7 +4,7 @@
 # The information for each audio file is stored in a file called samples.txt
 
 # loop over each speaker directory
-for s in out_diarized/speakers/*; do
+for s in work/speakers/*; do
   # loop over each segment for the current speaker
   for f in $s/*.wav; do
     [ ! -f $f ] && exit 1;
@@ -15,7 +15,7 @@ for s in out_diarized/speakers/*; do
       # get the current speaker id
       spk=$(basename $spk_path)
       # make a name for the directory where we will store the work for the current audio files
-      dir=out_diarized/work/speakers/$spk
+      dir=work/samples/$spk
       # make the output directory
       mkdir -p $dir
       # use sox to get  information on  current file and store in info.txt

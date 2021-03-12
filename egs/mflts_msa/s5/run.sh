@@ -35,7 +35,9 @@ fi
 if [ $stage -le 3 ]; then
   mkdir -p work/segmented
   for rec in work/flacs/*; do
-    # Write segment .wav files from thresholded clustering."
+    # Write segment .wav files from thresholded clustering.
+      # the files are written to directories under work/speakers.
+      # There is a directory for each speaker.
     base=$(basename $rec .flac)
     ./local/labels2wav.pl $rec work/recordings/$base
   done
