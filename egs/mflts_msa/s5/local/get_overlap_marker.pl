@@ -36,7 +36,7 @@ my $seg_1_spk_path = dirname $seg_1;
 # Get    the speaker ID
 my $seg_1_spk = basename $seg_1_spk_path;
 # Piece together the name of the samples file for the first segment
-my $seg_1_samples_fn = "out_diarized/work/speakers/$seg_1_spk/${seg_1_base}_samples.txt";
+my $seg_1_samples_fn = "work/samples/$seg_1_spk/${seg_1_base}_samples.txt";
 # Check the the samples file exists
 croak "$!" if ( -z $seg_1_samples_fn );
 # Set 2 dummy variables that do not get used.
@@ -59,7 +59,7 @@ close $SEGONESAMPLES;
 my $seg_2_base = basename $seg_2, ".wav";
 my $seg_2_spk_path = dirname $seg_2;
 my $seg_2_spk = basename $seg_2_spk_path;
-my $seg_2_samples_fn = "out_diarized/work/speakers/$seg_2_spk/${seg_2_base}_samples.txt";
+my $seg_2_samples_fn = "work/samples/$seg_2_spk/${seg_2_base}_samples.txt";
 croak "$!" if ( -z $seg_2_samples_fn );
     open my $SEGTWOSAMPLES, '<', $seg_2_samples_fn or croak "Problem with file $seg_2_samples_fn $!";
 while ( my $line = <$SEGTWOSAMPLES> ) {
@@ -72,7 +72,7 @@ my $decimal_target_percentage = $target_percentage / 100;
 # Recording ID
 my $rec_id = "${seg_1_spk}_${seg_2_spk}_${seg_1_base}_${seg_2_base}";
 # Make the output directory
-my $output_marker_path = "out_diarized/overlaps/$rec_id";
+my $output_marker_path = "work/overlaps/$rec_id";
 system "mkdir -p $output_marker_path";
 # Open the output start and end marker files for writing
 my $segment_2_start = "$output_marker_path/segment_2_start.txt";
