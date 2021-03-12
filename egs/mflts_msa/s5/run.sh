@@ -50,13 +50,14 @@ fi
 
 if [ $stage -le 5 ]; then
   # Write the duration information to file
-  # We ran the previous stage separately because it uses sox 
+    # We ran the previous stage separately because it uses sox
+    # We store the files under work/samples
   local/get_samples.sh
 fi
 
 if [ $stage -le 6 ]; then
   mkdir -p work/overlaps
-  n=$(find out_diarized/work/speakers -type f -name "*_samples.txt" | wc -l)
+  n=$(find work/speakers -type f -name "*_samples.txt" | wc -l)
   #echo "There are $n sample files."
   # Loop a lot of times
   for ((i=0;i<=n;i++)); do
