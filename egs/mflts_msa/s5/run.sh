@@ -72,8 +72,8 @@ if [ $stage -le 6 ]; then
 fi
 
 if [ $stage -le 7 ]; then
-    mkdir -p out_diarized/concats
-  n=$(find out_diarized/overlaps -type f -name "max.wav" | wc -l)
+    mkdir -p work/concats
+  n=$(find work/overlaps -type f -name "max.wav" | wc -l)
   for ((i=0;i<=n;i++)); do
     local/concatenate_wavs.sh $i
   done
