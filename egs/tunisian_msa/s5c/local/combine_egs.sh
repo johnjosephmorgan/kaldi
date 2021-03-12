@@ -21,7 +21,7 @@ right_context=9
 lang2weight[0]="0.3";
 lang2weight[1]="0.7";
                         # w.r.t its input language during training.
-lang_list=(tunisian_msa mini_librispeech)
+lang_list=(tunisian_msa mini_librispeech heroico)
 
 echo "$0 $@"  # Print the command line for logging
 
