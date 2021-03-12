@@ -13,7 +13,7 @@ for s in work/speakers/*; do
       # get the current speaker id
       spk=$(basename $spk_path)
       # make a name for the directory where we will store the work for the current audio files
-      dir=work/segments/$spk
+      dir=work/samples/$spk
       # put filename and duration into samples.txt
       paste $dir/${base}_filename.txt $dir/${base}_duration.txt > $dir/${base}_samples.txt
   done
