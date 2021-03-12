@@ -10,7 +10,7 @@ use Carp;
 BEGIN {
     @ARGV == 1 or croak "USAGE: $0 <DIRECTORY>
 For Example:
-$0 out_diarized/concats/0
+$0 work/concats/0
 ";
 }
 
