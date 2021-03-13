@@ -4,7 +4,7 @@ stage=0
 train=true   # set to false to disable the training-related scripts
              # note: you probably only want to set --train false if you
              # are using at least --stage 1.
-decode=true  # set to false to disable the decoding-related scripts.
+decode=false  # set to false to disable the decoding-related scripts.
 
 . ./cmd.sh ## You'll want to change cmd.sh to something that will work on your system.
            ## This relates to the queue.
@@ -23,8 +23,8 @@ decode=true  # set to false to disable the decoding-related scripts.
 #wsj0=/data/corpora0/LDC93S6B
 #wsj1=/data/corpora0/LDC94S13B
 
-wsj0=/export/corpora5/LDC/LDC93S6B
-wsj1=/export/corpora5/LDC/LDC94S13B
+wsj0=/mnt/corpora/LDC93S6B
+wsj1=/mnt/corpora/LDC94S13B
 
 
 if [ $stage -le 0 ]; then
