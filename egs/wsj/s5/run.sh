@@ -23,8 +23,8 @@ decode=false  # set to false to disable the decoding-related scripts.
 #wsj0=/data/corpora0/LDC93S6B
 #wsj1=/data/corpora0/LDC94S13B
 
-wsj0=/mnt/corpora/LDC93S6B
-wsj1=/mnt/corpora/LDC94S13B
+wsj0=/mnt/corpora/LDC93S6B/csr_1_senn
+wsj1=/mnt/corpora/LDC94S13B/csr_senn
 
 
 if [ $stage -le 0 ]; then
