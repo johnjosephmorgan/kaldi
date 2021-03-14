@@ -213,6 +213,13 @@ if [ $stage -le 4 ]; then
     steps/train_sat.sh --cmd "$train_cmd" 4200 40000 \
       data/train_si284 data/lang_nosp exp/tri2b_ali_si284 exp/tri3b || exit 1;
   fi
+  steps/align_fmllr.sh \
+    --nj 30 \
+    --cmd "$train_cmd" \
+    data/train_si284 \
+    data/lang \
+    exp/tri3b \
+    exp/tri3b_ali_si284 || exit 1;
 
   if $decode; then
     utils/mkgraph.sh data/lang_nosp_test_tgpr \
