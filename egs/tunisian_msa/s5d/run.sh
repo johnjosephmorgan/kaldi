@@ -21,6 +21,7 @@ cmd=run.pl
 common_egs_dir=  # you can set this to use previously dumped egs.
 decode_lang_list=(tunisian_msa)
 dir=exp/chain2_multi
+egs_dir_list="$dir/tunisian_msa_processed_egs $dir/mini_librispeech_processed_egs $dir/heroico_processed_egs $dir/wsj_processed_egs"
 extra_left_context=50
 extra_right_context=0
 final_effective_lrate=0.0001
@@ -470,7 +471,6 @@ fi
 
 if [ $stage -le 14 ]; then
   echo "$0: Combining egs"
-  egs_dir_list="$dir/tunisian_msa_processed_egs $dir/mini_librispeech_processed_egs $dir/heroico_processed_egs"
   local/combine_egs.sh \
     $egs_opts \
     --cmd "$train_cmd" \
