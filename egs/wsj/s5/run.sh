@@ -335,8 +335,8 @@ exit 0;
 # Train and test MMI, and boosted MMI, on tri4b (LDA+MLLT+SAT on
 # all the data).  Use 30 jobs.
 # Note: there isn't much use for this these days.
-#steps/align_fmllr.sh --nj 30 --cmd "$train_cmd" \
-#  data/train_si284 data/lang exp/tri4b exp/tri4b_ali_si284 || exit 1;
+steps/align_fmllr.sh --nj 30 --cmd "$train_cmd" \
+  data/train_si284 data/lang exp/tri4b exp/tri4b_ali_si284 || exit 1;
 #local/run_mmi_tri4b.sh
 
 # The following are the old nnet2 recipes.
