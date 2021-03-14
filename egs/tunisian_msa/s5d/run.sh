@@ -42,7 +42,7 @@ srand=-1
 stage=-1
 train_set=train
 train_stage=-10
-xent_regularize=0.01
+xent_regularize=0.1
 # done setting variables
 
 . ./path.sh
