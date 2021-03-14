@@ -81,7 +81,7 @@ fi
 
 # write the rttm files
 if [ $stage -le 8 ]; then
-   for i in out_diarized/concats/*; do
+  for i in work/concats/*; do
        local/pairs2rttm.pl $i
    done
 fi
