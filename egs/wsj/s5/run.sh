@@ -27,7 +27,7 @@ wsj0=/mnt/corpora/LDC93S6B/csr_1_senn
 wsj1=/mnt/corpora/LDC94S13B/csr_senn
 
 
-if [ $stage -le 0 ]; then
+if [ $stage -le -1 ]; then
   # data preparation.
   local/wsj_data_prep.sh $wsj0/??-{?,??}.? $wsj1/??-{?,??}.?  || exit 1;
 
@@ -66,7 +66,9 @@ if [ $stage -le 0 ]; then
       local/wsj_train_lms.sh --dict-suffix "_nosp" &&
       local/wsj_format_local_lms.sh --lang-suffix "_nosp" # &&
   ) &
+fi
 
+if [ $stage -le 0 ]; then
   # Now make MFCC features.
   # mfccdir should be some place with a largish disk where you
   # want to store MFCC features.
