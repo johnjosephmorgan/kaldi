@@ -28,7 +28,7 @@ if [ $stage -le 0 ]; then
     # remove previous wav.scp
     [ -f data/$f/wav.scp ] && rm data/$f/wav.scp;
     mkdir -p data/$f
-    local/make_wav.scp.pl $f
+    local/make_wav.scp.pl $data_dir $f
   done
 fi
 

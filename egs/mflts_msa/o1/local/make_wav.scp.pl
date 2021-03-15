@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use Carp;
 
-my ($fld) = @ARGV;
+my ($datadir,$fld) = @ARGV;
 
 open my $FLDRTTM, '+>', "data/$fld/overlap.rttm" or croak "Problem with data/$fld/overlap.rttm $!";
 my %place = ();
