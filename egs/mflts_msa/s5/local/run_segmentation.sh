@@ -6,9 +6,9 @@
 . ./path.sh
 . utils/parse_options.sh
 stage=0
+workdir=$1
 
 # begin setting configuration variables
-workdir=work
 input_extension=flac
 mfcc_hires_config=conf/mfcc_hires.conf
 sad_sampling_rate=16k
@@ -280,7 +280,7 @@ echo "1" > $working_dir/speechactivity/num_jobs
       --read-costs=$read_costs \
       --first-pass-max-utterances=$first_pass_max_utterances \
       --verbose=2 \
-      "scp:utils/filter_scp.pl $working_dir/segmented/init/spk2utt $working_dir/segmented/subsegmented/scores.scp |" ark,t:$working_dir/segmented/init/spk2utt ark,t:$working_dir/clusters/labels_threshold
+      "scp:utils/filter_scp.pl $working_dir/segmented/init/spk2utt $working_dir/segmented/subsegmented/scores.scp |" ark,t:$working_dir/segmented/init/spk2utt ark,t:$working_dir/labels_threshold
 
 
 
@@ -288,6 +288,8 @@ echo "1" > $working_dir/speechactivity/num_jobs
   diarization/make_rttm.py \
     --rttm-channel 1 \
     $working_dir/segmented/init/segments \
-    $working_dir/clusters/labels_threshold \
+    $working_dir/labels_threshold \
     $working_dir/clusters/rttm || exit 1;
+  # cleaen up
+  rm -Rf $working_dir/{segmented,speechactivity,clusters}
 done

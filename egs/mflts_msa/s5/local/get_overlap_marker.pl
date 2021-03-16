@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use Carp;
 
-# Input: 3 arguments, 2 file names and a number.
+# Input4 3 arguments, the working directory, 2 file names and a number.
 # The 2 files are the segmetns we want to overlap.
 # We want the resulting file to overlap by a percentage given by the third argument.
 # OUtput: A 2 files
@@ -13,19 +13,19 @@ use Carp;
 # 1 file containing number indicating the sample where the overlap ends.
 
 # This script assumes that:
-# The input segment wav files have been written to a directory called wavs
+# The input segment wav files have been written to a directory called 
 # Information about the input segments has been written to a directory called speakers
 # The information is in a file with extension _samples.txt.
 
 BEGIN {
-    @ARGV == 3 or croak "USAGE $0 <First_Segment_file_name> <second_Segment_file_name> <Target_overlap_percentage>";
+    @ARGV == 4 or croak "USAGE $0 <WORK DIR> <First_Segment_file_name> <second_Segment_file_name> <Target_overlap_percentage>";
 }
 
 use File::Basename;
 use List::Util qw( min max );
 
 # Get the input arguments.
-my ($seg_1,$seg_2,$target_percentage) = @ARGV;
+my ($workdir,$seg_1,$seg_2,$target_percentage) = @ARGV;
 
 # First we need the lengths of the 2 segments
 # Get the info file corresponding to the first segment
@@ -36,7 +36,7 @@ my $seg_1_spk_path = dirname $seg_1;
 # Get    the speaker ID
 my $seg_1_spk = basename $seg_1_spk_path;
 # Piece together the name of the samples file for the first segment
-my $seg_1_samples_fn = "work/samples/$seg_1_spk/${seg_1_base}_samples.txt";
+my $seg_1_samples_fn = "$workdir/samples/$seg_1_spk/${seg_1_base}_samples.txt";
 # Check the the samples file exists
 croak "$!" if ( -z $seg_1_samples_fn );
 # Set 2 dummy variables that do not get used.
@@ -59,7 +59,7 @@ close $SEGONESAMPLES;
 my $seg_2_base = basename $seg_2, ".wav";
 my $seg_2_spk_path = dirname $seg_2;
 my $seg_2_spk = basename $seg_2_spk_path;
-my $seg_2_samples_fn = "work/samples/$seg_2_spk/${seg_2_base}_samples.txt";
+my $seg_2_samples_fn = "$workdir/samples/$seg_2_spk/${seg_2_base}_samples.txt";
 croak "$!" if ( -z $seg_2_samples_fn );
     open my $SEGTWOSAMPLES, '<', $seg_2_samples_fn or croak "Problem with file $seg_2_samples_fn $!";
 while ( my $line = <$SEGTWOSAMPLES> ) {
@@ -72,7 +72,7 @@ my $decimal_target_percentage = $target_percentage / 100;
 # Recording ID
 my $rec_id = "${seg_1_spk}_${seg_2_spk}_${seg_1_base}_${seg_2_base}";
 # Make the output directory
-my $output_marker_path = "work/overlaps/$rec_id";
+my $output_marker_path = "$workdir/overlaps/$rec_id";
 system "mkdir -p $output_marker_path";
 # Open the output start and end marker files for writing
 my $segment_2_start = "$output_marker_path/segment_2_start.txt";
@@ -142,7 +142,16 @@ SAMPLE: for my $i ( 0 .. ($samples_1 + $samples_2 ) ) {
 	print $TOT $current_total_length;
 	print $DUR $current_overlap_length;
 	print $RTTMONE "SPEAKER $rec_id 0 0       $samples_1 <NA> <NA> $seg_1_spk <NA> <NA>";
-print $RTTMTWO "SPEAKER $rec_id 0 $segment_2_start       $current_overlap_length <NA> <NA> $seg_2_spk <NA> <NA>";
+	print $RTTMTWO "SPEAKER $rec_id 0 $segment_2_start       $current_overlap_length <NA> <NA> $seg_2_spk <NA> <NA>";
+	#system "rm $output_marker_path/overlap_duration.txt";
+	#system "rm $output_marker_path/segment_2_start.txt";
+	#system "rm $output_marker_path/overlap_segment_1_end.txt";
+	#system "rm $output_marker_path/segment_2_end.txt";
+	#system "rm $output_marker_path/speaker_1.txt";
+	#system "rm $output_marker_path/speaker_2.txt";
+	#system "rm $output_marker_path/rec_id.txt";
+	#system "rm $output_marker_path/segment_1.rttm";
+	#system "rm $output_marker_path/segment_2.rttm";
 	#croak "We hit the target!";
 	exit()
     } elsif ( $current_overlap_percentage > $decimal_target_percentage ) {
@@ -162,6 +171,16 @@ print $RTTMTWO "SPEAKER $rec_id 0 $segment_2_start       $current_overlap_length
 	print $DUR $current_overlap_length;
 	print $RTTMONE "SPEAKER $rec_id 0 0       $samples_1 <NA> <NA> $seg_1_spk <NA> <NA>";
 	print $RTTMTWO "SPEAKER $rec_id 0 $segment_2_start       $current_overlap_length <NA> <NA> $seg_2_spk <NA> <NA>";
+	# clean up
+	#system "rm $output_marker_path/overlap_duration.txt";
+	#system "rm $output_marker_path/segment_2_start.txt";
+	#system "rm $output_marker_path/overlap_segment_1_end.txt";
+	#system "rm $output_marker_path/segment_2_end.txt";
+	#system "rm $output_marker_path/speaker_1.txt";
+	#system "rm $output_marker_path/speaker_2.txt";
+	#system "rm $output_marker_path/rec_id.txt";
+	#system "rm $output_marker_path/segment_1.rttm";
+	#system "rm $output_marker_path/segment_2.rttm";
 	$show_percentage = $current_overlap_percentage * 100;
 	exit();
 	croak "We overshot the target !\nDone getting marker for $seg_1 and $seg_2.\nTarget Percent: $target_percentage\n Achieved percentage: $show_percentage.\noverlap length: $current_overlap_length\nTotal length: $current_total_length\n";

@@ -205,3 +205,4 @@ The start of the next overlapping region will be at the summ of the current mark
 Where will the end points be located
 The end of the overlapping region wil be given by the sum of the current marker and the distance between the current marker and the end of the first of the 2 segments being processed.
 ?
+d~

@@ -8,7 +8,7 @@ use Carp;
 # output: an rttm file with the recording-level overlap information
 
 BEGIN {
-    @ARGV == 1 or croak "USAGE: $0 <DIRECTORY>
+  @ARGV == 1 or croak "USAGE: $0 <DIRECTORY>
 For Example:
 $0 work/concats/0
 ";
@@ -27,18 +27,18 @@ my $start_2 = 0;
 
 # There is 1 pair per line in the input file
 while ( my $line = <$PAIRS> ) {
-    chomp $line;
-    # first split the 2 pairs on the pattern SPEAKER
-    # a_1 has information on the first segment a_3 on the second
-    my ($a_1,$a_2,$a_3) = split /\<NA\>(SPEAKER)/, $line, 2;
-    # There are 4 relevant fields: rec_id, start, duration, and speaker id
-    my ($type_1,$rec_id_1,$chn_1,$begin_1,$dur_1,$foo_1,$foo_2,$spk_1,$foo_3) = split /\s+/, $a_1, 9;
-    # We need the times in seconds
-    my $start_1_in_seconds = $start_1 / 32000;
-    my $dur_1_in_seconds = $dur_1 / 32000;
-    # WRite the fields for the first segment on 1 line
-    print $RTTM "SPEAKER $rec_id_1 $chn_1 $start_1_in_seconds $dur_1 \<NA\> \<NA\> $spk_1 \<NA\> \<NA\>\n";
-    # get the fields for the  second segment
+  chomp $line;
+  # first split the 2 pairs on the pattern SPEAKER
+  # a_1 has information on the first segment a_3 on the second
+  my ($a_1,$a_2,$a_3) = split /\<NA\>(SPEAKER)/, $line, 2;
+  # There are 4 relevant fields: rec_id, start, duration, and speaker id
+  my ($type_1,$rec_id_1,$chn_1,$begin_1,$dur_1,$foo_1,$foo_2,$spk_1,$foo_3) = split /\s+/, $a_1, 9;
+  # We need the times in seconds
+  my $start_1_in_seconds = $start_1 / 32000;
+  my $dur_1_in_seconds = $dur_1 / 32000;
+  # WRite the fields for the first segment on 1 line
+  print $RTTM "SPEAKER $rec_id_1 $chn_1 $start_1_in_seconds $dur_1_in_seconds \<NA\> \<NA\> $spk_1 \<NA\> \<NA\>\n";
+  # get the fields for the  second segment
     my ($empty,$rec_id_2,$chn_2,$begin_2,$dur_2,$foo_5,$foo_6,$spk_2,$foo_7,$foo_8) = split /\s+/, $a_3, 9;
     # update start for segment 2
     $start_2 += $begin_2;

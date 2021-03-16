@@ -2,9 +2,10 @@
 
 # This script Gets duration information for the segmented audio recordings.
 # The information for each audio file is stored in a file called samples.txt
+workdir=$1
 
 # loop over each speaker directory
-for s in work/speakers/*; do
+for s in $workdir/speakers/*; do
   # loop over each segment for the current speaker
   for f in $s/*.wav; do
     [ ! -f $f ] && exit 1;
@@ -15,7 +16,7 @@ for s in work/speakers/*; do
       # get the current speaker id
       spk=$(basename $spk_path)
       # make a name for the directory where we will store the work for the current audio files
-      dir=work/samples/$spk
+      dir=$workdir/samples/$spk
       # make the output directory
       mkdir -p $dir
       # use sox to get  information on  current file and store in info.txt
