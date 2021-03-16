@@ -83,8 +83,6 @@ def main():
             else:
                 spkr = parts[7]
 
-        start_time = float(start_time / 32000)
-        end_time = float(end_time / 32000)
         st = int(start_time * 100)
         end = int(end_time * 100)
         utt = "{0}-{1:06d}-{2:06d}".format(spkr, st, end)

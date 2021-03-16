@@ -23,8 +23,9 @@ dir=exp/ovl_${affix}
 . utils/parse_options.sh
 
 declare -a place;
-if [ $stage -le 0 ]; then
+if [ $stage -le 1 ]; then
   for f in dev test train; do
+    echo "Making wav.scp file for $f."
     # remove previous wav.scp
     [ -f data/$f/wav.scp ] && rm data/$f/wav.scp;
     mkdir -p data/$f
@@ -41,7 +42,6 @@ if [ $stage -le 2 ]; then
       <(awk '{print $2" "$2" "$3}' data/$fld/overlap.rttm |sort -u) \
       data/$fld/utt2spk data/$fld/segments
     utils/utt2spk_to_spk2utt.pl data/$fld/utt2spk > data/$fld/spk2utt
-
     utils/fix_data_dir.sh data/$fld
   done
 fi
