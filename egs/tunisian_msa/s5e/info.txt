@@ -1,2 +1,0 @@
-dir_type randomized_chain_egs
-langs tunisian_msa mini_librispeech heroico wsj
