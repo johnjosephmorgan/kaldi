@@ -428,8 +428,8 @@ EOF
   rm $dir/configs/temp.info
 fi
 
-#model_left_context=$(awk '/^model_left_context/ {print $2;}' $dir/init/info.txt)
-#model_right_context=$(awk '/^model_right_context/ {print $2;}' $dir/init/info.txt)
+model_left_context=$(awk '/^model_left_context/ {print $2;}' $dir/init/info.txt)
+model_right_context=$(awk '/^model_right_context/ {print $2;}' $dir/init/info.txt)
 if [ -z $model_left_context ]; then
   echo "ERROR: Cannot find entry for model_left_context in $dir/init/info.txt"
 fi
