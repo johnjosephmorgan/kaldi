@@ -14,7 +14,7 @@ set -e
 cmd=
 block_size=256
 stage=0
-frames_per_job=1500000  
+frames_per_job=3000000  
 left_context=13
 right_context=9
 # TODO: add lang2weight support
