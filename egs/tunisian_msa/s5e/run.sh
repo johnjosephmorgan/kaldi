@@ -492,7 +492,7 @@ if [ $stage -le 13 ]; then
 fi
 
 if [ $stage -le 14 ]; then
-    egs_opts='$lang2weights'
+    egs_opts="$lang2weights"
   echo "$0: Combining egs"
   local/combine_egs.sh \
     $egs_opts \
