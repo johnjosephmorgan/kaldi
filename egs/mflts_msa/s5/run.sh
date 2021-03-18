@@ -7,7 +7,7 @@
 
 # Start setting variables
 datadir=~/mflts
-num_pairs=10000
+num_concatenated_pairs=1000
 num_overlaps=10000
 stage=0
 workdir=work
@@ -81,7 +81,7 @@ if [ $stage -le 7 ]; then
   n=$(find $workdir/overlaps -type f -name "max.wav" | wc -l)
   echo "There are $n overlap pairs."
   for ((i=0;i<=n;i++)); do
-    local/concatenate_wavs.sh $workdir $i
+    local/concatenate_wavs.sh $workdir $i $num_concatenated_pairs
   done
   find $workdir -empty -delete
 fi

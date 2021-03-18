@@ -4,7 +4,7 @@ declare -a a
 workdir=$1
 i=$2
 # set the number of pairs to concatenate
-n=2
+n=$3
 # make the output directory
 mkdir -p $workdir/concats/$i
 
