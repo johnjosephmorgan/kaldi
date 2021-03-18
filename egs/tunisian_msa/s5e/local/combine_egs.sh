@@ -24,7 +24,7 @@ lang2weight[2]="0.2";
 lang2weight[3]="0.2";
 lang2weight[4]="0.2";
                         # w.r.t its input language during training.
-lang_list=
+lang_list=(tunisian_msa mini_librispeech heroico wsj sprakbanken)
 
 echo "$0 $@"  # Print the command line for logging
 
