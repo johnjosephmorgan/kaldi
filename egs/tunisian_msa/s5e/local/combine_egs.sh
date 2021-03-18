@@ -48,7 +48,7 @@ EOF
 fi
 
 num_langs=$1
-if [ $# != $[$num_langs+3] ]; then
+if [ $# != $[$num_langs+2] ]; then
   echo "$0: num of input example dirs provided is not compatible with num_langs $num_langs."
   echo "Usage:$0 [opts] <num-input-langs,N> <lang1-egs-dir> ...<langN-egs-dir> <multilingual-egs-dir>"
   echo "Usage:$0 [opts] 2 exp/lang1/egs exp/lang2/egs exp/multi/egs"
