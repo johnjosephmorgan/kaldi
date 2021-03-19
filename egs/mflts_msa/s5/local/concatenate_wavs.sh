@@ -22,7 +22,7 @@ done
 
 if [ ${#a[@]} -eq 0 ]; then exit 1; fi
 if [ $j -le 1 ]; then exit 1; fi
-echo "The number of files being concatenated is $j"
+
 # make the output directory
 mkdir -p $workdir/concats/$i
 # concatenate all the segments
