@@ -566,18 +566,6 @@ if [ $stage -le 18 ]; then
 fi
 
 if [ $stage -le 19 ]; then
-  # Note: it's not important to give mkgraph.sh the lang directory with the
-  # matched topology (since it gets the topology file from the model).
-  # Decode mini_librispeech
-  tree_dir=exp/mini_librispeech
-  utils/mkgraph.sh \
-    --self-loop-scale 1.0 \
-    data/mini_librispeech/lang_nosp_test_tgsmall \
-    $tree_dir \
-    $tree_dir/graph_tgsmall || exit 1;
-fi
-
-if [ $stage -le 20 ]; then
   # Decode Tunisian MSA
   tree_dir=exp/tunisian_msa
   utils/mkgraph.sh \
@@ -589,43 +577,45 @@ fi
 
 if [ $stage -le 22 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
-  # Extract high resolution MFCCs from dev data
-  utils/copy_data_dir.sh \
-    data/tunisian_msa/devtest \
-    data/tunisian_msa/devtest_hires || exit 1;
-  steps/make_mfcc.sh \
-    --cmd "$train_cmd" \
-    --mfcc-config conf/mfcc_hires.conf \
-    --nj 2 \
-    data/tunisian_msa/devtest_hires || exit 1;
+  # Extract high resolution MFCCs from dev and test data
+  for f in devtest test; do
+    utils/copy_data_dir.sh \
+      data/tunisian_msa/$f \
+      data/tunisian_msa/${f}_hires || exit 1;
+    steps/make_mfcc.sh \
+      --cmd "$train_cmd" \
+      --mfcc-config conf/mfcc_hires.conf \
+      --nj 2 \
+      data/tunisian_msa/${f}_hires || exit 1;
     steps/compute_cmvn_stats.sh \
-      data/tunisian_msa/devtest_hires || exit 1;
-    utils/fix_data_dir.sh data/tunisian_msa/devtest_hires || exit 1;
-  # Do the  decoding pass
-  steps/online/nnet2/extract_ivectors_online.sh \
-    --cmd "$train_cmd" \
-    --nj 2 \
-    data/tunisian_msa/devtest_hires \
-    exp/multi/extractor \
-    exp/tunisian_msa/ivectors_devtest_hires || exit 1;
+      data/tunisian_msa/${f}_hires || exit 1;
+    utils/fix_data_dir.sh data/tunisian_msa/${f}_hires || exit 1;
+    # Do the  decoding pass
+    steps/online/nnet2/extract_ivectors_online.sh \
+      --cmd "$train_cmd" \
+      --nj 2 \
+      data/tunisian_msa/${f}_hires \
+      exp/multi/extractor \
+      exp/tunisian_msa/ivectors_${f}_hires || exit 1;
 
-  (
-    nspk=$(wc -l <data/tunisian_msa/devtest_hires/spk2utt)
-    tree_dir=exp/tunisian_msa || exit 1;
-    steps/nnet3/decode.sh \
-      --acwt 1.0 \
-      --cmd "$decode_cmd"  \
-      --extra-left-context $egs_left_context \
-      --extra-left-context-initial 0 \
-      --extra-right-context $egs_right_context \
-      --extra-right-context-final 0 \
-      --frames-per-chunk $frames_per_chunk \
-      --nj $nspk \
-      --num-threads 4 \
-      --online-ivector-dir exp/tunisian_msa/ivectors_devtest_hires \
-      --post-decode-acwt 10.0 \
-      $tree_dir/graph \
-      data/tunisian_msa/devtest_hires \
-      exp/chain2_multi/tunisian_msa/decode_devtest_hires || exit 1
-  )
+    (
+      nspk=$(wc -l <data/tunisian_msa/${f}_hires/spk2utt)
+      tree_dir=exp/tunisian_msa || exit 1;
+      steps/nnet3/decode.sh \
+        --acwt 1.0 \
+        --cmd "$decode_cmd"  \
+        --extra-left-context $egs_left_context \
+        --extra-left-context-initial 0 \
+        --extra-right-context $egs_right_context \
+        --extra-right-context-final 0 \
+        --frames-per-chunk $frames_per_chunk \
+        --nj $nspk \
+        --num-threads 4 \
+        --online-ivector-dir exp/tunisian_msa/ivectors_${f}_hires \
+        --post-decode-acwt 10.0 \
+        $tree_dir/graph \
+        data/tunisian_msa/${f}_hires \
+        exp/chain2_multi/tunisian_msa/decode_${f}_hires || exit 1
+    )
+  done
 fi
