@@ -7,7 +7,7 @@
 
 # Start setting variables
 datadir=~/mflts
-num_concatenated_pairs=1000
+num_concatenated_pairs=200
 num_overlaps=10000
 stage=0
 workdir=work
@@ -41,13 +41,13 @@ if [ $stage -le 3 ]; then
     # Each recording has 3 speakers
     # The Soldier, The motorist and the interpretor.
     base=$(basename $rec .flac)
-    ./local/labels2wav.pl $workdir $rec $workdir/recordings/$base
+    local/labels2wav.pl $workdir $rec $workdir/recordings/$base
   done
 fi
 
 if [ $stage -le 4 ]; then
-    # use sox to get information about wav files
-    # The information is written to files with extension _samples.txt
+  # use sox to get information about wav files
+  # The information is written to files with extension _samples.txt
   local/get_info.sh $workdir
 fi
 
@@ -59,11 +59,13 @@ if [ $stage -le 5 ]; then
 fi
 
 if [ $stage -le 6 ]; then
-  mkdir -p $workdir/overlaps
+    mkdir -p $workdir/overlaps
+    # How many sample files are there?
   n=$(find $workdir/samples -type f -name "*_samples.txt" | wc -l)
   echo "There are $n sample files."
+  # Compute half of the sample files
   ((m=n/2))
-  # Loop a lot of times
+  # Loop for half the number of sample files
   for ((i=0;i<=m;i++)); do
     # randomly choose files to process
     s1=$(find $workdir/samples -type f -name "*_samples.txt" | shuf -n 1)
@@ -74,6 +76,8 @@ if [ $stage -le 6 ]; then
     [ -f $s1 ] && rm $s1;
     [ -f $s2 ] && rm $s2;
   done
+  # REmove the segment audio files
+  rm -Rf $workdir/speakers
 fi
 
 if [ $stage -le 7 ]; then

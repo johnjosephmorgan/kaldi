@@ -1,21 +1,30 @@
 #!/usr/bin/env bash
 
+if [ $# -ne 3 ]; then
+    echo "USAGE $0 <WORKDIR> <ITERATION> <NUMBER_OF_PAIRS>"
+    exit 1;
+fi
+
 declare -a a
 workdir=$1
 i=$2
 # set the number of pairs to concatenate
 n=$3
-# make the output directory
-mkdir -p $workdir/concats/$i
-
+sync
 # find segment pairs to concatenate
 a=$(find $workdir/overlaps -type f -name "max.wav" | shuf -n $n)
 
 # check that the files exist
+j=0
 for m in ${a[@]}; do
-  [ -f $m ] || exit 1;
+  ((j++))
 done
 
+if [ ${#a[@]} -eq 0 ]; then exit 1; fi
+if [ $j -le 1 ]; then exit 1; fi
+echo "The number of files being concatenated is $j"
+# make the output directory
+mkdir -p $workdir/concats/$i
 # concatenate all the segments
 $(sox ${a[@]} $workdir/concats/$i/overlap.wav) || exit 1;
 
@@ -79,5 +88,5 @@ paste $workdir/concats/$i/wavs.txt $workdir/concats/$i/starts.txt $workdir/conca
 # We do not want to use them again
 # this should implement sampling without replacement
 for m in ${a[@]}; do
-  [ -f $m ] || rm $m
+  [ ! -f $m ] || rm $m
 done
