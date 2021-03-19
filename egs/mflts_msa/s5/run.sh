@@ -6,7 +6,7 @@
 . ./path.sh
 
 # Start setting variables
-datadir=~/mflts
+datadir=/mnt/corpora/mflts
 num_concatenated_pairs=200
 num_overlaps=10000
 stage=0
