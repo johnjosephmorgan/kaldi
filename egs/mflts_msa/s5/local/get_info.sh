@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # This script Gets duration information for the segmented audio recordings.
+# the audio recordings are stored under $workdir/speakers
 # The information for each audio file is stored in a file called samples.txt
 workdir=$1
 
