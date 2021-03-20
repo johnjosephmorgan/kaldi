@@ -14,7 +14,7 @@ lexicon=data/local/dict/lexicon.txt
 [ ! -f $lexicon ] && echo "$0: No such file $lexicon" && exit 1;
 
 # check if sri is installed or no
-sri_installed=false
+sri_installed=true
 which ngram-count  &>/dev/null
 if [[ $? == 0 ]]; then 
 sri_installed=true
