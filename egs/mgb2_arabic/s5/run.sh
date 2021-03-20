@@ -65,7 +65,7 @@ if [ $stage -le 2 ]; then
 fi
 
 # Using the training data transcript for building the language model
-LM_TEXT=DB/train/lm_text/lm_text_clean_bw
+LM_TEXT=DB/train/lm_text/lm_text_clean_utf8
 
 if [ $stage -le 3 ]; then
   #LM TRAINING: Using the training set transcript text for language modelling
