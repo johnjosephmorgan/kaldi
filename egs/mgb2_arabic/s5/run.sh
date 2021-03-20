@@ -32,7 +32,8 @@ mer=80
 
 # Location of lexicon
 # Download from https://github.com/qcri/ArabicASRChallenge2016/blob/master/lexicon/ar-ar_grapheme_lexicon
-LEXICON=ar-ar_grapheme_lexicon
+#LEXICON=ar-ar_grapheme_lexicon
+LEXICON=lexicon.txt
 
 nj=100  # split training into how many jobs?
 nDecodeJobs=80
@@ -59,7 +60,8 @@ fi
 if [ $stage -le 2 ]; then
   #LEXICON PREPARATION: The lexicon is also provided
   echo "Preparing dictionary"
-  local/graphgeme_mgb_prep_dict.sh $LEXICON
+  #local/graphgeme_mgb_prep_dict.sh $LEXICON
+  local/prepare_dict.sh $lexicon
 fi
 
 # Using the training data transcript for building the language model
