@@ -54,7 +54,7 @@ fi
 if [ $stage -le 1 ]; then
   #DATA PREPARATION
   echo "Preparing training data"
-  local/mgb_data_prep.sh DB $mer
+  local/mgb_data_prep.sh DB $mer $process_xml
 fi
 
 if [ $stage -le 2 ]; then
