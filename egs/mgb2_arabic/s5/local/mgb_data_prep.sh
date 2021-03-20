@@ -27,7 +27,7 @@ head -500 $train_dir/wav_list > $train_dir/wav_list.short
 
 set -e -o pipefail
 
-xmldir=$db_dir/train/xml/utf8
+xmldir=$db_dir/train/xml/bw
 # process xml file using python
 
 {
