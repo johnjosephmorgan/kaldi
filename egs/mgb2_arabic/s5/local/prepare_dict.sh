@@ -15,7 +15,7 @@ l=$1
 export LC_ALL=C
 
 cut -f2- -d " " $l | tr -s '[:space:]' '[\n*]' | grep -v SPN | \
-    sort -u | tail -n+2 > data/local/dict/nonsilence_phones.txt
+    sort -u  > data/local/dict/nonsilence_phones.txt
 
 expand -t 1 $l | sort -u | \
     sed "1d" > data/local/dict/lexicon.txt
