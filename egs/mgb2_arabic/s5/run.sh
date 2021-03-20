@@ -33,7 +33,7 @@ mer=80
 # Location of lexicon
 # Download from https://github.com/qcri/ArabicASRChallenge2016/blob/master/lexicon/ar-ar_grapheme_lexicon
 #LEXICON=ar-ar_grapheme_lexicon
-LEXICON=lexicon.txt
+lexicon=lexicon.txt
 
 nj=100  # split training into how many jobs?
 nDecodeJobs=80
