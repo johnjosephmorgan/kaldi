@@ -3,6 +3,7 @@
 stage=-1
 
 . ./cmd.sh
+. ./path.sh
 if [ -f ./path.sh ]; then . ./path.sh; fi
 . utils/parse_options.sh
 
@@ -97,10 +98,9 @@ if [ $stage -le 6 ]; then
   utils/fix_data_dir.sh data/train_mer80_subset500
 fi
 
-  echo "Training and Test data preparation succeeded"
-fi
+echo "Training and Test data preparation succeeded"
 
-if [ $stage -le 2 ]; then
+if [ $stage -le 7 ]; then
   #LEXICON PREPARATION: The lexicon is also provided
   echo "Preparing dictionary"
   #local/graphgeme_mgb_prep_dict.sh $LEXICON
