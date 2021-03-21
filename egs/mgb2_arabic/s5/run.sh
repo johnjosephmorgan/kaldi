@@ -55,6 +55,9 @@ if [ $stage -le 1 ]; then
   #DATA PREPARATION
   echo "Preparing training data"
   local/mgb_data_prep.sh DB $mer
+fi
+
+if [ $stage -le 2 ]; then
   for x in text segments; do
     cp DB/dev/${x}.all data/dev/${x}
 done
