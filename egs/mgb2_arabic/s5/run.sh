@@ -62,7 +62,8 @@ dev_dir=data/dev
   {
     while read basename; do
       [ ! -e $xmldir/$basename.xml ] && echo "Missing $xmldir/$basename.xml" && exit 1
-      local/process_xml.py $xmldir/$basename.xml - | local/add_to_datadir.py $basename $train_dir $mer
+      local/process_xml.py $xmldir/$basename.xml - > $train_dir/processed_text.txt
+      cat $train_dir/processed_text.txt | local/add_to_datadir.py $basename $train_dir $mer
     done
   } < $train_dir/wav_list;
 fi
