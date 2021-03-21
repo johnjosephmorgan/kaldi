@@ -64,7 +64,7 @@ dev_dir=data/dev
       [ ! -e $xmldir/$basename.xml ] && echo "Missing $xmldir/$basename.xml" && exit 1
       mkdir -p $train_dir/$basename
       local/process_xml.py \
-        $xmldir/$basename.xml - > \
+        $xmldir/$basename.xml > \
         $train_dir/$basename/processed_text.txt
     done
   } < $train_dir/wav_list;
