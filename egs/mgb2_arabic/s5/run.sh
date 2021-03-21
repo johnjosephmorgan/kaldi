@@ -62,7 +62,7 @@ dev_dir=data/dev
   for f in DB/train/xml/bw/*; do
     base=$(basename $f .xml)
     mkdir -p $train_dir/$base
-      local/process_xml.py \
+      python3 local/process_xml.py \
         $xmldir/$base.xml $train_dir/$base/processed_text.txt
   done
 fi
