@@ -52,12 +52,21 @@ dev_dir=data/dev
       mv $x/{wav.scp,feats.scp,utt2spk,spk2utt,segments,text} ${x}/.backup
     fi
   done
+  # Write the list of audio files
   find $db_dir/train/wav -type f -name "*.wav" | \
     awk -F/ '{print $NF}' | perl -pe 's/\.wav//g' > \
     $train_dir/wav_list
   #Creating the train program lists
   head -500 $train_dir/wav_list > $train_dir/wav_list.short
   xmldir=$db_dir/train/xml/bw
+  for f in DB/train/xml/bw/*; do
+    base=$(basename $f .xml)
+    mkdir -p $train_dir/$base
+      local/process_xml.py \
+        $xmldir/$base.xml $train_dir/$base/processed_text.txt
+  done
+fi
+
   # process xml file using python
   {
     while read basename; do
