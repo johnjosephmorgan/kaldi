@@ -1,29 +1,10 @@
 #!/usr/bin/env bash
 
-# Copyright (C) 2016, Qatar Computing Research Institute, HBKU
-#               2017-19 Vimal Manohar
-# Apache 2.0
-
 stage=-1
-
-# preference on how to process xml file [python, xml]
-process_xml="python"
 
 . ./cmd.sh
 if [ -f ./path.sh ]; then . ./path.sh; fi
 . utils/parse_options.sh
-
-# See README for instructions.
-# This script assumes that you are already familiar with Kaldi recipes.
-# This script assumes that you have downloaded the corpus and lexicon as 
-# mentioned in the README.
-
-# TO DO: you will need to choose the size of training set you want.
-# Here we select according to an upper threshhold on Matching Error
-# Rate from the lightly supervised alignment.  When using all the
-# training shows, this will give you training data speech segments of
-# approximate lengths listed below:
-
 
 set -e -o pipefail -u
 #FILTER OUT SEGMENTS BASED ON MER (Match Error Rate)
@@ -31,14 +12,10 @@ set -e -o pipefail -u
 mer=80  
 db_dir=DB
 # Location of lexicon
-# Download from https://github.com/qcri/ArabicASRChallenge2016/blob/master/lexicon/ar-ar_grapheme_lexicon
-#LEXICON=ar-ar_grapheme_lexicon
 lexicon=lexicon.txt
 
 nj=100  # split training into how many jobs?
 nDecodeJobs=80
-
-#1) Data preparation
 
 if [ $stage -le 0 ]; then
   #DATA PREPARATION
@@ -58,36 +35,23 @@ dev_dir=data/dev
     $train_dir/wav_list
   #Creating the train program lists
   head -500 $train_dir/wav_list > $train_dir/wav_list.short
-  xmldir=$db_dir/train/xml/bw
-  for f in DB/train/xml/bw/*; do
+  xmldir=$db_dir/train/xml/utf8
+  mkdir $train_dir/text_utf8
+  for f in DB/train/xml/utf8/*; do
     base=$(basename $f .xml)
-    mkdir -p $train_dir/$base
-      python3 local/process_xml.py \
-        $xmldir/$base.xml $train_dir/$base/processed_text.txt
+      local/process_xml.py \
+        $f $train_dir/text_utf8/$base.txt
   done
 fi
 
-  # process xml file using python
-  {
-    while read basename; do
-      [ ! -e $xmldir/$basename.xml ] && echo "Missing $xmldir/$basename.xml" && exit 1
-      mkdir -p $train_dir/$basename
-      local/process_xml.py \
-        $xmldir/$basename.xml - > \
-        $train_dir/$basename/processed_text.txt
-    done
-  } < $train_dir/wav_list;
+if [ $stage -le 1 ]; then
+  for f in $train_dir/text_utf8/*; do
+    base=$(basename $f .txt)
+    cat $f | local/add_to_datadir.py $base $train_dir $mer
+  done
 fi
 
-if [ $stage -le 1 ]; then
-  {
-    while read line; do
-      for f in $train_dir/$line/processed_text.txt 
-        cat $basename local/add_to_datadir.py $basename $train_dir $mer
-      for x in text segments; do
-    cp DB/dev/${x}.all data/dev/${x}
-done
-
+if [ $stage -le 2 ]; then
   find $db_dir/dev/wav -type f -name "*.wav" | \
     awk -F/ '{print $NF}' | perl -pe 's/\.wav//g' > \
     data/dev/wav_list
@@ -95,16 +59,20 @@ done
   for x in $(cat data/dev/wav_list); do 
     echo $x DB/dev/wav/$x.wav >> data/dev/wav.scp
   done
+fi
 
+
+if [ $stage -le 3 ]; then
   #Creating a file reco2file_and_channel which is used by convert_ctm.pl in local/score.sh script
   awk '{print $1" "$1" 1"}' data/dev/wav.scp > data/dev/reco2file_and_channel
-
 # Creating utt2spk for dev from segments
   if [ ! -f data/dev/utt2spk ]; then
     cut -d ' ' -f1 data/dev/segments > data/dev/utt_id
     cut -d '_' -f1-2 data/dev/utt_id | paste -d ' ' data/dev/utt_id - > data/dev/utt2spk
   fi
+fi
 
+if [ $stage -le 4 ]; then
   for list in overlap non_overlap; do
     rm -rf data/dev_${list} || true
     cp -r data/dev data/dev_${list}
@@ -112,17 +80,22 @@ done
       utils/filter_scp.pl DB/dev/${list}_speech data/dev/$x > data/dev_${list}/$x
     done
   done
+fi
 
+if [ $stage -le 5 ]; then
   for dir in data/train_mer80 data/dev data/dev_overlap data/dev_non_overlap; do
     utils/fix_data_dir.sh $dir
     utils/validate_data_dir.sh --no-feats $dir
   done
+fi
 
+if [ $stage -le 6 ]; then
   mkdir -p data/train_mer80_subset500
   utils/filter_scp.pl data/train_meer80/wav_list.short data/train_mer80/wav.scp > \
     data/train_mer80_subset500/wav.scp
   cp data/train_mer80/{utt2spk,segments,spk2utt} data/train_mer80_subset500
   utils/fix_data_dir.sh data/train_mer80_subset500
+fi
 
   echo "Training and Test data preparation succeeded"
 fi
