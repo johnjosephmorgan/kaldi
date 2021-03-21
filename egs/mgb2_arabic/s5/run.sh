@@ -36,23 +36,28 @@ dev_dir=data/dev
     $train_dir/wav_list
   #Creating the train program lists
   head -500 $train_dir/wav_list > $train_dir/wav_list.short
-  xmldir=$db_dir/train/xml/utf8
-  mkdir $train_dir/text_utf8
-  for f in DB/train/xml/utf8/*; do
-    base=$(basename $f .xml)
-      local/process_xml.py \
-        $f $train_dir/text_utf8/$base.txt
-  done
 fi
 
 if [ $stage -le 1 ]; then
-  for f in $train_dir/text_utf8/*; do
+  # This stage only is working by running it on the command line.
+  xmldir=$db_dir/train/xml/utf8
+  mkdir text/utf8
+  for f in DB/train/xml/utf8/*; do
+    base=$(basename $f .xml)
+      local/process_xml.py \
+        $f \
+        text/utf8/$base.txt
+  done
+fi
+
+if [ $stage -le 2 ]; then
+  for f in text/utf8/*; do
     base=$(basename $f .txt)
     cat $f | local/add_to_datadir.py $base $train_dir $mer
   done
 fi
 
-if [ $stage -le 2 ]; then
+if [ $stage -le 3 ]; then
   find $db_dir/dev/wav -type f -name "*.wav" | \
     awk -F/ '{print $NF}' | perl -pe 's/\.wav//g' > \
     data/dev/wav_list
@@ -63,7 +68,7 @@ if [ $stage -le 2 ]; then
 fi
 
 
-if [ $stage -le 3 ]; then
+if [ $stage -le 4 ]; then
   #Creating a file reco2file_and_channel which is used by convert_ctm.pl in local/score.sh script
   awk '{print $1" "$1" 1"}' data/dev/wav.scp > data/dev/reco2file_and_channel
 # Creating utt2spk for dev from segments
@@ -73,7 +78,7 @@ if [ $stage -le 3 ]; then
   fi
 fi
 
-if [ $stage -le 4 ]; then
+if [ $stage -le 5 ]; then
   for list in overlap non_overlap; do
     rm -rf data/dev_${list} || true
     cp -r data/dev data/dev_${list}
@@ -83,14 +88,14 @@ if [ $stage -le 4 ]; then
   done
 fi
 
-if [ $stage -le 5 ]; then
+if [ $stage -le 6 ]; then
   for dir in data/train_mer80 data/dev data/dev_overlap data/dev_non_overlap; do
     utils/fix_data_dir.sh $dir
     utils/validate_data_dir.sh --no-feats $dir
   done
 fi
 
-if [ $stage -le 6 ]; then
+if [ $stage -le 7 ]; then
   mkdir -p data/train_mer80_subset500
   utils/filter_scp.pl data/train_meer80/wav_list.short data/train_mer80/wav.scp > \
     data/train_mer80_subset500/wav.scp
@@ -100,7 +105,7 @@ fi
 
 echo "Training and Test data preparation succeeded"
 
-if [ $stage -le 7 ]; then
+if [ $stage -le 8 ]; then
   #LEXICON PREPARATION: The lexicon is also provided
   echo "Preparing dictionary"
   #local/graphgeme_mgb_prep_dict.sh $LEXICON
@@ -110,7 +115,7 @@ fi
 # Using the training data transcript for building the language model
 LM_TEXT=DB/train/lm_text/lm_text_clean_utf8
 
-if [ $stage -le 3 ]; then
+if [ $stage -le 9 ]; then
   #LM TRAINING: Using the training set transcript text for language modelling
   echo "Training n-gram language model"
   local/mgb_train_lms.sh $mer
@@ -120,13 +125,13 @@ if [ $stage -le 3 ]; then
   #local/mgb_train_lms_extra_pocolm.sh $LM_TEXT $mer
 fi
 
-if [ $stage -le 4 ]; then
+if [ $stage -le 10 ]; then
   #L Compilation
   echo "Preparing lang dir"
   utils/prepare_lang.sh data/local/dict "<UNK>" data/local/lang data/lang
 fi
 
-if [ $stage -le 5 ]; then
+if [ $stage -le 11 ]; then
   #G compilation
   local/mgb_format_data.sh --lang-test data/lang_test \
     --arpa-lm data/local/lm_mer80/3gram-mincount/lm_unpruned.gz
@@ -135,14 +140,14 @@ if [ $stage -le 5 ]; then
 fi
 
 # Uncomment if you want to use pocolm for language modeling 
-#if [ $stage -le 6 ]; then
+#if [ $stage -le 12 ]; then
 #  local/mgb_format_data.sh --lang-test data/lang_poco_test \
 #    --arpa-lm data/local/pocolm/data/arpa/4gram_small.arpa.gz
 #  utils/build_const_arpa_lm.sh data/local/pocolm/data/arpa/4gram_big.arpa.gz \
 #    data/lang_poco_test data/lang_poco_test_fg
 #fi
 
-if [ $stage -le 7 ]; then
+if [ $stage -le 13 ]; then
   #Calculating mfcc features
   mfccdir=mfcc
   if [[ $(hostname -f) == *.clsp.jhu.edu ]] && [ ! -d $mfccdir ]; then
@@ -160,18 +165,18 @@ if [ $stage -le 7 ]; then
   done
 fi
 
-if [ $stage -le 8 ]; then
+if [ $stage -le 14 ]; then
   #Taking 10k segments for faster training
   utils/subset_data_dir.sh data/train_mer${mer}_subset500 10000 data/train_mer${mer}_subset500_10k 
 fi
 
-if [ $stage -le 9 ]; then
+if [ $stage -le 15 ]; then
   #Monophone training
   steps/train_mono.sh --nj 80 --cmd "$train_cmd" \
     data/train_mer${mer}_subset500_10k data/lang exp/mer$mer/mono 
 fi
 
-if [ $stage -le 10 ]; then
+if [ $stage -le 16 ]; then
   #Monophone alignment
   steps/align_si.sh --nj $nj --cmd "$train_cmd" \
     data/train_mer${mer}_subset500 data/lang exp/mer$mer/mono exp/mer$mer/mono_ali 
@@ -189,7 +194,7 @@ if [ $stage -le 10 ]; then
   done
 fi
 
-if [ $stage -le 11 ]; then
+if [ $stage -le 17 ]; then
   #tri1 alignment
   steps/align_si.sh --nj $nj --cmd "$train_cmd" \
     data/train_mer${mer}_subset500 data/lang exp/mer$mer/tri1 exp/mer$mer/tri1_ali 
@@ -207,7 +212,7 @@ if [ $stage -le 11 ]; then
   done
 fi
 
-if [ $stage -le 12 ]; then
+if [ $stage -le 18 ]; then
   #tri2 alignment
   steps/align_si.sh --nj $nj --cmd "$train_cmd" \
     data/train_mer${mer}_subset500 data/lang exp/mer$mer/tri2 exp/mer$mer/tri2_ali
@@ -225,7 +230,7 @@ if [ $stage -le 12 ]; then
   done
 fi
 
-if [ $stage -le 13 ]; then
+if [ $stage -le 19 ]; then
   #tri3 alignment
   steps/align_si.sh --nj $nj --cmd "$train_cmd" --use-graphs true data/train_mer${mer}_subset500 data/lang exp/mer$mer/tri3 exp/mer$mer/tri3_ali
 
@@ -242,7 +247,7 @@ if [ $stage -le 13 ]; then
   done
 fi
 
-if [ $stage -le 14 ]; then
+if [ $stage -le 20 ]; then
   #sat alignment
   steps/align_fmllr.sh --nj $nj --cmd "$train_cmd" data/train_mer$mer data/lang exp/mer$mer/tri4 exp/mer$mer/tri4_ali
 
