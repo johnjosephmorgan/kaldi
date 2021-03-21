@@ -145,7 +145,6 @@ fi
 if [ $stage -le 12 ]; then
   #Calculating mfcc features
   mfccdir=mfcc
-  if [[ $(hostname  echo "Computing features"
   for x in train_mer$mer train_mer${mer}_subset500 dev_non_overlap dev_overlap ; do
     steps/make_mfcc.sh --nj $nj --cmd "$train_cmd" data/$x \
       exp/mer$mer/make_mfcc/$x/log $mfccdir
