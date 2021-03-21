@@ -53,7 +53,7 @@ fi
 if [ $stage -le 2 ]; then
   for f in text/utf8/*; do
     base=$(basename $f .txt)
-    cat $f | local/add_to_datadir.py $base datatrain_mer80
+    cat $f | local/add_to_datadir.py $base data/train_mer80
   done
 fi
 
