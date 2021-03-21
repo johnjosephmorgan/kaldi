@@ -142,23 +142,10 @@ if [ $stage -le 11 ]; then
     data/lang_test data/lang_test_fg
 fi
 
-# Uncomment if you want to use pocolm for language modeling 
-#if [ $stage -le 12 ]; then
-#  local/mgb_format_data.sh --lang-test data/lang_poco_test \
-#    --arpa-lm data/local/pocolm/data/arpa/4gram_small.arpa.gz
-#  utils/build_const_arpa_lm.sh data/local/pocolm/data/arpa/4gram_big.arpa.gz \
-#    data/lang_poco_test data/lang_poco_test_fg
-#fi
-
-if [ $stage -le 13 ]; then
+if [ $stage -le 12 ]; then
   #Calculating mfcc features
   mfccdir=mfcc
-  if [[ $(hostname -f) == *.clsp.jhu.edu ]] && [ ! -d $mfccdir ]; then
-    utils/create_split_dir.pl \
-      /export/b0{3,4,5,6}/$USER/kaldi-data/egs/mgb2_arabic-$(date +'%m_%d_%H_%M')/s5/$mfccdir/storage $mfccdir/storage
-  fi
-
-  echo "Computing features"
+  if [[ $(hostname  echo "Computing features"
   for x in train_mer$mer train_mer${mer}_subset500 dev_non_overlap dev_overlap ; do
     steps/make_mfcc.sh --nj $nj --cmd "$train_cmd" data/$x \
       exp/mer$mer/make_mfcc/$x/log $mfccdir
@@ -168,18 +155,18 @@ if [ $stage -le 13 ]; then
   done
 fi
 
-if [ $stage -le 14 ]; then
+if [ $stage -le 13 ]; then
   #Taking 10k segments for faster training
   utils/subset_data_dir.sh data/train_mer${mer}_subset500 10000 data/train_mer${mer}_subset500_10k 
 fi
 
-if [ $stage -le 15 ]; then
+if [ $stage -le 14 ]; then
   #Monophone training
   steps/train_mono.sh --nj 80 --cmd "$train_cmd" \
     data/train_mer${mer}_subset500_10k data/lang exp/mer$mer/mono 
 fi
 
-if [ $stage -le 16 ]; then
+if [ $stage -le 15 ]; then
   #Monophone alignment
   steps/align_si.sh --nj $nj --cmd "$train_cmd" \
     data/train_mer${mer}_subset500 data/lang exp/mer$mer/mono exp/mer$mer/mono_ali 
@@ -197,7 +184,7 @@ if [ $stage -le 16 ]; then
   done
 fi
 
-if [ $stage -le 17 ]; then
+if [ $stage -le 16 ]; then
   #tri1 alignment
   steps/align_si.sh --nj $nj --cmd "$train_cmd" \
     data/train_mer${mer}_subset500 data/lang exp/mer$mer/tri1 exp/mer$mer/tri1_ali 
@@ -215,7 +202,7 @@ if [ $stage -le 17 ]; then
   done
 fi
 
-if [ $stage -le 18 ]; then
+if [ $stage -le 17 ]; then
   #tri2 alignment
   steps/align_si.sh --nj $nj --cmd "$train_cmd" \
     data/train_mer${mer}_subset500 data/lang exp/mer$mer/tri2 exp/mer$mer/tri2_ali
@@ -233,7 +220,7 @@ if [ $stage -le 18 ]; then
   done
 fi
 
-if [ $stage -le 19 ]; then
+if [ $stage -le 18 ]; then
   #tri3 alignment
   steps/align_si.sh --nj $nj --cmd "$train_cmd" --use-graphs true data/train_mer${mer}_subset500 data/lang exp/mer$mer/tri3 exp/mer$mer/tri3_ali
 
@@ -250,7 +237,7 @@ if [ $stage -le 19 ]; then
   done
 fi
 
-if [ $stage -le 20 ]; then
+if [ $stage -le 19 ]; then
   #sat alignment
   steps/align_fmllr.sh --nj $nj --cmd "$train_cmd" data/train_mer$mer data/lang exp/mer$mer/tri4 exp/mer$mer/tri4_ali
 
