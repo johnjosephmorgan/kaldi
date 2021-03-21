@@ -62,14 +62,19 @@ dev_dir=data/dev
   {
     while read basename; do
       [ ! -e $xmldir/$basename.xml ] && echo "Missing $xmldir/$basename.xml" && exit 1
-      local/process_xml.py $xmldir/$basename.xml - > $train_dir/processed_text.txt
-      cat $train_dir/processed_text.txt | local/add_to_datadir.py $basename $train_dir $mer
+      local/process_xml.py \
+        $xmldir/$basename.xml - > \
+        $train_dir/$basename/processed_text.txt
     done
   } < $train_dir/wav_list;
 fi
 
 if [ $stage -le 1 ]; then
-  for x in text segments; do
+  {
+    while read line; do
+      for f in $train_dir/$line/processed_text.txt 
+        cat $basename local/add_to_datadir.py $basename $train_dir $mer
+      for x in text segments; do
     cp DB/dev/${x}.all data/dev/${x}
 done
 
