@@ -29,7 +29,7 @@ set -e -o pipefail -u
 #FILTER OUT SEGMENTS BASED ON MER (Match Error Rate)
 
 mer=80  
-
+db_dir=DB
 # Location of lexicon
 # Download from https://github.com/qcri/ArabicASRChallenge2016/blob/master/lexicon/ar-ar_grapheme_lexicon
 #LEXICON=ar-ar_grapheme_lexicon
@@ -38,26 +38,36 @@ lexicon=lexicon.txt
 nj=100  # split training into how many jobs?
 nDecodeJobs=80
 
-##########################################################
-#
-#  Recipe
-#
-##########################################################
-
-
 #1) Data preparation
 
 if [ $stage -le 0 ]; then
-  local/mgb_extract_data.sh DB
+  #DATA PREPARATION
+  echo "Preparing training data"
+  train_dir=data/train_mer$mer
+dev_dir=data/dev
+  for x in $train_dir $dev_dir; do
+    mkdir -p $x
+    if [ -f ${x}/wav.scp ]; then
+      mkdir -p ${x}/.backup
+      mv $x/{wav.scp,feats.scp,utt2spk,spk2utt,segments,text} ${x}/.backup
+    fi
+  done
+  find $db_dir/train/wav -type f -name "*.wav" | \
+    awk -F/ '{print $NF}' | perl -pe 's/\.wav//g' > \
+    $train_dir/wav_list
+  #Creating the train program lists
+  head -500 $train_dir/wav_list > $train_dir/wav_list.short
+  xmldir=$db_dir/train/xml/bw
+  # process xml file using python
+  {
+    while read basename; do
+      [ ! -e $xmldir/$basename.xml ] && echo "Missing $xmldir/$basename.xml" && exit 1
+      local/process_xml.py $xmldir/$basename.xml - | local/add_to_datadir.py $basename $train_dir $mer
+    done
+  } < $train_dir/wav_list;
 fi
 
 if [ $stage -le 1 ]; then
-  #DATA PREPARATION
-  echo "Preparing training data"
-  local/mgb_data_prep.sh DB $mer
-fi
-
-if [ $stage -le 2 ]; then
   for x in text segments; do
     cp DB/dev/${x}.all data/dev/${x}
 done
