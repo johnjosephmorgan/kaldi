@@ -58,6 +58,10 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ]; then
+  for x in text segments; do
+    cp DB/dev/${x}.all data/dev/${x}
+  done
+
   find $db_dir/dev/wav -type f -name "*.wav" | \
     awk -F/ '{print $NF}' | perl -pe 's/\.wav//g' > \
     data/dev/wav_list
@@ -66,7 +70,6 @@ if [ $stage -le 3 ]; then
     echo $x DB/dev/wav/$x.wav >> data/dev/wav.scp
   done
 fi
-
 
 if [ $stage -le 4 ]; then
   #Creating a file reco2file_and_channel which is used by convert_ctm.pl in local/score.sh script
