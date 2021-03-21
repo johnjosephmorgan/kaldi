@@ -112,7 +112,6 @@ echo "Training and Test data preparation succeeded"
 if [ $stage -le 8 ]; then
   #LEXICON PREPARATION: The lexicon is also provided
   echo "Preparing dictionary"
-  #local/graphgeme_mgb_prep_dict.sh $LEXICON
   local/prepare_dict.sh $lexicon
 fi
 
