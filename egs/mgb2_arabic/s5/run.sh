@@ -55,6 +55,47 @@ if [ $stage -le 1 ]; then
   #DATA PREPARATION
   echo "Preparing training data"
   local/mgb_data_prep.sh DB $mer
+  for x in text segments; do
+    cp DB/dev/${x}.all data/dev/${x}
+done
+
+  find $db_dir/dev/wav -type f -name "*.wav" | \
+    awk -F/ '{print $NF}' | perl -pe 's/\.wav//g' > \
+    data/dev/wav_list
+
+  for x in $(cat data/dev/wav_list); do 
+    echo $x DB/dev/wav/$x.wav >> data/dev/wav.scp
+  done
+
+  #Creating a file reco2file_and_channel which is used by convert_ctm.pl in local/score.sh script
+  awk '{print $1" "$1" 1"}' data/dev/wav.scp > data/dev/reco2file_and_channel
+
+# Creating utt2spk for dev from segments
+  if [ ! -f data/dev/utt2spk ]; then
+    cut -d ' ' -f1 data/dev/segments > data/dev/utt_id
+    cut -d '_' -f1-2 data/dev/utt_id | paste -d ' ' data/dev/utt_id - > data/dev/utt2spk
+  fi
+
+  for list in overlap non_overlap; do
+    rm -rf data/dev_${list} || true
+    cp -r data/dev data/dev_${list}
+    for x in segments text utt2spk; do
+      utils/filter_scp.pl DB/dev/${list}_speech data/dev/$x > data/dev_${list}/$x
+    done
+  done
+
+  for dir in data/train_mer80 data/dev data/dev_overlap data/dev_non_overlap; do
+    utils/fix_data_dir.sh $dir
+    utils/validate_data_dir.sh --no-feats $dir
+  done
+
+  mkdir -p data/train_mer80_subset500
+  utils/filter_scp.pl data/train_meer80/wav_list.short data/train_mer80/wav.scp > \
+    data/train_mer80_subset500/wav.scp
+  cp data/train_mer80/{utt2spk,segments,spk2utt} data/train_mer80_subset500
+  utils/fix_data_dir.sh data/train_mer80_subset500
+
+  echo "Training and Test data preparation succeeded"
 fi
 
 if [ $stage -le 2 ]; then
