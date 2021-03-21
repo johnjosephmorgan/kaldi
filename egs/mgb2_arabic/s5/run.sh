@@ -62,6 +62,7 @@ dev_dir=data/dev
   {
     while read basename; do
       [ ! -e $xmldir/$basename.xml ] && echo "Missing $xmldir/$basename.xml" && exit 1
+      mkdir -p $training_dir/$basename
       local/process_xml.py \
         $xmldir/$basename.xml - > \
         $train_dir/$basename/processed_text.txt
