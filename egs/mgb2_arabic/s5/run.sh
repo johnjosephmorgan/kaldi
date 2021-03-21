@@ -101,7 +101,7 @@ if [ $stage -le 7 ]; then
   #Creating the train program lists
   head -500 data/train_mer80/wav_list > data/train_mer80/wav_list.short
   mkdir -p data/train_mer80_subset500
-  utils/filter_scp.pl data/train_meer80/wav_list.short data/train_mer80/wav.scp > \
+  utils/filter_scp.pl data/train_mer80/wav_list.short data/train_mer80/wav.scp > \
     data/train_mer80_subset500/wav.scp
   cp data/train_mer80/{utt2spk,segments,spk2utt} data/train_mer80_subset500
   utils/fix_data_dir.sh data/train_mer80_subset500
