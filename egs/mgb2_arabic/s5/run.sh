@@ -33,9 +33,7 @@ dev_dir=data/dev
   # Write the list of audio files
   find $db_dir/train/wav -type f -name "*.wav" | \
     awk -F/ '{print $NF}' | perl -pe 's/\.wav//g' > \
-    $train_dir/wav_list
-  #Creating the train program lists
-  head -500 $train_dir/wav_list > $train_dir/wav_list.short
+    data/train_mer80/wav_list
 fi
 
 if [ $stage -le 1 ]; then
@@ -100,6 +98,8 @@ if [ $stage -le 6 ]; then
 fi
 
 if [ $stage -le 7 ]; then
+  #Creating the train program lists
+  head -500 data/train_mer80/wav_list > data/train_mer80/wav_list.short
   mkdir -p data/train_mer80_subset500
   utils/filter_scp.pl data/train_meer80/wav_list.short data/train_mer80/wav.scp > \
     data/train_mer80_subset500/wav.scp
