@@ -103,7 +103,7 @@ if [ $stage -le 7 ]; then
   mkdir -p data/train_mer80_subset500
   utils/filter_scp.pl data/train_mer80/wav_list.short data/train_mer80/wav.scp > \
     data/train_mer80_subset500/wav.scp
-  cp data/train_mer80/{utt2spk,segments,spk2utt} data/train_mer80_subset500
+  cp data/train_mer80/{text,utt2spk,segments,spk2utt} data/train_mer80_subset500
   utils/fix_data_dir.sh data/train_mer80_subset500
 fi
 
@@ -123,9 +123,6 @@ if [ $stage -le 9 ]; then
   echo "Training n-gram language model"
   local/mgb_train_lms.sh $mer
   local/mgb_train_lms_extra.sh $LM_TEXT $mer
-
-  # Uncomment if you want to use pocolm for language modeling 
-  #local/mgb_train_lms_extra_pocolm.sh $LM_TEXT $mer
 fi
 
 if [ $stage -le 10 ]; then
@@ -146,10 +143,16 @@ if [ $stage -le 12 ]; then
   #Calculating mfcc features
   mfccdir=mfcc
   for x in train_mer$mer train_mer${mer}_subset500 dev_non_overlap dev_overlap ; do
-    steps/make_mfcc.sh --nj $nj --cmd "$train_cmd" data/$x \
-      exp/mer$mer/make_mfcc/$x/log $mfccdir
-    steps/compute_cmvn_stats.sh data/$x \
-      exp/mer$mer/make_mfcc/$x/log $mfccdir
+    steps/make_mfcc.sh \
+      --nj $nj \
+      --cmd "$train_cmd" \
+      data/$x \
+      exp/mer80/make_mfcc/$x/log \
+      $mfccdir
+    steps/compute_cmvn_stats.sh \
+      data/$x \
+      exp/mer80/make_mfcc/$x/log \
+      $mfccdir
     utils/fix_data_dir.sh data/$x
   done
 fi
@@ -162,8 +165,8 @@ fi
 if [ $stage -le 14 ]; then
   #Monophone training
     steps/train_mono.sh \
-      --nj 40 \
       --cmd "$train_cmd" \
+      --nj 40 \
       data/train_mer80_subset500_10k \
       data/lang \
       exp/mer80/mono 
