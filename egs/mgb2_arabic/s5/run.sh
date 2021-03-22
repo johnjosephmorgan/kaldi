@@ -15,8 +15,8 @@ db_dir=DB
 # Location of lexicon
 lexicon=lexicon.txt
 
-nj=100  # split training into how many jobs?
-nDecodeJobs=80
+nj=24  # split training into how many jobs?
+nDecodeJobs=14
 
 if [ $stage -le 0 ]; then
   #DATA PREPARATION
@@ -178,8 +178,13 @@ if [ $stage -le 15 ]; then
     data/train_mer${mer}_subset500 data/lang exp/mer$mer/mono exp/mer$mer/mono_ali 
 
   #tri1 [First triphone pass]
-  steps/train_deltas.sh --cmd "$train_cmd" \
-    2500 30000 data/train_mer${mer}_subset500 data/lang exp/mer$mer/mono_ali exp/mer$mer/tri1 
+  steps/train_deltas.sh \
+    --cmd "$train_cmd" \
+    2500 30000 \
+    data/train_mer80_subset500 \
+    data/lang \
+    exp/mer80/mono_ali \
+    exp/mer80/tri1 
 fi
 
 if [ $stage -le 16 ]; then
@@ -187,13 +192,13 @@ if [ $stage -le 16 ]; then
   utils/mkgraph.sh data/lang_test exp/mer$mer/tri1 exp/mer$mer/tri1/graph
 
   for dev in dev_overlap dev_non_overlap; do
-      steps/decode.sh \
-	  --nj $nDecodeJobs \
-	  --cmd "$decode_cmd" \
-	  --config conf/decode.config \
-	  exp/mer80/tri1/graph \
-	  data/$dev \
-	  exp/mer80/tri1/decode_$dev &
+    steps/decode.sh \
+      --nj $nDecodeJobs \
+      --cmd "$decode_cmd" \
+      --config conf/decode.config \
+      exp/mer80/tri1/graph \
+      data/$dev \
+      exp/mer80/tri1/decode_$dev &
   done
 fi
 
@@ -208,8 +213,13 @@ if [ $stage -le 17 ]; then
     exp/mer80/tri1_ali 
 
   #tri2 [a larger model than tri1]
-  steps/train_deltas.sh --cmd "$train_cmd" \
-    3000 40000 data/train_mer${mer}_subset500 data/lang exp/mer$mer/tri1_ali exp/mer$mer/tri2
+  steps/train_deltas.sh \
+    --cmd "$train_cmd" \
+    3000 40000 \
+    data/train_mer80_subset500 \
+    data/lang \
+    exp/mer80/tri1_ali \
+    exp/mer80/tri2
 fi
 
 if [ $stage -le 18 ]; then
@@ -224,12 +234,22 @@ fi
 
 if [ $stage -le 19 ]; then
   #tri2 alignment
-  steps/align_si.sh --nj $nj --cmd "$train_cmd" \
-    data/train_mer${mer}_subset500 data/lang exp/mer$mer/tri2 exp/mer$mer/tri2_ali
+  steps/align_si.sh \
+    --cmd "$train_cmd" \
+    --nj $nj \
+    data/train_mer80_subset500 \
+    data/lang \
+    exp/mer80/tri2 \
+    exp/mer80/tri2_ali
 
   # tri3 training [LDA+MLLT]
-  steps/train_lda_mllt.sh --cmd "$train_cmd" \
-    4000 50000 data/train_mer${mer}_subset500 data/lang exp/mer$mer/tri1_ali exp/mer$mer/tri3
+  steps/train_lda_mllt.sh \
+    --cmd "$train_cmd" \
+    4000 50000 \
+    data/train_mer80_subset500 \
+    data/lang \
+    exp/mer80/tri1_ali \
+    exp/mer80/tri3
 fi
 
 if [ $stage -le 20 ]; then
@@ -244,11 +264,23 @@ fi
 
 if [ $stage -le 21 ]; then
   #tri3 alignment
-  steps/align_si.sh --nj $nj --cmd "$train_cmd" --use-graphs true data/train_mer${mer}_subset500 data/lang exp/mer$mer/tri3 exp/mer$mer/tri3_ali
+    steps/align_si.sh \
+	--cmd "$train_cmd" \
+	--nj $nj \
+	--use-graphs true \
+	data/train_mer80_subset500 \
+	data/lang \
+	exp/mer80/tri3 \
+	exp/mer80/tri3_ali
 
   #now we start building model with speaker adaptation SAT [fmllr]
-  steps/train_sat.sh  --cmd "$train_cmd" \
-    5000 100000 data/train_mer${mer}_subset500 data/lang exp/mer$mer/tri3_ali exp/mer$mer/tri4
+  steps/train_sat.sh  \
+    --cmd "$train_cmd" \
+    5000 100000 \
+    data/train_mer80_subset500 \
+    data/lang \
+    exp/mer80/tri3_ali \
+    exp/mer80/tri4
 fi
 
 if [ $stage -le 22 ]; then
@@ -263,13 +295,24 @@ fi
 
 if [ $stage -le 23 ]; then
   #sat alignment
-  steps/align_fmllr.sh --nj $nj --cmd "$train_cmd" data/train_mer$mer data/lang exp/mer$mer/tri4 exp/mer$mer/tri4_ali
+  steps/align_fmllr.sh \
+    --cmd "$train_cmd" \
+    --nj $nj \
+    data/train_mer80 \
+    data/lang \
+	exp/mer80/tri4 \
+	exp/mer80/tri4_ali
 
-  steps/train_sat.sh --cmd "$train_cmd" \
-    10000 150000 data/train_mer$mer data/lang \
-    exp/mer$mer/tri4_ali \
-    exp/mer$mer/tri5
+  steps/train_sat.sh \
+    --cmd "$train_cmd" \
+    10000 150000 \
+    data/train_mer80 \
+    data/lang \
+    exp/mer80/tri4_ali \
+    exp/mer80/tri5
+fi
 
+if [ $stage -le 24 ]; then
   utils/mkgraph.sh data/lang_test exp/mer$mer/tri5{,/graph}
 
   for dev in dev_overlap dev_non_overlap; do
