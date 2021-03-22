@@ -156,13 +156,17 @@ fi
 
 if [ $stage -le 13 ]; then
   #Taking 10k segments for faster training
-  utils/subset_data_dir.sh data/train_mer${mer}_subset500 10000 data/train_mer${mer}_subset500_10k 
+  utils/subset_data_dir.sh data/train_mer80_subset500 10000 data/train_mer80_subset500_10k
 fi
 
 if [ $stage -le 14 ]; then
   #Monophone training
-  steps/train_mono.sh --nj 80 --cmd "$train_cmd" \
-    data/train_mer${mer}_subset500_10k data/lang exp/mer$mer/mono 
+    steps/train_mono.sh \
+      --nj 40 \
+      --cmd "$train_cmd" \
+      data/train_mer80_subset500_10k \
+      data/lang \
+      exp/mer80/mono 
 fi
 
 if [ $stage -le 15 ]; then
