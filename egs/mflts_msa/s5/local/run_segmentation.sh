@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 
 # segment   and  cluster  the segments by speaker.
-
+# Assumes source recordings are under $workdir/flacs
+if [ $# -ne 1 ]; then
+  echo "USAGE: $0 <WORK_DIR>"
+exit 1;
+fi
+workdir=$1
 # source the path.sh file to get the value of the KALDI_ROOT variable.
 . ./path.sh
 . utils/parse_options.sh
 stage=0
-workdir=$1
 
 # begin setting configuration variables
 input_extension=flac
@@ -79,7 +83,7 @@ for src in $workdir/flacs/*; do
   # Make the working directory
   base=$(basename $src .$input_extension)
   # Remove the file extension to get the directory name
-  working_dir=$workdir/recordings/$i/${base}
+  working_dir=$workdir/recordings/${base}
   mkdir -p $working_dir/speechactivity
 
   #echo "$0 Stage 0: Write parameter files for Kaldi SAD."
