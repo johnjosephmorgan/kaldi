@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # chain2 recipe for mini_librispeech and Tunisian MSA
 
