@@ -6,9 +6,8 @@
 . ./path.sh
 
 # Start setting variables
-datadir=/mnt/corpora/mflts
+datadir=~/mflts
 num_concatenated_pairs=200
-num_overlaps=10000
 stage=0
 workdir=work
 # Stop setting variables
@@ -25,7 +24,8 @@ fi
 
 if [ $stage -le 1 ]; then
   # Get and prepare the  source waveform recording files
-  local/get_and_convert_data.sh $datadir $workdir
+  # recordings are written to the directory $workdir/flacs
+  local/mflts_get_and_convert_data.sh $datadir $workdir
 fi
 
 if [ $stage -le 2 ]; then
@@ -48,7 +48,7 @@ fi
 if [ $stage -le 4 ]; then
   # use sox to get information about wav files
   # The information is written to files with extension _samples.txt
-  local/get_info.sh $workdir
+    local/get_info.sh $workdir
 fi
 
 if [ $stage -le 5 ]; then
@@ -59,7 +59,7 @@ if [ $stage -le 5 ]; then
 fi
 
 if [ $stage -le 6 ]; then
-    mkdir -p $workdir/overlaps
+  mkdir -p $workdir/overlaps
     # How many sample files are there?
   n=$(find $workdir/samples -type f -name "*_samples.txt" | wc -l)
   echo "There are $n sample files."
@@ -79,7 +79,7 @@ if [ $stage -le 6 ]; then
   # REmove the segment audio files
   rm -Rf $workdir/speakers
 fi
-
+exit
 if [ $stage -le 7 ]; then
   mkdir -p $workdir/concats
   n=$(find $workdir/overlaps -type f -name "max.wav" | wc -l)
