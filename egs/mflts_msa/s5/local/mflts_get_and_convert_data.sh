@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+
+if [ $# -ne 2 ]; then
+  echo "USAGE $0 <DATA_DIR> <WORK_DIR>"
+exit 1;
+fi
+
 datadir=$1
 workdir=$2
 
