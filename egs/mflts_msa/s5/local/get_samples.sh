@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 # This script makes the files containing the number of samples
+if [ $# -ne 1 ]; then
+  echo "USAGE: $0 <WORK_DIR>"
+  exit 1;
+fi
 workdir=$1
 # loop over each speaker directory
 for s in $workdir/speakers/*; do
