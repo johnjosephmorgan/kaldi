@@ -313,14 +313,36 @@ if [ $stage -le 23 ]; then
 fi
 
 if [ $stage -le 24 ]; then
-  utils/mkgraph.sh data/lang_test exp/mer$mer/tri5{,/graph}
+  #sat alignment
+  steps/align_fmllr.sh \
+    --cmd "$train_cmd" \
+    --nj $nj \
+    data/train_mer80 \
+    data/lang \
+	exp/mer80/tri5 \
+	exp/mer80/tri5_ali
+fi
+
+if [ $stage -le 25 ]; then
+  utils/mkgraph.sh \
+    data/lang_test \
+    exp/mer80/tri5{,/graph}
 
   for dev in dev_overlap dev_non_overlap; do
-    steps/decode_fmllr.sh --nj $nDecodeJobs --cmd "$decode_cmd" --config conf/decode.config \
-      exp/mer$mer/tri5/graph data/$dev exp/mer$mer/tri5/decode_$dev
-    steps/lmrescore_const_arpa.sh --cmd "$decode_cmd" --config conf/decode.config \
-      data/lang_test data/lang_test_fg data/$dev \
-      exp/mer$mer/tri5/decode_${dev}{,_fg}
+    steps/decode_fmllr.sh \
+      --nj $nDecodeJobs \
+      --cmd "$decode_cmd" \
+      --config conf/decode.config \
+      exp/mer80/tri5/graph \
+      data/$dev \
+      exp/mer80/tri5/decode_$dev
+    steps/lmrescore_const_arpa.sh \
+	--cmd "$decode_cmd" \
+	--config conf/decode.config \
+	data/lang_test \
+	data/lang_test_fg \
+	data/$dev \
+      exp/mer80/tri5/decode_${dev}{,_fg}
   done
 fi
 
