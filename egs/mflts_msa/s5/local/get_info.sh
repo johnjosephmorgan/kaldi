@@ -3,6 +3,11 @@
 # This script Gets duration information for the segmented audio recordings.
 # the audio recordings are stored under $workdir/speakers
 # The information for each audio file is stored in a file called samples.txt
+if [ $# -ne 1 ]; then
+    echo "USAGE $0 <WORK_DIR>"
+    exit 1;
+fi
+
 workdir=$1
 
 # loop over each speaker directory
