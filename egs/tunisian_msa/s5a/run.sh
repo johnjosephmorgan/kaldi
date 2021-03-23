@@ -1,6 +1,4 @@
-#!/bin/bash 
-
-# Trains on 11 hours of speechfrom CTELL{ONE,TWO,THREE,FOUR,FIVE}
+#!/usr/bin/env bash 
 
 . ./cmd.sh
 . ./path.sh
@@ -141,6 +139,6 @@ if [ $stage -le 15 ]; then
 fi
 
 if [ $stage -le 16 ]; then
-  # train and test chain models
+    # train and test chain models
   local/chain/run_tdnn.sh
 fi
