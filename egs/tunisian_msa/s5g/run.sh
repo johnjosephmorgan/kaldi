@@ -195,8 +195,8 @@ if [ $stage -le 0 ]; then
     echo "Copy mgb2 exp directories."
     [ -d exp/mgb2 ] || mkdir -p exp/mgb2;
     cd exp/mgb2
-    [ -d tri3b ] || cp -R ../../../../mgb2_arabic/s5/exp/tri4 ./tri3b;
-    [ -d tri3b_ali ] || cp -R ../../../../mgb2_arabic/s5/exp/tri4_ali ./tri3b_ali;
+    [ -d tri3b ] || cp -R ../../../../mgb2_arabic/s5/exp/tri5 ./tri3b;
+    [ -d tri3b_ali ] || cp -R ../../../../mgb2_arabic/s5/exp/tri5_ali ./tri3b_ali;
 )
 fi
 
