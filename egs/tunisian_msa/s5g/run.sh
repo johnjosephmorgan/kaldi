@@ -98,7 +98,7 @@ if [ $stage -le 0 ]; then
     [ -d train ] || ln -s ../../../../gale_arabic/s5d/data/train ./train;
   )
 
-  # Copy gale_arabic exp directories
+  # link gale_arabic exp directories
   (
     echo "Copy gale_arabic exp directories."
     [ -d exp/gale_arabic ] || mkdir -p exp/gale_arabic;
@@ -107,7 +107,7 @@ if [ $stage -le 0 ]; then
     [ -d tri3b_ali ] || cp -s ../../../../gale_arabic/s5d/exp/tri3b_ali_train_clean_5 ./tri3b_ali;
   )
 
-  # Copy globalphone arabic data directories
+  # link globalphone arabic data directories
   (
     echo "Copy data directories from globalphone arabic ."
     [ -d data/globalphone_tunisian ] || mkdir -p data/globalphone_tunisian;
@@ -117,66 +117,13 @@ if [ $stage -le 0 ]; then
     [ -d train ] || cp -R ../../../../globalphone_tunisian/s5/data/train ./;
   )
 
-  # Copy globalphone_tunisian exp directories
+  # copy globalphone_tunisian exp directories
   (
     echo "Copy globalphone_tunisian exp directories."
     [ -d exp/heroico ] || mkdir -p exp/globalphone_tunisian;
     cd exp/heroico
     [ -d tri3b ] || cp -R ../../../../heroico/s5/exp/tri3b ./;
     [ -d tri3b_ali ] || cp -R ../../../../heroico/s5/exp/tri3b_ali ./tri3b_ali;
-  )
-
-  # Copy wsj data directories
-  (
-    echo "Copy data directories from wsj."
-    [ -d data/wsj ] || mkdir -p data/wsj;
-    cd data/wsj
-    [ -d lang ] || cp -R ../../../../wsj/s5/data/lang_nosp ./lang;
-    [ -d train ] || cp -R ../../../../wsj/s5/data/train_si284 ./train;
-  )
-
-  # Copy wsj exp directories
-  (
-    echo "Copy wsj exp directories."
-    [ -d exp/wsj ] || mkdir -p exp/wsj;
-    cd exp/wsj
-    [ -d tri3b ] || cp -R ../../../../wsj/s5/exp/tri3b ./;
-    [ -d tri3b_ali ] || cp -R ../../../../wsj/s5/exp/tri3b_ali_si284 ./tri3b_ali;
-  )
-
-  # Copy sprakbanken data directories
-  (
-    echo "Copy data directories from sprakbanken."
-    [ -d data/sprakbanken ] || mkdir -p data/sprakbanken;
-    cd data/sprakbanken
-    [ -d lang ] || cp -R ../../../../sprakbanken/s5/data/lang ./;
-    [ -d train ] || cp -R ../../../../sprakbanken/s5/data/train ./;
-  )
-
-  # Copy sprakbanken exp directories
-  (
-    echo "Copy sprakbanken exp directories."
-    [ -d exp/sprakbanken ] || mkdir -p exp/sprakbanken;
-    cd exp/sprakbanken
-    [ -d tri3b ] || cp -R ../../../../sprakbanken/s5/exp/tri3b ./;
-    [ -d tri3b_ali ] || cp -R ../../../../sprakbanken/s5/exp/tri3b_ali ./tri3b_ali;
-
-    # Copy sprakbanken data directories
-  (
-    echo "Copy data directories from sprakbanken."
-    [ -d data/sprakbanken ] || mkdir -p data/sprakbanken;
-    cd data/sprakbanken
-    [ -d lang ] || cp -R ../../../../sprakbanken/s5/data/lang ./;
-    [ -d train ] || cp -R ../../../../sprakbanken/s5/data/train ./;
-  )
-
-  # Copy sprakbanken exp directories
-  (
-    echo "Copy sprakbanken exp directories."
-    [ -d exp/sprakbanken ] || mkdir -p exp/sprakbanken;
-    cd exp/sprakbanken
-    [ -d tri3b ] || cp -R ../../../../sprakbanken/s5/exp/tri3b ./;
-    [ -d tri3b_ali ] || cp -R ../../../../sprakbanken/s5/exp/tri3b_ali ./tri3b_ali;
   )
 
   # Copy mgb2 data directories
@@ -195,7 +142,7 @@ if [ $stage -le 0 ]; then
     cd exp/mgb2
     [ -d tri3b ] || cp -R ../../../../mgb2_arabic/s5/exp/tri5 ./tri3b;
     [ -d tri3b_ali ] || cp -R ../../../../mgb2_arabic/s5/exp/tri5_ali ./tri3b_ali;
-)
+  )
 fi
 
 if [ $stage -le 1 ]; then
