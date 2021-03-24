@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
 # segment   and  cluster  the segments by speaker.
-# Assumes source recordings are under $workdir/flacs
-if [ $# -ne 1 ]; then
-  echo "USAGE: $0 <WORK_DIR>"
+
+if [ $# -ne 2 ]; then
+  echo "USAGE: $0 <FLAC_DIR> <WORK_DIR>"
 exit 1;
 fi
-workdir=$1
+datadir=$1
+workdir=$2
 # source the path.sh file to get the value of the KALDI_ROOT variable.
 . ./path.sh
 . utils/parse_options.sh
@@ -79,7 +80,7 @@ languages=langs.txt
 # end of setting configuration variables
 
 # loop over source flac files
-for src in $workdir/flacs/*; do
+for src in $datadir/*; do
   # Make the working directory
   base=$(basename $src .$input_extension)
   # Remove the file extension to get the directory name

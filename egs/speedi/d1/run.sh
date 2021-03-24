@@ -23,7 +23,7 @@ fi
 
 if [ $stage -le 1 ]; then
   # segment and diarize the recordings
-  local/run_segmentation.sh $workdir
+  local/run_segmentation.sh $datadir $workdir
 fi
 
 if [ $stage -le 3 ]; then
