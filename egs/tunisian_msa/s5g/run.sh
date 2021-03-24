@@ -62,19 +62,19 @@ fi
 
 if [ $stage -le 0 ]; then
   (
-    echo "$0: Copy data directories from tunisian_msa."
+    echo "$0: Link data directories from tunisian_msa."
     [ -d data/tunisian_msa ] || mkdir -p data/tunisian_msa;
     cd data/tunisian_msa
-    # Copy the lang directory
-    [ -d lang ] || cp -R ../../../s5a/data/lang ./;
-    # Copy the train directory
-    [ -d train ] || cp -R ../../../s5a/data/train ./;
-    # Copy the devtest directory
-    [ -d devtest ] || cp -R ../../../s5a/data/devtest ./;
-    # Copy the test directory
-    [ -d test ] || cp -R ../../../s5a/data/test ./;
-    # Copy the lang_test directory
-    [ -d lang_test ] || cp -R ../../../s5a/data/lang_test ./;
+    # link the lang directory
+    [ -L lang ] || ln -s ../../../s5a/data/lang ./;
+    # link the train directory
+    [ -L train ] || ln -s ../../../s5a/data/train ./;
+    # link the devtest directory
+    [ -L devtest ] || ln -s ../../../s5a/data/devtest ./;
+    # link the test directory
+    [ -L test ] || ln -s ../../../s5a/data/test ./;
+    # link the lang_test directory
+    [ -L lang_test ] || ln -s ../../../s5a/data/lang_test ./;
   )
 
   # Copy exp directories from tunisian_msa
