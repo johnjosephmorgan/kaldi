@@ -1,37 +1,39 @@
 #!/usr/bin/env bash
 
-# chain2 recipe for  Tunisian MSA, mini_librispeech,  heroico, wsj, sprakbanken and mgb2
+# chain2 recipe for  Tunisian MSA, gale arabic, globalphone tunisian and mgb2
 
 # Copyright 2016 Pegah Ghahremani
 # Copyright 2020 Srikanth Madikeri (Idiap Research Institute)
 
 # Train a multilingual LF-MMI system with a multi-task training setup.
-# This script assumes the following 6 recipes have been run:
-# - ../../mini_librispeech/s5/run.sh 
+# This script assumes the following 4 recipes have been run:
 # - ../s5a/run.sh 
-# ../../heroico/s5/run.sh
-# ../../wsj/s5/run.sh
-# ../../sprakbanken/s5/run.sh
+# ../../gale_arabic/s5/run.sh
+# ../../globalphone_tunisian/s5/run.sh
 # ../../mgb2_arabic/s5/run.sh
-
 set -e -o pipefail
 
-# Start setting variables
+
+# language dependent variable settings
+# the order of the elements in the following listss is important
+egs_dir_list="$dir/tunisian_msa_processed_egs $dir/gale_arabic_processed_egs $dir/globalphone_tunisian_processed_egs $dir/mgb2_processed_egs"
+lang2weight="0.25,0.25,0.25,0.25"
+lang_list=(tunisian_msa gale_arabic globalphone_tunisian mgb2)
+num_langs=4
+
+# Start setting other variables
 boost_sil=1.0 # Factor by which to boost silence likelihoods in alignment
 chunk_width=150
 cmd=run.pl
 common_egs_dir=  # you can set this to use previously dumped egs.
 decode_lang_list=(tunisian_msa)
 dir=exp/chain2_multi
-egs_dir_list="$dir/tunisian_msa_processed_egs $dir/mini_librispeech_processed_egs $dir/heroico_processed_egs $dir/wsj_processed_egs $dir/sprakbanken_processed_egs $dir/mgb2_processed_egs"
 extra_left_context=50
 extra_right_context=0
 final_effective_lrate=0.0001
 frame_subsampling_factor=3
 gmm=tri3b  # the gmm for the target data
 initial_effective_lrate=0.001
-lang2weight="0.2,0.16,0.16,0.16,0.16,0.16"
-lang_list=(tunisian_msa mini_librispeech heroico wsj sprakbanken mgb2)
 langdir=data/lang
 lda_mllt_lang=tunisian_msa
 max_param_change=2.0
@@ -39,7 +41,6 @@ nj=30
 numGaussUBM=512
 num_jobs_final=1
 num_jobs_initial=1
-num_langs=6
 srand=-1
 stage=-1
 train_set=train
@@ -59,7 +60,6 @@ where "nvcc" is installed.
 EOF
 fi
 
-# Copy data directories from tunisian_msa
 if [ $stage -le 0 ]; then
   (
     echo "$0: Copy data directories from tunisian_msa."
@@ -88,32 +88,31 @@ if [ $stage -le 0 ]; then
     [ -d tri3b_ali ] || cp -R ../../../s5a/exp/tri3b_ali ./;
   )
 
-  # Copy mini_librispeech data directories
+  # link gale_arabic data directories
   (
-    echo "Copy data directories from mini_librispeech."
-    [ -d data/mini_librispeech ] || mkdir -p data/mini_librispeech;
-    cd data/mini_librispeech
-    [ -d lang ] || cp -R ../../../../mini_librispeech/s5/data/lang ./;
-    [ -d lang_nosp_test_tgsmall ] || cp -R ../../../../mini_librispeech/s5/data/lang_nosp_test_tgsmall ./;
-    [ -d train ] || cp -R ../../../../mini_librispeech/s5/data/train_clean_5 ./train;
-    [ -d dev_clean_2 ] || cp -R ../../../../mini_librispeech/s5/data/dev_clean_2 ./;
+    echo "Copy data directories from gale_arabic."
+    [ -d data/gale_arabic ] || mkdir -p data/gale_arabic;
+    cd data/gale_arabic
+    [ -d lang ] || ln -s ../../../../gale_arabic/s5d/data/lang ./;
+    [ -d lang_test ] || ln -s ../../../../gale_arabic/s5d/data/lang_test ./;
+    [ -d train ] || ln -s ../../../../gale_arabic/s5d/data/train ./train;
   )
 
-  # Copy mini_librispeech exp directories
+  # Copy gale_arabic exp directories
   (
-    echo "Copy mini_librispeech exp directories."
-    [ -d exp/mini_librispeech ] || mkdir -p exp/mini_librispeech;
-    cd exp/mini_librispeech
-    [ -d tri3b ] || cp -R ../../../../mini_librispeech/s5/exp/tri3b ./;
-    [ -d tri3b_ali ] || cp -R ../../../../mini_librispeech/s5/exp/tri3b_ali_train_clean_5 ./tri3b_ali;
+    echo "Copy gale_arabic exp directories."
+    [ -d exp/gale_arabic ] || mkdir -p exp/gale_arabic;
+    cd exp/gale_arabic
+    [ -d tri3b ] || ln -s ../../../../gale_arabic/s5d/exp/tri3b ./;
+    [ -d tri3b_ali ] || cp -s ../../../../gale_arabic/s5d/exp/tri3b_ali_train_clean_5 ./tri3b_ali;
   )
 
-  # Copy heroico data directories
+  # Copy globalphone arabic data directories
   (
-    echo "Copy data directories from heroico."
-    [ -d data/heroico ] || mkdir -p data/heroico;
-    cd data/heroico
-    [ -d lang ] || cp -R ../../../../heroico/s5/data/lang ./;
+    echo "Copy data directories from globalphone arabic ."
+    [ -d data/globalphone_arabic ] || mkdir -p data/globalphone_arabic;
+    cd data/globalphone_arabic
+    [ -d lang ] || cp -R ../../../../globalphone_arabic/s5/data/lang ./;
     [ -d lang_test ] || cp -R ../../../../heroico/s5/data/lang ./;
     [ -d train ] || cp -R ../../../../heroico/s5/data/train ./train;
     [ -d devtest ] || cp -R ../../../../heroico/s5/data/devtest ./;
