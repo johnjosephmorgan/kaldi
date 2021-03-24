@@ -110,18 +110,17 @@ if [ $stage -le 0 ]; then
   # Copy globalphone arabic data directories
   (
     echo "Copy data directories from globalphone arabic ."
-    [ -d data/globalphone_arabic ] || mkdir -p data/globalphone_arabic;
-    cd data/globalphone_arabic
-    [ -d lang ] || cp -R ../../../../globalphone_arabic/s5/data/lang ./;
-    [ -d lang_test ] || cp -R ../../../../heroico/s5/data/lang ./;
-    [ -d train ] || cp -R ../../../../heroico/s5/data/train ./train;
-    [ -d devtest ] || cp -R ../../../../heroico/s5/data/devtest ./;
+    [ -d data/globalphone_tunisian ] || mkdir -p data/globalphone_tunisian;
+    cd data/globalphone_tunisian
+    [ -d lang ] || cp -R ../../../../globalphone_tunisian/s5/data/lang ./;
+    [ -d lang_test ] || cp -R ../../../../globalphone_tunisian/s5/data/lang ./;
+    [ -d train ] || cp -R ../../../../globalphone_tunisian/s5/data/train ./;
   )
 
-  # Copy heroico exp directories
+  # Copy globalphone_tunisian exp directories
   (
-    echo "Copy heroico exp directories."
-    [ -d exp/heroico ] || mkdir -p exp/heroico;
+    echo "Copy globalphone_tunisian exp directories."
+    [ -d exp/heroico ] || mkdir -p exp/globalphone_tunisian;
     cd exp/heroico
     [ -d tri3b ] || cp -R ../../../../heroico/s5/exp/tri3b ./;
     [ -d tri3b_ali ] || cp -R ../../../../heroico/s5/exp/tri3b_ali ./tri3b_ali;

@@ -79,9 +79,10 @@ if [ $stage -le 6 ]; then
   # REmove the segment audio files
   rm -Rf $workdir/speakers
 fi
-exit
+
 if [ $stage -le 7 ]; then
   mkdir -p $workdir/concats
+  # count the number of overlapping pairs recordings
   n=$(find $workdir/overlaps -type f -name "max.wav" | wc -l)
   echo "There are $n overlap pairs."
   for ((i=0;i<=n;i++)); do
