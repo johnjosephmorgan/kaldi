@@ -22,12 +22,6 @@ fi
 [ -d $workdir ] || mkdir -p $workdir;
 
 if [ $stage -le 1 ]; then
-  # Get and prepare the  source waveform recording files
-  # recordings are written to the directory $workdir/flacs
-  local/mflts_get_and_convert_data.sh $datadir $workdir
-fi
-
-if [ $stage -le 2 ]; then
   # segment and diarize the recordings
   local/run_segmentation.sh $workdir
 fi
