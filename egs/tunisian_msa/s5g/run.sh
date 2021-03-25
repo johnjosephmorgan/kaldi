@@ -107,9 +107,9 @@ if [ $stage -le 0 ]; then
     [ -L tri3b_ali ] || ln -s ../../../../gale_arabic/s5d/exp/tri3b_ali ./tri3b_ali;
   )
 
-  # link globalphone arabic data directories
+  # link globalphone tunisian data directories
   (
-    echo "Link data directories from globalphone arabic ."
+    echo "Link data directories from globalphone tunisian ."
     [ -d data/globalphone_tunisian ] || mkdir -p data/globalphone_tunisian;
     cd data/globalphone_tunisian
     [ -L lang ] || ln -s ../../../../globalphone_tunisian/s5/data/lang ./;
@@ -123,7 +123,7 @@ if [ $stage -le 0 ]; then
     [ -d exp/globalphone_tunisian ] || mkdir -p exp/globalphone_tunisian;
     cd exp/globalphone_tunisian
     [ -L tri3b ] || ln -s ../../../../globalphone_tunisian/s5/exp/tri3b ./;
-    [ -L tri3b_ali ] || ln -s ../../../../globalphone_tunisian/s5/exp/tri3b_ali ./tri3b_ali;
+    [ -L tri3b_ali ] || ln -s ../../../../globalphone_tunisian/s5/exp/tri3b_ali ./;
   )
 
   # link mgb2 data directories
