@@ -77,71 +77,71 @@ if [ $stage -le 0 ]; then
     [ -L lang_test ] || ln -s ../../../s5a/data/lang_test ./;
   )
 
-  # Copy exp directories from tunisian_msa
+  # link exp directories from tunisian_msa
   (
-    echo "Copy exp directories from tunisian_msa."
+    echo "Link exp directories from tunisian_msa."
     [ -d exp/tunisian_msa ] || mkdir -p exp/tunisian_msa;
     cd exp/tunisian_msa
-    # Copy the tri3b directory
-    [ -d tri3b ] || cp -R ../../../s5a/exp/tri3b ./;
-    # Copy the tri3b_ali
-    [ -d tri3b_ali ] || cp -R ../../../s5a/exp/tri3b_ali ./;
+    # link the tri3b directory
+    [ -L tri3b ] || ln -s ../../../s5a/exp/tri3b ./;
+    # link the tri3b_ali
+    [ -L tri3b_ali ] || ln -s ../../../s5a/exp/tri3b_ali ./;
   )
 
   # link gale_arabic data directories
   (
-    echo "Copy data directories from gale_arabic."
+    echo "Link data directories from gale_arabic."
     [ -d data/gale_arabic ] || mkdir -p data/gale_arabic;
     cd data/gale_arabic
-    [ -d lang ] || ln -s ../../../../gale_arabic/s5d/data/lang ./;
-    [ -d lang_test ] || ln -s ../../../../gale_arabic/s5d/data/lang_test ./;
-    [ -d train ] || ln -s ../../../../gale_arabic/s5d/data/train ./train;
+    [ -L lang ] || ln -s ../../../../gale_arabic/s5d/data/lang ./;
+    [ -L lang_test ] || ln -s ../../../../gale_arabic/s5d/data/lang_test ./;
+    [ -L train ] || ln -s ../../../../gale_arabic/s5d/data/train ./train;
   )
 
   # link gale_arabic exp directories
   (
-    echo "Copy gale_arabic exp directories."
+    echo "link gale_arabic exp directories."
     [ -d exp/gale_arabic ] || mkdir -p exp/gale_arabic;
     cd exp/gale_arabic
-    [ -d tri3b ] || ln -s ../../../../gale_arabic/s5d/exp/tri3b ./;
-    [ -d tri3b_ali ] || cp -s ../../../../gale_arabic/s5d/exp/tri3b_ali_train_clean_5 ./tri3b_ali;
+    [ -L tri3b ] || ln -s ../../../../gale_arabic/s5d/exp/tri3b ./;
+    [ -L tri3b_ali ] || cp -s ../../../../gale_arabic/s5d/exp/tri3b_ali_train_clean_5 ./tri3b_ali;
   )
 
   # link globalphone arabic data directories
   (
-    echo "Copy data directories from globalphone arabic ."
+    echo "Link data directories from globalphone arabic ."
     [ -d data/globalphone_tunisian ] || mkdir -p data/globalphone_tunisian;
     cd data/globalphone_tunisian
-    [ -d lang ] || cp -R ../../../../globalphone_tunisian/s5/data/lang ./;
-    [ -d lang_test ] || cp -R ../../../../globalphone_tunisian/s5/data/lang ./;
-    [ -d train ] || cp -R ../../../../globalphone_tunisian/s5/data/train ./;
+    [ -L lang ] || ln -s ../../../../globalphone_tunisian/s5/data/lang ./;
+    [ -L lang_test ] || ln -s ../../../../globalphone_tunisian/s5/data/lang ./;
+    [ -L train ] || ln -s ../../../../globalphone_tunisian/s5/data/train ./;
   )
 
-  # copy globalphone_tunisian exp directories
+  # link globalphone_tunisian exp directories
   (
-    echo "Copy globalphone_tunisian exp directories."
-    [ -d exp/heroico ] || mkdir -p exp/globalphone_tunisian;
-    cd exp/heroico
-    [ -d tri3b ] || cp -R ../../../../heroico/s5/exp/tri3b ./;
-    [ -d tri3b_ali ] || cp -R ../../../../heroico/s5/exp/tri3b_ali ./tri3b_ali;
+    echo "Link globalphone_tunisian exp directories."
+    [ -d exp/globalphone_tunisian ] || mkdir -p exp/globalphone_tunisian;
+    cd exp/globalphone_tunisian
+    [ -L tri3b ] || ln -s ../../../../globalphone_tunisian/s5/exp/tri3b ./;
+    [ -L tri3b_ali ] || ln -s ../../../../globalphone_tunisian/s5/exp/tri3b_ali ./tri3b_ali;
   )
 
-  # Copy mgb2 data directories
+  # link mgb2 data directories
   (
-    echo "Copy data directories from mgb2."
+    echo "Link data directories from mgb2."
     [ -d data/mgb2 ] || mkdir -p data/mgb2;
     cd data/mgb2
-    [ -d lang ] || cp -R ../../../../mgb2_arabic/s5/data/lang ./;
-    [ -d train ] || cp -R ../../../../mgb2_arabic/s5/data/train ./;
+    [ -L lang ] || ln -s ../../../../mgb2_arabic/s5/data/lang ./;
+    [ -L train ] || ln -s ../../../../mgb2_arabic/s5/data/train ./;
   )
 
-  # Copy mgb2 exp directories
+  # link mgb2 exp directories
   (
-    echo "Copy mgb2 exp directories."
+    echo "Link mgb2 exp directories."
     [ -d exp/mgb2 ] || mkdir -p exp/mgb2;
     cd exp/mgb2
-    [ -d tri3b ] || cp -R ../../../../mgb2_arabic/s5/exp/tri5 ./tri3b;
-    [ -d tri3b_ali ] || cp -R ../../../../mgb2_arabic/s5/exp/tri5_ali ./tri3b_ali;
+    [ -L tri3b ] || ln -s ../../../../mgb2_arabic/s5/exp/tri5 ./tri3b;
+    [ -L tri3b_ali ] || ln -s ../../../../mgb2_arabic/s5/exp/tri5_ali ./tri3b_ali;
   )
 fi
 
