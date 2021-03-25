@@ -132,7 +132,7 @@ if [ $stage -le 0 ]; then
     [ -d data/mgb2 ] || mkdir -p data/mgb2;
     cd data/mgb2
     [ -L lang ] || ln -s ../../../../mgb2_arabic/s5/data/lang ./;
-    [ -L train ] || ln -s ../../../../mgb2_arabic/s5/data/train ./;
+    [ -L train ] || ln -s ../../../../mgb2_arabic/s5/data_mer80/train ./;
   )
 
   # link mgb2 exp directories
@@ -140,8 +140,8 @@ if [ $stage -le 0 ]; then
     echo "Link mgb2 exp directories."
     [ -d exp/mgb2 ] || mkdir -p exp/mgb2;
     cd exp/mgb2
-    [ -L tri3b ] || ln -s ../../../../mgb2_arabic/s5/exp/tri5 ./tri3b;
-    [ -L tri3b_ali ] || ln -s ../../../../mgb2_arabic/s5/exp/tri5_ali ./tri3b_ali;
+    [ -L tri3b ] || ln -s ../../../../mgb2_arabic/s5/exp/mer80/tri5 ./tri3b;
+    [ -L tri3b_ali ] || ln -s ../../../../mgb2_arabic/s5/exp/mer80/tri5_ali ./tri3b_ali;
   )
 fi
 
