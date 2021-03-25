@@ -104,7 +104,7 @@ if [ $stage -le 0 ]; then
     [ -d exp/gale_arabic ] || mkdir -p exp/gale_arabic;
     cd exp/gale_arabic
     [ -L tri3b ] || ln -s ../../../../gale_arabic/s5d/exp/tri3b ./;
-    [ -L tri3b_ali ] || cp -s ../../../../gale_arabic/s5d/exp/tri3b_ali_train_clean_5 ./tri3b_ali;
+    [ -L tri3b_ali ] || ln -s ../../../../gale_arabic/s5d/exp/tri3b_ali ./tri3b_ali;
   )
 
   # link globalphone arabic data directories
