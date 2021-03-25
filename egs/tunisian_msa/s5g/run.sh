@@ -113,7 +113,7 @@ if [ $stage -le 0 ]; then
     [ -d data/globalphone_tunisian ] || mkdir -p data/globalphone_tunisian;
     cd data/globalphone_tunisian
     [ -L lang ] || ln -s ../../../../globalphone_tunisian/s5/data/lang ./;
-    [ -L lang_test ] || ln -s ../../../../globalphone_tunisian/s5/data/lang ./;
+    [ -L lang_test ] || ln -s ../../../../globalphone_tunisian/s5/data/lang_test ./;
     [ -L train ] || ln -s ../../../../globalphone_tunisian/s5/data/train ./;
   )
 
