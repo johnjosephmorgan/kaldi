@@ -8,7 +8,7 @@ use Carp;
 BEGIN {
   @ARGV == 3 or croak "USAGE: $0 <WORK_DIR> <SRC_FLAC_FILE> <RECORDINGS_DIR>
 For Example:
-$0 work src/data/flac/DH_0001.flac out_diarized
+$0 work src/data/flac/DH_0001.flac work
 ";
 }
 

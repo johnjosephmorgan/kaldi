@@ -3,10 +3,10 @@
 # segment   and  cluster  the segments by speaker.
 
 if [ $# -ne 2 ]; then
-  echo "USAGE: $0 <FLAC_DIR> <WORK_DIR>"
+  echo "USAGE: $0 <SRC_AUDIO_File> <WORK_DIR>"
 exit 1;
 fi
-datadir=$1
+src=$1
 workdir=$2
 # source the path.sh file to get the value of the KALDI_ROOT variable.
 . ./path.sh
@@ -79,11 +79,9 @@ model_rebalanced=exp/lid_xvector_nnet_1a/xvectors_train/logistic_regression_reba
 languages=langs.txt
 # end of setting configuration variables
 
-# loop over source flac files
-for src in $datadir/*; do
-  # Make the working directory
-  base=$(basename $src .$input_extension)
-  # Remove the file extension to get the directory name
+# Make the working directory
+base=$(basename $src .$input_extension)
+# Remove the file extension to get the directory name
   working_dir=$workdir/recordings/${base}
   mkdir -p $working_dir/speechactivity
 

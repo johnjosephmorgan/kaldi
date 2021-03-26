@@ -6,7 +6,9 @@
 . ./path.sh
 
 # Start setting variables
-datadir=/mnt/corpora/LDC2019S12/data/flac
+#datadir=/mnt/corpora/LDC2019S12/data/flac
+datadir=~/flac
+num_concatenated_pairs=50
 stage=0
 workdir=work
 # Stop setting variables
@@ -23,70 +25,34 @@ fi
 
 if [ $stage -le 1 ]; then
   # segment and diarize the recordings
-  local/run_segmentation.sh $datadir $workdir
+  for src in $datadir/*; do
+    local/run_segmentation.sh $src $workdir
+  done
 fi
 
-if [ $stage -le 3 ]; then
-  for rec in $workdir/flacs/*; do
+if [ $stage -le 2 ]; then
+  for rec in $datadir/*; do
     # Write segment .wav files from thresholded clustering.
     # the files are written to directories under $workdir/speakers.
     # There is a directory for each speaker.
-    # Each recording has 3 speakers
-    # The Soldier, The motorist and the interpretor.
     base=$(basename $rec .flac)
     local/labels2wav.pl $workdir $rec $workdir/recordings/$base
   done
 fi
 
-if [ $stage -le 4 ]; then
-  # use sox to get information about wav files
-  # The information is written to files with extension _samples.txt
-    local/get_info.sh $workdir
-fi
-
-if [ $stage -le 5 ]; then
-  # Write the duration information to file
-  # We ran the previous stage separately because it uses sox
-  # We store the files under $workdir/samples
-  local/get_samples.sh $workdir
-fi
-
-if [ $stage -le 6 ]; then
-  mkdir -p $workdir/overlaps
-    # How many sample files are there?
-  n=$(find $workdir/samples -type f -name "*_samples.txt" | wc -l)
-  echo "There are $n sample files."
-  # Compute half of the sample files
-  ((m=n/2))
-  # Loop for half the number of sample files
-  for ((i=0;i<=m;i++)); do
-    # randomly choose files to process
-    s1=$(find $workdir/samples -type f -name "*_samples.txt" | shuf -n 1)
-    s2=$(find $workdir/samples -type f -name "*_samples.txt" | shuf -n 1)
-    local/overlap.sh $workdir $s1 $s2
-    # delete the 2 files we just processed
-    # this should implement sampling without replacement
-    [ -f $s1 ] && rm $s1;
-    [ -f $s2 ] && rm $s2;
+if [ $stage -le 3 ]; then
+    for s in $workdir/speakers/*; do
+    for f in $s/*; do
+      # Make the name for the maxed volume file
+      base=$(basename $f .wav)
+      d=$(dirname $f)
+      max=$d/${base}_max.wav
+      # Make a name for thestats file
+      vc=$d/${base}_vc.txt
+      # Get stats 
+      sox $f -n stat -v 2> $vc
+      # Write the volume maxed file
+      sox -v $(cat $vc) $f $max
+    done
   done
-  # REmove the segment audio files
-  rm -Rf $workdir/speakers
-fi
-
-if [ $stage -le 7 ]; then
-  mkdir -p $workdir/concats
-  # count the number of overlapping pairs recordings
-  n=$(find $workdir/overlaps -type f -name "max.wav" | wc -l)
-  echo "There are $n overlap pairs."
-  for ((i=0;i<=n;i++)); do
-    local/concatenate_wavs.sh $workdir $i $num_concatenated_pairs
-  done
-  find $workdir -empty -delete
-fi
-
-# write the rttm files
-if [ $stage -le 8 ]; then
-  for i in $workdir/concats/*; do
-    local/pairs2rttm.pl $i
-   done
 fi
