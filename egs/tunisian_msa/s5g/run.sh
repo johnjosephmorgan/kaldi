@@ -266,8 +266,8 @@ for lang in ${lang_list[@]}; do
   multi_chain_dir[${lang}]=exp/$lang/chain/$dir_basename
 done
 
-#ivector_dim=$(feat-to-dim scp:exp/mini_librispeech/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
-#feat_dim=`feat-to-dim scp:data/mini_librispeech/train_sp_hires/feats.scp -`
+ivector_dim=$(feat-to-dim scp:exp/tunisian_msa/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
+feat_dim=$(feat-to-dim scp:data/tunisian_msa/train_sp_hires/feats.scp -)
 
 if [ $stage -le 7 ]; then
   for lang in ${lang_list[@]};do
@@ -339,8 +339,8 @@ fi
 
 if [ $stage -le 10 ]; then
   echo "$0: creating multilingual neural net configs using the xconfig parser";
-  ivector_dim=$(feat-to-dim scp:exp/mini_librispeech/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
-  feat_dim=`feat-to-dim scp:data/mini_librispeech/train_sp_hires/feats.scp -`
+  ivector_dim=$(feat-to-dim scp:exp/tunisian_msa/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
+  feat_dim=$(feat-to-dim scp:data/tunisian_msa/train_sp_hires/feats.scp -)
   if [ -z $bnf_dim ]; then
     bnf_dim=80
   fi
@@ -352,7 +352,7 @@ if [ $stage -le 10 ]; then
     ivector_to_append=", ReplaceIndex(ivector, t, 0)"
   fi
   learning_rate_factor=$(echo "print (0.5/$xent_regularize)" | python)
-  dummy_tree_dir=exp/mini_librispeech
+  dummy_tree_dir=exp/tunisian_msa
   num_targets=$(tree-info $dummy_tree_dir/tree 2>/dev/null | grep num-pdfs | awk '{print $2}') || exit 1;
   cat <<EOF > $dir/configs/network.xconfig
   input dim=$feat_dim name=input
@@ -384,7 +384,7 @@ EOF
     echo "output-layer name=output-${lang}-xent input=tdnn7 dim=$num_targets  learning-rate-factor=$learning_rate_factor max-change=1.5"
   done >> $dir/configs/network.xconfig
 
-  lang_name=mini_librispeech
+  lang_name=tunisian_msa
   steps/nnet3/xconfig_to_configs.py --xconfig-file $dir/configs/network.xconfig \
     --config-dir $dir/configs/ 
 fi
@@ -493,7 +493,7 @@ if [ $stage -le 15 ]; then
     [ -L $dir/egs/info_${lang}.txt ] || ln -rs $dir/egs/info.txt $dir/egs/info_${lang}.txt
   done
   echo "$0: Create a dummy transition model that is never used."
-  first_lang_name=mini_librispeech
+  first_lang_name=tunisian_msa
   [[ ! -f $dir/init/default_trans.mdl ]] && ln -r -s $dir/init/${first_lang_name}_trans.mdl $dir/init/default_trans.mdl
 fi
 
@@ -530,9 +530,9 @@ fi
 
 if [ $stage -le 18 ]; then
   echo "$0: Splitting models"
-  ivector_dim=$(feat-to-dim scp:exp/mini_librispeech/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
-  feat_dim=`feat-to-dim scp:data/mini_librispeech/train_sp_hires/feats.scp -`
-  frame_subsampling_factor=`fgrep "frame_subsampling_factor" $dir/init/info.txt | awk '{print $2}'`
+  ivector_dim=$(feat-to-dim scp:exp/tunisian_msa/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
+  feat_dim=$(feat-to-dim scp:data/tunisian_msa/train_sp_hires/feats.scp -)
+  frame_subsampling_factor=$(fgrep "frame_subsampling_factor" $dir/init/info.txt | awk '{print $2}')
   for lang in ${lang_list[@]};do
     [[ ! -d $dir/$lang ]] && mkdir $dir/$lang
     nnet3-copy --edits="rename-node old-name=output new-name=output-dummy; rename-node old-name=output-$lang new-name=output" \
