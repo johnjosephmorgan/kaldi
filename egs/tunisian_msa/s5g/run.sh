@@ -16,6 +16,7 @@ set -e -o pipefail
 
 # language dependent variable settings
 # the order of the elements in the following listss is important
+dir=exp/chain2_multi
 egs_dir_list="$dir/tunisian_msa_processed_egs $dir/gale_arabic_processed_egs $dir/globalphone_tunisian_processed_egs $dir/mgb2_processed_egs"
 lang2weight="0.25,0.25,0.25,0.25"
 lang_list=(tunisian_msa gale_arabic globalphone_tunisian mgb2)
@@ -27,7 +28,6 @@ chunk_width=150
 cmd=run.pl
 common_egs_dir=  # you can set this to use previously dumped egs.
 decode_lang_list=(tunisian_msa)
-dir=exp/chain2_multi
 extra_left_context=50
 extra_right_context=0
 final_effective_lrate=0.0001
