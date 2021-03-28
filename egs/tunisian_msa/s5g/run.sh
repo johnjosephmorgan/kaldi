@@ -478,7 +478,6 @@ if [ $stage -le 14 ]; then
   local/combine_egs.sh \
     $egs_opts \
     --cmd "$train_cmd" \
-    --nj 116 \
     $num_langs \
     $egs_dir_list \
     $dir/egs
