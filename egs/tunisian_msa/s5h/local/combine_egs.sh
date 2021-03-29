@@ -18,11 +18,10 @@ frames_per_job=8000000
 left_context=13
 right_context=9
 # TODO: add lang2weight support
-lang2weight[0]="0.34";
-lang2weight[1]="0.33";
-lang2weight[2]="0.33";
+lang2weight[0]="0.50";
+lang2weight[1]="0.50";
                         # w.r.t its input language during training.
-lang_list=(tunisian_msa gale_arabic globalphone_tunisian)
+lang_list=(tunisian_msa globalphone_tunisian)
 
 echo "$0 $@"  # Print the command line for logging
 

@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 
-# chain2 recipe for  Tunisian MSA, gale arabic and globalphone tunisian.
+# chain2 recipe for  Tunisian MSA and globalphone tunisian.
 
 # Copyright 2016 Pegah Ghahremani
 # Copyright 2020 Srikanth Madikeri (Idiap Research Institute)
 
 # Train a multilingual LF-MMI system with a multi-task training setup.
-# This script assumes the following 3 recipes have been run:
+# This script assumes the following 2 recipes have been run:
 # - ../s5a/run.sh 
-# ../../gale_arabic/s5/run.sh
 # ../../globalphone_tunisian/s5/run.sh
 
 set -e -o pipefail
@@ -16,10 +15,10 @@ set -e -o pipefail
 # language dependent variable settings
 dir=exp/chain2_multi
 # the order of the elements in the following listss is important
-egs_dir_list="$dir/tunisian_msa_processed_egs $dir/gale_arabic_processed_egs $dir/globalphone_tunisian_processed_egs"
-lang2weight="0.34,0.33,0.33"
-lang_list=(tunisian_msa gale_arabic globalphone_tunisian)
-num_langs=3
+egs_dir_list="$dir/tunisian_msa_processed_egs $dir/globalphone_tunisian_processed_egs"
+lang2weight="0.50,0.50"
+lang_list=(tunisian_msa globalphone_tunisian)
+num_langs=2
 
 # Start setting other variables
 boost_sil=1.0 # Factor by which to boost silence likelihoods in alignment
