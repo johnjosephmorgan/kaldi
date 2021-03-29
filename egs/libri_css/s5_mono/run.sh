@@ -54,24 +54,25 @@ fi
 if [ $stage -le 1 ]; then
   # To avoid training the whole ASR from scratch, you can download the
   # chain model using:
-  wget http://kaldi-asr.org/models/13/0013_librispeech_s5.tar.gz
+  wget https://kaldi-asr.org/models/13/0013_librispeech_v1_chain.tar.gz
   # Once it is downloaded, extract using:
-  tar -xvzf 0013_librispeech_s5.tar.gz
+  tar -xvzf 0013_librispeech_v1_chain.tar.gz
 # and copy the contents of the exp/ directory to your exp/. 
   #local/train_asr.sh --stage $asr_stage --nj $nj $librispeech_corpus
 fi
 
 ##########################################################################
 # DIARIZATION MODEL TRAINING
-# You can also download a pretrained diarization model using:
-# wget http://kaldi-asr.org/models/12/0012_diarization_v1.tar.gz
-# Once it is downloaded, extract using: tar -xvzf 0012_diarization_v1.tar.gz
-# and copy the contents of the exp/ directory to your exp/
 ##########################################################################
 if [ $stage -le 2 ]; then
-  local/train_diarizer.sh --stage $diarizer_stage \
-    --data-dir data/train_other_500 \
-    --model-dir exp/xvector_nnet_1a
+  # You can also download a pretrained diarization model using:
+  wget http://kaldi-asr.org/models/12/0012_diarization_v1.tar.gz
+  # Once it is downloaded, extract using:
+  tar -xvzf 0012_diarization_v1.tar.gz
+  # and copy the contents of the exp/ directory to your exp/
+#  local/train_diarizer.sh --stage $diarizer_stage \
+#    --data-dir data/train_other_500 \
+#    --model-dir exp/xvector_nnet_1a
 fi
 
 ##########################################################################
