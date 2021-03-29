@@ -18,12 +18,10 @@ frames_per_job=8000000
 left_context=13
 right_context=9
 # TODO: add lang2weight support
-lang2weight[0]="0.2";
-lang2weight[1]="0.16";
-lang2weight[2]="0.16";
-lang2weight[3]="0.16";
-lang2weight[4]="0.16";
-lang2weight[5]="0.16";
+lang2weight[0]="0.25";
+lang2weight[1]="0.25";
+lang2weight[2]="0.25";
+lang2weight[3]="0.25";
                         # w.r.t its input language during training.
 lang_list=(tunisian_msa gale_arabic globalphone_tunisian mgb2)
 
