@@ -32,7 +32,7 @@ test_sets="dev${data_affix} eval${data_affix}"
 set -e # exit on error
 
 # please change the path accordingly
-libricss_corpus=/mnt/corpora/LibriCSS
+libricss_corpus=/mnt/disk02/jjm/libricss
 librispeech_corpus=/mnt/corpora/librispeech/LibriSpeech/
 
 ##########################################################################
