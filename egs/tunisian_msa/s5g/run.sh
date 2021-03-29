@@ -40,6 +40,7 @@ max_param_change=2.0
 memory_compression_level=0
 minibatch_size=128
 nj=30
+num_epochs=1.0
 numGaussUBM=512
 num_jobs_final=2
 num_jobs_initial=2
@@ -521,6 +522,7 @@ if [ $stage -le 17 ]; then
     --memory-compression-level $memory_compression_level \
     --minibatch-size $minibatch_size \
     --multilingual-eg true \
+    --num-epochs $num_epochs \
     --num-jobs-final $num_jobs_final \
     --num-jobs-initial $num_jobs_initial \
     --shuffle-buffer-size 5000 \
