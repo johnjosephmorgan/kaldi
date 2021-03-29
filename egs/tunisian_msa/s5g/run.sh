@@ -37,10 +37,12 @@ initial_effective_lrate=0.001
 langdir=data/lang
 lda_mllt_lang=tunisian_msa
 max_param_change=2.0
+memory_compression_level=0
+minibatch_size=128
 nj=30
 numGaussUBM=512
-num_jobs_final=1
-num_jobs_initial=1
+num_jobs_final=2
+num_jobs_initial=2
 srand=-1
 stage=-1
 train_set=train
@@ -516,7 +518,8 @@ if [ $stage -le 17 ]; then
     --l2-regularize 5e-5 \
     --leaky-hmm-coefficient 0.25  \
     --max-param-change $max_param_change \
-    --minibatch-size 128 \
+    --memory-compression-level $memory_compression_level \
+    --minibatch-size $minibatch_size \
     --multilingual-eg true \
     --num-jobs-final $num_jobs_final \
     --num-jobs-initial $num_jobs_initial \
