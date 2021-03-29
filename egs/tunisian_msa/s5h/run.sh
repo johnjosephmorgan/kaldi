@@ -89,25 +89,6 @@ if [ $stage -le 0 ]; then
     [ -L tri3b_ali ] || ln -s ../../../s5a/exp/tri3b_ali ./;
   )
 
-  # link gale_arabic data directories
-  (
-    echo "Link data directories from gale_arabic."
-    [ -d data/gale_arabic ] || mkdir -p data/gale_arabic;
-    cd data/gale_arabic
-    [ -L lang ] || ln -s ../../../../gale_arabic/s5d/data/lang ./;
-    [ -L lang_test ] || ln -s ../../../../gale_arabic/s5d/data/lang_test ./;
-    [ -L train ] || ln -s ../../../../gale_arabic/s5d/data/train ./train;
-  )
-
-  # link gale_arabic exp directories
-  (
-    echo "link gale_arabic exp directories."
-    [ -d exp/gale_arabic ] || mkdir -p exp/gale_arabic;
-    cd exp/gale_arabic
-    [ -L tri3b ] || ln -s ../../../../gale_arabic/s5d/exp/tri3b ./;
-    [ -L tri3b_ali ] || ln -s ../../../../gale_arabic/s5d/exp/tri3b_ali ./tri3b_ali;
-  )
-
   # link globalphone tunisian data directories
   (
     echo "Link data directories from globalphone tunisian ."
@@ -125,24 +106,6 @@ if [ $stage -le 0 ]; then
     cd exp/globalphone_tunisian
     [ -L tri3b ] || ln -s ../../../../globalphone_tunisian/s5/exp/tri3b ./;
     [ -L tri3b_ali ] || ln -s ../../../../globalphone_tunisian/s5/exp/tri3b_ali ./;
-  )
-
-  # link mgb2 data directories
-  (
-    echo "Link data directories from mgb2."
-    [ -d data/mgb2 ] || mkdir -p data/mgb2;
-    cd data/mgb2
-    [ -L lang ] || ln -s ../../../../mgb2_arabic/s5/data/lang ./;
-    [ -L train ] || ln -s ../../../../mgb2_arabic/s5/data_mer80/train ./;
-  )
-
-  # link mgb2 exp directories
-  (
-    echo "Link mgb2 exp directories."
-    [ -d exp/mgb2 ] || mkdir -p exp/mgb2;
-    cd exp/mgb2
-    [ -L tri3b ] || ln -s ../../../../mgb2_arabic/s5/exp/mer80/tri5 ./tri3b;
-    [ -L tri3b_ali ] || ln -s ../../../../mgb2_arabic/s5/exp/mer80/tri5_ali ./tri3b_ali;
   )
 fi
 
