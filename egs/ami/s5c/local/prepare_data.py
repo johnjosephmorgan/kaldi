@@ -19,9 +19,9 @@ from pathlib import Path
 import pandas as pd
 
 def find_audios(wav_path, file_list):
-    # Get all .flac file names from audio directory
+    # Get all .wav file names from audio directory
     wav_path = Path(wav_path)
-    wavs_glob = wav_path.rglob('*.flac')
+    wavs_glob = wav_path.rglob('*.wav')
     wavs = [ w for w in wavs_glob ]
     keys = [ Path(wf).stem for wf in wavs ]
     data = {'key': keys, 'file_path': wavs}
