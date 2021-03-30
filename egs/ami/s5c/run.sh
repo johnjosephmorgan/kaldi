@@ -47,8 +47,10 @@ if [ $stage -le 2 ]; then
   for dataset in train $test_sets; do
     echo "$0: preparing $dataset set."
     mkdir -p data/$dataset
-    local/prepare_data.py data/local/annotations/${dataset}.txt \
-      $AMI_DIR data/$dataset
+    local/prepare_data.py \
+      data/local/annotations/${dataset}.txt \
+      $AMI_DIR \
+      data/$dataset
   done
 fi
 
