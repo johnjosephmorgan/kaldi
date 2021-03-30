@@ -39,7 +39,6 @@ def write_wav(df_wav, output_path, bin_wav=True):
                 f.write('%s sox %s -t wav - remix 1 | \n' % (key, file_path))
             else:
                 f.write('%s %s\n' % (key, file_path))
-                
 def write_segments(sad_labels_dir, output_path):
     with open(output_path + '/segments', 'w') as f:
         for sad_file in os.listdir(sad_labels_dir):
@@ -52,10 +51,8 @@ def write_segments(sad_labels_dir, output_path):
                     end = float(parts[1])
                     seg_id = f'{file_id}_{100*start:06.0f}_{100*end:06.0f}'
                     f.write(f'{seg_id} {file_id} {start} {end}\n')
-                    
 
 def make_diar_data(meetings, wav_path, output_path, sad_labels_dir=None):
-
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
@@ -67,10 +64,8 @@ def make_diar_data(meetings, wav_path, output_path, sad_labels_dir=None):
 
     print('read audios')
     df_wav = find_audios(wav_path, file_list)
-    
     print('make wav.scp')
     write_wav(df_wav, output_path)
-    
     if sad_labels_dir:
         print('make segments')
         write_segments(sad_labels_dir, output_path)
@@ -88,5 +83,4 @@ if __name__ == "__main__":
     parser.add_argument('output_path', help="Path to generate data directory")
     parser.add_argument('--sad-labels-dir', help="Path to SAD labels", default=None)
     args=parser.parse_args()
-    
     make_diar_data(**vars(args))
