@@ -40,10 +40,10 @@ AMI_DIR=/mnt/corpora/AMI
 
 if [ $stage -le 1 ]; then
   # Prepare data directories.
-  if ! [ -d data/local/annotations ]; then
-    local/ami_text_prep.sh data/local/downloads
-  fi
+  local/ami_text_prep.sh data/local/downloads
+fi
 
+if [ $stage -le 2 ]; then
   for dataset in train $test_sets; do
     echo "$0: preparing $dataset set.."
     mkdir -p data/$dataset
