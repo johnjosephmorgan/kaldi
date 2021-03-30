@@ -53,6 +53,7 @@ def write_segments(sad_labels_dir, output_path):
                     f.write(f'{seg_id} {file_id} {start} {end}\n')
 
 def make_diar_data(meetings, wav_path, output_path, sad_labels_dir=None):
+    print('meetings', meetings, 'wav path', wav_path, 'output path', output_path, 'sad labels dir', sad_labels_dir)
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
