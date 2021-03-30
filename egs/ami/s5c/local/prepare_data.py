@@ -19,7 +19,7 @@ import pandas as pd
 
 def find_audios(wav_path, file_list):
     # Get all wav file names from audio directory
-    wavs = glob.glob(wav_path, '*.wav')
+    wavs = glob.glob(wav_path + '*.wav')
     keys = [ os.path.splitext(os.path.basename(wav))[0] for wav in wavs ]
     data = {'key': keys, 'file_path': wavs}
     df_wav = pd.DataFrame(data)
