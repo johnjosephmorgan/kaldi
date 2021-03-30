@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Copyright 2015, Brno University of Technology (Author: Karel Vesely)
 # Copyright 2014, University of Edinburgh (Author: Pawel Swietojanski), 2014, Apache 2.0
@@ -14,7 +14,7 @@ set -eux
 dir=$1
 mkdir -p $dir
 
-echo "Downloading annotations..."
+echo "$0: Downloading annotations."
 
 amiurl=http://groups.inf.ed.ac.uk/ami
 annotver=ami_public_manual_1.6.1
@@ -32,12 +32,12 @@ fi
 
 
 # extract text from AMI XML annotations,
-local/ami_xml2text.sh $dir
+local/ami_xml2text.sh $dir<
 
 wdir=data/local/annotations
 [ ! -f $wdir/transcripts1 ] && echo "$0: File $wdir/transcripts1 not found." && exit 1;
 
-echo "Preprocessing transcripts..."
+echo "$0: Preprocessing transcripts."
 local/ami_split_segments.pl $wdir/transcripts1 $wdir/transcripts2 &> $wdir/log/split_segments.log
 
 # make final train/dev/eval splits
