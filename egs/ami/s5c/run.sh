@@ -37,22 +37,9 @@ diarizer_type=spectral  # must be one of (ahc, spectral, vbx)
 
 # Path where AMI gets downloaded (or where locally available):
 AMI_DIR=/mnt/corpora/AMI
-# Download AMI corpus, You need around 130GB of free space to get whole data ihm+mdm,
-if [ $stage -le 1 ]; then
-  if [ -d $AMI_DIR ] && ! touch $AMI_DIR/.foo 2>/dev/null; then
-    echo "$0: directory $AMI_DIR seems to exist and not be owned by you."
-    echo " ... Assuming the data does not need to be downloaded.  Please use --stage 1 or more."
-    exit 1
-  fi
-  if [ -e data/local/downloads/wget_$mic.sh ]; then
-    echo "data/local/downloads/wget_$mic.sh already exists, better quit than re-download... (use --stage N)"
-    exit 1
-  fi
-  local/ami_download.sh $mic $AMI_DIR
-fi
 
-# Prepare data directories.
-if [ $stage -le 2 ]; then
+if [ $stage -le 1 ]; then
+  # Prepare data directories.
   if ! [ -d data/local/annotations ]; then
     local/ami_text_prep.sh data/local/downloads
   fi
@@ -78,7 +65,7 @@ if [ $stage -le 2 ]; then
 fi
 
 # Feature extraction
-if [ $stage -le 3 ]; then
+if [ $stage -le 2 ]; then
   for dataset in train $test_sets; do
     steps/make_mfcc.sh --mfcc-config conf/mfcc_hires.conf --nj $nj --cmd "$train_cmd" data/$dataset
     steps/compute_cmvn_stats.sh data/$dataset
