@@ -6,7 +6,6 @@
  Prepare AMI mix-headset data. We use the RTTMs and SAD labels from the
  "only_words" category of BUT's AMI setup:
  https://github.com/BUTSpeechFIT/AMI-diarization-setup
- 
  For more details about AMI splits and references used in other literature,
  please refer to Section 4 of this paper: https://arxiv.org/abs/2012.14952
 """
@@ -14,14 +13,13 @@
 import sys
 import os
 import argparse
-import subprocess
+import glob
 
 import pandas as pd
 
 def find_audios(wav_path, file_list):
     # Get all wav file names from audio directory
-    command = 'find %s -name "*Mix-Headset.wav"' % (wav_path)
-    wavs = subprocess.check_output(command, shell=True).decode('utf-8').splitlines()
+    wavs = glob.glob(wav_path, '*.wav')
     keys = [ os.path.splitext(os.path.basename(wav))[0] for wav in wavs ]
     data = {'key': keys, 'file_path': wavs}
     df_wav = pd.DataFrame(data)
@@ -49,7 +47,6 @@ def write_segments(sad_labels_dir, output_path):
                     parts = line.strip().split()
                     start = float(parts[0])
                     end = float(parts[1])
-                    print('file id', file_id, 'start', start, 'end', end)
                     #seg_id = f'{file_id}_{100*start:06.0f}_{100*end:06.0f}'
                     #f.write(f'{seg_id} {file_id} {start} {end}\n')
 
