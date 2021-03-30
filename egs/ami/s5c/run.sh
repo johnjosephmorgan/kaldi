@@ -17,7 +17,7 @@
 
 . ./cmd.sh
 . ./path.sh
-set -euo pipefail
+set -eo pipefail
 mfccdir=`pwd`/mfcc
 
 stage=0
