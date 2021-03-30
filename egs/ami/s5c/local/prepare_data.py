@@ -65,7 +65,7 @@ def make_diar_data(meetings, wav_path, output_path, sad_labels_dir=None):
         for line in f:
             file_list.append(line.strip())
 
-    print('read audios from' wav_path, 'and', file_list)
+    print('read audios from', wav_path, 'and', file_list)
     df_wav = find_audios(wav_path, file_list)
     print('make wav.scp')
     write_wav(df_wav, output_path)
