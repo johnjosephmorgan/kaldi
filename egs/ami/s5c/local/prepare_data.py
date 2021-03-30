@@ -49,7 +49,8 @@ def write_segments(sad_labels_dir, output_path):
                     end = float(parts[1])
                     #seg_id = f'{file_id}_{100*start:06.0f}_{100*end:06.0f}'
                     seg_id  = file_id + start + end
-                    f.write(f'{seg_id} {file_id} {start} {end}\n')
+                    #f.write(f'{seg_id} {file_id} {start} {end}\n')
+                    f.write(seg_id + file_id + start + end)
 
 def make_diar_data(meetings, wav_path, output_path, sad_labels_dir=None):
     if not os.path.exists(output_path):
