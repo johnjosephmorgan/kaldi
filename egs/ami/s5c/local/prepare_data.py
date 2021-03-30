@@ -50,7 +50,7 @@ def write_segments(sad_labels_dir, output_path):
                     start = float(parts[0])
                     end = float(parts[1])
                     print('file id', file_id, 'start', start, 'end', end)
-                    seg_id = f'{file_id}_{100*start:06.0f}_{100*end:06.0f}'
+                    #seg_id = f'{file_id}_{100*start:06.0f}_{100*end:06.0f}'
                     f.write(f'{seg_id} {file_id} {start} {end}\n')
 
 def make_diar_data(meetings, wav_path, output_path, sad_labels_dir=None):
