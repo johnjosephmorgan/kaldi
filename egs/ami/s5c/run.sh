@@ -55,7 +55,7 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ]; then
-  local/convert_rttm_to_utt2spk_and_segments.py --append-reco-id-to-spkr=true data/train/rttm.annotation < ( awk '{print $2" "$2" "$3}' data/train/rttm.annotation | sort -u ) data/train/utt2spk data/train/segments || exit 1;
+  local/convert_rttm_to_utt2spk_and_segments.py --append-reco-id-to-spkr=true data/train/rttm.annotation < awk '{print $2" "$2" "$3}' data/train/rttm.annotation | sort -u  data/train/utt2spk data/train/segments || exit 1;
   utils/utt2spk_to_spk2utt.pl data/train/utt2spk > data/train/spk2utt
   utils/fix_data_dir.sh data/train
 fi
