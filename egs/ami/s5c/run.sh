@@ -59,52 +59,10 @@ if [ $stage -le 2 ]; then
       > data/${dataset}/rttm.annotation
   done
 fi
-		   
-  # Prepare data directories.
-  local/ami_text_prep.sh data/local/downloads
-fi
 
-if [ $stage -le 2 ]; then
-  for dataset in train $test_sets; do
-    echo "$0: preparing $dataset set."
-    mkdir -p data/$dataset
-    local/prepare_data.py \
-      data/local/annotations/${dataset}.txt \
-      $AMI_DIR \
-      data/$dataset
-  done
-fi
-
-if [ $stage -le 3 ]; then
-  local/convert_rttm_to_utt2spk_and_segments.py \
-    --use-reco-id-as-spkr=true \
-    data/train/rttm.annotation \
-    <(awk '{print $2" "$2" "$3}' data/train/rttm.annotation |sort -u) \
-    data/train/utt2spk \
-    data/train/segments
-  utils/utt2spk_to_spk2utt.pl data/train/utt2spk > data/train/spk2utt
-  utils/fix_data_dir.sh data/train
-fi
-
-if [ $stage -le 4 ] then
-  for dataset in $test_sets; do
-    local/convert_rttm_to_utt2spk_and_segments.py \
-      --append-reco-id-to-spkr=true \
-      data/$dataset/rttm.annotation < \
-      (
-        awk '{print $2" "$2" "$3}' \
-        data/$dataset/rttm.annotation \
-        |sort -u
-      ) \
-      data/$dataset/utt2spk \
-      data/$dataset/segments
-    # For the test sets we create dummy segments and utt2spk files using oracle speech marks
-    local/get_all_segments.py \
-      data/$dataset/rttm.annotation > \
-      data/$dataset/segments
-    awk '{print $1,$2}' \
-      data/$dataset/segments > \
-      data/$dataset/utt2spk
+if [ $stage -le 3 ] then
+  for dataset in train $test_sets; then
+    awk '{print $1,$2}' data/$dataset/segments > data/$dataset/utt2spk
     utils/utt2spk_to_spk2utt.pl data/$dataset/utt2spk > data/$dataset/spk2utt
     utils/fix_data_dir.sh data/$dataset
   done
