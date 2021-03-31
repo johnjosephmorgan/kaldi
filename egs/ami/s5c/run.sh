@@ -53,9 +53,13 @@ if [ $stage -le 1 ]; then
   done
 fi
 
+if [ $stage -le 2 ]; then
+  for dataset in train $test_sets; do
     cat AMI-diarization-setup/only_words/rttms/${dataset}/*.rttm \
       > data/${dataset}/rttm.annotation
-
+  done
+fi
+		   
   # Prepare data directories.
   local/ami_text_prep.sh data/local/downloads
 fi
