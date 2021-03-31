@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.6
 """
  Copyright 2020 Johns Hopkins University  (Author: Desh Raj)
   Apache 2.0  (http://www.apache.org/licenses/LICENSE-2.0)  
@@ -6,6 +6,7 @@
  Prepare AMI mix-headset data. We use the RTTMs and SAD labels from the
  "only_words" category of BUT's AMI setup:
  https://github.com/BUTSpeechFIT/AMI-diarization-setup
+ 
  For more details about AMI splits and references used in other literature,
  please refer to Section 4 of this paper: https://arxiv.org/abs/2012.14952
 """
@@ -13,17 +14,15 @@
 import sys
 import os
 import argparse
-import glob
-from pathlib import Path
+import subprocess
 
 import pandas as pd
 
 def find_audios(wav_path, file_list):
-    # Get all .wav file names from audio directory
-    wav_path = Path(wav_path)
-    wavs_glob = wav_path.rglob('*.wav')
-    wavs = [ w for w in wavs_glob ]
-    keys = [ Path(wf).stem for wf in wavs ]
+    # Get all wav file names from audio directory
+    command = 'find %s -name "*Mix-Headset.wav"' % (wav_path)
+    wavs = subprocess.check_output(command, shell=True).decode('utf-8').splitlines()
+    keys = [ os.path.splitext(os.path.basename(wav))[0] for wav in wavs ]
     data = {'key': keys, 'file_path': wavs}
     df_wav = pd.DataFrame(data)
 
@@ -40,6 +39,7 @@ def write_wav(df_wav, output_path, bin_wav=True):
                 f.write('%s sox %s -t wav - remix 1 | \n' % (key, file_path))
             else:
                 f.write('%s %s\n' % (key, file_path))
+                
 def write_segments(sad_labels_dir, output_path):
     with open(output_path + '/segments', 'w') as f:
         for sad_file in os.listdir(sad_labels_dir):
@@ -50,12 +50,12 @@ def write_segments(sad_labels_dir, output_path):
                     parts = line.strip().split()
                     start = float(parts[0])
                     end = float(parts[1])
-                    #seg_id = f'{file_id}_{100*start:06.0f}_{100*end:06.0f}'
-                    seg_id  = file_id + start + end
-                    #f.write(f'{seg_id} {file_id} {start} {end}\n')
-                    f.write(seg_id + file_id + start + end)
+                    seg_id = f'{file_id}_{100*start:06.0f}_{100*end:06.0f}'
+                    f.write(f'{seg_id} {file_id} {start} {end}\n')
+                    
 
 def make_diar_data(meetings, wav_path, output_path, sad_labels_dir=None):
+
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
@@ -65,10 +65,12 @@ def make_diar_data(meetings, wav_path, output_path, sad_labels_dir=None):
         for line in f:
             file_list.append(line.strip())
 
-    print('read audios from', wav_path, 'and', len(file_list), 'files')
+    print('read audios')
     df_wav = find_audios(wav_path, file_list)
+    
     print('make wav.scp')
     write_wav(df_wav, output_path)
+    
     if sad_labels_dir:
         print('make segments')
         write_segments(sad_labels_dir, output_path)
@@ -86,4 +88,5 @@ if __name__ == "__main__":
     parser.add_argument('output_path', help="Path to generate data directory")
     parser.add_argument('--sad-labels-dir', help="Path to SAD labels", default=None)
     args=parser.parse_args()
+    
     make_diar_data(**vars(args))
