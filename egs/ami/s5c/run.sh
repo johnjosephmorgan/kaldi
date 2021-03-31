@@ -69,7 +69,7 @@ if [ $stage -le 3 ]; then
 fi
 
 # Feature extraction
-if [ $stage -le 2 ]; then
+if [ $stage -le 4 ]; then
   for dataset in train $test_sets; do
     steps/make_mfcc.sh --mfcc-config conf/mfcc_hires.conf --nj $nj --cmd "$train_cmd" data/$dataset
     steps/compute_cmvn_stats.sh data/$dataset
@@ -77,13 +77,13 @@ if [ $stage -le 2 ]; then
   done
 fi
 
-if [ $stage -le 4 ]; then
+if [ $stage -le 5 ]; then
   echo "$0: preparing a AMI training data to train PLDA model"
   local/nnet3/xvector/prepare_feats.sh --nj $nj --cmd "$train_cmd" \
     data/train data/plda_train exp/plda_train_cmn
 fi
 
-if [ $stage -le 5 ]; then
+if [ $stage -le 6 ]; then
   echo "$0: extracting x-vector for PLDA training data"
   utils/fix_data_dir.sh data/plda_train
   diarization/nnet3/xvector/extract_xvectors.sh --cmd "$train_cmd --mem 10G" \
@@ -93,7 +93,7 @@ if [ $stage -le 5 ]; then
 fi
 
 # Train PLDA models
-if [ $stage -le 6 ]; then
+if [ $stage -le 7 ]; then
   echo "$0: training PLDA model"
   # Compute the mean vector for centering the evaluation xvectors.
   $train_cmd $model_dir/xvectors_plda_train/log/compute_mean.log \
@@ -107,13 +107,13 @@ if [ $stage -le 6 ]; then
      transform-vec $model_dir/xvectors_plda_train/transform.mat ark:- ark:- |\
       ivector-normalize-length ark:-  ark:- |" \
     $model_dir/xvectors_plda_train/plda || exit 1;
-  
+
   cp $model_dir/xvectors_plda_train/plda $model_dir/
   cp $model_dir/xvectors_plda_train/transform.mat $model_dir/
   cp $model_dir/xvectors_plda_train/mean.vec $model_dir/
 fi
 
-if [ $stage -le 7 ]; then
+if [ $stage -le 8 ]; then
   for datadir in ${test_sets}; do
     ref_rttm=data/${datadir}/rttm.annotation
 
@@ -128,13 +128,13 @@ fi
 
 # These stages demonstrate how to perform training and inference
 # for an overlap detector.
-if [ $stage -le 8 ]; then
+if [ $stage -le 9 ]; then
   echo "$0: training overlap detector"
   local/train_overlap_detector.sh --stage $overlap_stage --test-sets "$test_sets" $AMI_DIR
 fi
 
 overlap_affix=1a
-if [ $stage -le 9 ]; then
+if [ $stage -le 10 ]; then
   for dataset in $test_sets; do
     echo "$0: performing overlap detection on $dataset"
     local/detect_overlaps.sh --convert_data_dir_to_whole true \
