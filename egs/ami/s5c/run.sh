@@ -61,7 +61,7 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ] then
-  for dataset in train $test_sets; then
+  for dataset in train $test_sets; do
     awk '{print $1,$2}' data/$dataset/segments > data/$dataset/utt2spk
     utils/utt2spk_to_spk2utt.pl data/$dataset/utt2spk > data/$dataset/spk2utt
     utils/fix_data_dir.sh data/$dataset
