@@ -566,3 +566,8 @@ if [ $stage -le 22 ]; then
     )
   done
 fi
+
+if [ $stage -le 23 ]; then
+  # train and test chain models
+  local/chain/run_tdnn.sh
+fi
