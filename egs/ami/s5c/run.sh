@@ -37,8 +37,25 @@ diarizer_type=spectral  # must be one of (ahc, spectral, vbx)
 
 # Path where AMI gets downloaded (or where locally available):
 AMI_DIR=/mnt/corpora/AMI
+test_sets="dev test"
+
+if [ $stage -le 0 ]; then
+  git clone https://github.com/BUTSpeechFIT/AMI-diarization-setup
+fi
 
 if [ $stage -le 1 ]; then
+  for dataset in train $test_sets; do
+    local/prepare_data.py \
+      --sad-labels-dir AMI-diarization-setup/only_words/labs/${dataset} \
+      AMI-diarization-setup/lists/${dataset}.meetings.txt \
+      $AMI_DIR \
+      data/$dataset
+  done
+fi
+
+    cat AMI-diarization-setup/only_words/rttms/${dataset}/*.rttm \
+      > data/${dataset}/rttm.annotation
+
   # Prepare data directories.
   local/ami_text_prep.sh data/local/downloads
 fi
