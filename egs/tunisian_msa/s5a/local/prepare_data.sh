@@ -36,10 +36,10 @@ utils/utt2spk_to_spk2utt.pl data/devtest/utt2spk | sort > data/devtest/spk2utt
 
 utils/fix_data_dir.sh data/devtest
 
-# training data consists of 2 parts: answers and recordings (recited)
+# training data consists of 3 parts: answers, recordings (recited) and Anwar's recordings
 answers_transcripts=$data_dir/transcripts/train/answers.tsv
 recordings_transcripts=$data_dir/transcripts/train/recordings.tsv
-
+recordings_anwar_transcripts=$data_dir/transcripts/train/recordings_anwar.tsv
 # location of test data
 cls_rec_tr=$libyan_src/cls/data/transcripts/recordings/cls_recordings.tsv
 lfi_rec_tr=$libyan_src/lfi/data/transcripts/recordings/lfi_recordings.tsv
@@ -53,7 +53,7 @@ mkdir -p $tmp_tunis
 
 # for recited speech
 # the data collection laptops had names like CTELLONE CTELLTWO ...
-for machine in CTELLONE CTELLTWO CTELLTHREE CTELLFOUR CTELLFIVE; do
+for machine in CTELLONE CTELLTWO CTELLTHREE CTELLFOUR CTELLFIVE anwar_libyan; do
   find $data_dir/speech/train/$machine -type f -name "*.wav" | grep Recordings \
   >> $tmp_tunis/recordings_wav.txt
 done
