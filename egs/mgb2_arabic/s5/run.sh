@@ -39,8 +39,15 @@ fi
 if [ $stage -le 1 ]; then
   # This stage only is working by running it on the command line.
   xmldir=$db_dir/train/xml/utf8
-  mkdir text/utf8
+  mkdir text/{dev,test,train}/utf8
   for f in DB/train/xml/utf8/*; do
+    base=$(basename $f .xml)
+      local/process_xml.py \
+        $f \
+        text/utf8/$base.txt
+  done
+  # get the dev text
+  for f in DB/dev/xml/utf8/*; do
     base=$(basename $f .xml)
       local/process_xml.py \
         $f \
