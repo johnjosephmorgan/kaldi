@@ -84,8 +84,13 @@ if [ $stage -le 5 ]; then
 fi
 
 if [ $stage -le 6 ]; then
-  echo "$0: extracting x-vector for PLDA training data"
   utils/fix_data_dir.sh data/plda_train
+  wget http://kaldi-asr.org/models/12/0012_diarization_v1.tar.gz
+  tar -xzvf 0012_diarization_v1.tar.gz
+fi
+
+if [ $stage -le 7 ]; then
+  echo "$0: extracting x-vector for PLDA training data"
   diarization/nnet3/xvector/extract_xvectors.sh --cmd "$train_cmd --mem 10G" \
     --nj $nj --window 3.0 --period 10.0 --min-segment 1.5 --apply-cmn false \
     --hard-min true $model_dir \
@@ -93,7 +98,7 @@ if [ $stage -le 6 ]; then
 fi
 
 # Train PLDA models
-if [ $stage -le 7 ]; then
+if [ $stage -le 8 ]; then
   echo "$0: training PLDA model"
   # Compute the mean vector for centering the evaluation xvectors.
   $train_cmd $model_dir/xvectors_plda_train/log/compute_mean.log \
@@ -113,7 +118,7 @@ if [ $stage -le 7 ]; then
   cp $model_dir/xvectors_plda_train/mean.vec $model_dir/
 fi
 
-if [ $stage -le 8 ]; then
+if [ $stage -le 9 ]; then
   for datadir in ${test_sets}; do
     ref_rttm=data/${datadir}/rttm.annotation
 
@@ -128,13 +133,13 @@ fi
 
 # These stages demonstrate how to perform training and inference
 # for an overlap detector.
-if [ $stage -le 9 ]; then
+if [ $stage -le 10 ]; then
   echo "$0: training overlap detector"
   local/train_overlap_detector.sh --stage $overlap_stage --test-sets "$test_sets" $AMI_DIR
 fi
 
 overlap_affix=1a
-if [ $stage -le 10 ]; then
+if [ $stage -le 11 ]; then
   for dataset in $test_sets; do
     echo "$0: performing overlap detection on $dataset"
     local/detect_overlaps.sh --convert_data_dir_to_whole true \
