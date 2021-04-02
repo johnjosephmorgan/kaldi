@@ -115,6 +115,7 @@ if [ $stage -le 0 ]; then
     [ -d data/gale_arabic ] || mkdir -p data/gale_arabic;
     cd data/gale_arabic
     [ -L lang ] || ln -s ../../../../gale_arabic/s5d/data/lang ./;
+    [ -L lang_test ] || ln -s ../../../../gale_arabic/s5d/data/lang_test ./;
     [ -L train ] || ln -s ../../../../gale_arabic/s5d/data/train ./;
   )
 
@@ -591,7 +592,7 @@ if [ $stage -le 23 ]; then
   tree_dir=exp/gale_arabic
   utils/mkgraph.sh \
     --self-loop-scale 1.0 \
-    data/gale_arabic/lang_chain \
+    data/gale_arabic/lang_test \
     $tree_dir \
     $tree_dir/graph || exit 1;
   # Do the  decoding pass
