@@ -587,7 +587,7 @@ if [ $stage -le 22 ]; then
 fi
 if [ $stage -le 23 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
-Decode Tunisian MSA using GALE Arabic
+  # Decode Tunisian MSA using GALE Arabic
   tree_dir=exp/gale_arabic
   utils/mkgraph.sh \
     --self-loop-scale 1.0 \
