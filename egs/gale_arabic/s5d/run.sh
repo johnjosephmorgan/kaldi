@@ -167,4 +167,63 @@ if [ $stage -le 11 ] && $run_rnnlm; then
 fi
 
 echo "$0: training succedded"
+
+if [ $stage -le 12 ]; then
+    local/test/prep_test_recordings.sh /mnt/corpora
+fi
+
+if [ $stage -le 13 ]; then
+  steps/make_mfcc.sh \
+    --cmd "$train_cmd" \
+    --nj $num_jobs \
+    data/test \
+    exp/make_mfcc/test \
+    $mfccdir
+  utils/fix_data_dir.sh data/tst
+  steps/compute_cmvn_stats.sh \
+    data/test \
+    exp/make_mfcc/tesst \
+    $mfccdir
+  utils/copy_data_dir.sh data/test data/test_hires
+  steps/make_mfcc.sh \
+    --cmd "$train_cmd" \
+    --mfcc-config conf/mfcc_hires.conf \
+    --nj 3 \
+    --write-utt2dur false \
+    data/test_hires
+  steps/compute_cmvn_stats.sh data/test_hires
+  utils/fix_data_dir.sh data/test_hires
+  steps/online/nnet2/extract_ivectors_online.sh \
+    --cmd "$train_cmd" \
+    --nj 3 \
+    data/test_hires \
+    exp/nnet3/extractor \
+    exp/nnet3/ivectors_test_hires
+  utils/lang/check_phones_compatible.sh \
+    data/lang_test/phones.txt \
+    data/lang_chain/phones.txt
+  utils/mkgraph.sh \
+    --self-loop-scale 1.0 \
+    data/lang_test \
+    exp/chain/tree_a_sp \
+    exp/chain/tree_a_sp/graph || exit 1;
+
+  steps/nnet3/decode.sh \
+    --acwt 1.0 \
+    --post-decode-acwt 10.0 \
+    --extra-left-context 0 \
+    --extra-right-context 0 \
+    --extra-left-context-initial 0 \
+    --extra-right-context-final 0 \
+    --frames-per-chunk 150 \
+    --nj 3 \
+    --cmd "$decode_cmd"  \
+    --num-threads 4 \
+    --online-ivector-dir exp/nnet3/ivectors_test_hires \
+    exp/chain/tree_a_sp/graph \
+    data/test_hires \
+    exp/chain/tdnn_1a_sp/decode_test || exit 1
+fi
+fi
 exit 0
+./local/buckwalter2unicode.py -r -i ./text.utf8 -o text.bw
