@@ -602,8 +602,8 @@ if [ $stage -le 23 ]; then
     # Convert the text file to buckwalter
     cut -d " " -f 1 data/tunisian_msa/${f}_hires/text > ${f}_index.txt
     cut -d " " -f 2- data/tunisian_msa/${f}_hires/text > ${f}_text.txt
-    local/buckwalter2unicode.py -r -i ${f}_text.txt -o data/tunisian_msa/test_${f}_bw/text
-    paste -d " " ${f}_index ${f}_text > data/tunisian_msa/${f}_hires_bw/text
+    local/buckwalter2unicode.py -r -i ${f}_text.txt -o ${f}_text.bw
+    paste -d " " ${f}_index ${f}_text.bw > data/tunisian_msa/${f}_hires_bw/text
     # Decode Tunisian MSA using GALE Arabic
     (
       nspk=$(wc -l <data/tunisian_msa/${f}_hires/spk2utt)
