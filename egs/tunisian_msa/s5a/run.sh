@@ -39,7 +39,7 @@ if [ $stage -le 3 ]; then
     utils/fix_data_dir.sh data/$fld
   done
 fi
-exit
+
 if [ $stage -le 4 ]; then
   echo "$0: monophone training"
   steps/train_mono.sh  data/train data/lang exp/mono
