@@ -31,9 +31,6 @@ for s in devtest/CTELLONE/Recordings_Arabic/6 devtest/CTELLTHREE/Recordings_Arab
   done
 done
 
-#utils/utt2spk_to_spk2utt.pl data/devtest/utt2spk | sort > data/devtest/spk2utt
-#utils/fix_data_dir.sh data/devtest
-
 # process Anwar's Libyan MSA devtest data
 # get list of  wav files
 for s in devtest/anwar_libyan_msa/Recordings_Arabic/1; do
@@ -43,7 +40,7 @@ for s in devtest/anwar_libyan_msa/Recordings_Arabic/1; do
   -name "*.wav" | grep Recordings_Arabic > $tmplibyan/$s/wav.txt
 
   local/devtest_anwar_recordings_make_lists.pl \
-  $datadir/transcripts/devtest/recordings.tsv $s libyan
+  $datadir/transcripts/devtest/anwar_recordings.tsv $s libyan || exit 1;
 
   for x in wav.scp utt2spk text; do
     cat     $tmplibyan/$s/$x | tr "	" " " >> data/devtest/$x
