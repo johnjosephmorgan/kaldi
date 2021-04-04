@@ -22,7 +22,7 @@ for s in devtest/CTELLONE/Recordings_Arabic/6 devtest/CTELLTHREE/Recordings_Arab
   -name "*.wav" | grep Recordings_Arabic > $tmptunis/$s/wav.txt
 
   local/devtest_recordings_make_lists.pl \
-  $datadir/transcripts/devtest/recordings.tsv $s tunis
+  $datadir/transcripts/devtest/recordings.tsv $s tunis || exit 1;
 
   mkdir -p data/devtest
 

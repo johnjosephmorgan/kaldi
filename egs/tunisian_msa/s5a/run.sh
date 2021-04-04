@@ -17,7 +17,7 @@ tmpdir=data/local/tmp
 # preparation stages will store files under data/
 # Delete the entire data directory when restarting.
 if [ $stage -le 0 ]; then
-  local/prepare_data.sh
+  local/prepare_data.sh || exit 1;
 fi
 
 if [ $stage -le 1 ]; then
