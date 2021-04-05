@@ -34,7 +34,6 @@ LINEA: while ( my $line = <> ) {
   chomp $line;
   my ($idx,$sent) = split /\t/, $line, 2;
   $prompts{$idx} = $sent;
-  warn "index\t$idx\nsent\t$sent";
 }
 
 open my $W, '<', $w or croak "problem with $w $!";
