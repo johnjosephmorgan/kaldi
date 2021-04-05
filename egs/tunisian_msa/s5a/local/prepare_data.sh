@@ -55,7 +55,7 @@ for s in devtest/anwar_libyan_msa/Answers_Arabic/1; do
   -name "*.wav" | grep Answers_Arabic > $tmplibyan/$s/wav.txt
 
   local/devtest_anwar_answers_make_lists.pl \
-  $datadir/transcripts/devtest/anwar_answers.tsv $s libyan
+  $datadir/transcripts/devtest/anwar_answers.tsv $s libyan || exit 1;
 
   for x in wav.scp utt2spk text; do
     cat     $tmplibyan/$s/$x | tr "	" " " >> data/devtest/$x
@@ -106,13 +106,14 @@ done
 
 # make separate transcription lists for answers and recordings
 export LC_ALL=en_US.UTF-8
-local/answers_make_lists.pl $answers_transcripts
+local/answers_make_lists.pl $answers_transcripts || exit 1;
 
 utils/fix_data_dir.sh $tmptunis/answers
 
-local/recordings_make_lists.pl $recordings_transcripts
+local/recordings_make_lists.pl $recordings_transcripts || exit 1;
 
-local/recordings_anwar_make_lists.pl $recordings_anwar_transcripts
+echo "$0: make anwar's rcording lists."
+local/recordings_anwar_make_lists.pl $recordings_anwar_transcripts || exit 1;
 
 utils/fix_data_dir.sh $tmplibyan/recordings
 

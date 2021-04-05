@@ -27,13 +27,13 @@ my $u = "$tmpdir/recordings/utt2spk";
 my $t = "$tmpdir/recordings/text";
 
 # initialize hash for prompts
-my %p = ();
+my %prompts = ();
 
 # store prompts in hash
 LINEA: while ( my $line = <> ) {
-    chomp $line;
-    my ($s,$sent) = split /\t/, $line, 2;
-    $p{$s} = $sent;
+  chomp $line;
+  my ($s,$sent) = split /\t/, $line, 2;
+  $prompts{$s} = $sent;
 }
 
 open my $W, '<', $w or croak "problem with $w $!";
@@ -41,27 +41,27 @@ open my $O, '+>', $o or croak "problem with $o $!";
 open my $U, '+>', $u or croak "problem with $u $!";
 open my $T, '+>', $t or croak "problem with $t $!";
 
- LINE: while ( my $line = <$W> ) {
-     chomp $line;
-     next LINE if ($line =~ /Answers/ );
-     next LINE unless ( $line =~ /Recordings/ );
-     my ($volume,$directories,$file) = File::Spec->splitpath( $line );
-     my @dirs = split /\//, $directories;
-     my $machine = $dirs[-3];
-     my $r = basename $line, ".wav";
-     my $s = $dirs[-1];
-     my $rid = $machine . '_' . $s . '_r_' . $r;
-     if ( exists $p{$r} ) {
-	 print $T "$rid\t$p{$r}\n";
-     } elsif ( defined $rid ) {
-	 warn  "problem\t$rid";
-	 next LINE;
-     } else {
-	 croak "$line";
-     }
+LINE: while ( my $line = <$W> ) {
+  chomp $line;
+  next LINE if ($line =~ /Answers/ );
+  next LINE unless ( $line =~ /Recordings/ );
+  my ($volume,$directories,$file) = File::Spec->splitpath( $line );
+  my @dirs = split /\//, $directories;
+  my $machine = $dirs[-3];
+  my $r = basename $line, ".wav";
+  my $s = $dirs[-1];
+  my $rid = $machine . '_' . $s . '_r_' . $r;
+  if ( exists $prompts{$r} ) {
+    print $T "$rid\t$prompts{$r}\n";
+  } elsif ( defined $rid ) {
+    warn  "problem\t$r";
+    next LINE;
+  } else {
+     croak "$line";
+  }
 
-     print $O "$rid sox $line -t wav - |\n";
-	print $U "$rid\t${machine}_${s}_r\n";
+  print $O "$rid sox $line -t wav - |\n";
+  print $U "$rid\t${machine}_${s}_r\n";
 }
 close $T;
 close $O;
