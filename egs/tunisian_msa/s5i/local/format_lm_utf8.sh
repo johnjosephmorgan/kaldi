@@ -1,6 +1,7 @@
-#!/usr/bin/env bash
+/usr/bin/env bash
+
 utils/format_lm.sh \
   data/lang \
-  data/local/lm/$LM \
+  data/local/lm/gale.o3g.kn_utf8.gz \
   data/local/dict/lexicon.txt \
-  data/lang_test || exit 1;
+  data/lang_test
