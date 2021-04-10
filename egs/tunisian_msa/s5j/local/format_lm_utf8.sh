@@ -1,4 +1,4 @@
-/usr/bin/env bash
+#!/usr/bin/env bash
 
 utils/format_lm.sh \
   data/gale_arabic/lang \
