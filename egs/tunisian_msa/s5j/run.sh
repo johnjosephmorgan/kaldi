@@ -115,6 +115,7 @@ if [ $stage -le 0 ]; then
     [ -d data/gale_arabic ] || mkdir -p data/gale_arabic;
     cd data/gale_arabic
     [ -L lang ] || ln -s ../../../../gale_arabic/s5d/data/lang ./;
+    [ -L lang_test ] || ln -s ../../../../gale_arabic/s5d/data/lang_test ./;
     [ -L train ] || ln -s ../../../../gale_arabic/s5d/data/train ./;
   )
 
@@ -643,4 +644,11 @@ if [ $stage -le 23 ]; then
         exp/chain2_multi/gale_arabic/decode_${f}_hires_bw || exit 1
     )
   done
+fi
+
+if [ $stage -le 24 ]; then
+  local/gale_train_lms_utf8.sh \
+    ../../gale_arabic/s5d/data/train/text \
+    ../../gale_arabic/s5d/data/local/dict/lexicon.txt \
+    data/local/lm || exit 1; 
 fi
