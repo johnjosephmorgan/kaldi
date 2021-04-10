@@ -659,12 +659,13 @@ fi
 
 if [ $stage -le 26 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
-  tree_dir=exp/tunisian_msa
+  tree>_dir=exp/tunisian_msa
   utils/mkgraph.sh \
     --self-loop-scale 1.0 \
     data/lang_test \
     $tree_dir \
     $tree_dir/graph || exit 1;
+  for f in devtest test; do
     # Decode Tunisian MSA using Tunisian MSA with GALE LM
     (
       nspk=$(wc -l <data/tunisian_msa/${f}_hires/spk2utt)
