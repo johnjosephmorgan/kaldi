@@ -1,7 +1,7 @@
 /usr/bin/env bash
 
 utils/format_lm.sh \
-  data/lang \
+  data/gale_arabic/lang \
   data/local/lm/gale.o3g.kn_utf8.gz \
-  data/local/dict/lexicon.txt \
+  ../s5a/data/local/dict/lexicon.txt \
   data/lang_test
