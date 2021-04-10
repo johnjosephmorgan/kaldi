@@ -659,7 +659,7 @@ fi
 
 if [ $stage -le 26 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
-  tree>_dir=exp/tunisian_msa
+  tree_dir=exp/tunisian_msa
   utils/mkgraph.sh \
     --self-loop-scale 1.0 \
     data/lang_test \
