@@ -603,3 +603,44 @@ if [ $stage -le 22 ]; then
     )
   done
 fi
+
+if [ $stage -le 23 ]; then
+  frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
+  tree_dir=exp/gale_arabic
+  utils/mkgraph.sh \
+    --self-loop-scale 1.0 \
+    data/gale_arabic/lang_test \
+    $tree_dir \
+    $tree_dir/graph || exit 1;
+  # copy utf8 test directory to a buckwalter test directory
+  for f in devtest test; do
+    utils/copy_data_dir.sh \
+      data/tunisian_msa/${f}_hires \
+      data/tunisian_msa/${f}_hires_bw || exit 1;
+    # Convert the text file to buckwalter
+    cut -d " " -f 1 data/tunisian_msa/${f}_hires/text > ${f}_index.txt
+    cut -d " " -f 2- data/tunisian_msa/${f}_hires/text > ${f}_text.txt
+    local/buckwalter2unicode.py -r -i ${f}_text.txt -o ${f}_text.bw
+    paste -d " " ${f}_index.txt ${f}_text.bw > data/tunisian_msa/${f}_hires_bw/text
+    # Decode Tunisian MSA using GALE Arabic
+    (
+      nspk=$(wc -l <data/tunisian_msa/${f}_hires/spk2utt)
+      tree_dir=exp/gale_arabic || exit 1;
+      steps/nnet3/decode.sh \
+        --acwt 1.0 \
+        --cmd "$decode_cmd"  \
+        --extra-left-context $egs_left_context \
+        --extra-left-context-initial 0 \
+        --extra-right-context $egs_right_context \
+        --extra-right-context-final 0 \
+        --frames-per-chunk $frames_per_chunk \
+        --nj $nspk \
+        --num-threads 4 \
+        --online-ivector-dir exp/tunisian_msa/ivectors_${f}_hires \
+        --post-decode-acwt 10.0 \
+        $tree_dir/graph \
+        data/tunisian_msa/${f}_hires_bw \
+        exp/chain2_multi/gale_arabic/decode_${f}_hires_bw || exit 1
+    )
+  done
+fi
