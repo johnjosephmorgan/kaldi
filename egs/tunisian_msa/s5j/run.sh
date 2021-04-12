@@ -560,7 +560,7 @@ if [ $stage -le 19 ]; then
     $tree_dir/graph || exit 1;
 fi
 
-if [ $stage -le 22 ]; then
+if [ $stage -le 20 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   # Extract high resolution MFCCs from dev and test data
   for f in devtest test; do
@@ -605,7 +605,7 @@ if [ $stage -le 22 ]; then
   done
 fi
 
-if [ $stage -le 23 ]; then
+if [ $stage -le 21 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   tree_dir=exp/gale_arabic
   utils/mkgraph.sh \
@@ -646,18 +646,18 @@ if [ $stage -le 23 ]; then
   done
 fi
 
-if [ $stage -le 24 ]; then
+if [ $stage -le 22 ]; then
   local/gale_train_lms_utf8.sh \
     ../../gale_arabic/s5d/data/train/text \
     ../../gale_arabic/s5d/data/local/dict/lexicon.txt \
     data/local/lm || exit 1; 
 fi
 
-if [ $stage -le 25 ]; then
+if [ $stage -le 23 ]; then
   local/format_lm_utf8.sh
 fi
 
-if [ $stage -le 26 ]; then
+if [ $stage -le 24 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   tree_dir=exp/tunisian_msa
   utils/mkgraph.sh \
