@@ -85,44 +85,19 @@ fi
 
 if [ $stage -le 12 ]; then
   echo "$0: lm training."
+  rm -Rf data/local/lm
   local/gale_train_lms_utf8.sh \
     ../../gale_arabic/s5d/data/train/text \
     ../../gale_arabic/s5d/data/local/dict/lexicon.txt \
     data/local/lm || exit 1; 
-
-  local/format_lm_utf8.sh
 fi
 
 if [ $stage -le 13 ]; then
   echo "Making grammar fst."
-  utils/format_lm.sh \
-    data/lang \
-    data/local/lm/trigram.arpa.gz \
-    data/local/dict/lexicon.txt \
-    data/lang_test
+  local/format_lm_utf8.sh
 fi
 
 if [ $stage -le 14 ]; then
-  (
-    #  make decoding FSTs for tri2b models
-    utils/mkgraph.sh \
-      data/lang_test \
-      exp/tri2b \
-      exp/tri2b/graph
-
-    # decode  test with tri2b models
-    for x in devtest test; do
-      nspk=$(wc -l < data/$x/spk2utt)
-      steps/decode.sh \
-        --nj $nspk \
-        exp/tri2b/graph \
-        data/$x \
-        exp/tri2b/decode_${x} || exit 1;
-    done
-  ) &
-fi
-
-if [ $stage -le 15 ]; then
   (
     # make decoding graphs for SAT models
     utils/mkgraph.sh \
