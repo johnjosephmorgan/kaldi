@@ -84,8 +84,13 @@ if [ $stage -le 11 ]; then
 fi
 
 if [ $stage -le 12 ]; then
-  echo "lm training."
-  local/prepare_lm.sh  ./lm_text.txt
+  echo "$0: lm training."
+  local/gale_train_lms_utf8.sh \
+    ../../gale_arabic/s5d/data/train/text \
+    ../../gale_arabic/s5d/data/local/dict/lexicon.txt \
+    data/local/lm || exit 1; 
+
+  local/format_lm_utf8.sh
 fi
 
 if [ $stage -le 13 ]; then
