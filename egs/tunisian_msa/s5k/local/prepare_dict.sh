@@ -37,7 +37,6 @@ paste -d " " data/local/lexicon_data/words.txt data/local/lexicon_data/prons.bw 
 cut -d' ' -f2- $dir/lexicon.txt | sed 's/SIL//g' | tr ' ' '\n' | sort -u | sed '/^$/d' >$dir/nonsilence_phones.txt || exit 1;
 
 sed -i '1i<UNK> UNK' $dir/lexicon.txt
-$dir/lexicon.txt -o $dir/lexicon_utf8.txt
 echo UNK >> $dir/nonsilence_phones.txt
 
 echo '<sil> SIL' >> $dir/lexicon.txt
