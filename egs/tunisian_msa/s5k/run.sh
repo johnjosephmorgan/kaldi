@@ -117,7 +117,7 @@ if [ $stage -le 14 ]; then
   ) &
 fi
 
-if [ $stage -le 16 ]; then
+if [ $stage -le 15 ]; then
     # train and test chain models
   local/chain/run_tdnn.sh
 fi
