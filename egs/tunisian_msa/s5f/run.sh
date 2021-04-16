@@ -1,5 +1,6 @@
 #!/usr/bin/env bash 
 
+# What happens if we add devtest prompts to lm training text?
 . ./cmd.sh
 . ./path.sh
 stage=0
