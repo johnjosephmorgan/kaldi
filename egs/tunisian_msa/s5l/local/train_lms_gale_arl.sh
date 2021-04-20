@@ -80,7 +80,7 @@ if [ $stage -le 1 ]; then
   ngram \
     -unk \
     -lm $dir/gale_arl.o3g.${smoothing}_utf8.gz \
-    -ppl $dir/heldout_gale_arl_utf8.txt
+    -ppl $dir/heldout_gale_utf8.txt
   ngram -unk -lm \
     $dir/gale_arl.o3g.${smoothing}_utf8.gz \
     -ppl $dir/heldout_utf8.txt \
@@ -97,10 +97,10 @@ if [ $stage -le 1 ]; then
   ngram \
     -unk \
     -lm $dir/gale_arl.o4g.${smoothing}_utf8.gz \
-    -ppl $dir/heldout_gale_arl_utf8.txt
+    -ppl $dir/heldout_gale_utf8.txt
   ngram \
     -unk \
     -lm $dir/gale_arl.o4g.${smoothing}_utf8.gz \
-    -ppl $dir/heldout_gale_arl_utf8.txt \
+    -ppl $dir/heldout_gale_utf8.txt \
     -debug 2 >& $dir/4gram.${smoothing}_gale_arl_utf8.ppl2
 fi
