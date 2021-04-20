@@ -62,7 +62,7 @@ local/buckwalter2unicode.py \
   -i $dir/train_gale \
   -o $dir/train_gale_utf8.txt
 
-cat $dir/train_gale_utf8.txt data/local/lm/training_arl.txt > data/local/lm/train_gale_arl_utf8.txt
+cat $dir/train_gale_utf8.txt data/local/lm/training_arl_text.txt > data/local/lm/train_gale_arl_utf8.txt
 gzip $dir/train_gale_arl_utf8.txt
 
 if [ $stage -le 1 ]; then
