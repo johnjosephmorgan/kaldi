@@ -738,8 +738,12 @@ if [ $stage -le 26 ]; then
   local/buckwalter2unicode.py \
     -i $lm_dir/heldout_gale_bw \
     -o $lm_dir/heldout_gale_utf8.txt
-  cut -d' ' -f1 $lexicon > $lm_dir/wordlist_gale_bw
-  # convert the wordlist to utf8
+fi
+
+if [ $stage -le 27 ]; then
+  echo "$0: Get GALE bw wordlist."
+  cut -d ' ' -f 1 $lexicon > $lm_dir/wordlist_gale_bw
+  echo "$0: Convert the wordlist to utf8."
   local/buckwalter2unicode.py \
     -i $lm_dir/wordlist_gale_bw \
     -o $lm_dir/wordlist_gale_utf8.txt
@@ -798,11 +802,11 @@ if [ $stage -le 26 ]; then
     -debug 2 >& $lm_dir/4gram.${smoothing}_gale_arl_utf8.ppl2
 fi
 
-if [ $stage -le 27 ]; then
+if [ $stage -le 28 ]; then
   local/format_lm_gale_arl.sh
 fi
 
-if [ $stage -le 28 ]; then
+if [ $stage -le 29 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   tree_dir=exp/tunisian_msa
   utils/mkgraph.sh \
