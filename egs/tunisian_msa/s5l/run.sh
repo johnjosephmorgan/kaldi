@@ -701,7 +701,7 @@ if [ $stage -le 25 ]; then
   for f in fm5.0_cleaned_ZA_ar fm6.0_cleaned_ZA_ar fm6.22_cleaned_ZA_ar FM7-8_cleaned_ZA_ar mflts_msa_ar MNSTC-I_cleaned_ZA_ar; do
     cat $arl_lm_data_path/$f.txt >> data/local/lm/training_arl_text_utf8.txt
   done
-  dos2unix data/local/lm/training_arl_text_utf8.txt
+  $(dos2unix $dir/training_arl_text_utf8.txt)
   gale_training_text=../../gale_arabic/s5d/data/train/text
   lexicon=../../gale_arabic/s5d/data/local/dict/lexicon.txt
   dir=data/local/lm
@@ -733,7 +733,7 @@ if [ $stage -le 25 ]; then
   # convert the heldout to utf8
   local/buckwalter2unicode.py \
     -i $dir/heldout_gale_bw \
-    -o $dir/heldout_gale_utf8.txt 
+    -o $dir/heldout_gale_utf8.txt
   cut -d' ' -f1 $lexicon > $dir/wordlist_gale_bw
   # convert the wordlist to utf8
   local/buckwalter2unicode.py \
