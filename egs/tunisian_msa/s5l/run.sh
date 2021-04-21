@@ -38,6 +38,7 @@ gmm=tri3b  # the gmm for the target data
 initial_effective_lrate=0.001
 langdir=data/lang
 lda_mllt_lang=tunisian_msa
+lm_dir=data/local/lm
 max_param_change=2.0
 memory_compression_level=0
 minibatch_size=128
@@ -696,8 +697,7 @@ if [ $stage -le 25 ]; then
   # Get the ARL LM training text
   # The data is located under /mnt/corpora/ultra/arabic_lm_text/ar
   # The data is written to data/local/lm/training_arl_text_utf8.txt
-  lm_dir=data/local/lm
-  [ ! -d $lm_dir ] || rm -Rf $lm_dir;
+    [ ! -d $lm_dir ] || rm -Rf $lm_dir;
   mkdir -p $lm_dir
   # get the ARL lm training text
   for f in fm5.0_cleaned_ZA_ar fm6.0_cleaned_ZA_ar fm6.22_cleaned_ZA_ar FM7-8_cleaned_ZA_ar mflts_msa_ar MNSTC-I_cleaned_ZA_ar; do
@@ -731,7 +731,10 @@ if [ $stage -le 25 ]; then
   cut -d' ' -f2- $gale_training_text   > $lm_dir/train.gale_bw
   cut -d' ' -f2- $gale_training_text | tail -n +$heldout_sent  > $lm_dir/train_gale_bw
   cut -d' ' -f2- $gale_training_text | head -n $heldout_sent > $lm_dir/heldout_gale_bw
-  # convert the heldout to utf8
+fi
+
+if [ $stage -le 26 ]; then
+  echo "$0: Converting the heldout to utf8."
   local/buckwalter2unicode.py \
     -i $lm_dir/heldout_gale_bw \
     -o $lm_dir/heldout_gale_utf8.txt
@@ -795,11 +798,11 @@ if [ $stage -le 25 ]; then
     -debug 2 >& $lm_dir/4gram.${smoothing}_gale_arl_utf8.ppl2
 fi
 
-if [ $stage -le 26 ]; then
+if [ $stage -le 27 ]; then
   local/format_lm_gale_arl.sh
 fi
 
-if [ $stage -le 27 ]; then
+if [ $stage -le 28 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   tree_dir=exp/tunisian_msa
   utils/mkgraph.sh \
