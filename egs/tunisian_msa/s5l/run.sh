@@ -705,7 +705,7 @@ if [ $stage -le 25 ]; then
   lexicon=../../gale_arabic/s5d/data/local/dict/lexicon.txt
   dir=data/local/lm
   $(dos2unix $dir/training_arl_text_utf8.txt)
-  [ -f $gale_training_text ] || echo "$0: No such file $gale_training_text" && exit 1;
+  [ -f $gale_training_text ] || echo "$0: No such file $gale_training_text"
   [ -f $lexicon ] || echo "$0: No such file $lexicon" && exit 1;
   loc=$(which ngram-count);
   if [ -z $loc ]; then
