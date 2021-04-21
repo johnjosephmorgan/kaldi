@@ -696,23 +696,25 @@ if [ $stage -le 25 ]; then
   # Get the ARL LM training text
   # The data is located under /mnt/corpora/ultra/arabic_lm_text/ar
   # The data is written to data/local/lm/training_arl_text_utf8.txt
-  [ ! -d data/local/lm ] || rm -Rf data/local/lm;
-  [ -d data/local/lm ] || mkdir -p data/local/lm;
+  lm_dir=data/local/lm
+  [ ! -d $lm_dir ] || rm -Rf $lm_dir;
+  mkdir -p $lm_dir
+  # get the ARL lm training text
   for f in fm5.0_cleaned_ZA_ar fm6.0_cleaned_ZA_ar fm6.22_cleaned_ZA_ar FM7-8_cleaned_ZA_ar mflts_msa_ar MNSTC-I_cleaned_ZA_ar; do
     cat $arl_lm_data_path/$f.txt >> data/local/lm/training_arl_text_utf8.txt
   done
+  # get rid of the carriage returns
+  $(dos2unix $lm_dir/training_arl_text_utf8.txt)
   gale_training_text=../../gale_arabic/s5d/data/train/text
   lexicon=../../gale_arabic/s5d/data/local/dict/lexicon.txt
-  dir=data/local/lm
-  $(dos2unix $dir/training_arl_text_utf8.txt)
   [ -f $gale_training_text ] || echo "$0: No such file $gale_training_text"
   [ -f $lexicon ] || echo "$0: No such file $lexicon"
   loc=$(which ngram-count);
   if [ -z $loc ]; then
     if uname -a | grep 64 >/dev/null; then # some kind of 64 bit...
-      sdir=`pwd`/../../../tools/srilm/bin/i686-m64 
+      sdir=$(pwd)/../../../tools/srilm/bin/i686-m64 
     else
-      sdir=`pwd`/../../../tools/srilm/bin/i686
+      sdir=$(pwd)/../../../tools/srilm/bin/i686
     fi
     if [ -f $sdir/ngram-count ]; then
       echo Using SRILM tools from $sdir
@@ -724,7 +726,6 @@ if [ $stage -le 25 ]; then
       exit 1
     fi
   fi
-  mkdir -p $dir
   export LC_ALL=C 
   heldout_sent=10000
   cut -d' ' -f2- $gale_training_text | gzip -c > $dir/train.gale_bw.gz
