@@ -3,7 +3,7 @@
 . utils/parse_options.sh
 
 text=data/local/lm/training_arl_text.txt
-lexicon=../../gale_arabic/s5d/data/local/dict/lexicon.txt \
+lexicon=../../gale_arabic/s5d/data/local/dict/lexicon.txt
 dir=data/local/lm
 
 [ ! -f $text ] && echo "$0: No such file $text" && exit 1;
@@ -80,7 +80,7 @@ if [ $stage -le 1 ]; then
     -ppl $dir/heldout_utf8.txt \
     -debug 2 >& $dir/3gram.${smoothing}_gale_arl_utf8.ppl2
   # 4gram language model
-  echo "training 4-gram GALE ARL lm"
+  echo "$0: training 4-gram GALE ARL lm"
   ngram-count \
     -text $dir/train_gale_arl_utf8.txt.gz \
     -order 4 \

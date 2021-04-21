@@ -24,6 +24,7 @@ lang_list=(tunisian_msa globalphone_tunisian gale_arabic msa_mflts)
 num_langs=4
 
 # Start setting other variables
+arl_lm_data_path=/mnt/corpora/ultra/arabic_lm_text/ar
 boost_sil=1.0 # Factor by which to boost silence likelihoods in alignment
 chunk_width=150
 cmd=run.pl
@@ -694,11 +695,101 @@ fi
 if [ $stage -le 25 ]; then
   # Get the ARL LM training text
   # The data is located under /mnt/corpora/ultra/arabic_lm_text/ar
-    # The data is written to data/local/lm/training_arl_text.txt
-    [ ! -d data/local/lm ] || rm -Rf data/local/lm;
-  local/get_arl_lm_training_text.sh
+  # The data is written to data/local/lm/training_arl_text_utf8.txt
+  [ ! -d data/local/lm ] || rm -Rf data/local/lm;
+  [ -d data/local/lm ] || mkdir -p data/local/lm;
+  for f in fm5.0_cleaned_ZA_ar fm6.0_cleaned_ZA_ar fm6.22_cleaned_ZA_ar FM7-8_cleaned_ZA_ar mflts_msa_ar MNSTC-I_cleaned_ZA_ar; do
+    cat $arl_lm_data_path/$f.txt >> data/local/lm/training_arl_text_utf8.txt
+  done
+  dos2unix data/local/lm/training_arl_text_utf8.txt
+  gale_training_text=../../gale_arabic/s5d/data/train/text
+  lexicon=../../gale_arabic/s5d/data/local/dict/lexicon.txt
+  dir=data/local/lm
+  [ ! -f $gale_training_text ] && echo "$0: No such file $gale_training_text" && exit 1;
+  [ ! -f $lexicon ] && echo "$0: No such file $lexicon" && exit 1;
+  loc=$(which ngram-count);
+  if [ -z $loc ]; then
+    if uname -a | grep 64 >/dev/null; then # some kind of 64 bit...
+      sdir=`pwd`/../../../tools/srilm/bin/i686-m64 
+    else
+      sdir=`pwd`/../../../tools/srilm/bin/i686
+    fi
+    if [ -f $sdir/ngram-count ]; then
+      echo Using SRILM tools from $sdir
+      export PATH=$PATH:$sdir
+    else
+      echo You appear to not have SRILM tools installed, either on your path,
+      echo or installed in $sdir.  See tools/install_srilm.sh for installation
+      echo instructions.
+      exit 1
+    fi
+  fi
+  mkdir -p $dir
+  export LC_ALL=C 
+  heldout_sent=10000
+  cut -d' ' -f2- $gale_training_text | gzip -c > $dir/train.gale_bw.gz
+  cut -d' ' -f2- $gale_training_text | tail -n +$heldout_sent | gzip -c > $dir/train_gale_bw.gz
+  cut -d' ' -f2- $gale_training_text | head -n $heldout_sent > $dir/heldout_gale_bw
+  # convert the heldout to utf8
+  local/buckwalter2unicode.py \
+    -i $dir/heldout_gale_bw \
+    -o $dir/heldout_gale_utf8.txt 
+  cut -d' ' -f1 $lexicon > $dir/wordlist_gale_bw
+  # convert the wordlist to utf8
+  local/buckwalter2unicode.py \
+    -i $dir/wordlist_gale_bw \
+    -o $dir/wordlist_gale_utf8.txt
+  # convert the training text to utf8
+  gunzip   $dir/train_gale_bw.gz 
+  local/buckwalter2unicode.py \
+    -i $dir/train_gale_bw \
+    -o $dir/train_gale_utf8.txt
+  # concatenate the GALE and ARL training text
+  cat $dir/train_gale_utf8.txt data/local/lm/training_arl_text_utf8.txt > data/local/lm/train_gale_arl_utf8.txt
+  gzip $dir/train_gale_arl_utf8.txt
+  # get the wordlist from GALE and ARL lm training text
+  cat data/local/lm/train_gale_arl_utf8.txt | tr " " "\n" | sort -u > data/local/lm/wordlist_gale_arl_utf8.txt
+  # Trigram language model
+  echo "$0: training tri-gram lm"
+  smoothing="kn"
+  ngram-count \
+    -text $dir/train_gale_arl_utf8.txt.gz \
+    -order 3 \
+    -limit-vocab -vocab $dir/wordlist_gale_arl_utf8.txt \
+    -unk -map-unk "<UNK>" \
+    -${smoothing}discount -interpolate -lm \
+    $dir/gale_arl.o3g.${smoothing}_utf8.gz
+  echo "PPL for GALE ARL Arabic trigram LM:"
+  ngram \
+    -unk \
+    -lm $dir/gale_arl.o3g.${smoothing}_utf8.gz \
+    -ppl $dir/heldout_gale_utf8.txt
+  ngram -unk -lm \
+    $dir/gale_arl.o3g.${smoothing}_utf8.gz \
+    -ppl $dir/heldout_utf8.txt \
+    -debug 2 >& $dir/3gram.${smoothing}_gale_arl_utf8.ppl2
+  # 4gram language model
+  echo "$0: training 4-gram GALE ARL lm"
+  ngram-count \
+    -text $dir/train_gale_arl_utf8.txt.gz \
+    -order 4 \
+    -limit-vocab -vocab $dir/wordlist_gale_utf8.txt \
+    -unk -map-unk "<UNK>" -${smoothing}discount -interpolate -lm \
+    $dir/gale_arl.o4g.${smoothing}_utf8.gz
+  echo "PPL for GALE ARL Arabic 4gram LM:"
+  ngram \
+    -unk \
+    -lm $dir/gale_arl.o4g.${smoothing}_utf8.gz \
+    -ppl $dir/heldout_gale_utf8.txt
+  ngram \
+    -unk \
+    -lm $dir/gale_arl.o4g.${smoothing}_utf8.gz \
+    -ppl $dir/heldout_gale_utf8.txt \
+    -debug 2 >& $dir/4gram.${smoothing}_gale_arl_utf8.ppl2
+fi
+
   # Append the Gale arabic training text.
-  cat     ../../gale_arabic/s5d/data/train/text >> data/local/lm/training_arl_text.txt
+  cat     ../../gale_arabic/s5d/data/train/text >> data/local/lm/training_arl_text_bw.txt
   local/train_lms_gale_arl.sh
 fi
 
@@ -737,4 +828,3 @@ if [ $stage -le 27 ]; then
     )
   done
 fi
-

@@ -6,5 +6,5 @@ arl_lm_data_path=/mnt/corpora/ultra/arabic_lm_text/ar
 [ ! -f data/local/lm/training_arl_text.txt ] || rm data/local/lm/training_arl_text.txt;
 
 for f in fm5.0_cleaned_ZA_ar fm6.0_cleaned_ZA_ar fm6.22_cleaned_ZA_ar FM7-8_cleaned_ZA_ar mflts_msa_ar MNSTC-I_cleaned_ZA_ar; do
-  cat $arl_lm_data_path/$f.txt >> data/local/lm/training_arl_text.txt
+  cat $arl_lm_data_path/$f.txt >> data/local/lm/training_arl_text_utf8.txt
 done
