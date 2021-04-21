@@ -1,14 +1,8 @@
 #!/usr/bin/env bash
 
-help_message="Usage: $0 [options] <train-txt> <dict> <out-dir>
-Train language models with GALE Arabic and ARL.\n
-options: 
-  --help          # print this message and exit
-";
-
 . utils/parse_options.sh
 
-text=data/local/lm/training_text.txt
+text=data/local/lm/training_arl_text.txt
 lexicon=../../gale_arabic/s5d/data/local/dict/lexicon.txt \
 dir=data/local/lm
 

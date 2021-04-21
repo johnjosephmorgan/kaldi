@@ -694,11 +694,11 @@ fi
 if [ $stage -le 25 ]; then
   # Get the ARL LM training text
   # The data is located under /mnt/corpora/ultra/arabic_lm_text/ar
-    # The data is written to data/local/lm/training_text.txt
+    # The data is written to data/local/lm/training_arl_text.txt
     [ ! -d data/local/lm ] || rm -Rf data/local/lm;
   local/get_arl_lm_training_text.sh
   # Append the Gale arabic training text.
-  cat     ../../gale_arabic/s5d/data/train/text >> data/local/lm/training_text.txt
+  cat     ../../gale_arabic/s5d/data/train/text >> data/local/lm/training_arl_text.txt
   local/train_lms_gale_arl.sh
 fi
 
