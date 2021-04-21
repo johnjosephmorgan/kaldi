@@ -728,70 +728,71 @@ if [ $stage -le 25 ]; then
   fi
   export LC_ALL=C 
   heldout_sent=10000
-  cut -d' ' -f2- $gale_training_text | gzip -c > $dir/train.gale_bw.gz
-  cut -d' ' -f2- $gale_training_text | tail -n +$heldout_sent | gzip -c > $dir/train_gale_bw.gz
-  cut -d' ' -f2- $gale_training_text | head -n $heldout_sent > $dir/heldout_gale_bw
+  cut -d' ' -f2- $gale_training_text   > $lm_dir/train.gale_bw
+  cut -d' ' -f2- $gale_training_text | tail -n +$heldout_sent  > $lm_dir/train_gale_bw
+  cut -d' ' -f2- $gale_training_text | head -n $heldout_sent > $lm_dir/heldout_gale_bw
   # convert the heldout to utf8
   local/buckwalter2unicode.py \
-    -i $dir/heldout_gale_bw \
-    -o $dir/heldout_gale_utf8.txt
-  cut -d' ' -f1 $lexicon > $dir/wordlist_gale_bw
+    -i $lm_dir/heldout_gale_bw \
+    -o $lm_dir/heldout_gale_utf8.txt
+  cut -d' ' -f1 $lexicon > $lm_dir/wordlist_gale_bw
   # convert the wordlist to utf8
   local/buckwalter2unicode.py \
-    -i $dir/wordlist_gale_bw \
-    -o $dir/wordlist_gale_utf8.txt
+    -i $lm_dir/wordlist_gale_bw \
+    -o $lm_dir/wordlist_gale_utf8.txt
   # convert the training text to utf8
-  gunzip   $dir/train_gale_bw.gz 
   local/buckwalter2unicode.py \
-    -i $dir/train_gale_bw \
-    -o $dir/train_gale_utf8.txt
+    -i $lm_dir/train_gale_bw \
+    -o $lm_dir/train_gale_utf8.txt
   # concatenate the GALE and ARL training text
-  cat $dir/train_gale_utf8.txt data/local/lm/training_arl_text_utf8.txt > data/local/lm/train_gale_arl_utf8.txt
-  gzip $dir/train_gale_arl_utf8.txt
+  cat $lm_dir/train_gale_utf8.txt $lm_dir/training_arl_text_utf8.txt > $lm_dir/train_gale_arl_utf8.txt
+  gzip $lm_dir/train_gale_arl_utf8.txt
   # get the wordlist from GALE and ARL lm training text
-  cat data/local/lm/train_gale_arl_utf8.txt | tr " " "\n" | sort -u > data/local/lm/wordlist_gale_arl_utf8.txt
+  cat $lm_dir/train_gale_arl_utf8.txt | tr " " "\n" | sort -u > $lm_dir/wordlist_gale_arl_utf8.txt
   # Trigram language model
   echo "$0: training tri-gram lm"
   smoothing="kn"
   ngram-count \
-    -text $dir/train_gale_arl_utf8.txt.gz \
+    -text $lm_dir/train_gale_arl_utf8.txt.gz \
     -order 3 \
-    -limit-vocab -vocab $dir/wordlist_gale_arl_utf8.txt \
+    -limit-vocab \
+    -vocab $lm_dir/wordlist_gale_arl_utf8.txt \
     -unk -map-unk "<UNK>" \
     -${smoothing}discount -interpolate -lm \
-    $dir/gale_arl.o3g.${smoothing}_utf8.gz
+    $lm_dir/gale_arl.o3g.${smoothing}_utf8.gz
   echo "PPL for GALE ARL Arabic trigram LM:"
   ngram \
     -unk \
-    -lm $dir/gale_arl.o3g.${smoothing}_utf8.gz \
-    -ppl $dir/heldout_gale_utf8.txt
-  ngram -unk -lm \
-    $dir/gale_arl.o3g.${smoothing}_utf8.gz \
-    -ppl $dir/heldout_utf8.txt \
-    -debug 2 >& $dir/3gram.${smoothing}_gale_arl_utf8.ppl2
+    -lm $lm_dir/gale_arl.o3g.${smoothing}_utf8.gz \
+    -ppl $lm_dir/heldout_gale_utf8.txt
+  ngram \
+    -unk \
+    -lm \
+    $lm_dir/gale_arl.o3g.${smoothing}_utf8.gz \
+    -ppl $lm_dir/heldout_utf8.txt \
+    -debug 2 >& $lm_dir/3gram.${smoothing}_gale_arl_utf8.ppl2
   # 4gram language model
   echo "$0: training 4-gram GALE ARL lm"
   ngram-count \
-    -text $dir/train_gale_arl_utf8.txt.gz \
+    -text $lm_dir/train_gale_arl_utf8.txt.gz \
     -order 4 \
-    -limit-vocab -vocab $dir/wordlist_gale_utf8.txt \
-    -unk -map-unk "<UNK>" -${smoothing}discount -interpolate -lm \
-    $dir/gale_arl.o4g.${smoothing}_utf8.gz
+    -limit-vocab \
+    -vocab $lm_dir/wordlist_gale_utf8.txt \
+    -unk \
+    -map-unk "<UNK>" \
+    -${smoothing}discount \
+    -interpolate \
+    -lm $lm_dir/gale_arl.o4g.${smoothing}_utf8.gz
   echo "PPL for GALE ARL Arabic 4gram LM:"
   ngram \
     -unk \
-    -lm $dir/gale_arl.o4g.${smoothing}_utf8.gz \
-    -ppl $dir/heldout_gale_utf8.txt
+    -lm $lm_dir/gale_arl.o4g.${smoothing}_utf8.gz \
+    -ppl $lm_dir/heldout_gale_utf8.txt
   ngram \
     -unk \
-    -lm $dir/gale_arl.o4g.${smoothing}_utf8.gz \
-    -ppl $dir/heldout_gale_utf8.txt \
-    -debug 2 >& $dir/4gram.${smoothing}_gale_arl_utf8.ppl2
-fi
-
-  # Append the Gale arabic training text.
-  cat     ../../gale_arabic/s5d/data/train/text >> data/local/lm/training_arl_text_bw.txt
-  local/train_lms_gale_arl.sh
+    -lm $lm_dir/gale_arl.o4g.${smoothing}_utf8.gz \
+    -ppl $lm_dir/heldout_gale_utf8.txt \
+    -debug 2 >& $lm_dir/4gram.${smoothing}_gale_arl_utf8.ppl2
 fi
 
 if [ $stage -le 26 ]; then
