@@ -49,6 +49,7 @@ num_epochs=4.0
 numGaussUBM=512
 num_jobs_final=2
 num_jobs_initial=2
+smoothing="kn"
 srand=-1
 stage=-1
 train_set=train
@@ -766,7 +767,6 @@ export LC_ALL=C
 
 if [ $stage -le 29 ]; then
   echo "$0: training tri-gram lm"
-  smoothing="kn"
   ngram-count \
     -text $lm_dir/train_gale_arl_utf8.txt.gz \
     -order 3 \
@@ -794,7 +794,7 @@ if [ $stage -le 30 ]; then
     -text $lm_dir/train_gale_arl_utf8.txt.gz \
     -order 4 \
     -limit-vocab \
-    -vocab $lm_dir/wordlist_gale_utf8.txt \
+    -vocab $lm_dir/wordlist_gale_arl_utf8.txt \
     -unk \
     -map-unk "<UNK>" \
     -${smoothing}discount \
