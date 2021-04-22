@@ -763,8 +763,8 @@ if [ $stage -le 28 ]; then
     -limit-vocab \
     -vocab $lm_dir/wordlist_gale_arl_utf8.txt \
     -unk -map-unk "<UNK>" \
-    -${smoothing}discount -interpolate -lm \
-    $lm_dir/gale_arl.o3g.${smoothing}_utf8.gz
+    -${smoothing}discount -interpolate \
+    -lm $lm_dir/gale_arl.o3g.${smoothing}_utf8.gz
   echo "PPL for GALE ARL Arabic trigram LM:"
   ngram \
     -unk \
