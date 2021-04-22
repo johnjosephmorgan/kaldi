@@ -38,6 +38,7 @@ gmm=tri3b  # the gmm for the target data
 initial_effective_lrate=0.001
 langdir=data/lang
 lda_mllt_lang=tunisian_msa
+  lexicon=../../gale_arabic/s5d/data/local/dict/lexicon.txt
 lm_dir=data/local/lm
 max_param_change=2.0
 memory_compression_level=0
@@ -653,8 +654,8 @@ fi
 if [ $stage -le 22 ]; then
   local/gale_train_lms_utf8.sh \
     ../../gale_arabic/s5d/data/train/text \
-    ../../gale_arabic/s5d/data/local/dict/lexicon.txt \
-    data/local/lm || exit 1; 
+    $lexicon \
+    $lm_dir || exit 1; 
 fi
 
 if [ $stage -le 23 ]; then
@@ -706,27 +707,7 @@ if [ $stage -le 25 ]; then
   # get rid of the carriage returns
   $(dos2unix $lm_dir/training_arl_text_utf8.txt)
   gale_training_text=../../gale_arabic/s5d/data/train/text
-  lexicon=../../gale_arabic/s5d/data/local/dict/lexicon.txt
   [ -f $gale_training_text ] || echo "$0: No such file $gale_training_text"
-  [ -f $lexicon ] || echo "$0: No such file $lexicon"
-  loc=$(which ngram-count);
-  if [ -z $loc ]; then
-    if uname -a | grep 64 >/dev/null; then # some kind of 64 bit...
-      sdir=$(pwd)/../../../tools/srilm/bin/i686-m64 
-    else
-      sdir=$(pwd)/../../../tools/srilm/bin/i686
-    fi
-    if [ -f $sdir/ngram-count ]; then
-      echo Using SRILM tools from $sdir
-      export PATH=$PATH:$sdir
-    else
-      echo You appear to not have SRILM tools installed, either on your path,
-      echo or installed in $sdir.  See tools/install_srilm.sh for installation
-      echo instructions.
-      exit 1
-    fi
-  fi
-  export LC_ALL=C 
   heldout_sent=10000
   cut -d' ' -f2- $gale_training_text   > $lm_dir/train.gale_bw
   cut -d' ' -f2- $gale_training_text | tail -n +$heldout_sent  > $lm_dir/train_gale_bw
@@ -742,6 +723,7 @@ fi
 
 if [ $stage -le 27 ]; then
   echo "$0: Get GALE bw wordlist."
+  [ -f $lexicon ] || echo "$0: No such file $lexicon"
   cut -d ' ' -f 1 $lexicon > $lm_dir/wordlist_gale_bw
   echo "$0: Convert the wordlist to utf8."
   local/buckwalter2unicode.py \
@@ -756,7 +738,29 @@ if [ $stage -le 27 ]; then
   gzip $lm_dir/train_gale_arl_utf8.txt
   # get the wordlist from GALE and ARL lm training text
   cat $lm_dir/train_gale_arl_utf8.txt | tr " " "\n" | sort -u > $lm_dir/wordlist_gale_arl_utf8.txt
-  # Trigram language model
+fi
+
+loc=$(which ngram-count);
+if [ -z $loc ]; then
+  if uname -a | grep 64 >/dev/null; then # some kind of 64 bit...
+    sdir=$(pwd)/../../../tools/srilm/bin/i686-m64 
+  else
+    sdir=$(pwd)/../../../tools/srilm/bin/i686
+  fi
+  if [ -f $sdir/ngram-count ]; then
+    echo Using SRILM tools from $sdir
+    export PATH=$PATH:$sdir
+  else
+    echo You appear to not have SRILM tools installed, either on your path,
+    echo or installed in $sdir.  See tools/install_srilm.sh for installation
+    echo instructions.
+    exit 1
+  fi
+fi
+
+export LC_ALL=C 
+
+if [ $stage -le 28 ]; then
   echo "$0: training tri-gram lm"
   smoothing="kn"
   ngram-count \
