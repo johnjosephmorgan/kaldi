@@ -772,8 +772,7 @@ if [ $stage -le 28 ]; then
     -ppl $lm_dir/heldout_gale_utf8.txt
   ngram \
     -unk \
-    -lm \
-    $lm_dir/gale_arl.o3g.${smoothing}_utf8.gz \
+    -lm $lm_dir/gale_arl.o3g.${smoothing}_utf8.gz \
     -ppl $lm_dir/heldout_utf8.txt \
     -debug 2 >& $lm_dir/3gram.${smoothing}_gale_arl_utf8.ppl2
 fi
