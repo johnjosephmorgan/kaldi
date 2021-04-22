@@ -786,8 +786,10 @@ if [ $stage -le 29 ]; then
     $lm_dir/gale_arl.o3g.${smoothing}_utf8.gz \
     -ppl $lm_dir/heldout_utf8.txt \
     -debug 2 >& $lm_dir/3gram.${smoothing}_gale_arl_utf8.ppl2
-  # 4gram language model
-  echo "$0: training 4-gram GALE ARL lm"
+fi
+
+if [ $stage -le 30 ]; then
+  echo "$0: training 4-gram GALE ARL lm."
   ngram-count \
     -text $lm_dir/train_gale_arl_utf8.txt.gz \
     -order 4 \
@@ -810,11 +812,11 @@ if [ $stage -le 29 ]; then
     -debug 2 >& $lm_dir/4gram.${smoothing}_gale_arl_utf8.ppl2
 fi
 
-if [ $stage -le 30 ]; then
+if [ $stage -le 31 ]; then
   local/format_lm_gale_arl.sh
 fi
 
-if [ $stage -le 31 ]; then
+if [ $stage -le 32 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   tree_dir=exp/tunisian_msa
   utils/mkgraph.sh \
