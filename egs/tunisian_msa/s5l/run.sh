@@ -700,7 +700,7 @@ if [ $stage -le 25 ]; then
   # Get the ARL LM training text
   # The data is located under /mnt/corpora/ultra/arabic_lm_text/ar
   # The data is written to data/local/lm/training_arl_text_utf8.txt
-    [ ! -d $lm_dir ] || rm -Rf $lm_dir;
+  [ ! -d $lm_dir ] || rm -Rf $lm_dir;
   mkdir -p $lm_dir
   # get the ARL lm training text
   for f in fm5.0_cleaned_ZA_ar fm6.0_cleaned_ZA_ar fm6.22_cleaned_ZA_ar FM7-8_cleaned_ZA_ar mflts_msa_ar MNSTC-I_cleaned_ZA_ar; do
@@ -723,19 +723,9 @@ if [ $stage -le 26 ]; then
 fi
 
 if [ $stage -le 27 ]; then
-  echo "$0: Get GALE bw wordlist."
-  [ -f $lexicon ] || echo "$0: No such file $lexicon"
-  cut -d ' ' -f 1 $lexicon > $lm_dir/wordlist_gale_bw
-  echo "$0: Convert the wordlist to utf8."
-  local/buckwalter2unicode.py \
-    -i $lm_dir/wordlist_gale_bw \
-    -o $lm_dir/wordlist_gale_utf8.txt
-fi
-
-if [ $stage -le 28 ]; then
   echo "$0: Convert the training text to utf8."
   local/buckwalter2unicode.py \
-    -i $gale_training_text \
+    -i $lm_dir/train_gale_bw \
     -o $lm_dir/train_gale_utf8.txt
   echo "$0: Concatenate the GALE and ARL training text."
   cat $lm_dir/train_gale_utf8.txt $lm_dir/training_arl_text_utf8.txt > $lm_dir/train_gale_arl_utf8.txt
@@ -765,7 +755,7 @@ fi
 
 export LC_ALL=C 
 
-if [ $stage -le 29 ]; then
+if [ $stage -le 28 ]; then
   echo "$0: training tri-gram lm"
   ngram-count \
     -text $lm_dir/train_gale_arl_utf8.txt.gz \
@@ -788,7 +778,7 @@ if [ $stage -le 29 ]; then
     -debug 2 >& $lm_dir/3gram.${smoothing}_gale_arl_utf8.ppl2
 fi
 
-if [ $stage -le 30 ]; then
+if [ $stage -le 29 ]; then
   echo "$0: training 4-gram GALE ARL lm."
   ngram-count \
     -text $lm_dir/train_gale_arl_utf8.txt.gz \
@@ -812,7 +802,7 @@ if [ $stage -le 30 ]; then
     -debug 2 >& $lm_dir/4gram.${smoothing}_gale_arl_utf8.ppl2
 fi
 
-if [ $stage -le 31 ]; then
+if [ $stage -le 30 ]; then
   utils/format_lm.sh \
     data/gale_arabic/lang \
     $lm_dir/gale_arl.o3g.kn_utf8.gz \
@@ -820,7 +810,7 @@ if [ $stage -le 31 ]; then
   data/lang_test_gale_arl
 fi
 
-if [ $stage -le 32 ]; then
+if [ $stage -le 31 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   tree_dir=exp/tunisian_msa
   utils/mkgraph.sh \
