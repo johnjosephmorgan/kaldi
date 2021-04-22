@@ -813,7 +813,11 @@ if [ $stage -le 30 ]; then
 fi
 
 if [ $stage -le 31 ]; then
-  local/format_lm_gale_arl.sh
+  utils/format_lm.sh \
+    data/gale_arabic/lang \
+    $lm_dir/gale_arl.o3g.kn_utf8.gz \
+    $lexicon \
+  data/lang_test_gale_arl
 fi
 
 if [ $stage -le 32 ]; then
