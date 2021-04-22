@@ -57,11 +57,6 @@ local/buckwalter2unicode.py \
 
 cut -d' ' -f1 $lexicon > $dir/wordlist
 
-# convert the wordlist to utf8
-local/buckwalter2unicode.py \
-  -i $dir/wordlist \
-  -o $dir/wordlist_utf8.txt
-
 # convert the training text to utf8
 gunzip   $dir/train.gz 
 local/buckwalter2unicode.py \
@@ -74,17 +69,41 @@ if [ $stage -le 1 ]; then
   # Trigram language model
   echo "training tri-gram lm"
   smoothing="kn"
-  ngram-count -text $dir/train_utf8.txt.gz -order 3 -limit-vocab -vocab $dir/wordlist_utf8.txt \
-    -unk -map-unk "<UNK>" -${smoothing}discount -interpolate -lm $dir/gale.o3g.${smoothing}_utf8.gz
+  ngram-count \
+    -text $dir/train_utf8.txt.gz \
+    -order 3 \
+    -limit-vocab -vocab $dir/wordlist.txt \
+    -unk -map-unk "<UNK>" \
+    -${smoothing}discount -interpolate \
+    -lm $dir/gale.o3g.${smoothing}_utf8.gz
   echo "PPL for GALE Arabic trigram LM:"
-  ngram -unk -lm $dir/gale.o3g.${smoothing}_utf8.gz -ppl $dir/heldout_utf8.txt
-  ngram -unk -lm $dir/gale.o3g.${smoothing}_utf8.gz -ppl $dir/heldout_utf8.txt -debug 2 >& $dir/3gram.${smoothing}_utf8.ppl2
+  ngram \
+    -unk \
+    -lm $dir/gale.o3g.${smoothing}_utf8.gz \
+    -ppl $dir/heldout_utf8.txt
+  ngram \
+    -unk \
+    -lm $dir/gale.o3g.${smoothing}_utf8.gz \
+    -ppl $dir/heldout_utf8.txt \
+    -debug 2 >& $dir/3gram.${smoothing}_utf8.ppl2
   # 4gram language model
   echo "training 4-gram lm"
-  ngram-count -text $dir/train_utf8.txt.gz -order 4 -limit-vocab -vocab $dir/wordlist_utf8.txt \
-    -unk -map-unk "<UNK>" -${smoothing}discount -interpolate -lm $dir/gale.o4g.${smoothing}_utf8.gz
+  ngram-count \
+    -text $dir/train_utf8.txt.gz \
+    -order 4 \
+    -limit-vocab \
+    -vocab $dir/wordlist.txt \
+    -unk -map-unk "<UNK>" \
+    -${smoothing}discount -interpolate \
+    -lm $dir/gale.o4g.${smoothing}_utf8.gz
   echo "PPL for GALE Arabic 4gram LM:"
-  ngram -unk -lm $dir/gale.o4g.${smoothing}_utf8.gz -ppl $dir/heldout_utf8.txt
-  ngram -unk -lm $dir/gale.o4g.${smoothing}_utf8.gz -ppl $dir/heldout_utf8.txt -debug 2 >& $dir/4gram.${smoothing}_utf8.ppl2
+  ngram \
+    -unk \
+    -lm $dir/gale.o4g.${smoothing}_utf8.gz \
+    -ppl $dir/heldout_utf8.txt
+  ngram \
+    -unk \
+    -lm $dir/gale.o4g.${smoothing}_utf8.gz \
+    -ppl $dir/heldout_utf8.txt \
+    -debug 2 >& $dir/4gram.${smoothing}_utf8.ppl2
 fi
-

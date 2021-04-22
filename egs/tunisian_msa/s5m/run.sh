@@ -89,7 +89,7 @@ if [ $stage -le 12 ]; then
   rm -Rf data/local/lm
   local/gale_train_lms_utf8.sh \
     ../../gale_arabic/s5d/data/train/text \
-    data/local/lexicon_data/lexicon.bw \
+    data/local/dict/lexicon.txt \
     data/local/lm || exit 1; 
 fi
 
