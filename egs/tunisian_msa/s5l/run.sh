@@ -34,6 +34,7 @@ extra_left_context=50
 extra_right_context=0
 final_effective_lrate=0.0001
 frame_subsampling_factor=3
+gale_training_text=../../gale_arabic/s5d/data/train/text
 gmm=tri3b  # the gmm for the target data
 initial_effective_lrate=0.001
 langdir=data/lang
@@ -706,7 +707,6 @@ if [ $stage -le 25 ]; then
   done
   # get rid of the carriage returns
   $(dos2unix $lm_dir/training_arl_text_utf8.txt)
-  gale_training_text=../../gale_arabic/s5d/data/train/text
   [ -f $gale_training_text ] || echo "$0: No such file $gale_training_text"
   heldout_sent=10000
   cut -d' ' -f2- $gale_training_text   > $lm_dir/train.gale_bw
@@ -729,9 +729,12 @@ if [ $stage -le 27 ]; then
   local/buckwalter2unicode.py \
     -i $lm_dir/wordlist_gale_bw \
     -o $lm_dir/wordlist_gale_utf8.txt
-  # convert the training text to utf8
+fi
+
+if [ $stage -le 28 ]; then
+  echo "$0: Convert the training text to utf8."
   local/buckwalter2unicode.py \
-    -i $lm_dir/train_gale_bw \
+    -i $gale_training_text \
     -o $lm_dir/train_gale_utf8.txt
   # concatenate the GALE and ARL training text
   cat $lm_dir/train_gale_utf8.txt $lm_dir/training_arl_text_utf8.txt > $lm_dir/train_gale_arl_utf8.txt
@@ -760,7 +763,7 @@ fi
 
 export LC_ALL=C 
 
-if [ $stage -le 28 ]; then
+if [ $stage -le 29 ]; then
   echo "$0: training tri-gram lm"
   smoothing="kn"
   ngram-count \
@@ -806,11 +809,11 @@ if [ $stage -le 28 ]; then
     -debug 2 >& $lm_dir/4gram.${smoothing}_gale_arl_utf8.ppl2
 fi
 
-if [ $stage -le 28 ]; then
+if [ $stage -le 30 ]; then
   local/format_lm_gale_arl.sh
 fi
 
-if [ $stage -le 29 ]; then
+if [ $stage -le 31 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   tree_dir=exp/tunisian_msa
   utils/mkgraph.sh \
