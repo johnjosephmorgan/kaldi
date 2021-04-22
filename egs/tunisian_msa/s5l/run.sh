@@ -803,7 +803,7 @@ fi
 
 if [ $stage -le 30 ]; then
   utils/format_lm.sh \
-    data/gale_arabic/lang \
+    data/lang_test \
     $lm_dir/gale_arl.o3g.kn_utf8.gz \
     $lexicon \
   data/lang_test_gale_arl
