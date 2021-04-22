@@ -738,10 +738,10 @@ if [ $stage -le 28 ]; then
     -o $lm_dir/train_gale_utf8.txt
   echo "$0: Concatenate the GALE and ARL training text."
   cat $lm_dir/train_gale_utf8.txt $lm_dir/training_arl_text_utf8.txt > $lm_dir/train_gale_arl_utf8.txt
-  [ ! -f $lm_dir/train_gale_arl_utf8.txt.gz ] || rm $lm_dir/train_gale_arl_utf8.txt.gz
-  gzip $lm_dir/train_gale_arl_utf8.txt
   echo "$0: Get the wordlist from GALE and ARL lm training text."
   cat $lm_dir/train_gale_arl_utf8.txt | tr " " "\n" | sort -u > $lm_dir/wordlist_gale_arl_utf8.txt
+  [ ! -f $lm_dir/train_gale_arl_utf8.txt.gz ] || rm $lm_dir/train_gale_arl_utf8.txt.gz
+  gzip $lm_dir/train_gale_arl_utf8.txt
 fi
 
 loc=$(which ngram-count);
