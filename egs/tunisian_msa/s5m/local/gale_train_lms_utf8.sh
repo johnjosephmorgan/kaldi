@@ -55,7 +55,7 @@ local/buckwalter2unicode.py \
   -i $dir/heldout \
   -o $dir/heldout_utf8.txt 
 
-cut -d' ' -f1 $lexicon > $dir/wordlist
+cut -d' ' -f1 $lexicon > $dir/wordlist.txt
 
 # convert the training text to utf8
 gunzip   $dir/train.gz 
