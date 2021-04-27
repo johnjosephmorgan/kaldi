@@ -71,15 +71,15 @@ if [ $stage -le 0 ]; then
     [ -d data/tunisian_msa ] || mkdir -p data/tunisian_msa;
     cd data/tunisian_msa
     # link the lang directory
-    [ -L lang ] || ln -s ../../../s5a/data/lang ./;
+    [ -L lang ] || ln -s ../../../s5m/data/lang ./;
     # link the train directory
-    [ -L train ] || ln -s ../../../s5a/data/train ./;
+    [ -L train ] || ln -s ../../../s5m/data/train ./;
     # link the devtest directory
-    [ -L devtest ] || ln -s ../../../s5a/data/devtest ./;
+    [ -L devtest ] || ln -s ../../../s5m/data/devtest ./;
     # link the test directory
-    [ -L test ] || ln -s ../../../s5a/data/test ./;
+    [ -L test ] || ln -s ../../../s5m/data/test ./;
     # link the lang_test directory
-    [ -L lang_test ] || ln -s ../../../s5a/data/lang_test ./;
+    [ -L lang_test ] || ln -s ../../../s5m/data/lang_test ./;
   )
 
   # link exp directories from tunisian_msa
@@ -88,9 +88,9 @@ if [ $stage -le 0 ]; then
     [ -d exp/tunisian_msa ] || mkdir -p exp/tunisian_msa;
     cd exp/tunisian_msa
     # link the tri3b directory
-    [ -L tri3b ] || ln -s ../../../s5a/exp/tri3b ./;
+    [ -L tri3b ] || ln -s ../../../s5m/exp/tri3b ./;
     # link the tri3b_ali
-    [ -L tri3b_ali ] || ln -s ../../../s5a/exp/tri3b_ali ./;
+    [ -L tri3b_ali ] || ln -s ../../../s5m/exp/tri3b_ali ./;
   )
 
   # link globalphone tunisian data directories
