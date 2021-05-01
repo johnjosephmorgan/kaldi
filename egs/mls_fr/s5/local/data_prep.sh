@@ -27,7 +27,7 @@ trans=$dst/text; [[ -f "$trans" ]] && rm $trans
 utt2spk=$dst/utt2spk; [[ -f "$utt2spk" ]] && rm $utt2spk
 spk2gender=$dst/spk2gender; [[ -f $spk2gender ]] && rm $spk2gender
 
-for reader_dir in $(find -L $src -mindepth 1 -maxdepth 1 -type d | sort); do
+for reader_dir in $(find -L $src -mindepth 2 -maxdepth 2 -type d | sort); do
   reader=$(basename $reader_dir)
   if ! [ $reader -eq $reader ]; then  # not integer.
     echo "$0: unexpected subdirectory name $reader"
