@@ -15,7 +15,7 @@ if ! which flac >&/dev/null; then
   exit 1
 fi
 
-spk_file=$src/../SPEAKERS.TXT
+spk_file=$src/../metainfo.TXT
 
 mkdir -p $dst || exit 1;
 
