@@ -50,10 +50,10 @@ reader_gender=$(egrep "$reader[ ]+\|" $spk_file | awk -F'|' '{gsub(/[ ]+/, ""); 
     find -L $chapter_dir/ -iname "*.flac" | sort | xargs -I% basename % .flac | \
       awk -v "dir=$chapter_dir" '{printf "%s flac -c -d -s %s/%s.flac |\n", $0, dir, $0}' >>$wav_scp|| exit 1
 
-    chapter_trans=$chapter_dir/${reader}-${chapter}.trans.txt
-    [ ! -f  $chapter_trans ] && echo "$0: expected file $chapter_trans to exist" && exit 1
-    cat $chapter_trans >>$trans
-
+    #chapter_trans=$chapter_dir/${reader}-${chapter}.trans.txt
+    #[ ! -f  $chapter_trans ] && echo "$0: expected file $chapter_trans to exist" && exit 1
+    #cat $chapter_trans >>$trans
+    cp $src/transcripts.txt $dst/text
     # NOTE: For now we are using per-chapter utt2spk. That is each chapter is considered
     #       to be a different speaker. This is done for simplicity and because we want
     #       e.g. the CMVN to be calculated per-chapter
