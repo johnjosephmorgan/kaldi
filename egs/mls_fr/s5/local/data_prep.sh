@@ -34,7 +34,7 @@ for reader_dir in $(find -L $src -mindepth 2 -maxdepth 2 -type d | sort); do
     exit 1;
   fi
 
-reader_gender=$(egrep "$reader[ ]+\|" $spk_file | awk -F'|' '{gsub(/[ ]+/, ""); print tolower($2)}' | tr -d "\n" | tr -d [:blank:] | tr -s "f" | tr -s "m")
+reader_gender=$(egrep "\s$reader[ ]+\|" $spk_file | awk -F'|' '{gsub(/[ ]+/, ""); print tolower($2)}' | tr -d "\n" | tr -d [:blank:] | tr -s "f" | tr -s "m")
   if [ "$reader_gender" != 'm' ] && [ "$reader_gender" != 'f' ]; then
     echo "Unexpected gender: '$reader_gender'"
     exit 1;
