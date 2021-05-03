@@ -59,8 +59,8 @@ reader_gender=$(egrep "\s$reader[ ]+\|" $spk_file | awk -F'|' '{gsub(/[ ]+/, "")
     # NOTE: For now we are using per-chapter utt2spk. That is each chapter is considered
     #       to be a different speaker. This is done for simplicity and because we want
     #       e.g. the CMVN to be calculated per-chapter
-    awk -v "reader=$reader" -v "chapter=$chapter" '{printf "%s %s-%s\n", $1, reader, chapter}' \
-      <$chapter_trans >>$utt2spk || exit 1
+    #awk -v "reader=$reader" -v "chapter=$chapter" '{printf "%s %s-%s\n", $1, reader, chapter}' \
+   #   <$chapter_trans >>$utt2spk || exit 1
 
     # reader -> gender map (again using per-chapter granularity)
     echo "${reader}-${chapter} $reader_gender" >>$spk2gender
