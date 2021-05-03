@@ -53,7 +53,8 @@ reader_gender=$(egrep "$reader[ ]+\|" $spk_file | awk -F'|' '{gsub(/[ ]+/, ""); 
     #chapter_trans=$chapter_dir/${reader}-${chapter}.trans.txt
     #[ ! -f  $chapter_trans ] && echo "$0: expected file $chapter_trans to exist" && exit 1
     #cat $chapter_trans >>$trans
-    cp $src/transcripts.txt $dst/text
+    chapter_trans=$src/transcripts.txt 
+    cp $chapter_trans $dst/text
     # NOTE: For now we are using per-chapter utt2spk. That is each chapter is considered
     #       to be a different speaker. This is done for simplicity and because we want
     #       e.g. the CMVN to be calculated per-chapter
