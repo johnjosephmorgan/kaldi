@@ -50,7 +50,8 @@ reader_gender=$(egrep "\s$reader[ ]+\|" $spk_file | awk -F'|' '{gsub(/[ ]+/, "")
     find -L $chapter_dir/ -iname "*.flac" | sort | xargs -I% basename % .flac | \
       awk -v "dir=$chapter_dir" '{printf "%s flac -c -d -s %s/%s.flac |\n", $0, dir, $0}' >>$wav_scp|| exit 1
     find -L $chapter_dir/ -iname "*.flac" | sort | xargs -I% basename % .flac | \
-      awk -v "dir=$chapter_dir" '{printf "%s %s\n", $0, dir}' >>$dst/utt2spk|| exit 1
+      perl -e '($r,$c,$s)=split /\_/, $_, 3; print "$_ ${r}_${c}\n";' >> $dst/utt2spk || exit1;
+      #awk -v "dir=$chapter_dir" '{printf "%s %s\n", $0, dir}' >>$dst/utt2spk|| exit 1
 
     #chapter_trans=$chapter_dir/${reader}-${chapter}.trans.txt
     #[ ! -f  $chapter_trans ] && echo "$0: expected file $chapter_trans to exist" && exit 1
