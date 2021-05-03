@@ -6,11 +6,12 @@
 # Copyright 2020 Srikanth Madikeri (Idiap Research Institute)
 
 # Train a multilingual LF-MMI system with a multi-task training setup.
-# This script assumes the following 3 recipes have been run:
+# This script assumes the following 4 recipes have been run:
 # - ../s5a/run.sh 
 # ../../globalphone_tunisian/s5/run.sh
-# ../../gal_arabic/s5d/run.sh
+# ../../gale_arabic/s5d/run.sh
 # ../../msa_mflts/s5/run.sh
+
 set -e -o pipefail
 
 # language dependent variable settings
