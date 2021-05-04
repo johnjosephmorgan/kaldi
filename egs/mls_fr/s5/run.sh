@@ -22,6 +22,7 @@ if [ $stage -le 1 ]; then
   echo "$0: Preparing the lm."
   mkdir -p $tmpdir/lm
   mkdir -p data/local/lm
+  local/subs/download.sh || exit 1;
   local/subs/prepare_data.pl || exit 1;
   local/prepare_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt || exit 1;
 fi
