@@ -34,7 +34,7 @@ for reader_dir in $(find -L $src -mindepth 2 -maxdepth 2 -type d | sort); do
     exit 1;
   fi
 
-reader_gender=$(egrep "\s$reader[ ]+\|" $spk_file | awk -F'|' '{gsub(/[ ]+/, ""); print tolower($2)}' | tr -d "\n" | tr -d [:blank:] | tr -s "f" | tr -s "m")
+  reader_gender=$(egrep "\s$reader[ ]+\|" $spk_file | awk -F'|' '{gsub(/[ ]+/, ""); print tolower($2)}' | tr -d "\n" | tr -d [:blank:] | tr -s "f" | tr -s "m")
   if [ "$reader_gender" != 'm' ] && [ "$reader_gender" != 'f' ]; then
     echo "Unexpected gender: '$reader_gender'"
     exit 1;
@@ -50,12 +50,13 @@ reader_gender=$(egrep "\s$reader[ ]+\|" $spk_file | awk -F'|' '{gsub(/[ ]+/, "")
     find -L $chapter_dir/ -iname "*.flac" | sort | xargs -I% basename % .flac | \
       awk -v "dir=$chapter_dir" '{printf "%s flac -c -d -s %s/%s.flac |\n", $0, dir, $0}' >>$wav_scp|| exit 1
     find -L $chapter_dir/ -iname "*.flac" | sort | xargs -I% basename % .flac | \
-      perl -e 'while (<>) {chomp; ($r,$c,$s)=split /\_/, $_, 3; print "$_ ${r}_${c}\n";}' >> $dst/utt2spk || exit1;
+      perl -e 'while (<>) {chomp; ($r,$c,$s)=split /\_/, $_, 3; print "$_ ${r}_${c}\n";}' >> $utt2spk || exit1;
       #awk -v "dir=$chapter_dir" '{printf "%s %s\n", $0, dir}' >>$dst/utt2spk|| exit 1
 
     #chapter_trans=$chapter_dir/${reader}-${chapter}.trans.txt
+    chapter_trans=$(egrep "${reader}_${chapter" $src/transcripts.txt)
     #[ ! -f  $chapter_trans ] && echo "$0: expected file $chapter_trans to exist" && exit 1
-    #cat $chapter_trans >>$trans
+    cat $chapter_trans >>$trans
 
     # NOTE: For now we are using per-chapter utt2spk. That is each chapter is considered
     #       to be a different speaker. This is done for simplicity and because we want
