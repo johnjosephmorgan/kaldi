@@ -28,6 +28,9 @@ utt2spk=$dst/utt2spk; [[ -f "$utt2spk" ]] && rm $utt2spk
 spk2gender=$dst/spk2gender; [[ -f $spk2gender ]] && rm $spk2gender
 
 for reader_dir in $(find -L $src -mindepth 2 -maxdepth 2 -type d | sort); do
+  if [ $reader_dir == "limited_supervision" ]; then
+    continue
+  fi
   reader=$(basename $reader_dir)
   if ! [ $reader -eq $reader ]; then  # not integer.
     echo "$0: unexpected subdirectory name $reader"
