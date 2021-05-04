@@ -63,7 +63,7 @@ for reader_dir in $(find -L $src -mindepth 2 -maxdepth 2 -type d | sort); do
    #   <$chapter_trans >>$utt2spk || exit 1
 
     # reader -> gender map (again using per-chapter granularity)
-    echo "${reader}-${chapter} $reader_gender" >>$spk2gender
+    echo "${reader}_${chapter} $reader_gender" >>$spk2gender
   done
 done
 
