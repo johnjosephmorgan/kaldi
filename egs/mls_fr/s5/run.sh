@@ -18,19 +18,16 @@ if [ $stage -le 0 ]; then
   done
 fi
 
-## Optional text corpus normalization and LM training
-## These scripts are here primarily as a documentation of the process that has been
-## used to build the LM. Most users of this recipe will NOT need/want to run
-## this step. The pre-built language models and the pronunciation lexicon, as
-## well as some intermediate data(e.g. the normalized text used for LM training),
-## are available for download at http://www.openslr.org/11/
-#local/lm/train_lm.sh $LM_CORPUS_ROOT \
-#  data/local/lm/norm/tmp data/local/lm/norm/norm_texts data/local/lm
+if [ $stage -le 1 ]; then
+  # Text corpus normalization and LM training
+  local/lm/train_lm.sh $LM_CORPUS_ROOT \
+    data/local/lm/norm/tmp data/local/lm/norm/norm_texts data/local/lm
+fi
 
-## Optional G2P training scripts.
-## As the LM training scripts above, this script is intended primarily to
-## document our G2P model creation process
-#local/g2p/train_g2p.sh data/local/dict/cmudict data/local/lm
+if [ $stage -le 2 ]; then
+  # G2P training scripts.
+  local/g2p/train_g2p.sh data/local/dict/arl data/local/lm
+fi
 
 if [ $stage -le 3 ]; then
   # when the "--stage 3" option is used below we skip the G2P steps, and use the
