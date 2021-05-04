@@ -32,8 +32,10 @@ for reader_dir in $(find -L $src -mindepth 2 -maxdepth 2 -type d | sort); do
   reader=$(basename $reader_dir)
   if [ $reader == "limited_supervision" ]; then
     continue
-
+  elif [ $reader == "1hr" ]; then
+    continue
   fi
+
   if ! [ $reader -eq $reader ]; then  # not integer.
     echo "$0: unexpected subdirectory name $reader"
     exit 1;
