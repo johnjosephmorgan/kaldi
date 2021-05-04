@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-
 data=/mnt/corpora/MLS_French
 mfccdir=mfcc
-lm_corpus_root=lm_corpus
+tmpdir=data/local/tmp
 stage=0
 
 . ./cmd.sh
@@ -20,15 +19,11 @@ if [ $stage -le 0 ]; then
 fi
 
 if [ $stage -le 1 ]; then
-  # Text corpus normalization and LM training
-  [ -d $lm_corpus_root ] && rm -Rf $lm_corpus_root
-  mkdir -p $lm_corpus_root/corpus/train
-  cut -f 2- data/train/text > $lm_corpus_root/corpus/text
-  local/lm/train_lm.sh \
-    $LM_CORPUS_ROOT \
-    data/local/lm/norm/tmp \
-    data/local/lm/norm/norm_texts \
-    data/local/lm
+  echo "$0: Preparing the lm."
+  mkdir -p $tmpdir/lm
+  mkdir -p data/local/lm
+  local/subs/prepare_data.pl || exit 1;
+  local/prepare_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt || exit 1;
 fi
 
 if [ $stage -le 2 ]; then
