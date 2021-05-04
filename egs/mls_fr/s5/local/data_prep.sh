@@ -53,7 +53,7 @@ for reader_dir in $(find -L $src -mindepth 2 -maxdepth 2 -type d | sort); do
       perl -e 'while (<>) {chomp; ($r,$c,$s)=split /\_/, $_, 3; print "$_ ${r}_${c}\n";}' >> $utt2spk || exit1;
       #awk -v "dir=$chapter_dir" '{printf "%s %s\n", $0, dir}' >>$dst/utt2spk|| exit 1
 
-    chapter_trans=$(egrep "${reader}_${chapter}_\d+" $src/transcripts.txt)
+    chapter_trans=$(egrep "${reader}_${chapter}_*" $src/transcripts.txt)
     echo "$chapter_trans" >> $trans
 
     # NOTE: For now we are using per-chapter utt2spk. That is each chapter is considered
