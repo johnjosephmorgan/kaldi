@@ -56,7 +56,7 @@ for reader_dir in $(find -L $src -mindepth 2 -maxdepth 2 -type d | sort); do
     #chapter_trans=$chapter_dir/${reader}-${chapter}.trans.txt
     chapter_trans=$(egrep "${reader}_${chapter}_\d+" $src/transcripts.txt)
     #[ ! -f  $chapter_trans ] && echo "$0: expected file $chapter_trans to exist" && exit 1
-    echo $chapter_trans >>$trans
+    printf "%s\n" $chapter_trans >>$trans
 
     # NOTE: For now we are using per-chapter utt2spk. That is each chapter is considered
     #       to be a different speaker. This is done for simplicity and because we want
