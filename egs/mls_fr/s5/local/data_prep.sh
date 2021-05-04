@@ -54,7 +54,7 @@ for reader_dir in $(find -L $src -mindepth 2 -maxdepth 2 -type d | sort); do
       #awk -v "dir=$chapter_dir" '{printf "%s %s\n", $0, dir}' >>$dst/utt2spk|| exit 1
 
     #chapter_trans=$chapter_dir/${reader}-${chapter}.trans.txt
-    chapter_trans=$(egrep "${reader}_${chapter}" $src/transcripts.txt)
+    chapter_trans=$(egrep "${reader}_${chapter}_\d+" $src/transcripts.txt)
     #[ ! -f  $chapter_trans ] && echo "$0: expected file $chapter_trans to exist" && exit 1
     echo $chapter_trans >>$trans
 
