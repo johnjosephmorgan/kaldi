@@ -34,6 +34,8 @@ for reader_dir in $(find -L $src -mindepth 2 -maxdepth 2 -type d | sort); do
     continue
   elif [ $reader == "1hr" ]; then
     continue
+  elif [ $reader == "9hr" ]; then
+    continue
   fi
 
   if ! [ $reader -eq $reader ]; then  # not integer.
