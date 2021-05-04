@@ -3,7 +3,7 @@
 
 data=/mnt/corpora/MLS_French
 mfccdir=mfcc
-lm_corpus_root=lm_corpus/corpus
+lm_corpus_root=lm_corpus
 stage=0
 
 . ./cmd.sh
@@ -21,8 +21,9 @@ fi
 
 if [ $stage -le 1 ]; then
   # Text corpus normalization and LM training
-  mkdir -p $lm_corpus_root
-  cut -f 2- data/train/text > $lm_corpus_root/text
+  [ -d $lm_corpus_root ] && rm -Rf $lm_corpus_root
+  mkdir -p $lm_corpus_root/corpus/train
+  cut -f 2- data/train/text > $lm_corpus_root/corpus/text
   local/lm/train_lm.sh \
     $LM_CORPUS_ROOT \
     data/local/lm/norm/tmp \
