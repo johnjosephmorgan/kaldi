@@ -5,6 +5,8 @@
 data=/mnt/corpora/MLS_French
 mfccdir=mfcc
 tmpdir=data/local/tmp
+g2p_input_text_files="data/dev/text data/train/text"
+
 stage=0
 
 . ./cmd.sh
@@ -25,9 +27,38 @@ if [ $stage -le 1 ]; then
   echo "$0: Prepare lexicon as in yaounde recipe."
   mkdir -p data/local/tmp/dict
   export LC_ALL=C
-  local/prepare_dict.sh || exit 1;
+  local/prepare_dict.sh \
+    local/dict/santiago.txt \
+    $tmp_dir/dict/init || exit 1;
 fi
 
+if [ $stage -le 2 ]; then
+  echo "$0: Training a g2p model."
+  local/g2p/train_g2p.sh \
+    $tmp_dir/dict/init \
+    $tmp_dict_dir/g2p || exit 1;
+fi
+
+if [ $stage -le 10 ]; then
+  echo "$0: Applying the g2p."
+  local/g2p/apply_g2p.sh $tmp_dict_dir/g2p/model.fst \
+    $tmp_dict_dir/work $tmp_dict_dir/init/lexicon.txt \
+    $tmp_dict_dir/init/lexicon_with_tabs.txt $g2p_input_text_files || exit 1;
+fi
+
+if [ $stage -le 11    ]; then
+  echo "$0: Delimiting fields with space instead of tabs."
+  mkdir -p $tmp_dict_dir/final
+  expand -t 1 $tmp_dict_dir/init/lexicon_with_tabs.txt > $tmp_dict_dir/final/lexicon.txt
+fi
+
+if [ $stage -le 12    ]; then
+  echo "$0: Preparing expanded lexicon."
+  local/prepare_dict.sh $tmp_dict_dir/final/lexicon.txt \
+    data/local/dict || exit 1;
+  echo "$0: Adding <UNK> to the lexicon."
+  echo "<UNK> SPN" >> data/local/dict/lexicon.txt
+fi
 if [ $stage -le 2 ]; then
   echo "$0: Preparing lang directory."
   utils/prepare_lang.sh \
@@ -48,7 +79,7 @@ if [ $stage -le 3 ]; then
 fi
 
 if [ $stage -le 4 ]; then
-  # G2P training scripts.
+  # G2P training
   local/g2p/train_g2p.sh data/local/dict/arl data/local/lm
 fi
 

@@ -1,41 +1,46 @@
 #!/bin/bash -u
 
-# Copyright 2017 John Morgan
+# Copyright 2019 John Morgan
 # Apache 2.0.
 
 set -o errexit
 
 [ -f ./path.sh ] && . ./path.sh
 
-if [ ! -d data/local/dict ]; then
-    mkdir -p data/local/dict
+l=$1
+dir=$2
+
+if [ ! -d $dir ]; then
+  mkdir -p $dir
 fi
+
 
 export LC_ALL=C
 
-cut -f2- -d " " local/dict/santiago.txt | \
-  tr -s '[:space:]' '[\n*]' | \
-    grep -v SPN | sort -u  >data/local/dict/nonsilence_phones.txt
+cut -d " " -f2- $l | tr -s '[:space:]' '[\n*]' | grep -v SPN | tr -d "\#" | \
+    grep -v "^$" | sort -u > $dir/nonsilence_phones.txt
 
-# sed "1d" deletes the last line.
-expand -t 1 local/dict/santiago.txt | sort -u |
-   sed "1d" >data/local/dict/lexicon.txt
-
-echo "<UNK> SPN" >> data/local/dict/lexicon.txt
+expand -t 1 $l | sort -u | \
+    sed s/\([23456789]\)// | \
+    sed s/\(1[0123456789]\)// | tr -d "\#" | \
+    sort -u > $dir/lexicon.txt
 
 # silence phones, one per line.
 {
     echo SIL;
     echo SPN;
-} >data/local/dict/silence_phones.txt
+} \
+    > \
+    $dir/silence_phones.txt
 
-echo SIL >data/local/dict/optional_silence.txt
+echo SIL > $dir/optional_silence.txt
 
+# get the phone list from the lexicon file
 (
-  tr '\n' ' ' <data/local/dict/silence_phones.txt;
-  echo;
-  tr '\n' ' ' <data/local/dict/nonsilence_phones.txt;
-  echo;
-) >data/local/dict/extra_questions.txt
+    tr '\n' ' ' < $dir/silence_phones.txt;
+    echo;
+    tr '\n' ' ' < $dir/nonsilence_phones.txt;
+    echo;
+) >$dir/extra_questions.txt
 
-echo "Finished dictionary preparation."
+echo "$0: Finished dictionary preparation."
