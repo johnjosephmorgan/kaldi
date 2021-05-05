@@ -4,7 +4,7 @@
 
 data=/mnt/corpora/MLS_French
 mfccdir=mfcc
-tmpdir=data/local/tmp
+tmp_dir=data/local/tmp
 g2p_input_text_files="data/dev/text data/train/text"
 
 stage=0
