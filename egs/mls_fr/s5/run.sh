@@ -45,7 +45,7 @@ if [ $stage -le 3 ]; then
     $tmp_dir/dict/g2p/model.fst \
     $tmp_dir/dict/work \
     $tmp_dir/dict/init/lexicon.txt \
-    $tmp_dict_dir/init/lexicon_with_tabs.txt \
+    $tmp_dir/dict/init/lexicon_with_tabs.txt \
     $g2p_input_text_files || exit 1;
 fi
 
