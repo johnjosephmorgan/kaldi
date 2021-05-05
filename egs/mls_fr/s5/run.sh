@@ -36,7 +36,7 @@ if [ $stage -le 2 ]; then
   echo "$0: Training a g2p model."
   local/g2p/train_g2p.sh \
     $tmp_dir/dict/init \
-    $tmp_dict_dir/g2p || exit 1;
+    $tmp_dir/dict/g2p || exit 1;
 fi
 
 if [ $stage -le 10 ]; then
