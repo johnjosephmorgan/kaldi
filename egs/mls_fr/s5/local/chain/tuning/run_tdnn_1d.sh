@@ -129,7 +129,7 @@ set -e
 stage=0
 decode_nj=50
 train_set=train_960_cleaned
-gmm=tri6b_cleaned
+gmm=tri5b_cleaned
 nnet3_affix=_cleaned
 
 # The rest are configs specific to this script.  Most of the parameters
