@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Multilingual Libri speech French
+
 data=/mnt/corpora/MLS_French
 mfccdir=mfcc
 tmpdir=data/local/tmp
@@ -13,13 +15,15 @@ stage=0
 set -e
 
 if [ $stage -le 0 ]; then
+  echo "$0: Data Preparation."
   for f in dev test train; do
     local/data_prep.sh $data/$f data/$f
   done
 fi
 
 if [ $stage -le 1 ]; then
-      mkdir -p data/local/tmp/dict
+  echo "$0: Prepare lexicon as in yaounde recipe."
+  mkdir -p data/local/tmp/dict
   export LC_ALL=C
   local/prepare_dict.sh || exit 1;
 fi
@@ -27,7 +31,10 @@ fi
 if [ $stage -le 2 ]; then
   echo "$0: Preparing lang directory."
   utils/prepare_lang.sh \
-    --position-dependent-phones true data/local/dict "<UNK>" data/local/lang_tmp \
+    --position-dependent-phones true \
+    data/local/dict \
+    "<UNK>" \
+    data/local/lang_tmp \
     data/lang || exit 1;
 fi
 
@@ -40,24 +47,19 @@ if [ $stage -le 3 ]; then
   local/prepare_lm.sh  $tmpdir/subs/lm/in_vocabulary.txt || exit 1;
 fi
 
-if [ $stage -le 2 ]; then
+if [ $stage -le 4 ]; then
   # G2P training scripts.
   local/g2p/train_g2p.sh data/local/dict/arl data/local/lm
 fi
 
-if [ $stage -le 3 ]; then
-  # when the "--stage 3" option is used below we skip the G2P steps, and use the
-  # lexicon we have already downloaded from openslr.org/11/
-  local/prepare_dict.sh --stage 3 --nj 30 --cmd "$train_cmd" \
-   data/local/lm data/local/lm data/local/dict_nosp
-
-  utils/prepare_lang.sh data/local/dict_nosp \
-   "<UNK>" data/local/lang_tmp_nosp data/lang_nosp
-
-  local/format_lms.sh --src-dir data/lang_nosp data/local/lm
+if [ $stage -le 5 ]; then
+  local/format_lms.sh \
+    --src-dir \
+    data/lang \
+    data/local/lm
 fi
 
-if [ $stage -le 4 ]; then
+if [ $stage -le 6 ]; then
   # Create ConstArpaLm format language model for full 3-gram and 4-gram LMs
   utils/build_const_arpa_lm.sh data/local/lm/lm_tglarge.arpa.gz \
     data/lang_nosp data/lang_nosp_test_tglarge
@@ -65,47 +67,53 @@ if [ $stage -le 4 ]; then
     data/lang_nosp data/lang_nosp_test_fglarge
 fi
 
-if [ $stage -le 5 ]; then
-  # spread the mfccs over various machines, as this data-set is quite large.
-  if [[  $(hostname -f) ==  *.clsp.jhu.edu ]]; then
-    mfcc=$(basename mfccdir) # in case was absolute pathname (unlikely), get basename.
-    utils/create_split_dir.pl /export/b{02,11,12,13}/$USER/kaldi-data/egs/librispeech/s5/$mfcc/storage \
-     $mfccdir/storage
-  fi
-fi
-
-
-if [ $stage -le 6 ]; then
-  for part in dev_clean test_clean dev_other test_other train_clean_100; do
+if [ $stage -le 7 ]; then
+  for part in dev test train; do
     steps/make_mfcc.sh --cmd "$train_cmd" --nj 40 data/$part exp/make_mfcc/$part $mfccdir
     steps/compute_cmvn_stats.sh data/$part exp/make_mfcc/$part $mfccdir
   done
 fi
 
-if [ $stage -le 7 ]; then
-  # Make some small data subsets for early system-build stages.  Note, there are 29k
-  # utterances in the train_clean_100 directory which has 100 hours of data.
-  # For the monophone stages we select the shortest utterances, which should make it
+if [ $stage -le 8 ]; then
+    # Make some small data subsets for early system-build stages.
+    # For the monophone stages we select the shortest utterances, which should make it
   # easier to align the data from a flat start.
 
-  utils/subset_data_dir.sh --shortest data/train_clean_100 2000 data/train_2kshort
-  utils/subset_data_dir.sh data/train_clean_100 5000 data/train_5k
-  utils/subset_data_dir.sh data/train_clean_100 10000 data/train_10k
-fi
-
-if [ $stage -le 8 ]; then
-  # train a monophone system
-  steps/train_mono.sh --boost-silence 1.25 --nj 20 --cmd "$train_cmd" \
-                      data/train_2kshort data/lang_nosp exp/mono
+  utils/subset_data_dir.sh --shortest data/train 2000 data/train_2kshort
+  utils/subset_data_dir.sh data/train 5000 data/train_5k
+  utils/subset_data_dir.sh data/train 10000 data/train_10k
 fi
 
 if [ $stage -le 9 ]; then
-  steps/align_si.sh --boost-silence 1.25 --nj 10 --cmd "$train_cmd" \
-                    data/train_5k data/lang_nosp exp/mono exp/mono_ali_5k
+  # train a monophone system
+  steps/train_mono.sh \
+    --boost-silence 1.25 \
+    --nj 20 \
+    --cmd "$train_cmd" \
+    data/train_2kshort \
+    data/lang \
+    exp/mono
+fi
+
+if [ $stage -le 10 ]; then
+  steps/align_si.sh \
+    --boost-silence 1.25 \
+    --nj 10 \
+    --cmd "$train_cmd" \
+    data/train_5k \
+    data/lang \
+    exp/mono \
+    exp/mono_ali_5k
 
   # train a first delta + delta-delta triphone system on a subset of 5000 utterances
-  steps/train_deltas.sh --boost-silence 1.25 --cmd "$train_cmd" \
-                        2000 10000 data/train_5k data/lang_nosp exp/mono_ali_5k exp/tri1
+  steps/train_deltas.sh \
+    --boost-silence 1.25 \
+    --cmd "$train_cmd" \
+    2000 10000 \
+    data/train_5k \
+    data/lang \
+    exp/mono_ali_5k \
+    exp/tri1
 fi
 
 if [ $stage -le 10 ]; then
