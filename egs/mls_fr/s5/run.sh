@@ -19,7 +19,20 @@ if [ $stage -le 0 ]; then
 fi
 
 if [ $stage -le 1 ]; then
-  echo "$0: Preparing the lm."
+      mkdir -p data/local/tmp/dict
+  export LC_ALL=C
+  local/prepare_dict.sh || exit 1;
+fi
+
+if [ $stage -le 2 ]; then
+  echo "$0: Preparing lang directory."
+  utils/prepare_lang.sh \
+    --position-dependent-phones true data/local/dict "<UNK>" data/local/lang_tmp \
+    data/lang || exit 1;
+fi
+
+
+if [ $stage -le 3 ]; thenecho "$0: Preparing the lm."
   mkdir -p $tmpdir/lm
   mkdir -p data/local/lm
   local/subs/download.sh || exit 1;
