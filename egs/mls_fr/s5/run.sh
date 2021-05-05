@@ -31,8 +31,8 @@ if [ $stage -le 2 ]; then
     data/lang || exit 1;
 fi
 
-
-if [ $stage -le 3 ]; thenecho "$0: Preparing the lm."
+if [ $stage -le 3 ]; then
+  echo "$0: Preparing the lm."
   mkdir -p $tmpdir/lm
   mkdir -p data/local/lm
   local/subs/download.sh || exit 1;
