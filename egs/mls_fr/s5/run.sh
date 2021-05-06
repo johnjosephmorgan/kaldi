@@ -262,7 +262,8 @@ if [ $stage -le 22 ]; then
     exp/tri5b/graph
 fi
 
-if [ $stage -le 23 ]; thenfor test in test dev; do
+if [ $stage -le 23 ]; then
+  for test in test dev; do
   steps/decode_fmllr.sh \
     --cmd "$decode_cmd" \
     --nj 20 \
