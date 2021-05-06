@@ -208,34 +208,33 @@ if [ $stage -le 16 ]; then
     data/train \
     data/lang \
     exp/tri4b
+fi
+
+if [ $stage -le 17 ]; then
   utils/dict_dir_add_pronprobs.sh \
     --max-normalize true \
     data/local/dict \
     exp/tri4b/pron_counts_nowb.txt \
     exp/tri4b/sil_counts_nowb.txt \
     exp/tri4b/pron_bigram_counts_nowb.txt \
-    data/local/dict
+    data/local/dict_with_new_prons
+fi
 
+if [ $stage -le 18 ]; then
   utils/prepare_lang.sh \
-    data/local/dict \
+    data/local/dict_with_new_prons \
     "<UNK>" \
     data/local/lang_tmp \
     data/lang
-  local/format_lms.sh \
-      --src-dir data/lang \
-      data/local/lm
-
-  utils/build_const_arpa_lm.sh \
-    data/local/lm/lm_tglarge.arpa.gz \
-    data/lang \
-    data/lang_test_tglarge
-  utils/build_const_arpa_lm.sh \
-    data/local/lm/lm_fglarge.arpa.gz \
-    data/lang \
-    data/lang_test_fglarge
 fi
 
-if [ $stage -le 17 ]; then
+if [ $stage -le 19 ]; then
+  local/format_lms.sh \
+    --src-dir data/lang \
+    data/local/lm
+fi
+
+if [ $stage -le  20 ]; then
   steps/train_quick.sh \
     --cmd "$train_cmd" \
     7000 150000 \
@@ -279,27 +278,6 @@ if [ $stage -le 18 ]; then
   # the neural net and chain systems.  (although actually it was pretty clean already.)
   local/run_cleanup_segmentation.sh
 fi
-
-# steps/cleanup/debug_lexicon.sh --remove-stress true  --nj 200 --cmd "$train_cmd" data/train_clean_100 \
-#    data/lang exp/tri6b data/local/dict/lexicon.txt exp/debug_lexicon_100h
-
-# #Perform rescoring of tri6b be means of faster-rnnlm
-# #Attention: with default settings requires 4 GB of memory per rescoring job, so commenting this out by default
-# wait && local/run_rnnlm.sh \
-#     --rnnlm-ver "faster-rnnlm" \
-#     --rnnlm-options "-hidden 150 -direct 1000 -direct-order 5" \
-#     --rnnlm-tag "h150-me5-1000" $data data/local/lm
-
-# #Perform rescoring of tri6b be means of faster-rnnlm using Noise contrastive estimation
-# #Note, that could be extremely slow without CUDA
-# #We use smaller direct layer size so that it could be stored in GPU memory (~2Gb)
-# #Suprisingly, bottleneck here is validation rather then learning
-# #Therefore you can use smaller validation dataset to speed up training
-# wait && local/run_rnnlm.sh \
-#     --rnnlm-ver "faster-rnnlm" \
-#     --rnnlm-options "-hidden 150 -direct 400 -direct-order 3 --nce 20" \
-#     --rnnlm-tag "h150-me3-400-nce20" $data data/local/lm
-
 
 if [ $stage -le 19 ]; then
   # train and test nnet3 tdnn models on the entire data with data-cleaning.
