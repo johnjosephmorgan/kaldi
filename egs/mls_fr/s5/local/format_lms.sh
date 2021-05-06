@@ -43,17 +43,13 @@ trap "rm -r $tmpdir" EXIT
 
 mkdir -p $tmpdir
 
-for lm_suffix in tgsmall tgmed; do
-  # tglarge is prepared by a separate command, called from run.sh; we don't
-  # want to compile G.fst for tglarge, as it takes a while.
-  test=${src_dir}_test_${lm_suffix}
-  mkdir -p $test
-  cp -r ${src_dir}/* $test
-  gunzip -c $lm_dir/lm_${lm_suffix}.arpa.gz | \
-    arpa2fst --disambig-symbol=#0 \
-             --read-symbol-table=$test/words.txt - $test/G.fst
-  utils/validate_lang.pl --skip-determinization-check $test || exit 1;
-done
+test=${src_dir}_test
+mkdir -p $test
+cp -r ${src_dir}/* $test
+gunzip -c $lm_dir/trigram.arpa.gz | \
+  arpa2fst --disambig-symbol=#0 \
+  --read-symbol-table=$test/words.txt - $test/G.fst
+utils/validate_lang.pl --skip-determinization-check $test || exit 1;
 
 echo "Succeeded in formatting data."
 
