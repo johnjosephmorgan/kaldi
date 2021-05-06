@@ -92,18 +92,6 @@ if [ $stage -le 8 ]; then
 fi
 
 if [ $stage -le 9 ]; then
-  echo "$0: Create ConstArpaLm format language model for full 3-gram and 4-gram LMs."
-  utils/build_const_arpa_lm.sh \
-    data/local/lm/lm_tglarge.arpa.gz \
-    data/lang \
-    data/lang_test_tglarge
-  utils/build_const_arpa_lm.sh \
-    data/local/lm/lm_fglarge.arpa.gz \
-    data/lang \
-    data/lang_test_fglarge
-fi
-
-if [ $stage -le 10 ]; then
   for part in dev test train; do
     echo "$0: Extracting features for $part."
     steps/make_mfcc.sh --cmd "$train_cmd" --nj 40 data/$part exp/make_mfcc/$part $mfccdir
@@ -111,7 +99,7 @@ if [ $stage -le 10 ]; then
   done
 fi
 
-if [ $stage -le 11 ]; then
+if [ $stage -le 10 ]; then
   echo "$0: Make some small data subsets for early system-build stages."
   # For the monophone stages we select the shortest utterances, which should make it
   # easier to align the data from a flat start.
@@ -120,7 +108,7 @@ if [ $stage -le 11 ]; then
   utils/subset_data_dir.sh data/train 10000 data/train_10k
 fi
 
-if [ $stage -le 12 ]; then
+if [ $stage -le 11 ]; then
   steps/train_mono.sh \
     --boost-silence 1.25 \
     --nj 20 \
@@ -130,7 +118,7 @@ if [ $stage -le 12 ]; then
     exp/mono
 fi
 
-if [ $stage -le 13 ]; then
+if [ $stage -le 12 ]; then
   steps/align_si.sh \
     --boost-silence 1.25 \
     --nj 10 \
@@ -151,7 +139,7 @@ if [ $stage -le 13 ]; then
     exp/tri1
 fi
 
-if [ $stage -le 14 ]; then
+if [ $stage -le 13 ]; then
   steps/align_si.sh \
     --nj 10 \
     --cmd "$train_cmd" \
@@ -171,7 +159,7 @@ if [ $stage -le 14 ]; then
     exp/tri2b
 fi
 
-if [ $stage -le 15 ]; then
+if [ $stage -le 14 ]; then
   # Align a 10k utts subset using the tri2b model
   steps/align_si.sh  \
     --nj 10 \
@@ -192,7 +180,7 @@ if [ $stage -le 15 ]; then
     exp/tri3b
 fi
 
-if [ $stage -le 16 ]; then
+if [ $stage -le 15 ]; then
   # align the entire train subset using the tri3b model
   steps/align_fmllr.sh \
     --nj 20 \
@@ -212,7 +200,7 @@ if [ $stage -le 16 ]; then
     exp/tri4b
 fi
 
-if [ $stage -le 17 ]; then
+if [ $stage -le 16 ]; then
   # Now we compute the pronunciation and silence probabilities from training data,
   # and re-create the lang directory.
   steps/get_prons.sh \
@@ -247,7 +235,7 @@ if [ $stage -le 17 ]; then
     data/lang_test_fglarge
 fi
 
-if [ $stage -le 18 ]; then
+if [ $stage -le 17 ]; then
   steps/train_quick.sh \
     --cmd "$train_cmd" \
     7000 150000 \
@@ -286,7 +274,7 @@ if [ $stage -le 18 ]; then
   done
 fi
 
-if [ $stage -le 19 ]; then
+if [ $stage -le 18 ]; then
   # this does some data-cleaning. The cleaned data should be useful when we add
   # the neural net and chain systems.  (although actually it was pretty clean already.)
   local/run_cleanup_segmentation.sh
@@ -313,7 +301,7 @@ fi
 #     --rnnlm-tag "h150-me3-400-nce20" $data data/local/lm
 
 
-if [ $stage -le 20 ]; then
+if [ $stage -le 19 ]; then
   # train and test nnet3 tdnn models on the entire data with data-cleaning.
   local/chain/run_tdnn.sh # set "--stage 11" if you have already run local/nnet3/run_tdnn.sh
 fi
