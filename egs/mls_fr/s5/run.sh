@@ -235,6 +235,16 @@ if [ $stage -le 19 ]; then
 fi
 
 if [ $stage -le  20 ]; then
+  steps/align_fmllr.sh \
+    --cmd "$train_cmd" \
+    --nj 40 \
+    data/train \
+    data/lang \
+    exp/tri4b \
+    exp/tri4b_ali || exit 1;
+fi
+
+if [ $stage -le 21 ]; then
   steps/train_quick.sh \
     --cmd "$train_cmd" \
     7000 150000 \
@@ -242,44 +252,33 @@ if [ $stage -le  20 ]; then
     data/lang \
     exp/tri4b_ali \
     exp/tri5b
+fi
 
+if [ $stage -le 22 ]; then
   # decode using the tri5b model
   utils/mkgraph.sh \
-    data/lang_test_tgsmall \
+    data/lang_test \
     exp/tri5b \
-    exp/tri5b/graph_tgsmall
-  for test in test dev; do
-    steps/decode_fmllr.sh \
-      --nj 20 \
-      --cmd "$decode_cmd" \
-      exp/tri5b/graph_tgsmall \
-      data/$test \
-      exp/tri5b/decode_tgsmall_$test
-    steps/lmrescore.sh \
-      --cmd "$decode_cmd" \
-      data/lang_test_{tgsmall,tgmed} \
-      data/$test \
-      exp/tri5b/decode_{tgsmall,tgmed}_$test
-    steps/lmrescore_const_arpa.sh \
-      --cmd "$decode_cmd" \
-      data/lang_test_{tgsmall,tglarge} \
-      data/$test \
-      exp/tri5b/decode_{tgsmall,tglarge}_$test
-    steps/lmrescore_const_arpa.sh \
-      --cmd "$decode_cmd" \
-      data/lang_test_{tgsmall,fglarge} \
-      data/$test \
-      exp/tri5b/decode_{tgsmall,fglarge}_$test
+    exp/tri5b/graph
+fi
+
+if [ $stage -le 23 ]; thenfor test in test dev; do
+  steps/decode_fmllr.sh \
+    --cmd "$decode_cmd" \
+    --nj 20 \
+    exp/tri5b/graph \
+    data/$test \
+    exp/tri5b/decode_$test
   done
 fi
 
-if [ $stage -le 18 ]; then
+if [ $stage -le 24 ]; then
   # this does some data-cleaning. The cleaned data should be useful when we add
   # the neural net and chain systems.  (although actually it was pretty clean already.)
   local/run_cleanup_segmentation.sh
 fi
 
-if [ $stage -le 19 ]; then
+if [ $stage -le 25 ]; then
   # train and test nnet3 tdnn models on the entire data with data-cleaning.
   local/chain/run_tdnn.sh # set "--stage 11" if you have already run local/nnet3/run_tdnn.sh
 fi
