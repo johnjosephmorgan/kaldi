@@ -128,9 +128,9 @@ set -e
 # configs for 'chain'
 stage=0
 decode_nj=50
-train_set=train_960_cleaned
-gmm=tri5b_cleaned
-nnet3_affix=_cleaned
+train_set=train
+gmm=tri5b
+nnet3_affix=
 
 # The rest are configs specific to this script.  Most of the parameters
 # are just hardcoded at this level, in the commands below.
