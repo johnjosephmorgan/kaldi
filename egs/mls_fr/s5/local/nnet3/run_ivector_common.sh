@@ -10,11 +10,11 @@ set -e -o pipefail
 
 stage=0
 train_set=train    # you might set this to e.g. train_960
-gmm=tri6b_cleaned         # This specifies a GMM-dir from the features of the type you're training the system on;
+gmm=tri5b         # This specifies a GMM-dir from the features of the type you're training the system on;
                          # it should contain alignments for 'train_set'.
 num_threads_ubm=16
 num_processes=4
-nnet3_affix=_cleaned     # affix for exp/nnet3 directory to put iVector stuff in, so it
+nnet3_affix=     # affix for exp/nnet3 directory to put iVector stuff in, so it
                          # becomes exp/nnet3_cleaned or whatever.
 
 . ./cmd.sh
