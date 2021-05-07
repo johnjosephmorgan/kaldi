@@ -57,16 +57,8 @@ fi
 
 if [ $stage -le 3 ]; then
   # Create high-resolution MFCC features (with 40 cepstra instead of 13).
-  # this shows how you can split across multiple file-systems.  we'll split the
-  # MFCC dir across multiple locations.  You might want to be careful here, if you
-  # have multiple copies of Kaldi checked out and run the same recipe, not to let
-  # them overwrite each other.
   echo "$0: creating high-resolution MFCC features"
   mfccdir=data/${train_set}_sp_hires/data
-  if [[ $(hostname -f) == *.clsp.jhu.edu ]] && [ ! -d $mfccdir/storage ]; then
-    utils/create_split_dir.pl /export/b0{1,2,3,4}/$USER/kaldi-data/mfcc/librispeech-$(date +'%m_%d_%H_%M')/s5/$mfccdir/storage $mfccdir/storage
-  fi
-
   for datadir in ${train_set}_sp test dev; do
     utils/copy_data_dir.sh data/$datadir data/${datadir}_hires
   done
