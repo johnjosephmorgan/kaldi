@@ -274,8 +274,7 @@ if [ $stage -le 23 ]; then
 fi
 
 if [ $stage -le 24 ]; then
-  # this does some data-cleaning. The cleaned data should be useful when we add
-  # the neural net and chain systems.  (although actually it was pretty clean already.)
+  echo "$0: Data-cleaning."
   local/run_cleanup_segmentation.sh
 fi
 
