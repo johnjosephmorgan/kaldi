@@ -9,7 +9,7 @@ set -e -o pipefail
 
 
 stage=0
-train_set=train_960_cleaned    # you might set this to e.g. train_960
+train_set=train    # you might set this to e.g. train_960
 gmm=tri6b_cleaned         # This specifies a GMM-dir from the features of the type you're training the system on;
                          # it should contain alignments for 'train_set'.
 num_threads_ubm=16
