@@ -274,11 +274,6 @@ if [ $stage -le 23 ]; then
 fi
 
 if [ $stage -le 24 ]; then
-  echo "$0: Data-cleaning."
-  local/run_cleanup_segmentation.sh
-fi
-
-if [ $stage -le 25 ]; then
   # train and test nnet3 tdnn models on the entire data with data-cleaning.
   local/chain/run_tdnn.sh # set "--stage 11" if you have already run local/nnet3/run_tdnn.sh
 fi
