@@ -194,14 +194,17 @@ done
 
 # Please take this as a reference on how to specify all the options of
 # local/chain/run_chain_common.sh
-local/chain/run_chain_common.sh --stage $stage \
-                                --gmm-dir $gmm_dir \
-                                --ali-dir $ali_dir \
-                                --lores-train-data-dir ${lores_train_data_dir} \
-                                --lang $lang \
-                                --lat-dir $lat_dir \
-                                --num-leaves 7000 \
-                                --tree-dir $tree_dir || exit 1;
+if [ $stage -le 13 ]; then
+    local/chain/run_chain_common.sh \
+    --stage $stage \
+    --gmm-dir $gmm_dir \
+    --ali-dir $ali_dir \
+    --lores-train-data-dir ${lores_train_data_dir} \
+    --lang $lang \
+    --lat-dir $lat_dir \
+    --num-leaves 7000 \
+    --tree-dir $tree_dir || exit 1;
+fi
 
 if [ $stage -le 14 ]; then
   echo "$0: creating neural net configs using the xconfig parser";
