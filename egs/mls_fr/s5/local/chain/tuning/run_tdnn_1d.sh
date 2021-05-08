@@ -194,7 +194,7 @@ done
 
 # Please take this as a reference on how to specify all the options of
 # local/chain/run_chain_common.sh
-if [ $stage -le 13 ]; then
+if [ $stage -le 11 ]; then
     local/chain/run_chain_common.sh \
     --stage $stage \
     --gmm-dir $gmm_dir \
