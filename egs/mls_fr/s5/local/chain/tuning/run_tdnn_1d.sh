@@ -281,8 +281,8 @@ if [ $stage -le 15 ]; then
     --trainer.num-chunk-per-minibatch 64 \
     --trainer.frames-per-iter 2500000 \
     --trainer.num-epochs 4 \
-    --trainer.optimization.num-jobs-initial 3 \
-    --trainer.optimization.num-jobs-final 16 \
+    --trainer.optimization.num-jobs-initial 2 \
+    --trainer.optimization.num-jobs-final 2 \
     --trainer.optimization.initial-effective-lrate 0.00015 \
     --trainer.optimization.final-effective-lrate 0.000015 \
     --trainer.max-param-change 2.0 \
