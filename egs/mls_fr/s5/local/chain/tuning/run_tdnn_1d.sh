@@ -402,4 +402,10 @@ if [ $stage -le 21 ]; then
   fi
 fi
 
+if [ $stage -le 22 ]; then
+  mkdir -p data/local/tmp/mls_fr/lm
+  cut -f 2- data/train/text > data/local/tmp/mls_fr/lm/corpus
+  local/prepare_lm.sh  data/local/tmp/mls_fr/lm/corpus || exit 1;
+fi
+
 exit 0;
