@@ -389,7 +389,7 @@ if [ $stage -le 21 ]; then
     steps/online/nnet3/decode.sh \
       --acwt 1.0 \
       --cmd "$decode_cmd" \
-      --nj $nspk \
+      --nj 8 \
       --post-decode-acwt 10.0 \
       ${graph_dir}_yaounde \
       data/yaounde/ca16 \
