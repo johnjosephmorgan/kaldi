@@ -364,12 +364,11 @@ if $test_online_decoding && [ $stage -le 18 ]; then
 fi
 
 if [ $stage -le 19 ]; then
+  [ ! -d data/yaounde ] || rm -Rf data/yaounde
   mkdir -p data/yaounde
   (
     cd data/yaounde
-    [ ! -L data/yaounde/ca16 ] || rm data/yaounde/ca16
     ln -s ../../../../yaounde/s5/data/ca16 ./
-    [ ! -L data/yaounde/lang_test ] || rm data/yaounde/lang_test
     ln -s ../../../../yaounde/s5/data/lang_test ./
   )
 fi
