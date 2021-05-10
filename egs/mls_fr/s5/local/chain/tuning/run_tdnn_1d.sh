@@ -424,7 +424,6 @@ if [ $stage -le 24 ]; then
     ${graph_dir}_lm_from_mls_fr_training_text
 fi
 
-
 if [ $stage -le 25 ]; then
   for f in dev test; do
     (
@@ -443,6 +442,17 @@ if [ $stage -le 25 ]; then
       exit 1
     fi
   done
+fi
+
+if [ $stage -le 26 ]; then
+  steps/online/nnet3/decode.sh \
+    --acwt 1.0 \
+    --cmd "$decode_cmd" \
+    --nj 8 \
+    --post-decode-acwt 10.0 \
+    ${graph_dir}_lm_from_mls_fr_training_text \
+    data/yaounde/ca16 \
+    ${dir}_online/decode_mls_lm_yaounde_ca16 || exit 1
 fi
 
 exit 0;39
