@@ -426,22 +426,23 @@ fi
 
 
 if [ $stage -le 25 ]; then
-    for f in dev test; do
-    steps/online/nnet3/decode.sh \
-      --acwt 1.0 \
-      --cmd "$decode_cmd" \
-      --nj 8 \
-      --post-decode-acwt 10.0 \
-      ${graph_dir}_lm_from_mls_fr_training_text \
-        data/$f \
-        ${dir}_online/decode_mls_${f} || exit 1
-    done
-  ) || touch $dir/.error &
-  wait
-  if [ -f $dir/.error ]; then
-    echo "$0: something went wrong in decoding"
-    exit 1
-  fi
+  for f in dev test; do
+    (
+      steps/online/nnet3/decode.sh \
+          --acwt 1.0 \
+          --cmd "$decode_cmd" \
+	  --nj 8 \
+	  --post-decode-acwt 10.0 \
+	  ${graph_dir}_lm_from_mls_fr_training_text \
+          data/$f \
+          ${dir}_online/decode_mls_${f} || exit 1
+    ) || touch $dir/.error &
+    wait
+    if [ -f $dir/.error ]; then
+      echo "$0: something went wrong in decoding"
+      exit 1
+    fi
+  done
 fi
 
-exit 0;
+exit 0;39
