@@ -127,7 +127,7 @@ set -e
 
 # configs for 'chain'
 stage=0
-decode_nj=50
+decode_nj=28
 train_set=train
 gmm=tri5b
 nnet3_affix=
@@ -306,15 +306,16 @@ iter_opts=
 if [ ! -z $decode_iter ]; then
   iter_opts=" --iter $decode_iter "
 fi
+
 if [ $stage -le 17 ]; then
   rm $dir/.error 2>/dev/null || true
   for decode_set in test dev; do
     (
       steps/nnet3/decode.sh \
         --acwt 1.0 \
-        --post-decode-acwt 10.0 \
-        --nj $decode_nj \
         --cmd "$decode_cmd" \
+        --nj $decode_nj \
+        --post-decode-acwt 10.0 \
         $iter_opts \
         --online-ivector-dir exp/nnet3${nnet3_affix}/ivectors_${decode_set}_hires \
         $graph_dir \
