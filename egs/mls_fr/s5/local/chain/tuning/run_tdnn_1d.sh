@@ -179,7 +179,7 @@ ali_dir=exp/${gmm}_ali_${train_set}_sp
 tree_dir=exp/chain${nnet3_affix}/tree_sp${tree_affix:+_$tree_affix}
 lang=data/lang_chain
 lat_dir=exp/chain${nnet3_affix}/${gmm}_${train_set}_sp_lats
-dir=exp/chain${nnet3_affix}/tdnn${affix:+_$affix}_sp
+dir=exp/chain/tdnn${affix:+_$affix}_sp
 train_data_dir=data/${train_set}_sp_hires
 lores_train_data_dir=data/${train_set}_sp
 train_ivector_dir=exp/nnet3${nnet3_affix}/ivectors_${train_set}_sp_hires
@@ -289,7 +289,7 @@ if [ $stage -le 15 ]; then
 
 fi
 
-graph_dir=$dir/graph_tgsmall
+graph_dir=$dir/graph
 if [ $stage -le 16 ]; then
   # Note: it might appear that this $lang directory is mismatched, and it is as
   # far as the 'topo' is concerned, but this script doesn't read the 'topo' from
@@ -363,5 +363,39 @@ if $test_online_decoding && [ $stage -le 18 ]; then
   fi
 fi
 
+if [ $stage -le 19 ]; then
+    mkdir -p data/yaounde
+    ln -s ../../yaounde/s5/data/ca16 data/yaounde/
+    ln -s ../../yaounde/s5/data/lang_test data/yaounde
+  utils/mkgraph.sh \
+    --self-loop-scale 1.0 \
+    --remove-oov \
+    data/yaounde/lang_test \
+    $dir \
+    ${graph_dir}_yaounde
+fi
+
+if [ $stage -le 20 ]; then
+  for data in test dev; do
+    (
+      nspk=$(wc -l <data/yaounde/${data}_hires/spk2utt)
+      # note: we just give it "data/${data}" as it only uses the wav.scp, the
+      # feature type does not matter.
+      steps/online/nnet3/decode.sh \
+	  --cmd "$decode_cmd" \
+	  --post-decode-acwt 10.0 \
+          --acwt 1.0 \
+          --nj $nspk \
+          ${graph_dir}_yaounde \
+	  data/${data} \
+	  ${dir}_online/decode_${data}_yaounde || exit 1
+    ) || touch $dir/.error &
+  done
+  wait
+  if [ -f $dir/.error ]; then
+    echo "$0: something went wrong in decoding"
+    exit 1
+  fi
+fi
 
 exit 0;
