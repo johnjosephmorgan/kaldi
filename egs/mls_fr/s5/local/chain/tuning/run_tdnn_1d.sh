@@ -408,4 +408,11 @@ if [ $stage -le 22 ]; then
   local/prepare_lm.sh  data/local/tmp/mls_fr/lm/corpus || exit 1;
 fi
 
+
+if [ $stage -le 23 ]; then
+  local/format_lms.sh \
+    --src-dir data/lang \
+    data/local/lm
+fi
+
 exit 0;
