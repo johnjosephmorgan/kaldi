@@ -347,10 +347,10 @@ if $test_online_decoding && [ $stage -le 18 ]; then
       # note: we just give it "data/${data}" as it only uses the wav.scp, the
       # feature type does not matter.
       steps/online/nnet3/decode.sh \
-          --acwt 1.0 \
-	  --post-decode-acwt 10.0 \
-          --nj $nspk \
 	  --cmd "$decode_cmd" \
+	  --post-decode-acwt 10.0 \
+          --acwt 1.0 \
+          --nj $nspk \
           $graph_dir \
 	  data/${data} \
 	  ${dir}_online/decode_${data} || exit 1
@@ -422,6 +422,26 @@ if [ $stage -le 24 ]; then
     data/lang_test \
     $dir \
     ${graph_dir}_lm_from_mls_fr_training_text
+fi
+
+
+if [ $stage -le 25 ]; then
+    for f in dev test; do
+    steps/online/nnet3/decode.sh \
+      --acwt 1.0 \
+      --cmd "$decode_cmd" \
+      --nj 8 \
+      --post-decode-acwt 10.0 \
+      ${graph_dir}_lm_from_mls_fr_training_text \
+        data/$f \
+        ${dir}_online/decode_mls_${f} || exit 1
+    done
+  ) || touch $dir/.error &
+  wait
+  if [ -f $dir/.error ]; then
+    echo "$0: something went wrong in decoding"
+    exit 1
+  fi
 fi
 
 exit 0;
