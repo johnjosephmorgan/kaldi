@@ -364,9 +364,15 @@ if $test_online_decoding && [ $stage -le 18 ]; then
 fi
 
 if [ $stage -le 19 ]; then
-    mkdir -p data/yaounde
-    ln -s ../../yaounde/s5/data/ca16 data/yaounde/
-    ln -s ../../yaounde/s5/data/lang_test data/yaounde
+  mkdir -p data/yaounde
+  (
+    cd data/yaounde
+    ln -s ../../../../yaounde/s5/data/ca16 ./
+    ln -s ../../../../yaounde/s5/data/lang_test ./
+  )
+fi
+
+if [ $stage -le 20 ]; then
   utils/mkgraph.sh \
     --self-loop-scale 1.0 \
     --remove-oov \
@@ -375,22 +381,19 @@ if [ $stage -le 19 ]; then
     ${graph_dir}_yaounde
 fi
 
-if [ $stage -le 20 ]; then
-  for data in test dev; do
-    (
-      nspk=$(wc -l <data/yaounde/${data}_hires/spk2utt)
-      # note: we just give it "data/${data}" as it only uses the wav.scp, the
-      # feature type does not matter.
-      steps/online/nnet3/decode.sh \
-	  --cmd "$decode_cmd" \
-	  --post-decode-acwt 10.0 \
-          --acwt 1.0 \
-          --nj $nspk \
-          ${graph_dir}_yaounde \
-	  data/${data} \
-	  ${dir}_online/decode_${data}_yaounde || exit 1
-    ) || touch $dir/.error &
-  done
+if [ $stage -le 21 ]; then
+  (
+    # note: we just give it "data/${data}" as it only uses the wav.scp, the
+    # feature type does not matter.
+    steps/online/nnet3/decode.sh \
+      --acwt 1.0 \
+      --cmd "$decode_cmd" \
+      --nj $nspk \
+      --post-decode-acwt 10.0 \
+      ${graph_dir}_yaounde \
+      data/yaounde/ca16 \
+      ${dir}_online/decode_yaounde_ca16 || exit 1
+  ) || touch $dir/.error &
   wait
   if [ -f $dir/.error ]; then
     echo "$0: something went wrong in decoding"
