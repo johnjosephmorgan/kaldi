@@ -415,4 +415,13 @@ if [ $stage -le 23 ]; then
     data/local/lm
 fi
 
+if [ $stage -le 24 ]; then
+  utils/mkgraph.sh \
+    --self-loop-scale 1.0 \
+    --remove-oov \
+    data/lang_test \
+    $dir \
+    ${graph_dir}_lm_from_mls_fr_training_text
+fi
+
 exit 0;
