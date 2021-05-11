@@ -228,8 +228,8 @@ for lang in ${lang_list[@]}; do
   multi_chain_dir[${lang}]=exp/$lang/chain/$dir_basename
 done
 
-ivector_dim=$(feat-to-dim scp:exp/tunisian_msa/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
-feat_dim=$(feat-to-dim scp:data/tunisian_msa/train_sp_hires/feats.scp -)
+ivector_dim=$(feat-to-dim scp:exp/yaounde/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
+feat_dim=$(feat-to-dim scp:data/yaounde/train_sp_hires/feats.scp -)
 
 if [ $stage -le 7 ]; then
   for lang in ${lang_list[@]};do
@@ -301,8 +301,8 @@ fi
 
 if [ $stage -le 10 ]; then
   echo "$0: creating multilingual neural net configs using the xconfig parser";
-  ivector_dim=$(feat-to-dim scp:exp/tunisian_msa/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
-  feat_dim=$(feat-to-dim scp:data/tunisian_msa/train_sp_hires/feats.scp -)
+  ivector_dim=$(feat-to-dim scp:exp/yaounde/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
+  feat_dim=$(feat-to-dim scp:data/yaounde/train_sp_hires/feats.scp -)
   if [ -z $bnf_dim ]; then
     bnf_dim=80
   fi
@@ -314,7 +314,7 @@ if [ $stage -le 10 ]; then
     ivector_to_append=", ReplaceIndex(ivector, t, 0)"
   fi
   learning_rate_factor=$(echo "print (0.5/$xent_regularize)" | python)
-  dummy_tree_dir=exp/tunisian_msa
+  dummy_tree_dir=exp/yaounde
   num_targets=$(tree-info $dummy_tree_dir/tree 2>/dev/null | grep num-pdfs | awk '{print $2}') || exit 1;
   cat <<EOF > $dir/configs/network.xconfig
   input dim=$feat_dim name=input
@@ -346,7 +346,7 @@ EOF
     echo "output-layer name=output-${lang}-xent input=tdnn7 dim=$num_targets  learning-rate-factor=$learning_rate_factor max-change=1.5"
   done >> $dir/configs/network.xconfig
 
-  lang_name=tunisian_msa
+  lang_name=yaounde
   steps/nnet3/xconfig_to_configs.py --xconfig-file $dir/configs/network.xconfig \
     --config-dir $dir/configs/ 
 fi
@@ -455,7 +455,7 @@ if [ $stage -le 15 ]; then
     [ -L $dir/egs/info_${lang}.txt ] || ln -rs $dir/egs/info.txt $dir/egs/info_${lang}.txt
   done
   echo "$0: Create a dummy transition model that is never used."
-  first_lang_name=tunisian_msa
+  first_lang_name=yaounde
   [[ ! -f $dir/init/default_trans.mdl ]] && ln -r -s $dir/init/${first_lang_name}_trans.mdl $dir/init/default_trans.mdl
 fi
 
@@ -494,8 +494,8 @@ fi
 
 if [ $stage -le 18 ]; then
   echo "$0: Splitting models"
-  ivector_dim=$(feat-to-dim scp:exp/tunisian_msa/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
-  feat_dim=$(feat-to-dim scp:data/tunisian_msa/train_sp_hires/feats.scp -)
+  ivector_dim=$(feat-to-dim scp:exp/yaounde/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
+  feat_dim=$(feat-to-dim scp:data/yaounde/train_sp_hires/feats.scp -)
   frame_subsampling_factor=$(fgrep "frame_subsampling_factor" $dir/init/info.txt | awk '{print $2}')
   for lang in ${lang_list[@]};do
     [[ ! -d $dir/$lang ]] && mkdir $dir/$lang
@@ -511,11 +511,11 @@ if [ $stage -le 18 ]; then
 fi
 
 if [ $stage -le 19 ]; then
-  # Decode Tunisian MSA
-  tree_dir=exp/tunisian_msa
+  # Decode ca16
+  tree_dir=exp/yaounde
   utils/mkgraph.sh \
     --self-loop-scale 1.0 \
-    data/tunisian_msa/lang_test \
+    data/yaounde/lang_test \
     $tree_dir \
     $tree_dir/graph || exit 1;
 fi
@@ -523,29 +523,29 @@ fi
 if [ $stage -le 20 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   # Extract high resolution MFCCs from dev and test data
-  for f in devtest test; do
+  for f in  ca16; do
     utils/copy_data_dir.sh \
-      data/tunisian_msa/$f \
-      data/tunisian_msa/${f}_hires || exit 1;
+      data/yaounde/$f \
+      data/yaounde/${f}_hires || exit 1;
     steps/make_mfcc.sh \
       --cmd "$train_cmd" \
       --mfcc-config conf/mfcc_hires.conf \
       --nj 2 \
-      data/tunisian_msa/${f}_hires || exit 1;
+      data/yaounde/${f}_hires || exit 1;
     steps/compute_cmvn_stats.sh \
-      data/tunisian_msa/${f}_hires || exit 1;
-    utils/fix_data_dir.sh data/tunisian_msa/${f}_hires || exit 1;
+      data/yaounde/${f}_hires || exit 1;
+    utils/fix_data_dir.sh data/yaounde/${f}_hires || exit 1;
     # Do the  decoding pass
     steps/online/nnet2/extract_ivectors_online.sh \
       --cmd "$train_cmd" \
       --nj 2 \
-      data/tunisian_msa/${f}_hires \
+      data/yaounde/${f}_hires \
       exp/multi/extractor \
-      exp/tunisian_msa/ivectors_${f}_hires || exit 1;
+      exp/yaounde/ivectors_${f}_hires || exit 1;
 
     (
-      nspk=$(wc -l <data/tunisian_msa/${f}_hires/spk2utt)
-      tree_dir=exp/tunisian_msa || exit 1;
+      nspk=$(wc -l <data/yaounde/${f}_hires/spk2utt)
+      tree_dir=exp/yaounde || exit 1;
       steps/nnet3/decode.sh \
         --acwt 1.0 \
         --cmd "$decode_cmd"  \
@@ -556,11 +556,11 @@ if [ $stage -le 20 ]; then
         --frames-per-chunk $frames_per_chunk \
         --nj $nspk \
         --num-threads 4 \
-        --online-ivector-dir exp/tunisian_msa/ivectors_${f}_hires \
+        --online-ivector-dir exp/yaounde/ivectors_${f}_hires \
         --post-decode-acwt 10.0 \
         $tree_dir/graph \
-        data/tunisian_msa/${f}_hires \
-        exp/chain2_multi/tunisian_msa/decode_${f}_hires || exit 1
+        data/yaounde/${f}_hires \
+        exp/chain2_multi/yaounde/decode_${f}_hires || exit 1
     )
   done
 fi
@@ -574,18 +574,18 @@ if [ $stage -le 21 ]; then
     $tree_dir \
     $tree_dir/graph || exit 1;
   # copy utf8 test directory to a buckwalter test directory
-  for f in devtest test; do
+  for f in ca16; do
     utils/copy_data_dir.sh \
-      data/tunisian_msa/${f}_hires \
-      data/tunisian_msa/${f}_hires_bw || exit 1;
+      data/yaounde/${f}_hires \
+      data/yaounde/${f}_hires_bw || exit 1;
     # Convert the text file to buckwalter
-    cut -d " " -f 1 data/tunisian_msa/${f}_hires/text > ${f}_index.txt
-    cut -d " " -f 2- data/tunisian_msa/${f}_hires/text > ${f}_text.txt
+    cut -d " " -f 1 data/yaounde/${f}_hires/text > ${f}_index.txt
+    cut -d " " -f 2- data/yaounde/${f}_hires/text > ${f}_text.txt
     local/buckwalter2unicode.py -r -i ${f}_text.txt -o ${f}_text.bw
-    paste -d " " ${f}_index.txt ${f}_text.bw > data/tunisian_msa/${f}_hires_bw/text
+    paste -d " " ${f}_index.txt ${f}_text.bw > data/yaounde/${f}_hires_bw/text
     # Decode Tunisian MSA using GALE Arabic
     (
-      nspk=$(wc -l <data/tunisian_msa/${f}_hires/spk2utt)
+      nspk=$(wc -l <data/yaounde/${f}_hires/spk2utt)
       tree_dir=exp/gale_arabic || exit 1;
       steps/nnet3/decode.sh \
         --acwt 1.0 \
@@ -597,10 +597,10 @@ if [ $stage -le 21 ]; then
         --frames-per-chunk $frames_per_chunk \
         --nj $nspk \
         --num-threads 4 \
-        --online-ivector-dir exp/tunisian_msa/ivectors_${f}_hires \
+        --online-ivector-dir exp/yaounde/ivectors_${f}_hires \
         --post-decode-acwt 10.0 \
         $tree_dir/graph \
-        data/tunisian_msa/${f}_hires_bw \
+        data/yaounde/${f}_hires_bw \
         exp/chain2_multi/gale_arabic/decode_${f}_hires_bw || exit 1
     )
   done
@@ -619,17 +619,17 @@ fi
 
 if [ $stage -le 24 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
-  tree_dir=exp/tunisian_msa
+  tree_dir=exp/yaounde
   utils/mkgraph.sh \
     --self-loop-scale 1.0 \
     data/lang_test \
     $tree_dir \
     $tree_dir/graph || exit 1;
-  for f in devtest test; do
+  for f in ca16; do
     # Decode Tunisian MSA using Tunisian MSA with GALE LM
     (
-      nspk=$(wc -l <data/tunisian_msa/${f}_hires/spk2utt)
-      tree_dir=exp/tunisian_msa || exit 1;
+      nspk=$(wc -l <data/yaounde/${f}_hires/spk2utt)
+      tree_dir=exp/yaounde || exit 1;
       steps/nnet3/decode.sh \
         --acwt 1.0 \
         --cmd "$decode_cmd"  \
@@ -640,11 +640,11 @@ if [ $stage -le 24 ]; then
         --frames-per-chunk $frames_per_chunk \
         --nj $nspk \
         --num-threads 4 \
-        --online-ivector-dir exp/tunisian_msa/ivectors_${f}_hires \
+        --online-ivector-dir exp/yaounde/ivectors_${f}_hires \
         --post-decode-acwt 10.0 \
         $tree_dir/graph \
-        data/tunisian_msa/${f}_hires \
-        exp/chain2_multi/tunisian_msa/decode_${f}_hires_utf8 || exit 1
+        data/yaounde/${f}_hires \
+        exp/chain2_multi/yaounde/decode_${f}_hires_utf8 || exit 1
     )
   done
 fi
