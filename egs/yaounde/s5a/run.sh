@@ -522,7 +522,7 @@ fi
 
 if [ $stage -le 20 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
-  # Extract high resolution MFCCs from dev and test data
+  # Extract high resolution MFCCs from  ca16 data
   for f in  ca16; do
     utils/copy_data_dir.sh \
       data/yaounde/$f \
