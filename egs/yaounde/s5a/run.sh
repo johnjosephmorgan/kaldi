@@ -511,7 +511,7 @@ if [ $stage -le 18 ]; then
 fi
 
 if [ $stage -le 19 ]; then
-  # Decode ca16
+  # Decode ca16 with yaounde task
   tree_dir=exp/yaounde
   utils/mkgraph.sh \
     --self-loop-scale 1.0 \
@@ -563,4 +563,37 @@ if [ $stage -le 20 ]; then
         exp/chain2_multi/yaounde/decode_${f}_hires || exit 1
     )
   done
+fi
+
+if [ $stage -le 21 ]; then
+  # Decode ca16 with MLS  task
+  tree_dir=exp/mls_fr
+  utils/mkgraph.sh \
+    --self-loop-scale 1.0 \
+    data/mls_fr/lang_test \
+    $tree_dir \
+    $tree_dir/graph || exit 1;
+fi
+
+if [ $stage -le 22 ]; then
+  # Do the  decoding pass
+  (
+    nspk=$(wc -l <data/yaounde/${f}_hires/spk2utt)
+    tree_dir=exp/mls_fr || exit 1;
+    steps/nnet3/decode.sh \
+      --acwt 1.0 \
+      --cmd "$decode_cmd"  \
+      --extra-left-context $egs_left_context \
+      --extra-left-context-initial 0 \
+      --extra-right-context $egs_right_context \
+      --extra-right-context-final 0 \
+      --frames-per-chunk $frames_per_chunk \
+      --nj $nspk \
+      --num-threads 4 \
+      --online-ivector-dir exp/yaounde/ivectors_${f}_hires \
+      --post-decode-acwt 10.0 \
+      $tree_dir/graph \
+      data/yaounde/ca16_hires \
+      exp/chain2_multi/mls_fr/decode_ca16_hires || exit 1
+  )
 fi
