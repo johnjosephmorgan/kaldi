@@ -216,7 +216,7 @@ if [ $stage -le 14 ]; then
     --self-loop-scale 1.0 \
     data/lang_test \
     exp/chain/tree_a_sp \
-    exp/chain/tree_a_sp/graph || exit 1;
+    exp/chain/tree_a_sp/graph_tamsa || exit 1;
 
   steps/nnet3/decode.sh \
     --acwt 1.0 \
@@ -230,7 +230,7 @@ if [ $stage -le 14 ]; then
     --num-threads 4 \
     --online-ivector-dir exp/nnet3/ivectors_test_hires \
     --post-decode-acwt 10.0 \
-    exp/chain/tree_a_sp/graph \
+    exp/chain/tree_a_sp/graph_tamsa \
     data/test_hires \
     exp/chain/tdnn_1a_sp/decode_test || exit 1
 fi
