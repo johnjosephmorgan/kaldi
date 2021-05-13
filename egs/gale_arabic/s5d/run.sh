@@ -220,20 +220,19 @@ if [ $stage -le 14 ]; then
 
   steps/nnet3/decode.sh \
     --acwt 1.0 \
-    --post-decode-acwt 10.0 \
+    --cmd "$decode_cmd"  \
     --extra-left-context 0 \
-    --extra-right-context 0 \
     --extra-left-context-initial 0 \
+    --extra-right-context 0 \
     --extra-right-context-final 0 \
     --frames-per-chunk 150 \
     --nj 3 \
-    --cmd "$decode_cmd"  \
     --num-threads 4 \
     --online-ivector-dir exp/nnet3/ivectors_test_hires \
+    --post-decode-acwt 10.0 \
     exp/chain/tree_a_sp/graph \
     data/test_hires \
     exp/chain/tdnn_1a_sp/decode_test || exit 1
-fi
 fi
 
 exit 0
