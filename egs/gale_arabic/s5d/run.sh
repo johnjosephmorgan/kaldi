@@ -82,14 +82,24 @@ if [ $stage -le 0 ]; then
 fi
 
 if [ $stage -le 1 ]; then
-  local/gale_train_lms.sh data/train/text data/local/dict/lexicon.txt data/local/lm $giga_dir  # giga is Arabic Gigawords
+  # giga is Arabic Gigawords
+  local/gale_train_lms.sh \
+    data/train/text \
+    data/local/dict/lexicon.txt \
+    data/local/lm \
+    $giga_dir || exit 1; 
+fi
 
-  utils/format_lm.sh data/lang data/local/lm/$LM \
-                     data/local/dict/lexicon.txt data/lang_test
+if [ $stage -le 2 ]; then
+  utils/format_lm.sh \
+    data/lang \
+    data/local/lm/$LM \
+    data/local/dict/lexicon.txt \
+    data/lang_test || exit 1;
 fi
 
 mfccdir=mfcc
-if [ $stage -le 2 ]; then
+if [ $stage -le 3 ]; then
   echo "$0: Preparing the test and train feature files..."
   for x in dev test_p2 mt_all train; do
     utils/fix_data_dir.sh data/$x
@@ -100,7 +110,7 @@ if [ $stage -le 2 ]; then
   done
 fi
 
-if [ $stage -le 3 ]; then
+if [ $stage -le 4 ]; then
   echo "$0: creating sub-set and training monophone system"
   utils/subset_data_dir.sh data/train 10000 data/train.10K || exit 1;
 
@@ -108,7 +118,7 @@ if [ $stage -le 3 ]; then
     data/train.10K data/lang exp/mono || exit 1;
 fi
 
-if [ $stage -le 4 ]; then
+if [ $stage -le 5 ]; then
   echo "$0: Aligning data using monophone system"
   steps/align_si.sh --nj $num_jobs --cmd "$train_cmd" \
     data/train data/lang exp/mono exp/mono_ali || exit 1;
@@ -118,13 +128,13 @@ if [ $stage -le 4 ]; then
     2500 30000 data/train data/lang exp/mono_ali exp/tri1 || exit 1;
 fi
 
-if [ $stage -le 5 ] && $decode_gmm; then
+if [ $stage -le 6 ] && $decode_gmm; then
   utils/mkgraph.sh data/lang_test exp/tri1 exp/tri1/graph
   steps/decode.sh  --nj $num_decode_jobs --cmd "$decode_cmd" \
     exp/tri1/graph data/dev exp/tri1/decode
 fi
 
-if [ $stage -le 6 ]; then
+if [ $stage -le 7 ]; then
   echo "$0: Aligning data and retraining and realigning with lda_mllt"
   steps/align_si.sh --nj $num_jobs --cmd "$train_cmd" \
     data/train data/lang exp/tri1 exp/tri1_ali || exit 1;
@@ -133,13 +143,13 @@ if [ $stage -le 6 ]; then
     data/train data/lang exp/tri1_ali exp/tri2b || exit 1;
 fi
 
-if [ $stage -le 7 ] && $decode_gmm; then
+if [ $stage -le 8 ] && $decode_gmm; then
   utils/mkgraph.sh data/lang_test exp/tri2b exp/tri2b/graph
   steps/decode.sh --nj $num_decode_jobs --cmd "$decode_cmd" \
     exp/tri2b/graph data/dev exp/tri2b/decode
 fi
 
-if [ $stage -le 8 ]; then
+if [ $stage -le 9 ]; then
   echo "$0: Aligning data and retraining and realigning with sat_basis"
   steps/align_si.sh --nj $num_jobs --cmd "$train_cmd" \
     data/train data/lang exp/tri2b exp/tri2b_ali || exit 1;
@@ -151,35 +161,35 @@ if [ $stage -le 8 ]; then
     data/train data/lang exp/tri3b exp/tri3b_ali || exit 1;
 fi
 
-if [ $stage -le 9 ] && $decode_gmm; then
+if [ $stage -le 10 ] && $decode_gmm; then
   utils/mkgraph.sh data/lang_test exp/tri3b exp/tri3b/graph
   steps/decode_fmllr.sh --nj $num_decode_jobs --cmd \
     "$decode_cmd" exp/tri3b/graph data/dev exp/tri3b/decode
 fi
 
-if [ $stage -le 10 ]; then
+if [ $stage -le 11 ]; then
   echo "$0: Training a regular chain model using the e2e alignments..."
   local/chain/run_tdnn.sh
 fi
 
-if [ $stage -le 11 ] && $run_rnnlm; then
+if [ $stage -le 12 ] && $run_rnnlm; then
   local/rnnlm/run_tdnn_lstm.sh
 fi
 
 echo "$0: training succedded"
 
-if [ $stage -le 12 ]; then
+if [ $stage -le 13 ]; then
     local/test/prep_test_recordings.sh /mnt/corpora
 fi
 
-if [ $stage -le 13 ]; then
+if [ $stage -le 14 ]; then
   steps/make_mfcc.sh \
     --cmd "$train_cmd" \
     --nj $num_jobs \
     data/test \
     exp/make_mfcc/test \
     $mfccdir
-  utils/fix_data_dir.sh data/tst
+  utils/fix_data_dir.sh data/test
   steps/compute_cmvn_stats.sh \
     data/test \
     exp/make_mfcc/tesst \
@@ -225,5 +235,7 @@ if [ $stage -le 13 ]; then
     exp/chain/tdnn_1a_sp/decode_test || exit 1
 fi
 fi
+
 exit 0
 ./local/buckwalter2unicode.py -r -i ./text.utf8 -o text.bw
+.
