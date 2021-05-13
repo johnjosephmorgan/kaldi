@@ -212,6 +212,9 @@ if [ $stage -le 14 ]; then
   utils/lang/check_phones_compatible.sh \
     data/lang_test/phones.txt \
     data/lang_chain/phones.txt
+fi
+
+if [ $stage -le 16 ]; then
   utils/mkgraph.sh \
     --self-loop-scale 1.0 \
     data/lang_test \
