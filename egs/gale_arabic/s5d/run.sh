@@ -214,7 +214,7 @@ if [ $stage -le 14 ]; then
     data/lang_chain/phones.txt
 fi
 
-if [ $stage -le 16 ]; then
+if [ $stage -le 15 ]; then
   utils/mkgraph.sh \
     --self-loop-scale 1.0 \
     data/lang_test \
