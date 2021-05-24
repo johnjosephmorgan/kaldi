@@ -127,7 +127,7 @@ if [ $stage -le 1 ]; then
   done
 fi
 
-if [ $stage -le 14 ]; then
+if [ $stage -le 2 ]; then
     egs_opts="$lang2weights"
   echo "$0: Combining egs"
   local/combine_egs.sh \
@@ -139,7 +139,7 @@ if [ $stage -le 14 ]; then
 fi
 [[ -z $common_egs_dir ]] && common_egs_dir=$dir/egs
 
-if [ $stage -le 15 ]; then
+if [ $stage -le 3 ]; then
   [ ! -d $dir/egs/misc ] && mkdir  $dir/egs/misc
   echo "$0: Copying den.fst to $dir/egs/misc"
   for lang in ${lang_list[@]};do
@@ -152,7 +152,7 @@ if [ $stage -le 15 ]; then
   [[ ! -f $dir/init/default_trans.mdl ]] && ln -r -s $dir/init/${first_lang_name}_trans.mdl $dir/init/default_trans.mdl
 fi
 
-if [ $stage -le 16 ]; then
+if [ $stage -le 4 ]; then
   echo "$0: Preparing initial acoustic model"
   $cuda_cmd $dir/log/init_model.log \
   nnet3-init \
@@ -161,7 +161,7 @@ if [ $stage -le 16 ]; then
     $dir/init/multi.raw || exit 1
 fi
 
-if [ $stage -le 17 ]; then
+if [ $stage -le 5 ]; then
   echo "$0: Starting model training"
   [ -f $dir/.error ] && echo "WARNING: $dir/.error exists";
   steps/chain2/train.sh \
@@ -185,7 +185,7 @@ if [ $stage -le 17 ]; then
     $dir
 fi
 
-if [ $stage -le 18 ]; then
+if [ $stage -le 6 ]; then
   echo "$0: Splitting models"
   ivector_dim=$(feat-to-dim scp:exp/yaounde/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
   feat_dim=$(feat-to-dim scp:data/yaounde/train_sp_hires/feats.scp -)
@@ -203,7 +203,7 @@ if [ $stage -le 18 ]; then
   done
 fi
 
-if [ $stage -le 19 ]; then
+if [ $stage -le 7 ]; then
   # Decode ca16 with yaounde task
   tree_dir=exp/yaounde
   utils/mkgraph.sh \
@@ -213,7 +213,7 @@ if [ $stage -le 19 ]; then
     $tree_dir/graph || exit 1;
 fi
 
-if [ $stage -le 20 ]; then
+if [ $stage -le 8 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   # Extract high resolution MFCCs from  ca16 data
   for f in  ca16; do
@@ -258,7 +258,7 @@ if [ $stage -le 20 ]; then
   done
 fi
 
-if [ $stage -le 21 ]; then
+if [ $stage -le 9 ]; then
   # Decode ca16 with MLS  task
   tree_dir=exp/mls_fr
   utils/mkgraph.sh \
@@ -268,7 +268,7 @@ if [ $stage -le 21 ]; then
     $tree_dir/graph || exit 1;
 fi
 
-if [ $stage -le 22 ]; then
+if [ $stage -le 10 ]; then
   # Do the  decoding pass
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   (
