@@ -18,8 +18,8 @@ frames_per_job=8000000
 left_context=13
 right_context=9
 # TODO: add lang2weight support
-lang2weight[0]="0.5";
-lang2weight[1]="0.5";
+lang2weight[0]="0.1";
+lang2weight[1]="0.9";
                         # w.r.t its input language during training.
 lang_list=(yaounde mls_fr)
 
