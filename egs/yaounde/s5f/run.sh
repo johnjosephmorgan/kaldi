@@ -71,6 +71,7 @@ if [ $stage -le 0 ]; then
     cd data/yaounde
     echo "$0: Link data directories from yaounde."
     [ -L data ] || ln -s $sfive/data ./;
+  )
   # link exp directories from yaounde
   (
     echo "Link exp directories from yaounde."
