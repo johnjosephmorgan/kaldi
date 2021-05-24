@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-# chain2 recipe for  AfricanAccented French Yaounde and MLS French.
-# Yaounde task is uses transcripts to train its LM
+# chain2 recipe for  AfricanAccented French Yaounde+ and MLS French.
+# Yaounde+ task uses transcripts to train its LM
+# Weights are set to 10 for yaounde+ and 90 for mls
 # Copyright 2016 Pegah Ghahremani
 # Copyright 2020 Srikanth Madikeri (Idiap Research Institute)
 
@@ -12,12 +13,12 @@
 
 set -e -o pipefail
 
-sfive=s5b
+yaoundesfive=s5b
 # language dependent variable settings
 dir=exp/chain2_multi
 # the order of the elements in the following listss is important
 egs_dir_list="$dir/yaounde_processed_egs $dir/mls_fr_processed_egs"
-lang2weight="0.5,0.5"
+lang2weight="0.1,0.9"
 lang_list=(yaounde mls_fr)
 num_langs=2
 
@@ -68,13 +69,13 @@ if [ $stage -le 0 ]; then
     [ -d data/yaounde ] || mkdir -p data/yaounde;
     cd data/yaounde
     # link the lang directory
-    [ -L lang ] || ln -s ../../../$sfive/data/lang ./;
+    [ -L lang ] || ln -s ../../../$yaoundesfive/data/lang ./;
     # link the train directory
-    [ -L train ] || ln -s ../../../$sfive/data/train ./;
+    [ -L train ] || ln -s ../../../$yaoundesfive/data/train ./;
     # link the test directory
-    [ -L ca16 ] || ln -s ../../../$sfive/data/ca16 ./;
+    [ -L ca16 ] || ln -s ../../../$yaoundesfive/data/ca16 ./;
     # link the lang_test directory
-    [ -L lang_test ] || ln -s ../../../$sfive/data/lang_test ./;
+    [ -L lang_test ] || ln -s ../../../$yaoundesfive/data/lang_test ./;
   )
 
   # link exp directories from yaounde
@@ -83,6 +84,7 @@ if [ $stage -le 0 ]; then
     [ -d exp/yaounde ] || mkdir -p exp/yaounde;
     cd exp/yaounde
     # link the tri3b directory
+    # Note that we do not use the chain recipe $yaoundesfive
     [ -L tri3b ] || ln -s ../../../s5/exp/tri3b ./;
     # link the tri3b_ali
     [ -L tri3b_ali ] || ln -s ../../../s5/exp/tri3b_ali ./;
