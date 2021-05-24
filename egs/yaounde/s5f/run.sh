@@ -75,9 +75,9 @@ if [ $stage -le 0 ]; then
   # link exp directories from yaounde
   (
     echo "Link exp directories from yaounde."
-    [ -d exp/yaounde ] || mkdir -p exp/yaounde;
-    cd exp/yaounde
-    [ -L exp ] || ln -s $sfive/exp ./;
+    [ -d exp ] || mkdir -p exp;
+    cd exp
+    [ -L yaounde ] || ln -s $sfive/exp yaounde;
   )
 
   # link  MLS FR data directories
