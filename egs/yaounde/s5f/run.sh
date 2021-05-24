@@ -101,6 +101,58 @@ if [ $stage -le 0 ]; then
 fi
 
 if [ $stage -le 1 ]; then
+  echo "$0: creating multilingual neural net configs using the xconfig parser";
+  ivector_dim=$(feat-to-dim scp:exp/yaounde/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
+  feat_dim=$(feat-to-dim scp:data/yaounde/train_sp_hires/feats.scp -)
+  if [ -z $bnf_dim ]; then
+    bnf_dim=80
+  fi
+  mkdir -p $dir/configs
+  ivector_node_xconfig=""
+  ivector_to_append=""
+  if $use_ivector; then
+    ivector_node_xconfig="input dim=$ivector_dim name=ivector"
+    ivector_to_append=", ReplaceIndex(ivector, t, 0)"
+  fi
+  learning_rate_factor=$(echo "print (0.5/$xent_regularize)" | python)
+  dummy_tree_dir=exp/yaounde
+  num_targets=$(tree-info $dummy_tree_dir/tree 2>/dev/null | grep num-pdfs | awk '{print $2}') || exit 1;
+  cat <<EOF > $dir/configs/network.xconfig
+  input dim=$feat_dim name=input
+  $ivector_node_xconfig
+
+  # please note that it is important to have input layer with the name=input
+  # as the layer immediately preceding the fixed-affine-layer to enable
+  # the use of short notation for the descriptor
+  # the first splicing is moved before the lda layer, so no splicing here
+  relu-batchnorm-layer name=tdnn1 input=Append(input@-2,input@-1,input,input@1,input@2$ivector_to_append) dim=450
+  relu-batchnorm-layer name=tdnn2 input=Append(-1,0,1,2) dim=450
+  relu-batchnorm-layer name=tdnn4 input=Append(-3,0,3) dim=450
+  relu-batchnorm-layer name=tdnn5 input=Append(-3,0,3) dim=450
+  relu-batchnorm-layer name=tdnn6 input=Append(-3,0,3) dim=450
+  relu-batchnorm-layer name=tdnn7 input=Append(-6,-3,0) dim=450
+  #relu-batchnorm-layer name=tdnn_bn dim=$bnf_dim
+  # adding the layers for diffrent language's output
+  # dummy output node
+  output-layer name=output dim=$num_targets max-change=1.5 include-log-softmax=false
+  output-layer name=output-xent input=tdnn7 dim=$num_targets learning-rate-factor=$learning_rate_factor max-change=1.5
+EOF
+  # added separate outptut layer and softmax for all languages.
+  for lang in ${lang_list[@]};do
+    tree_dir=exp/$lang
+    num_targets=$(tree-info $tree_dir/tree 2>/dev/null | grep num-pdfs | awk '{print $2}') || exit 1;
+
+    #echo "relu-renorm-layer name=prefinal-affine-lang-${lang_name} input=tdnn7 dim=450 target-rms=0.5"
+    echo "output-layer name=output-${lang} dim=$num_targets input=tdnn7  max-change=1.5 include-log-softmax=false"
+    echo "output-layer name=output-${lang}-xent input=tdnn7 dim=$num_targets  learning-rate-factor=$learning_rate_factor max-change=1.5"
+  done >> $dir/configs/network.xconfig
+
+  lang_name=yaounde
+  steps/nnet3/xconfig_to_configs.py --xconfig-file $dir/configs/network.xconfig \
+    --config-dir $dir/configs/ 
+fi
+
+if [ $stage -le 2 ]; then
   init_info=$dir/init/info.txt
   if [ ! -f $dir/configs/ref.raw ]; then
     echo "Expected $dir/configs/ref.raw to exist"
@@ -134,7 +186,7 @@ model_left_context=$(fgrep 'left-context' $dir/configs/temp.info | awk '{print $
 egs_left_context=$[model_left_context+(frame_subsampling_factor/2)+extra_left_context]
 egs_right_context=$[model_right_context+(frame_subsampling_factor/2)+extra_right_context]
 
-if [ $stage -le 2 ]; then
+if [ $stage -le 3 ]; then
   for lang in ${lang_list[@]};do
     tree_dir=exp/$lang
     ali_dir=exp/$lang/tri3b_ali_sp
@@ -158,7 +210,7 @@ if [ $stage -le 2 ]; then
   done
 fi
 
-if [ $stage -le 3 ]; then
+if [ $stage -le 4 ]; then
   for lang in ${lang_list[@]};do
     echo "$0: Generating raw egs for $lang"
     train_ivector_dir=exp/$lang/ivectors_train_sp_hires
@@ -186,7 +238,7 @@ if [ $stage -le 3 ]; then
   done
 fi
 
-if [ $stage -le 4 ]; then
+if [ $stage -le 5 ]; then
     egs_opts="$lang2weights"
   echo "$0: Combining egs"
   local/combine_egs.sh \
@@ -198,7 +250,7 @@ if [ $stage -le 4 ]; then
 fi
 [[ -z $common_egs_dir ]] && common_egs_dir=$dir/egs
 
-if [ $stage -le 5 ]; then
+if [ $stage -le 6 ]; then
   [ ! -d $dir/egs/misc ] && mkdir  $dir/egs/misc
   echo "$0: Copying den.fst to $dir/egs/misc"
   for lang in ${lang_list[@]};do
@@ -211,7 +263,7 @@ if [ $stage -le 5 ]; then
   [[ ! -f $dir/init/default_trans.mdl ]] && ln -r -s $dir/init/${first_lang_name}_trans.mdl $dir/init/default_trans.mdl
 fi
 
-if [ $stage -le 6 ]; then
+if [ $stage -le 7 ]; then
   echo "$0: Preparing initial acoustic model"
   $cuda_cmd $dir/log/init_model.log \
   nnet3-init \
@@ -220,7 +272,7 @@ if [ $stage -le 6 ]; then
     $dir/init/multi.raw || exit 1
 fi
 
-if [ $stage -le 7 ]; then
+if [ $stage -le 8 ]; then
   echo "$0: Starting model training"
   [ -f $dir/.error ] && echo "WARNING: $dir/.error exists";
   steps/chain2/train.sh \
@@ -244,7 +296,7 @@ if [ $stage -le 7 ]; then
     $dir
 fi
 
-if [ $stage -le 8 ]; then
+if [ $stage -le 9 ]; then
   echo "$0: Splitting models"
   ivector_dim=$(feat-to-dim scp:exp/yaounde/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
   feat_dim=$(feat-to-dim scp:data/yaounde/train_sp_hires/feats.scp -)
@@ -262,7 +314,7 @@ if [ $stage -le 8 ]; then
   done
 fi
 
-if [ $stage -le 9 ]; then
+if [ $stage -le 10 ]; then
   # Decode ca16 with yaounde task
   tree_dir=exp/yaounde
   utils/mkgraph.sh \
@@ -272,7 +324,7 @@ if [ $stage -le 9 ]; then
     $tree_dir/graph || exit 1;
 fi
 
-if [ $stage -le 10 ]; then
+if [ $stage -le 11 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   # Extract high resolution MFCCs from  ca16 data
   for f in  ca16; do
@@ -317,7 +369,7 @@ if [ $stage -le 10 ]; then
   done
 fi
 
-if [ $stage -le 11 ]; then
+if [ $stage -le 12 ]; then
   # Decode ca16 with MLS  task
   tree_dir=exp/mls_fr
   utils/mkgraph.sh \
@@ -327,7 +379,7 @@ if [ $stage -le 11 ]; then
     $tree_dir/graph || exit 1;
 fi
 
-if [ $stage -le 12 ]; then
+if [ $stage -le 13 ]; then
   # Do the  decoding pass
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   (
