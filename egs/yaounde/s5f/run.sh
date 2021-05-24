@@ -100,13 +100,65 @@ if [ $stage -le 0 ]; then
   )
 fi
 
+if [ $stage -le 1 ]; then
+  init_info=$dir/init/info.txt
+  if [ ! -f $dir/configs/ref.raw ]; then
+    echo "Expected $dir/configs/ref.raw to exist"
+    exit
+  fi
+  mkdir  -p $dir/init
+  nnet3-info $dir/configs/ref.raw  > $dir/configs/temp.info 
+  model_left_context=$(fgrep 'left-context' $dir/configs/temp.info | awk '{print $2}')
+  model_right_context=$(fgrep 'right-context' $dir/configs/temp.info | awk '{print $2}')
+  cat >$init_info <<EOF
+frame_subsampling_factor $frame_subsampling_factor
+langs ${lang_list[@]}
+model_left_context $model_left_context
+model_right_context $model_right_context
+EOF
+  rm $dir/configs/temp.info
+fi
+
+model_left_context=$(awk '/^model_left_context/ {print $2;}' $dir/init/info.txt)
+model_right_context=$(awk '/^model_right_context/ {print $2;}' $dir/init/info.txt)
+if [ -z $model_left_context ]; then
+  echo "ERROR: Cannot find entry for model_left_context in $dir/init/info.txt"
+fi
+if [ -z $model_right_context ]; then
+  echo "ERROR: Cannot find entry for model_right_context in $dir/init/info.txt"
+fi
+
 model_left_context=$(fgrep 'left-context' $dir/configs/temp.info | awk '{print $2}')
   model_right_context=$(fgrep 'right-context' $dir/configs/temp.info | awk '{print $2}')
 
 egs_left_context=$[model_left_context+(frame_subsampling_factor/2)+extra_left_context]
 egs_right_context=$[model_right_context+(frame_subsampling_factor/2)+extra_right_context]
 
-if [ $stage -le 1 ]; then
+if [ $stage -le 2 ]; then
+  for lang in ${lang_list[@]};do
+    tree_dir=exp/$lang
+    ali_dir=exp/$lang/tri3b_ali_sp
+      gmm_dir=exp/$lang/tri3b
+    cp $tree_dir/tree $dir/${lang}.tree
+     echo "$0: creating phone language-model for $lang"
+    $train_cmd $dir/den_fsts/log/make_phone_lm_${lang}.log \
+      chain-est-phone-lm \
+        --num-extra-lm-states=2000 \
+        "ark:gunzip -c $ali_dir/ali.*.gz | ali-to-phones $gmm_dir/final.mdl ark:- ark:- |" \
+        $dir/den_fsts/${lang}.phone_lm.fst || exit 1;
+    echo "$0: creating denominator FST for $lang"
+    copy-transition-model $tree_dir/final.mdl $dir/init/${lang}_trans.mdl  || exit 1;
+    $train_cmd $dir/den_fsts/log/make_den_fst.log \
+      chain-make-den-fst \
+        $dir/${lang}.tree \
+        $dir/init/${lang}_trans.mdl \
+	$dir/den_fsts/${lang}.phone_lm.fst \
+        $dir/den_fsts/${lang}.den.fst \
+	$dir/den_fsts/${lang}.normalization.fst || exit 1;
+  done
+fi
+
+if [ $stage -le 3 ]; then
   for lang in ${lang_list[@]};do
     echo "$0: Generating raw egs for $lang"
     train_ivector_dir=exp/$lang/ivectors_train_sp_hires
@@ -134,7 +186,7 @@ if [ $stage -le 1 ]; then
   done
 fi
 
-if [ $stage -le 2 ]; then
+if [ $stage -le 4 ]; then
     egs_opts="$lang2weights"
   echo "$0: Combining egs"
   local/combine_egs.sh \
@@ -146,7 +198,7 @@ if [ $stage -le 2 ]; then
 fi
 [[ -z $common_egs_dir ]] && common_egs_dir=$dir/egs
 
-if [ $stage -le 3 ]; then
+if [ $stage -le 5 ]; then
   [ ! -d $dir/egs/misc ] && mkdir  $dir/egs/misc
   echo "$0: Copying den.fst to $dir/egs/misc"
   for lang in ${lang_list[@]};do
@@ -159,7 +211,7 @@ if [ $stage -le 3 ]; then
   [[ ! -f $dir/init/default_trans.mdl ]] && ln -r -s $dir/init/${first_lang_name}_trans.mdl $dir/init/default_trans.mdl
 fi
 
-if [ $stage -le 4 ]; then
+if [ $stage -le 6 ]; then
   echo "$0: Preparing initial acoustic model"
   $cuda_cmd $dir/log/init_model.log \
   nnet3-init \
@@ -168,7 +220,7 @@ if [ $stage -le 4 ]; then
     $dir/init/multi.raw || exit 1
 fi
 
-if [ $stage -le 5 ]; then
+if [ $stage -le 7 ]; then
   echo "$0: Starting model training"
   [ -f $dir/.error ] && echo "WARNING: $dir/.error exists";
   steps/chain2/train.sh \
@@ -192,7 +244,7 @@ if [ $stage -le 5 ]; then
     $dir
 fi
 
-if [ $stage -le 6 ]; then
+if [ $stage -le 8 ]; then
   echo "$0: Splitting models"
   ivector_dim=$(feat-to-dim scp:exp/yaounde/ivectors_train_sp_hires/ivector_online.scp -) || exit 1;
   feat_dim=$(feat-to-dim scp:data/yaounde/train_sp_hires/feats.scp -)
@@ -210,7 +262,7 @@ if [ $stage -le 6 ]; then
   done
 fi
 
-if [ $stage -le 7 ]; then
+if [ $stage -le 9 ]; then
   # Decode ca16 with yaounde task
   tree_dir=exp/yaounde
   utils/mkgraph.sh \
@@ -220,7 +272,7 @@ if [ $stage -le 7 ]; then
     $tree_dir/graph || exit 1;
 fi
 
-if [ $stage -le 8 ]; then
+if [ $stage -le 10 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   # Extract high resolution MFCCs from  ca16 data
   for f in  ca16; do
@@ -265,7 +317,7 @@ if [ $stage -le 8 ]; then
   done
 fi
 
-if [ $stage -le 9 ]; then
+if [ $stage -le 11 ]; then
   # Decode ca16 with MLS  task
   tree_dir=exp/mls_fr
   utils/mkgraph.sh \
@@ -275,7 +327,7 @@ if [ $stage -le 9 ]; then
     $tree_dir/graph || exit 1;
 fi
 
-if [ $stage -le 10 ]; then
+if [ $stage -le 12 ]; then
   # Do the  decoding pass
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   (
