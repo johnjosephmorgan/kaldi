@@ -67,10 +67,10 @@ fi
 
 if [ $stage -le 0 ]; then
   (
-    [ -d data/yaounde ] || mkdir -p data/yaounde;
-    cd data/yaounde
+    [ -d data ] || mkdir -p data;
+    cd data
     echo "$0: Link data directories from yaounde."
-    [ -L data ] || ln -s $sfive/data/* data/yaounde;
+    [ -L data ] || ln -s $sfive/data/ data/yaounde;
   )
   # link exp directories from yaounde
   (
