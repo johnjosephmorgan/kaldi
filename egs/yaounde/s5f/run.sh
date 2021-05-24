@@ -100,6 +100,12 @@ if [ $stage -le 0 ]; then
   )
 fi
 
+model_left_context=$(fgrep 'left-context' $dir/configs/temp.info | awk '{print $2}')
+  model_right_context=$(fgrep 'right-context' $dir/configs/temp.info | awk '{print $2}')
+
+egs_left_context=$[model_left_context+(frame_subsampling_factor/2)+extra_left_context]
+egs_right_context=$[model_right_context+(frame_subsampling_factor/2)+extra_right_context]
+
 if [ $stage -le 1 ]; then
   for lang in ${lang_list[@]};do
     echo "$0: Generating raw egs for $lang"
