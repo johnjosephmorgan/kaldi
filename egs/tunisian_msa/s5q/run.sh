@@ -88,7 +88,7 @@ fi
 
 if [ $stage -le 12 ]; then
     echo "$0: lm training."
-  mkdir -p data/locla/lm
+  mkdir -p data/local/lm
   cut -d " " -f 2- data/train/text > data/local/lm/text
   local/prepare_lm.sh data/local/lm/text
 fi
