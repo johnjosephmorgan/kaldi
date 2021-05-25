@@ -85,7 +85,7 @@ if [ $stage -le 11 ]; then
   echo "$0: Starting exp/tri3b_ali"
   steps/align_fmllr.sh data/train data/lang exp/tri3b exp/tri3b_ali
 fi
-exit
+
 if [ $stage -le 12 ]; then
   echo "$0: lm training."
   cut -d " " -f 2- data/train/text > data/local/lm/text
