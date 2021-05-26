@@ -80,9 +80,8 @@ if [ $stage -le 7 ]; then
   echo "$0: Preparing the lm."
   mkdir -p $tmp_dir/lm
   mkdir -p data/local/lm
-  local/subs/download.sh || exit 1;
-  local/subs/prepare_data.pl || exit 1;
-  local/prepare_lm.sh  $tmp_dir/subs/lm/in_vocabulary.txt || exit 1;
+  cut -f 2- data/train/text > $tmp_dir/lm/text
+  local/prepare_lm.sh  $tmp_dir/lm/text || exit 1;
 fi
 
 if [ $stage -le 8 ]; then
