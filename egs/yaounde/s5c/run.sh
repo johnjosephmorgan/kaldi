@@ -18,7 +18,7 @@ yaoundesfive=s5b
 dir=exp/chain2_multi
 # the order of the elements in the following listss is important
 egs_dir_list="$dir/yaounde_processed_egs $dir/mls_fr_processed_egs"
-lang2weight="0.1,0.9"
+lang2weight="0.25,0.75"
 lang_list=(yaounde mls_fr)
 num_langs=2
 
