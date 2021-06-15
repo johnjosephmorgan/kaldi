@@ -607,7 +607,7 @@ if [ $stage -le 20 ]; then
     )
   done
 fi
-exit
+
 if [ $stage -le 21 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   tree_dir=exp/gale_arabic
