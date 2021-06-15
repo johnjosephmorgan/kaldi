@@ -8,7 +8,7 @@
 
 # Train a multilingual LF-MMI system with a multi-task training setup.
 # This script assumes the following 4 recipes have been run:
-# - ../s5q/run.sh 
+# - ../s5m/run.sh 
 # ../../globalphone_tunisian/s5/run.sh
 # ../../gal_arabic/s5d/run.sh
 # ../../msa_mflts/s5/run.sh
