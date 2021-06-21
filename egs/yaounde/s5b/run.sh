@@ -211,76 +211,43 @@ if [ $stage -le 16 ]; then
 fi
 
 if [ $stage -le 17 ]; then
-  (
-    utils/mkgraph.sh data/lang_test exp/mono exp/mono/graph
-
-    steps/decode.sh \
-      --nj 5 --cmd "$decode_cmd" exp/mono/graph data/ca16 exp/mono/decode_ca16
-    ) &
-fi
-
-if [ $stage -le 18 ]; then
   echo "$0: Align with monophones."
   steps/align_si.sh --nj 56 --cmd run.pl data/train data/lang exp/mono \
     exp/mono_ali || exit 1;
 fi
 
-if [ $stage -le 19 ]; then
+if [ $stage -le 18 ]; then
   echo "$0: Starting  triphone training in exp/tri1 on" `date`
   steps/train_deltas.sh --cluster-thresh 100 --cmd run.pl 3100 50000 \
     data/train data/lang exp/mono_ali exp/tri1 || exit 1;
 fi
 
-wait
-
-if [    $stage -le 20 ]; then
-  (
-    utils/mkgraph.sh data/lang_test exp/tri1 exp/tri1/graph
-
-    steps/decode.sh \
-      --nj 5 --cmd "$decode_cmd" exp/tri1/graph data/ca16 exp/tri1/decode_ca16
-  ) &
-fi
-
-if [ $stage -le 21 ]; then
+if [ $stage -le 19 ]; then
   echo "$0: Aligning with triphones."
   steps/align_si.sh --nj 56 --cmd run.pl data/train data/lang exp/tri1 \
     exp/tri1_ali || exit 1;
 fi
 
-if [ $stage -le 22 ]; then
-  echo "$0: Starting (lda_mllt) triphone training in exp/tri2b on" `date`
+if [ $stage -le 20 ]; then
+  echo "$0: Starting lda_mllt triphone training in exp/tri2b on" `date`
   steps/train_lda_mllt.sh --splice-opts "--left-context=3 --right-context=3" \
     3100 50000 data/train data/lang exp/tri1_ali exp/tri2b || exit 1;
 fi
 
-wait
-
-if [ $stage -le 23 ]; then
-  echo "$0: Decoding with tri2b."
-  (
-    utils/mkgraph.sh data/lang_test exp/tri2b exp/tri2b/graph
-
-    steps/decode.sh \
-      --nj 5 --cmd "$decode_cmd" exp/tri2b/graph data/ca16 exp/tri2b/decode_ca16
-  ) &
-fi
-
-if [ $stage -le 24 ]; then
+if [ $stage -le 21 ]; then
   echo "$0: Aligning with lda and mllt adapted triphones."
   steps/align_si.sh --use-graphs true --nj 56 --cmd run.pl data/train \
     data/lang exp/tri2b exp/tri2b_ali || exit 1;
 fi
 
-if [ $stage -le 25 ]; then
+if [ $stage -le 22 ]; then
   echo "$0: Starting (SAT) triphone training in exp/tri3b on" `date`
   steps/train_sat.sh --cmd run.pl 3100 50000 data/train data/lang exp/tri2b_ali \
     exp/tri3b || exit 1;
 fi
 
-wait
 
-if [ $stage -le 26 ]; then
+if [ $stage -le 23 ]; then
   echo "$0: Decoding with tri3b."
   (
     utils/mkgraph.sh data/lang_test exp/tri3b exp/tri3b/graph
@@ -290,8 +257,8 @@ if [ $stage -le 26 ]; then
   ) &
 fi
 
-if [ $stage -le 27 ]; then
-  echo "$0: Starting exp/tri3b_ali on" `date`
+if [ $stage -le 24 ]; then
+  echo "$0: Starting Aligning exp/tri3b_ali on" `date`
   steps/align_fmllr.sh --nj 56 --cmd run.pl data/train data/lang exp/tri3b \
     exp/tri3b_ali || exit 1;
 fi
