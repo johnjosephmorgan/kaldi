@@ -167,7 +167,7 @@ if [ $stage -le 14 ]; then
     data/dev \
     data/lang \
     exp/tri2b \
-    exp/tri2b_ali_dev
+    exp/tri2b_ali || exit 1;
 
   # Train tri3b, which is LDA+MLLT+SAT on dev utts
   steps/train_sat.sh \
@@ -175,8 +175,8 @@ if [ $stage -le 14 ]; then
     2500 15000 \
     data/dev \
     data/lang \
-    exp/tri2b_ali_devk \
-    exp/tri3b
+    exp/tri2b_ali \
+    exp/tri3b || exit 1;
 fi
 
 if [ $stage -le 15 ]; then
@@ -189,7 +189,7 @@ if [ $stage -le 15 ]; then
     exp/tri3b
 fi
 
-if [ $stage -le 17 ]; then
+if [ $stage -le 16 ]; then
   utils/dict_dir_add_pronprobs.sh \
     --max-normalize true \
     data/local/dict \
@@ -199,7 +199,7 @@ if [ $stage -le 17 ]; then
     data/local/dict_with_new_prons
 fi
 
-if [ $stage -le 18 ]; then
+if [ $stage -le 17 ]; then
   utils/prepare_lang.sh \
     data/local/dict_with_new_prons \
     "<UNK>" \
@@ -207,13 +207,13 @@ if [ $stage -le 18 ]; then
     data/lang
 fi
 
-if [ $stage -le 19 ]; then
+if [ $stage -le 18 ]; then
   local/format_lms.sh \
     --src-dir data/lang \
     data/local/lm
 fi
 
-if [ $stage -le  20 ]; then
+if [ $stage -le  19 ]; then
   steps/align_fmllr.sh \
     --cmd "$train_cmd" \
     --nj 40 \
@@ -223,7 +223,7 @@ if [ $stage -le  20 ]; then
     exp/tri3b_ali || exit 1;
 fi
 
-if [ $stage -le 21 ]; then
+if [ $stage -le 20 ]; then
   # decode using the tri3b model
   utils/mkgraph.sh \
     data/lang_test \
@@ -231,7 +231,7 @@ if [ $stage -le 21 ]; then
     exp/tri3b/graph
 fi
 
-if [ $stage -le 23 ]; then
+if [ $stage -le 21 ]; then
   for test in test; do
   steps/decode_fmllr.sh \
     --cmd "$decode_cmd" \
@@ -242,7 +242,7 @@ if [ $stage -le 23 ]; then
   done
 fi
 
-if [ $stage -le 24 ]; then
+if [ $stage -le 22 ]; then
   # train and test nnet3 tdnn models on dev set
   local/chain/tuning/run_tdnn_1e.sh # set "--stage 11" if you have already run local/nnet3/run_tdnn.sh
 fi
