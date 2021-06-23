@@ -38,7 +38,7 @@ remove_egs=true
 reporting_email=
 
 #decode options
-test_online_decoding=false  # if true, it will run the last decoding stage.
+test_online_decoding=true  # if true, it will run the last decoding stage.
 
 # End configuration section.
 echo "$0 $@"  # Print the command line for logging
@@ -246,32 +246,6 @@ if [ $stage -le 16 ]; then
 	utils/fix_data_dir.sh \
 	    data/${test_sets}_hires || exit 1;
 
-
-  for data in $test_sets; do
-    (
-    nspk=$(wc -l <data/${data}_hires/spk2utt)
-    steps/nnet3/decode.sh \
-      --acwt 1.0 \
-      --post-decode-acwt 10.0 \
-      --frames-per-chunk $frames_per_chunk \
-      --nj $nspk \
-      --cmd "$decode_cmd" \
-      --num-threads 4 \
-      --online-ivector-dir exp/nnet3${nnet3_affix}/ivectors_${data}_hires \
-      $tree_dir/graph \
-      data/${data}_hires \
-      ${dir}/decode_${data} || exit 1;
-    ) || touch $dir/.error &
-  done
-  wait
-  [ -f $dir/.error ] && echo "$0: there was a problem while decoding" && exit 1
-fi
-
-# Not testing the 'looped' decoding separately, because for
-# TDNN systems it would give exactly the same results as the
-# normal decoding.
-
-if $test_online_decoding && [ $stage -le 17 ]; then
   # note: if the features change (e.g. you add pitch features), you will have to
   # change the options of the following command line.
   steps/online/nnet3/prepare_online_decoding.sh \
