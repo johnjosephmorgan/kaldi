@@ -9,8 +9,8 @@ set -e -o pipefail
 
 
 stage=0
-train_set=train    # you might set this to e.g. train_960
-gmm=tri5b         # This specifies a GMM-dir from the features of the type you're training the system on;
+train_set=dev
+gmm=tri3b
                          # it should contain alignments for 'train_set'.
 num_threads_ubm=16
 num_processes=4
@@ -74,8 +74,8 @@ if [ $stage -le 3 ]; then
     utils/fix_data_dir.sh data/${datadir}_hires
   done
 
-  # now create a data subset.  60k is 1/5th of the training dataset (around 200 hours).
-  utils/subset_data_dir.sh data/${train_set}_sp_hires 60000 data/${train_set}_sp_hires_60k
+  # now create a data subset.  
+  utils/subset_data_dir.sh data/${train_set}_sp_hires 400 data/${train_set}_sp_hires_400
 fi
 
 
@@ -86,7 +86,7 @@ if [ $stage -le 4 ]; then
   temp_data_root=exp/nnet3${nnet3_affix}/diag_ubm
 
   num_utts_total=$(wc -l <data/${train_set}_sp_hires/utt2spk)
-  num_utts=$[$num_utts_total/100]
+  num_utts=$[$num_utts_total/5]
   utils/data/subset_data_dir.sh data/${train_set}_sp_hires \
      $num_utts ${temp_data_root}/${train_set}_sp_hires_subset
 
