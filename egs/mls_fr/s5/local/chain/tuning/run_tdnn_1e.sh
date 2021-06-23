@@ -134,7 +134,7 @@ nnet3_affix=
 
 # The rest are configs specific to this script.  Most of the parameters
 # are just hardcoded at this level, in the commands below.
-affix=1d
+affix=1e
 tree_affix=
 train_stage=-10
 get_egs_stage=-10
