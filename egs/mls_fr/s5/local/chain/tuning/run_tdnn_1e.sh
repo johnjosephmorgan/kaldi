@@ -309,28 +309,6 @@ fi
 
 if [ $stage -le 17 ]; then
   rm $dir/.error 2>/dev/null || true
-  for decode_set in test dev; do
-    (
-      steps/nnet3/decode.sh \
-        --acwt 1.0 \
-        --cmd "$decode_cmd" \
-        --nj $decode_nj \
-        --post-decode-acwt 10.0 \
-        $iter_opts \
-        --online-ivector-dir exp/nnet3${nnet3_affix}/ivectors_${decode_set}_hires \
-        $graph_dir \
-        data/${decode_set}_hires \
-        $dir/decode_${decode_set}${decode_iter:+_$decode_iter} || exit 1
-    ) || touch $dir/.error &
-  done
-  wait
-  if [ -f $dir/.error ]; then
-    echo "$0: something went wrong in decoding"
-    exit 1
-  fi
-fi
-
-if $test_online_decoding && [ $stage -le 18 ]; then
   # note: if the features change (e.g. you add pitch features), you will have to
   # change the options of the following command line.
   steps/online/nnet3/prepare_online_decoding.sh \
