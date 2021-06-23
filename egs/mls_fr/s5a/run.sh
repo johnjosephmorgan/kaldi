@@ -216,7 +216,7 @@ fi
 if [ $stage -le  19 ]; then
   steps/align_fmllr.sh \
     --cmd "$train_cmd" \
-    --nj 40 \
+    --nj 34 \
     data/dev \
     data/lang \
     exp/tri3b \
