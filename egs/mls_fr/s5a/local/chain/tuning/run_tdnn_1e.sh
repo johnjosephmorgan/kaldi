@@ -129,7 +129,7 @@ set -e
 stage=0
 decode_nj=28
 train_set=dev
-gmm=tri5b
+gmm=tri3b
 nnet3_affix=
 
 # The rest are configs specific to this script.  Most of the parameters
