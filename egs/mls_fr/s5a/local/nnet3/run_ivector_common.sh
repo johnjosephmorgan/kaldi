@@ -112,8 +112,13 @@ if [ $stage -le 5 ]; then
   # this one has a fairly small dim (defaults to 100) so we don't use all of it,
   # we use just the 60k subset (about one fifth of the data, or 200 hours).
   echo "$0: training the iVector extractor"
-  steps/online/nnet2/train_ivector_extractor.sh --cmd "$train_cmd" --nj 10 --num-processes $num_processes \
-    data/${train_set}_sp_hires_60k exp/nnet3${nnet3_affix}/diag_ubm exp/nnet3${nnet3_affix}/extractor || exit 1;
+  steps/online/nnet2/train_ivector_extractor.sh \
+    --cmd "$train_cmd" \
+    --nj 10 \
+    --num-processes $num_processes \
+    data/${train_set}_sp_hires_400 \
+    exp/nnet3${nnet3_affix}/diag_ubm \
+    exp/nnet3${nnet3_affix}/extractor || exit 1;
 fi
 
 if [ $stage -le 6 ]; then
