@@ -97,7 +97,7 @@ if [ $stage -le 0 ]; then
     cd data/mls_fr
     [ -L lang ] || ln -s ../../../../mls_fr/s5a/data/lang ./;
     [ -L lang_test ] || ln -s ../../../../mls_fr/s5a/data/lang_test ./;
-    [ -L train ] || ln -s ../../../../mls_fr/s5a/data/train ./;
+    [ -L train ] || ln -s ../../../../mls_fr/s5a/data/dev ./train;
   )
 
   # link mls fr exp directories
@@ -105,8 +105,8 @@ if [ $stage -le 0 ]; then
     echo "Link mls fr exp directories."
     [ -d exp/mls_fr ] || mkdir -p exp/mls_fr;
     cd exp/mls_fr
-    [ -L tri3b ] || ln -s ../../../../mls_fr/s5a/exp/tri5b ./tri3b;
-    [ -L tri3b_ali ] || ln -s ../../../../mls_fr/s5a/exp/tri5b_ali ./tri3b_ali;
+    [ -L tri3b ] || ln -s ../../../../mls_fr/s5a/exp/tri3b ./;
+    [ -L tri3b_ali ] || ln -s ../../../../mls_fr/s5a/exp/tri3b_ali ./;
   )
 fi
 
