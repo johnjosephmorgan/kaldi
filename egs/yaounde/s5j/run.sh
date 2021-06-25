@@ -556,10 +556,10 @@ if [ $stage -le 20 ]; then
   # change the options of the following command line.
   steps/online/nnet3/prepare_online_decoding.sh \
     --mfcc-config conf/mfcc_hires.conf \
-    $lang \
+    data/yaounde/lang_chain \
     exp/multi/extractor \
     exp/chain2_multi/yaounde/decode_ca16_hires \
-    exp/chain2_multi/yaounde/decode_ca16_hires_online
+    exp/chain2_multi/yaounde/decode_ca16_hires_online || exit 1;
 
   rm $dir/.error 2>/dev/null || true
 
@@ -569,8 +569,8 @@ if [ $stage -le 20 ]; then
     # feature type does not matter.
     steps/online/nnet3/decode.sh \
       --acwt 1.0 --post-decode-acwt 10.0 \
-      --nj $nspk \
       --cmd "$decode_cmd" \
+      --nj $nspk \
       $tree_dir/graph \
       data/yaounde/ca16 \
       exp/chain2_multi/yaounde/decode_ca16_hires_online/decode_ca16 || exit 1
