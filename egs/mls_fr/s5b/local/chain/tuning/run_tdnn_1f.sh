@@ -5,7 +5,7 @@ set -e
 # configs for 'chain'
 stage=0
 decode_nj=28
-train_set=train_8k
+train_set=train_25k
 gmm=tri3b
 nnet3_affix=
 

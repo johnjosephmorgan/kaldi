@@ -106,6 +106,7 @@ if [ $stage -le 10 ]; then
   utils/subset_data_dir.sh --shortest data/train 2000 data/train_2kshort
   utils/subset_data_dir.sh data/train 5000 data/train_5k
   utils/subset_data_dir.sh data/train 8000 data/train_8k
+  utils/subset_data_dir.sh data/train 25000 data/train_25k
 fi
 
 if [ $stage -le 11 ]; then
@@ -143,40 +144,40 @@ if [ $stage -le 13 ]; then
   steps/align_si.sh \
     --nj 10 \
     --cmd "$train_cmd" \
-    data/train_5k \
+    data/train_8k \
     data/lang \
     exp/tri1 \
-    exp/tri1_ali_5k
+    exp/tri1_ali_8k
 
   # train an LDA+MLLT system.
   steps/train_lda_mllt.sh \
     --cmd "$train_cmd" \
     --splice-opts "--left-context=3 --right-context=3" \
     2500 15000 \
-    data/train_5k \
+    data/train_8k \
     data/lang \
-    exp/tri1_ali_2k \
+    exp/tri1_ali_8k \
     exp/tri2b
 fi
 
 if [ $stage -le 14 ]; then
-  # Align a 8k utts subset using the tri2b model
+  # Align a 25k utts subset using the tri2b model
   steps/align_si.sh  \
     --nj 10 \
     --cmd "$train_cmd" \
     --use-graphs true \
-    data/train_8k \
+    data/train_25k \
     data/lang \
     exp/tri2b \
-    exp/tri2b_ali || exit 1;
+    exp/tri2b_ali_25k || exit 1;
 
   # Train tri3b, which is LDA+MLLT+SAT 
   steps/train_sat.sh \
     --cmd "$train_cmd" \
     2500 15000 \
-    data/train_8k \
+    data/train_25k \
     data/lang \
-    exp/tri2b_ali \
+    exp/tri2b_ali_25k \
     exp/tri3b || exit 1;
 fi
 
@@ -218,7 +219,7 @@ if [ $stage -le  19 ]; then
   steps/align_fmllr.sh \
     --cmd "$train_cmd" \
     --nj 34 \
-    data/train_8k \
+    data/train_25k \
     data/lang \
     exp/tri3b \
     exp/tri3b_ali || exit 1;
