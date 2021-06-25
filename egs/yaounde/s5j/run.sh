@@ -526,46 +526,58 @@ fi
 if [ $stage -le 20 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   # Extract high resolution MFCCs from  ca16 data
-  for f in  ca16; do
-    utils/copy_data_dir.sh \
-      data/yaounde/$f \
-      data/yaounde/${f}_hires || exit 1;
-    steps/make_mfcc.sh \
-      --cmd "$train_cmd" \
-      --mfcc-config conf/mfcc_hires.conf \
-      --nj 2 \
-      data/yaounde/${f}_hires || exit 1;
-    steps/compute_cmvn_stats.sh \
-      data/yaounde/${f}_hires || exit 1;
-    utils/fix_data_dir.sh data/yaounde/${f}_hires || exit 1;
-    # Do the  decoding pass
-    steps/online/nnet2/extract_ivectors_online.sh \
-      --cmd "$train_cmd" \
-      --nj 2 \
-      data/yaounde/${f}_hires \
-      exp/multi/extractor \
-      exp/yaounde/ivectors_${f}_hires || exit 1;
+  utils/copy_data_dir.sh \
+    data/yaounde/ca16 \
+    data/yaounde/ca16_hires || exit 1;
 
-    (
-      nspk=$(wc -l <data/yaounde/${f}_hires/spk2utt)
-      tree_dir=exp/yaounde || exit 1;
-      steps/nnet3/decode.sh \
-        --acwt 1.0 \
-        --cmd "$decode_cmd"  \
-        --extra-left-context $egs_left_context \
-        --extra-left-context-initial 0 \
-        --extra-right-context $egs_right_context \
-        --extra-right-context-final 0 \
-        --frames-per-chunk $frames_per_chunk \
-        --nj $nspk \
-        --num-threads 4 \
-        --online-ivector-dir exp/yaounde/ivectors_${f}_hires \
-        --post-decode-acwt 10.0 \
-        $tree_dir/graph \
-        data/yaounde/${f}_hires \
-        exp/chain2_multi/yaounde/decode_${f}_hires || exit 1
-    )
-  done
+  steps/make_mfcc.sh \
+    --cmd "$train_cmd" \
+    --mfcc-config conf/mfcc_hires.conf \
+    --nj 2 \
+    data/yaounde/ca16_hires || exit 1;
+
+  steps/compute_cmvn_stats.sh \
+    data/yaounde/ca16_hires || exit 1;
+
+  utils/fix_data_dir.sh data/yaounde/ca16_hires || exit 1;
+
+  # Do the  decoding pass
+  steps/online/nnet2/extract_ivectors_online.sh \
+    --cmd "$train_cmd" \
+    --nj 2 \
+    data/yaounde/ca16_hires \
+    exp/multi/extractor \
+    exp/yaounde/ivectors_ca16_hires || exit 1;
+
+  (
+    nspk=$(wc -l <data/yaounde/ca16_hires/spk2utt)
+    tree_dir=exp/yaounde || exit 1;
+
+    # note: if the features change (e.g. you add pitch features), you will have to
+    # change the options of the following command line.
+    steps/online/nnet3/prepare_online_decoding.sh \
+      --mfcc-config conf/mfcc_hires.conf \
+      $lang \
+      exp/multi/extractor \
+      exp/chain2_multi/yaounde/decode_ca16_hires \
+      exp/chain2_multi/yaounde/decode_ca16_hires_online
+
+  rm $dir/.error 2>/dev/null || true
+
+  (
+    nspk=$(wc -l <data/yaounde/ca16_hires/spk2utt)
+    # note: we just give it "data/${data}" as it only uses the wav.scp, the
+    # feature type does not matter.
+    steps/online/nnet3/decode.sh \
+      --acwt 1.0 --post-decode-acwt 10.0 \
+      --nj $nspk \
+      --cmd "$decode_cmd" \
+      $tree_dir/graph \
+      data/yaounde/ca16 \
+      exp/chain2_multi/yaounde/decode_ca16_hires_online/decode_ca16 || exit 1
+    ) || touch $dir/.error &
+  wait
+  [ -f exp/chain2_multi/yaounde/decode_ca16_hires /.error ] && echo "$0: there was a problem while decoding" && exit 1
 fi
 
 if [ $stage -le 21 ]; then
