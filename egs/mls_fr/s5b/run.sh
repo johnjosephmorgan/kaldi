@@ -113,7 +113,7 @@ if [ $stage -le 11 ]; then
     --boost-silence 1.25 \
     --nj 20 \
     --cmd "$train_cmd" \
-    data/train_2k \
+    data/train_2kshort \
     data/lang \
     exp/mono
 fi
