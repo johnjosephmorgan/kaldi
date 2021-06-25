@@ -549,18 +549,17 @@ if [ $stage -le 20 ]; then
     exp/multi/extractor \
     exp/yaounde/ivectors_ca16_hires || exit 1;
 
-  (
-    nspk=$(wc -l <data/yaounde/ca16_hires/spk2utt)
-    tree_dir=exp/yaounde || exit 1;
+  nspk=$(wc -l <data/yaounde/ca16_hires/spk2utt)
+  tree_dir=exp/yaounde || exit 1;
 
-    # note: if the features change (e.g. you add pitch features), you will have to
-    # change the options of the following command line.
-    steps/online/nnet3/prepare_online_decoding.sh \
-      --mfcc-config conf/mfcc_hires.conf \
-      $lang \
-      exp/multi/extractor \
-      exp/chain2_multi/yaounde/decode_ca16_hires \
-      exp/chain2_multi/yaounde/decode_ca16_hires_online
+  # note: if the features change (e.g. you add pitch features), you will have to
+  # change the options of the following command line.
+  steps/online/nnet3/prepare_online_decoding.sh \
+    --mfcc-config conf/mfcc_hires.conf \
+    $lang \
+    exp/multi/extractor \
+    exp/chain2_multi/yaounde/decode_ca16_hires \
+    exp/chain2_multi/yaounde/decode_ca16_hires_online
 
   rm $dir/.error 2>/dev/null || true
 
@@ -575,7 +574,7 @@ if [ $stage -le 20 ]; then
       $tree_dir/graph \
       data/yaounde/ca16 \
       exp/chain2_multi/yaounde/decode_ca16_hires_online/decode_ca16 || exit 1
-    ) || touch $dir/.error &
+  ) || touch $dir/.error &
   wait
   [ -f exp/chain2_multi/yaounde/decode_ca16_hires /.error ] && echo "$0: there was a problem while decoding" && exit 1
 fi
