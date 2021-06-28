@@ -97,7 +97,7 @@ if [ $stage -le 0 ]; then
     cd data/mls_fr
     [ -L lang ] || ln -s ../../../../mls_fr/s5b/data/lang ./;
     [ -L lang_test ] || ln -s ../../../../mls_fr/s5b/data/lang_test ./;
-    [ -L train ] || ln -s ../../../../mls_fr/s5b/data/train ./;
+    [ -L train ] || ln -s ../../../../mls_fr/s5b/data/train_25k ./train;
   )
 
   # link mls fr exp directories
