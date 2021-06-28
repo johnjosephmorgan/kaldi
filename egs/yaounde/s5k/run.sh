@@ -85,9 +85,9 @@ if [ $stage -le 0 ]; then
     [ -d exp/yaounde ] || mkdir -p exp/yaounde;
     cd exp/yaounde
     # link the tri3b directory
-    [ -L tri3b ] || ln -s ../../../s5/exp/tri3b ./;
+    [ -L tri3b ] || ln -s ../../../s5b/exp/tri3b ./;
     # link the tri3b_ali
-    [ -L tri3b_ali ] || ln -s ../../../s5/exp/tri3b_ali ./;
+    [ -L tri3b_ali ] || ln -s ../../../s5b/exp/tri3b_ali ./;
   )
 
   # link  MLS FR data directories
