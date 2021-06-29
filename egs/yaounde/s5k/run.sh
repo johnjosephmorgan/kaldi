@@ -523,6 +523,7 @@ if [ $stage -le 19 ]; then
     $tree_dir/graph || exit 1;
 fi
 
+if [ $stage -le 20 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   # Extract high resolution MFCCs from  ca16 data
   for f in  ca16; do
