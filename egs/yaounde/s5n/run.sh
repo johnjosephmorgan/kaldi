@@ -2,15 +2,15 @@
 
 # chain2 recipe for  AfricanAccented French Yaounde and MLS French.
 # Yaounde task uses transcripts to train its LM
-# weights set to 0.7 0.3
-# The mls task is trained on 25 k utterances (around 100 hours)
+# weights set to 0.6 0.4
+# The mls task is trained on 100 k utterances
 # Copyright 2016 Pegah Ghahremani
 # Copyright 2020 Srikanth Madikeri (Idiap Research Institute)
 
 # Train a multilingual LF-MMI system with a multi-task training setup.
 # This script assumes the following 2 recipes have been run:
 # - ../s5b/run.sh 
-# ../../mls_fr/s5b/run.sh
+# ../../mls_fr/s5c/run.sh
 
 set -e -o pipefail
 
@@ -19,7 +19,7 @@ sfive=s5b
 dir=exp/chain2_multi
 # the order of the elements in the following listss is important
 egs_dir_list="$dir/yaounde_processed_egs $dir/mls_fr_processed_egs"
-lang2weight="0.7,0.3"
+lang2weight="0.6,0.4"
 lang_list=(yaounde mls_fr)
 num_langs=2
 
@@ -95,9 +95,9 @@ if [ $stage -le 0 ]; then
     echo "Link data directories from MLS FR ."
     [ -d data/mls_fr ] || mkdir -p data/mls_fr;
     cd data/mls_fr
-    [ -L lang ] || ln -s ../../../../mls_fr/s5b/data/lang ./;
-    [ -L lang_test ] || ln -s ../../../../mls_fr/s5b/data/lang_test ./;
-    [ -L train ] || ln -s ../../../../mls_fr/s5b/data/train_25k ./train;
+    [ -L lang ] || ln -s ../../../../mls_fr/s5c/data/lang ./;
+    [ -L lang_test ] || ln -s ../../../../mls_fr/s5c/data/lang_test ./;
+    [ -L train ] || ln -s ../../../../mls_fr/s5c/data/train_100k ./train;
   )
 
   # link mls fr exp directories
@@ -105,8 +105,8 @@ if [ $stage -le 0 ]; then
     echo "Link mls fr exp directories."
     [ -d exp/mls_fr ] || mkdir -p exp/mls_fr;
     cd exp/mls_fr
-    [ -L tri3b ] || ln -s ../../../../mls_fr/s5b/exp/tri3b ./;
-    [ -L tri3b_ali ] || ln -s ../../../../mls_fr/s5b/exp/tri3b_ali ./;
+    [ -L tri3b ] || ln -s ../../../../mls_fr/s5c/exp/tri3b ./;
+    [ -L tri3b_ali ] || ln -s ../../../../mls_fr/s5c/exp/tri3b_ali ./;
   )
 fi
 
