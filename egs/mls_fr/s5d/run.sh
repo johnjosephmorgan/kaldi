@@ -188,7 +188,7 @@ if [ $stage -le 15 ]; then
   # and re-create the lang directory.
   steps/get_prons.sh \
     --cmd "$train_cmd" \
-    data/train_100k \
+    data/train_50k \
     data/lang \
     exp/tri3b
 fi
