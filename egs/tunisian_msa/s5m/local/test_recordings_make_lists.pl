@@ -3,7 +3,7 @@
 # Copyright 2018 John Morgan
 # Apache 2.0.
 
-# test_recordings_make_lists.pl - make acoustic model training lists
+# test_recordings_make_lists.pl - make standard kaldi directory
 
 use strict;
 use warnings;
@@ -16,57 +16,60 @@ use File::Basename;
 BEGIN {
     @ARGV == 3 or croak "USAGE $0 <TRANSCRIPT_FILENAME> <SPEAKER_NAME> <COUNTRY>
 example:
-$0 /mnt/disk01/Libyan_MSA/srj/data/transcripts/recordings/srj_recordings.tsv srj libyan
+$0 Libyan_msa_arl/srj/data/transcripts/recordings/srj_recordings.tsv srj libyan
 ";
 }
 
-my ($tr,$spk,$l) = @ARGV;
+my ($transcripts,$spk,$l) = @ARGV;
 
-open my $I, '<', $tr or croak "problems with $tr";
+open my $TRANS, '<', $transcripts or warn "problems with $transcripts";
 
-my $tmp_dir = "data/local/tmp/$l/$spk";
+my $datadir = "data/$spk";
 
-system "mkdir -p $tmp_dir/recordings";
+system "mkdir -p $datadir";
 
 # input wav file list
-my $w = "$tmp_dir/recordings_wav.txt";
+my $in_wav_list = "$datadir/recordings_wav.txt";
 
-# output temporary wav.scp files
-my $o = "$tmp_dir/recordings/wav.scp";
+# output wav.scp files
+my $out_wav_scp = "$datadir/wav.scp";
 
-# output temporary utt2spk files
-my $u = "$tmp_dir/recordings/utt2spk";
+# output utt2spk files
+my $out_utt_to_spk = "$datadir/utt2spk";
 
-# output temporary text files
-my $t = "$tmp_dir/recordings/text";
+# output text files
+my $out_text = "$datadir/text";
 
 # initialize hash for prompts
-my %p = ();
+my %prompts = ();
 
-# store prompts in hash
-LINEA: while ( my $line = <$I> ) {
+# store prompts in hash<
+LINEA: while ( my $line = <$TRANS> ) {
     chomp $line;
     my ($s,$sent) = split /\t/, $line, 2;
-    $p{$s} = $sent;
+    $prompts{$s} = $sent;
 }
+close $TRANS;
 
-open my $W, '<', $w or croak "problem with $w $!";
-open my $O, '+>', $o or croak "problem with $o $!";
-open my $U, '+>', $u or croak "problem with $u $!";
-open my $T, '+>', $t or croak "problem with $t $!";
+open my $WLST, '<', $in_wav_list or croak "problem with $in_wav_list $!";
+open my $WAVSCP, '+>', $out_wav_scp or croak "problem with $out_wav_scp $!";
+open my $UTTSPK, '+>', $out_utt_to_spk or croak "problem with $out_utt_to_spk $!";
+open my $TXT, '+>', $out_text or croak "problem with $out_text $!";
 
- LINE: while ( my $line = <$W> ) {
-     chomp $line;
-     next LINE if ($line =~ /answers/ );
-     next LINE unless ( $line =~ /recordings/ );
-     my ($volume,$directories,$file) = File::Spec->splitpath( $line );
-     my @dirs = split /\//, $directories;
-     my $b = basename $line, ".wav";
-     my ($sk,$r) = split /\_/, $b, 2;
-     my $s = $dirs[-1];
-     my $rid = $sk . '_' . $r;
-     if ( exists $p{$b} ) {
-	 print $T "$rid\t$p{$b}\n";
+LINE: while ( my $line = <$WLST> ) {
+    chomp $line;
+    # skip answer;
+    next LINE if ($line =~ /answers/ );
+    # only process recordings
+    next LINE unless ( $line =~ /recordings/ );
+    my ($volume,$directories,$file) = File::Spec->splitpath( $line );
+    my @dirs = split /\//, $directories;
+    my $base = basename $line, ".wav";
+    my ($spk_id,$rec_id) = split /\_/, $base, 2;
+    my $spk = $dirs[-1];
+    my $rid = $spk_id . '_' . $rec_id;
+    if ( exists $prompts{$base} ) {
+	 print $TXT "$rid\t$prompts{$base}\n";
      } elsif ( defined $rid ) {
 	 warn  "problem\t$rid";
 	 next LINE;
@@ -74,10 +77,9 @@ open my $T, '+>', $t or croak "problem with $t $!";
 	 croak "$line";
      }
 
-     print $O "$rid sox $line -t wav - |\n";
-	print $U "$rid\t${sk}_r\n";
+     print $WAVSCP "$rid sox $line -t wav - |\n";
+	print $UTTSPK "$rid\t${spk_id}_r\n";
 }
-close $T;
-close $O;
-close $U;
-close $W;
+close $TXT;
+close $WAVSCP;
+close $UTTSPK;
