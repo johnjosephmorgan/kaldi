@@ -1,0 +1,22 @@
+# compute-mfcc-feats --write-utt2dur=ark,t:data/hisham/log/utt2dur.4 --verbose=2 --config=conf/mfcc.conf scp,p:data/hisham/log/wav_hisham.4.scp ark:- | copy-feats --write-num-frames=ark,t:data/hisham/log/utt2num_frames.4 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/hisham/data/raw_mfcc_hisham.4.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/hisham/data/raw_mfcc_hisham.4.scp 
+# Started at Mon Feb  1 12:26:21 EST 2021
+#
+copy-feats --write-num-frames=ark,t:data/hisham/log/utt2num_frames.4 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/hisham/data/raw_mfcc_hisham.4.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/hisham/data/raw_mfcc_hisham.4.scp 
+compute-mfcc-feats --write-utt2dur=ark,t:data/hisham/log/utt2dur.4 --verbose=2 --config=conf/mfcc.conf scp,p:data/hisham/log/wav_hisham.4.scp ark:- 
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_39
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_40
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_41
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_42
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_43
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_44
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_45
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_46
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_47
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 10 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_48
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_49
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_50
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:185)  Done 12 out of 12 utterances.
+LOG (copy-feats[5.5.810~1-76a979]:main():copy-feats.cc:143) Copied 12 feature matrices.
+# Accounting: time=1 threads=1
+# Ended (code 0) at Mon Feb  1 12:26:22 EST 2021, elapsed time 1 seconds

@@ -1,0 +1,43 @@
+# compute-mfcc-feats --write-utt2dur=ark,t:data/anwar/log/utt2dur.4 --verbose=2 --config=conf/mfcc.conf scp,p:data/anwar/log/wav_anwar.4.scp ark:- | copy-feats --write-num-frames=ark,t:data/anwar/log/utt2num_frames.4 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/anwar/data/raw_mfcc_anwar.4.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/anwar/data/raw_mfcc_anwar.4.scp 
+# Started at Mon Feb  1 12:26:19 EST 2021
+#
+compute-mfcc-feats --write-utt2dur=ark,t:data/anwar/log/utt2dur.4 --verbose=2 --config=conf/mfcc.conf scp,p:data/anwar/log/wav_anwar.4.scp ark:- 
+copy-feats --write-num-frames=ark,t:data/anwar/log/utt2num_frames.4 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/anwar/data/raw_mfcc_anwar.4.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/anwar/data/raw_mfcc_anwar.4.scp 
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_095
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_096
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_097
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_098
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_099
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_100
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_101
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_102
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_103
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 10 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_104
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_105
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_106
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_107
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_108
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_109
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_110
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_111
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_112
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_113
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 20 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_114
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_115
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_116
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_117
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_118
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_119
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_120
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_121
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_122
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_123
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 30 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_124
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key anwar_recordings_125
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:185)  Done 31 out of 31 utterances.
+LOG (copy-feats[5.5.810~1-76a979]:main():copy-feats.cc:143) Copied 31 feature matrices.
+# Accounting: time=1 threads=1
+# Ended (code 0) at Mon Feb  1 12:26:20 EST 2021, elapsed time 1 seconds

@@ -1,0 +1,134 @@
+# compute-mfcc-feats --write-utt2dur=ark,t:data/test/log/utt2dur.3 --verbose=2 --config=conf/mfcc.conf scp,p:data/test/log/wav_test.3.scp ark:- | copy-feats --write-num-frames=ark,t:data/test/log/utt2num_frames.3 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/test/data/raw_mfcc_test.3.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/test/data/raw_mfcc_test.3.scp 
+# Started at Wed Feb  3 10:24:57 EST 2021
+#
+copy-feats --write-num-frames=ark,t:data/test/log/utt2num_frames.3 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/test/data/raw_mfcc_test.3.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/test/data/raw_mfcc_test.3.scp 
+compute-mfcc-feats --write-utt2dur=ark,t:data/test/log/utt2dur.3 --verbose=2 --config=conf/mfcc.conf scp,p:data/test/log/wav_test.3.scp ark:- 
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_04
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_05
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_06
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_07
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_08
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_09
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_10
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_11
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_12
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 10 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_13
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_14
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_15
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_16
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_17
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_18
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_19
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_20
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_21
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_22
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 20 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_23
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_24
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_25
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_26
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_27
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_28
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_29
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_30
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_31
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_32
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 30 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_33
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_34
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_35
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_36
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_37
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_38
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_39
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_40
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_41
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_42
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 40 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_43
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_44
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_45
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_46
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_47
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_48
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_49
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key hisham_recordings_50
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_101
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_102
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 50 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_103
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_104
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_105
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_106
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_107
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_108
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_109
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_110
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_111
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_112
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 60 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_113
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_114
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_115
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_116
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_117
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_118
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_119
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_120
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_121
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_122
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 70 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_123
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_124
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_125
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_126
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_127
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_128
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_129
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_130
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_131
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_132
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 80 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_133
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_134
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_135
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_136
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_137
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_138
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_139
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_140
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_141
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_142
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 90 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_051
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_052
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_053
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_054
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_055
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_056
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_057
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_058
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_059
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_060
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 100 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_061
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_062
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_063
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_064
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_065
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_066
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_067
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_068
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_069
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_070
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 110 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_071
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_072
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_073
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_074
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_075
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:185)  Done 114 out of 114 utterances.
+LOG (copy-feats[5.5.810~1-76a979]:main():copy-feats.cc:143) Copied 114 feature matrices.
+# Accounting: time=4 threads=1
+# Ended (code 0) at Wed Feb  3 10:25:01 EST 2021, elapsed time 4 seconds

@@ -1,0 +1,22 @@
+# compute-mfcc-feats --write-utt2dur=ark,t:data/adel/log/utt2dur.3 --verbose=2 --config=conf/mfcc.conf scp,p:data/adel/log/wav_adel.3.scp ark:- | copy-feats --write-num-frames=ark,t:data/adel/log/utt2num_frames.3 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/adel/data/raw_mfcc_adel.3.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/adel/data/raw_mfcc_adel.3.scp 
+# Started at Mon Feb  1 12:26:18 EST 2021
+#
+copy-feats --write-num-frames=ark,t:data/adel/log/utt2num_frames.3 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/adel/data/raw_mfcc_adel.3.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/adel/data/raw_mfcc_adel.3.scp 
+compute-mfcc-feats --write-utt2dur=ark,t:data/adel/log/utt2dur.3 --verbose=2 --config=conf/mfcc.conf scp,p:data/adel/log/wav_adel.3.scp ark:- 
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key adel_recordings_027
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key adel_recordings_028
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key adel_recordings_029
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key adel_recordings_030
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key adel_recordings_031
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key adel_recordings_032
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key adel_recordings_033
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key adel_recordings_034
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key adel_recordings_035
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 10 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key adel_recordings_036
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key adel_recordings_037
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key adel_recordings_038
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:185)  Done 12 out of 12 utterances.
+LOG (copy-feats[5.5.810~1-76a979]:main():copy-feats.cc:143) Copied 12 feature matrices.
+# Accounting: time=0 threads=1
+# Ended (code 0) at Mon Feb  1 12:26:18 EST 2021, elapsed time 0 seconds

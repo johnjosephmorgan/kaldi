@@ -1,0 +1,20 @@
+# compute-mfcc-feats --write-utt2dur=ark,t:data/srj/log/utt2dur.1 --verbose=2 --config=conf/mfcc.conf scp,p:data/srj/log/wav_srj.1.scp ark:- | copy-feats --write-num-frames=ark,t:data/srj/log/utt2num_frames.1 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/srj/data/raw_mfcc_srj.1.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/srj/data/raw_mfcc_srj.1.scp 
+# Started at Mon Feb  1 12:26:24 EST 2021
+#
+copy-feats --write-num-frames=ark,t:data/srj/log/utt2num_frames.1 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/srj/data/raw_mfcc_srj.1.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/srj/data/raw_mfcc_srj.1.scp 
+compute-mfcc-feats --write-utt2dur=ark,t:data/srj/log/utt2dur.1 --verbose=2 --config=conf/mfcc.conf scp,p:data/srj/log/wav_srj.1.scp ark:- 
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_001
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_002
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_003
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_004
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_005
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_006
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_007
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_008
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_009
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 10 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_010
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:185)  Done 10 out of 10 utterances.
+LOG (copy-feats[5.5.810~1-76a979]:main():copy-feats.cc:143) Copied 10 feature matrices.
+# Accounting: time=0 threads=1
+# Ended (code 0) at Mon Feb  1 12:26:24 EST 2021, elapsed time 0 seconds

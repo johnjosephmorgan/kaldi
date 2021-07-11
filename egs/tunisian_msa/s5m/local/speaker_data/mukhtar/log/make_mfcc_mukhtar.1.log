@@ -1,0 +1,21 @@
+# compute-mfcc-feats --write-utt2dur=ark,t:data/mukhtar/log/utt2dur.1 --verbose=2 --config=conf/mfcc.conf scp,p:data/mukhtar/log/wav_mukhtar.1.scp ark:- | copy-feats --write-num-frames=ark,t:data/mukhtar/log/utt2num_frames.1 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/mukhtar/data/raw_mfcc_mukhtar.1.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/mukhtar/data/raw_mfcc_mukhtar.1.scp 
+# Started at Mon Feb  1 12:26:22 EST 2021
+#
+compute-mfcc-feats --write-utt2dur=ark,t:data/mukhtar/log/utt2dur.1 --verbose=2 --config=conf/mfcc.conf scp,p:data/mukhtar/log/wav_mukhtar.1.scp ark:- 
+copy-feats --write-num-frames=ark,t:data/mukhtar/log/utt2num_frames.1 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/mukhtar/data/raw_mfcc_mukhtar.1.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/mukhtar/data/raw_mfcc_mukhtar.1.scp 
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_101
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_102
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_103
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_104
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_105
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_106
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_107
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_108
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_109
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 10 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_110
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key mukhtar_recordings_111
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:185)  Done 11 out of 11 utterances.
+LOG (copy-feats[5.5.810~1-76a979]:main():copy-feats.cc:143) Copied 11 feature matrices.
+# Accounting: time=1 threads=1
+# Ended (code 0) at Mon Feb  1 12:26:23 EST 2021, elapsed time 1 seconds

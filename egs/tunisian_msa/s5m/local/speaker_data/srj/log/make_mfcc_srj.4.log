@@ -1,0 +1,18 @@
+# compute-mfcc-feats --write-utt2dur=ark,t:data/srj/log/utt2dur.4 --verbose=2 --config=conf/mfcc.conf scp,p:data/srj/log/wav_srj.4.scp ark:- | copy-feats --write-num-frames=ark,t:data/srj/log/utt2num_frames.4 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/srj/data/raw_mfcc_srj.4.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/srj/data/raw_mfcc_srj.4.scp 
+# Started at Mon Feb  1 12:26:24 EST 2021
+#
+compute-mfcc-feats --write-utt2dur=ark,t:data/srj/log/utt2dur.4 --verbose=2 --config=conf/mfcc.conf scp,p:data/srj/log/wav_srj.4.scp ark:- 
+copy-feats --write-num-frames=ark,t:data/srj/log/utt2num_frames.4 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/srj/data/raw_mfcc_srj.4.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/srj/data/raw_mfcc_srj.4.scp 
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_030
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_031
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_032
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_033
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_034
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_035
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_036
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_037
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key srj_038
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:185)  Done 9 out of 9 utterances.
+LOG (copy-feats[5.5.810~1-76a979]:main():copy-feats.cc:143) Copied 9 feature matrices.
+# Accounting: time=0 threads=1
+# Ended (code 0) at Mon Feb  1 12:26:24 EST 2021, elapsed time 0 seconds

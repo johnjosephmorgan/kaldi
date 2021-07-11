@@ -1,0 +1,23 @@
+# compute-mfcc-feats --write-utt2dur=ark,t:data/redha/log/utt2dur.2 --verbose=2 --config=conf/mfcc.conf scp,p:data/redha/log/wav_redha.2.scp ark:- | copy-feats --write-num-frames=ark,t:data/redha/log/utt2num_frames.2 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/redha/data/raw_mfcc_redha.2.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/redha/data/raw_mfcc_redha.2.scp 
+# Started at Mon Feb  1 12:26:23 EST 2021
+#
+copy-feats --write-num-frames=ark,t:data/redha/log/utt2num_frames.2 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/redha/data/raw_mfcc_redha.2.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/redha/data/raw_mfcc_redha.2.scp 
+compute-mfcc-feats --write-utt2dur=ark,t:data/redha/log/utt2dur.2 --verbose=2 --config=conf/mfcc.conf scp,p:data/redha/log/wav_redha.2.scp ark:- 
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_064
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_065
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_066
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_067
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_068
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_069
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_070
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_071
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_072
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 10 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_073
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_074
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_075
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key redha_recordings_076
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:185)  Done 13 out of 13 utterances.
+LOG (copy-feats[5.5.810~1-76a979]:main():copy-feats.cc:143) Copied 13 feature matrices.
+# Accounting: time=0 threads=1
+# Ended (code 0) at Mon Feb  1 12:26:23 EST 2021, elapsed time 0 seconds

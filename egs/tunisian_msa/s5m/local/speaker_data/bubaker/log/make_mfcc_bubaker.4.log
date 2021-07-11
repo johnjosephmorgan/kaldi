@@ -1,0 +1,22 @@
+# compute-mfcc-feats --write-utt2dur=ark,t:data/bubaker/log/utt2dur.4 --verbose=2 --config=conf/mfcc.conf scp,p:data/bubaker/log/wav_bubaker.4.scp ark:- | copy-feats --write-num-frames=ark,t:data/bubaker/log/utt2num_frames.4 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/bubaker/data/raw_mfcc_bubaker.4.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/bubaker/data/raw_mfcc_bubaker.4.scp 
+# Started at Mon Feb  1 12:26:21 EST 2021
+#
+compute-mfcc-feats --write-utt2dur=ark,t:data/bubaker/log/utt2dur.4 --verbose=2 --config=conf/mfcc.conf scp,p:data/bubaker/log/wav_bubaker.4.scp ark:- 
+copy-feats --write-num-frames=ark,t:data/bubaker/log/utt2num_frames.4 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/bubaker/data/raw_mfcc_bubaker.4.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/bubaker/data/raw_mfcc_bubaker.4.scp 
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key bubaker_recordings_131
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key bubaker_recordings_132
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key bubaker_recordings_133
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key bubaker_recordings_134
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key bubaker_recordings_135
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key bubaker_recordings_136
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key bubaker_recordings_137
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key bubaker_recordings_138
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key bubaker_recordings_139
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 10 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key bubaker_recordings_140
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key bubaker_recordings_141
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key bubaker_recordings_142
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:185)  Done 12 out of 12 utterances.
+LOG (copy-feats[5.5.810~1-76a979]:main():copy-feats.cc:143) Copied 12 feature matrices.
+# Accounting: time=0 threads=1
+# Ended (code 0) at Mon Feb  1 12:26:21 EST 2021, elapsed time 0 seconds

@@ -1,0 +1,40 @@
+# compute-mfcc-feats --write-utt2dur=ark,t:data/yousef/log/utt2dur.4 --verbose=2 --config=conf/mfcc.conf scp,p:data/yousef/log/wav_yousef.4.scp ark:- | copy-feats --write-num-frames=ark,t:data/yousef/log/utt2num_frames.4 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/yousef/data/raw_mfcc_yousef.4.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/yousef/data/raw_mfcc_yousef.4.scp 
+# Started at Fri Jan 29 09:30:23 EST 2021
+#
+compute-mfcc-feats --write-utt2dur=ark,t:data/yousef/log/utt2dur.4 --verbose=2 --config=conf/mfcc.conf scp,p:data/yousef/log/wav_yousef.4.scp ark:- 
+copy-feats --write-num-frames=ark,t:data/yousef/log/utt2num_frames.4 --compress=true ark:- ark,scp:/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/yousef/data/raw_mfcc_yousef.4.ark,/Users/john/kaldi_jjm/egs/ultra_testbed/t1/data/yousef/data/raw_mfcc_yousef.4.scp 
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key yousef_recordings_061
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key yousef_recordings_062
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key yousef_recordings_063
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key yousef_recordings_064
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key yousef_recordings_065
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key yousef_recordings_066
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key yousef_recordings_067
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key yousef_recordings_068
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key yousef_recordings_069
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:181) Processed 10 utterances
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key yousef_recordings_070
+VLOG[2] (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:182) Processed features for key yousef_recordings_071
+sox FAIL formats: can't open input file `/Users/john/kaldi_jjm/egs/ultra_testbed/t1/Libyan_msa_arl/yousef/data/speech/recordings/yousef/yousef_recordings_072.wav': WAVE: RIFF header not found
+ERROR (compute-mfcc-feats[5.5.810~1-76a979]:Read4ByteTag():wave-reader.cc:56) WaveData: expected 4-byte chunk-name, got read error
+
+[ Stack-Trace: ]
+0   libkaldi-base.dylib                 0x000000010499792f kaldi::KaldiGetStackTrace() + 63
+1   libkaldi-base.dylib                 0x00000001049976a2 kaldi::MessageLogger::LogMessage() const + 354
+2   libkaldi-feat.dylib                 0x00000001041e9418 kaldi::MessageLogger::LogAndThrow::operator=(kaldi::MessageLogger const&) + 24
+3   libkaldi-feat.dylib                 0x00000001041f7c80 kaldi::WaveHeaderReadGofer::Read4ByteTag() + 128
+4   libkaldi-feat.dylib                 0x00000001041f730e kaldi::WaveInfo::Read(std::__1::basic_istream<char, std::__1::char_traits<char> >&) + 46
+5   libkaldi-feat.dylib                 0x00000001041f8028 kaldi::WaveData::Read(std::__1::basic_istream<char, std::__1::char_traits<char> >&) + 56
+6   compute-mfcc-feats                  0x0000000103c542e5 kaldi::WaveHolder::Read(std::__1::basic_istream<char, std::__1::char_traits<char> >&) + 21
+7   compute-mfcc-feats                  0x0000000103c5504b kaldi::SequentialTableReaderScriptImpl<kaldi::WaveHolder>::EnsureObjectLoaded() + 219
+8   compute-mfcc-feats                  0x0000000103c54cd3 kaldi::SequentialTableReaderScriptImpl<kaldi::WaveHolder>::Next() + 51
+9   compute-mfcc-feats                  0x0000000103c4088d main + 1389
+10  libdyld.dylib                       0x00007fff6ad60cc9 start + 1
+
+WARNING (compute-mfcc-feats[5.5.810~1-76a979]:Read():feat/wave-reader.h:197) Exception caught in WaveHolder::Read(). kaldi::KaldiFatalError
+WARNING (compute-mfcc-feats[5.5.810~1-76a979]:EnsureObjectLoaded():util/kaldi-table-inl.h:317) Failed to load object from 'sox /Users/john/kaldi_jjm/egs/ultra_testbed/t1/Libyan_msa_arl/yousef/data/speech/recordings/yousef/yousef_recordings_072.wav -t wav - |'
+WARNING (compute-mfcc-feats[5.5.810~1-76a979]:Close():kaldi-io.cc:515) Pipe sox /Users/john/kaldi_jjm/egs/ultra_testbed/t1/Libyan_msa_arl/yousef/data/speech/recordings/yousef/yousef_recordings_072.wav -t wav - | had nonzero return status 512
+LOG (compute-mfcc-feats[5.5.810~1-76a979]:main():compute-mfcc-feats.cc:185)  Done 11 out of 11 utterances.
+LOG (copy-feats[5.5.810~1-76a979]:main():copy-feats.cc:143) Copied 11 feature matrices.
+# Accounting: time=1 threads=1
+# Ended (code 0) at Fri Jan 29 09:30:24 EST 2021, elapsed time 1 seconds
