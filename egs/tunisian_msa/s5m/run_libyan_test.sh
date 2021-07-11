@@ -3,6 +3,8 @@
 # This recipe runs a decoder test on recordings in the following directory:
 datadir=/mnt/corpora/Libyan_msa_arl
 speakers=(adel anwar bubaker hisham mukhtar redha srj yousef)
+
+# Set variables
 acoustic_scale=1.0 #  Scaling factor for acoustic log-likelihoods (float, default = 0.1)
 add_pitch=false  #  Append pitch features to raw MFCC/PLP/filterbank features [but not for iVector extraction] (bool, default = false)
 beam=16.0 # Decoding beam.  Larger->slower, more accurate. (float, default = 16)
@@ -90,23 +92,7 @@ write_compact=true # If true, write in normal (compact) form. (bool, default = t
 stage=0
 . utils/parse_options.sh
 
-
-if [ "$#" != "1" ]; then
-  echo "USAGE: $0 <DIRECTORY>"
-  echo "<DIRECTORY should contain models and  other resources."
-  echo "For example:"
-  echo "$0 exp/multi_tamsa_librispeech_tamsa"
-exit 1
-fi
-
-src=$1
-
-# Check that resources exist
-for f in HCLG.fst final.mdl words.txt; do
-  echo "Checking $f." 
-  [ ! -f $src/$f ] && echo "$f is missing." && exit 1;
-done
-
+src=$(pwd)
 # Set location of local config files
 ivector_extraction_config=$src/conf/ivector_extractor.conf
 mfcc_config=$src/conf/mfcc.conf
