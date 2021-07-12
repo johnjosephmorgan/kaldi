@@ -190,7 +190,7 @@ if [ $stage -le 3 ]; then
         --num-threads-startup=$num_threads_startup \
         --online=$online \
         --word-determinize=$word_determinize \
-        --word-symbol-table=$src/words.txt \
+        --word-symbol-table=exp/chain/tree_sp/graph/words.txt \
         exp/chain/tdnn1a_sp_online/final.mdl \
         exp/chain/tree_sp/graph/HCLG.fst \
         ark:data/$s/spk2utt \
