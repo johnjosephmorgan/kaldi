@@ -225,7 +225,7 @@ if [ $stage -le 5 ]; then
     ./steps/scoring/score_kaldi_wer.sh \
       --cmd run.pl \
       data/test \
-      exp/chain/tree_sp/graph/words.txt \
+      exp/chain/tree_sp/graph \
     $src/decode_online
 fi
 
