@@ -95,7 +95,7 @@ stage=0
 
 src=$(pwd)
 # Set location of local config files
-ivector_extraction_config=$src/conf/ivector_extractor.conf
+ivector_extraction_config=exp/chain/tdnn1a_sp_online/conf/ivector_extractor.conf
 mfcc_config=$src/conf/mfcc.conf
 
 if [ $stage -le 0 ]; then
