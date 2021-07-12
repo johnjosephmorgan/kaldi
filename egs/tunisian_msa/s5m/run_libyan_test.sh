@@ -191,7 +191,7 @@ if [ $stage -le 3 ]; then
         --online=$online \
         --word-determinize=$word_determinize \
         --word-symbol-table=$src/words.txt \
-        $src/final.mdl \
+        exp/chain/tdnn1a_sp_online/final.mdl \
         $src/HCLG.fst \
         ark:data/$s/spk2utt \
         "ark,s,cs:wav-copy scp,p:data/$s/wav.scp ark:- |" \
