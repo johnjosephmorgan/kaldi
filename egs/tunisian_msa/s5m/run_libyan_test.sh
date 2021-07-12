@@ -2,7 +2,8 @@
 
 # This recipe runs a decoder test on recordings in the following directory:
 datadir=/mnt/corpora/Libyan_msa_arl
-speakers=(adel anwar bubaker hisham mukhtar redha srj yousef)
+#speakers=(adel anwar bubaker hisham mukhtar redha srj yousef)
+speakers=(adel bubaker hisham mukhtar redha yousef)
 
 # Set variables
 acoustic_scale=1.0 #  Scaling factor for acoustic log-likelihoods (float, default = 0.1)
