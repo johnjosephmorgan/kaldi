@@ -192,7 +192,7 @@ if [ $stage -le 3 ]; then
         --word-determinize=$word_determinize \
         --word-symbol-table=$src/words.txt \
         exp/chain/tdnn1a_sp_online/final.mdl \
-        $src/HCLG.fst \
+        exp/chain/tree_sp/graph/HCLG.fst \
         ark:data/$s/spk2utt \
         "ark,s,cs:wav-copy scp,p:data/$s/wav.scp ark:- |" \
         "ark:|lattice-scale \
