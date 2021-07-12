@@ -96,7 +96,7 @@ stage=0
 src=$(pwd)
 # Set location of local config files
 ivector_extraction_config=exp/chain/tdnn1a_sp_online/conf/ivector_extractor.conf
-mfcc_config=$src/conf/mfcc.conf
+mfcc_config=conf/mfcc_hires.conf
 
 if [ $stage -le 0 ]; then
   for s in ${speakers[@]}; do
