@@ -1,0 +1,1776 @@
+CLS_0001 ref  AlHmd  llh  rb  AlEAlmyn  wAlEAqbp  llmtqyn  wlA   EdwAn  AlA  ElY  AlZAlmyn
+CLS_0001 hyp  AlHmd  llh  rb  AlEAlmyn  wAlEAqbp  llmtqyn  wlA  EdwAnA  <lA  ElY  AlZAlmyn
+CLS_0001 op     C     C    C      C         C        C      C      S     S    C       C   
+CLS_0001 #csid 9 2 0 0
+CLS_0002 ref  wASly  wAslm  ElY  syd  Alxlq  AjmEyn  sydnA  mHmd
+CLS_0002 hyp  w>Sly  w>slm  ElY  syd  Alxlq  >jmEyn  sydnA  mHmd
+CLS_0002 op     S      S     C    C     C       S      C      C 
+CLS_0002 #csid 5 3 0 0
+CLS_0003 ref  bEvh  rbh  bAlHq  b$yrA  wn*yrA
+CLS_0003 hyp  bEvh  rbh  bAlHq  b$yrA  wndyrA
+CLS_0003 op     C    C     C      C       S  
+CLS_0003 #csid 4 1 0 0
+CLS_0004 ref  rbnA  AftH  bynnA  wbyn  qwmnA  bAlHq  w>nt  xyr  AlfAtHyn
+CLS_0004 hyp   rb   nftH  bynnA  wbyn  qwmnA  bAlHq  w>nt  xyr  AlfAtHyn
+CLS_0004 op     S     S     C      C     C      C      C    C       C   
+CLS_0004 #csid 7 2 0 0
+CLS_0005 ref  >HAwl  fy  h*A  Alywm  An  >tErD  lmwADyE  >vyrt  kvyrA
+CLS_0005 hyp  >HAwl  fy  h*A  Alywm  >n  ntErD  lmwADyE  >vyrt  kvyrA
+CLS_0005 op     C     C   C     C     S    S       C       C      C  
+CLS_0005 #csid 7 2 0 0
+CLS_0006 ref  Hwl  AlAtfAq  AlsyAsy  Al*y  Eqd  ***  bSxyrAt
+CLS_0006 hyp  Hwl  AlAtfAq  AlsyAsy  Al*y  Eqd   bs   xyrAt 
+CLS_0006 op    C      C        C       C    C    I      S   
+CLS_0006 #csid 5 1 1 0
+CLS_0007 ref  wmA  trtb  EnhA  >w  Enh  mn  Hdyv
+CLS_0007 hyp  wmA  trtb  EnhA  >w  Enh  mn  Hdyv
+CLS_0007 op    C     C     C    C   C    C    C 
+CLS_0007 #csid 7 0 0 0
+CLS_0008 ref  wmA   ttnAqlh  wsA}l  Al<ElAm  wAl*yn  wqEwA
+CLS_0008 hyp  wmA  ttnAqlhA  wsA}l  Al<ElAm  wAl*yn  wqEwA
+CLS_0008 op    C       S       C       C        C      C  
+CLS_0008 #csid 5 1 0 0
+CLS_0009 ref  wAl*yn  lm  ywqEwA  wlm  ywAfqwA  ElY  h*A  AlAtfAq
+CLS_0009 hyp  wAl*yn  lm  ywqEwA  wlm   ywAfq   ElY  h*A  AlAtfAq
+CLS_0009 op      C     C     C     C      S      C    C      C   
+CLS_0009 #csid 7 1 0 0
+CLS_0010 ref  wlElny  s>tErD  >yDA  bdAyp  <lY  Alm&tmr  AlSHfy  Al*y  Eqdh  Alsyd  kwblr  AlmbEwv  AlAmmy  ywm  >ms  btwns
+CLS_0010 hyp   wlEl   nstErD  >yDA  bdAyp  <lY  Alm&tmr  AlSHfy  Al*y  Eqdh  Alsyd  kwglr  AlmbEwv  Al>mmy  ywm  >ms  btwns
+CLS_0010 op      S       S      C     C     C      C        C      C     C     C      S       C        S     C    C     C  
+CLS_0010 #csid 12 4 0 0
+CLS_0011 ref  ws>HAwl  b<*n  Allh  tEAlY  >n  A$rH   >n    A$rH  h*h  AlmwADyE
+CLS_0011 hyp  ws>HAwl  b<*n  Allh  tEAlY  >n   ***  >SrH  AlnSr  h*h  AlmwADyE
+CLS_0011 op      C       C     C     C     C    D     S     S     C       C   
+CLS_0011 #csid 7 2 0 1
+CLS_0012 ref  bEnAyp  ***  wbtlxyS  qdr  AlmstTAE
+CLS_0012 hyp  bEnAyp   wb   tlxyS   qdr  AlmstTAE
+CLS_0012 op      C     I      S      C       C   
+CLS_0012 #csid 3 1 1 0
+CLS_0013 ref  lky  yEy  AlmwATn  fy  lybyA  mA  ydwr  Hwl  h*A  AlAtfAq  mn  lgT  syAsy
+CLS_0013 hyp  lky  yEy  AlmwATn  fy  lybyA  mA  ydwr  Hwl  h*A  Al<tfAq  mn  lgT  syAsy
+CLS_0013 op    C    C      C      C    C     C    C    C    C      S      C   C     C  
+CLS_0013 #csid 12 1 0 0
+CLS_0014 ref  wmn  t>wyl  wmn  mHAwlp  AlbED  lwSf  >n  yDE  bED  >EDA'  Alm&tmr  AlwTny
+CLS_0014 hyp  wmn  t>wyl  wmn  mHAwlp  AlbED  lwSf  >n  yDE  bED  >EDA'  Alm&tmr   AlwTn
+CLS_0014 op    C     C     C      C      C      C    C   C    C     C       C        S  
+CLS_0014 #csid 11 1 0 0
+CLS_0015 ref  >w  bED  $rA}H  AlmjtmE  Allyby  fy  kfp  b>nhA  mErqlp  llHwAr
+CLS_0015 hyp  >w  bED  $rA}H  AlmjtmE  Allyby  fy  kfp  b>nhA  mErqlp  llHwAr
+CLS_0015 op    C   C     C       C        C     C   C     C       C       C  
+CLS_0015 #csid 10 0 0 0
+CLS_0016 ref  wAnhA  lA  tsEY  llwSwl  <lY  AtfAq  yxrj  h*A  Albld  AlHbyb  mn  AlAnqsAm  wmn  Alt$Zy  wmn  AlmEAnAp
+CLS_0016 hyp  w>nhA  lA  tsEY  llwSwl  <lY  AtfAq  yxrj  h*A  Albld  AlHbyb  mn  Al<nqsAm  wmn  AltSdy  wmn  AlmEAnAp
+CLS_0016 op     S     C    C      C     C     C      C    C     C       C     C      S      C      S     C       C   
+CLS_0016 #csid 13 3 0 0
+CLS_0017 ref  wrbmA  yHAwl  AlbED  An  yZhr  b>nh  AlmntSr  wb>nh  Al*ky  wb>nh  AlHryS  AlwHyd  ElY  mSlHp  lybyA
+CLS_0017 hyp  wrbmA  yHAwl  AlbED  >n  yZhr  b>nh  AlmntSr  wb>nh  Al*ky  wb>nh  AlHryS  AlwHyd  ElY  mSlHp  lybyA
+CLS_0017 op     C      C      C     S    C     C      C       C      C      C       C       C     C     C      C  
+CLS_0017 #csid 14 1 0 0
+CLS_0018 ref  wEndmA  yqrr  mn  *Ath  Aw  mn  mjmwEth  Aw  mn  Hzbh  Aw  mn  mSAlHh
+CLS_0018 hyp  wEndmA  yqrr  mn  *Ath  >w  mn  mjmwEth  >w  mn  Hzbh  >w  mn  mSAlHh
+CLS_0018 op      C      C    C    C    S   C     C      S   C    C    S   C     C  
+CLS_0018 #csid 10 3 0 0
+CLS_0019 ref  >w  mn  nftrD  fyh  Hsn  Alnyp  qd  yqdr  bAn  AjthAdh  hw  wHdh  dwn  gyrh  hw  AlSwAb
+CLS_0019 hyp  >w  mn  nftrD  fyh  Hsn  Alnyp  qd  yqdr  b>n  AjthAdh  hw  wHdh  dwn  gyrh  hw  AlSwAb
+CLS_0019 op    C   C    C     C    C     C     C    C    S      C      C    C    C     C    C     C  
+CLS_0019 #csid 15 1 0 0
+CLS_0020 ref  whw  Al>SlH  wdwn  >n  ynZr  <lY  AlmSlHp  AlEAmp
+CLS_0020 hyp  whw  Al>SlH  wdwn  >n  ynZr  <lY  AlmSlHp  AlEAmp
+CLS_0020 op    C      C      C    C    C    C      C        C  
+CLS_0020 #csid 8 0 0 0
+CLS_0021 ref  >w  y>x*  fy  AlAEtbAr  b>nnA  jmyEA  dAxl  lybyA  $rkA'  fy  h*A  AlwTn
+CLS_0021 hyp  >w  y>x*  fy  Al<EtbAr  b>nnA  jmyEA  dAxl  lybyA  $rkA'  fy  h*A  AlwTn
+CLS_0021 op    C    C    C      S       C      C      C     C      C     C   C     C  
+CLS_0021 #csid 11 1 0 0
+CLS_0022 ref  wlA  ymkn  l>Hd  mA  >n  ***  yxtzl  mSlHp  lybyA  fy  r&yp  yrAhA  mn  zAwyp  xASp
+CLS_0022 hyp  wlA  ymkn  l>Hd  mA  >n   yn  <xtzl  mSlHp  lybyA  fy  r&yp  yrAhA  mn  zAwyp  xASp
+CLS_0022 op    C     C     C    C   C   I     S      C      C     C    C     C     C    C      C 
+CLS_0022 #csid 13 1 1 0
+CLS_0023 ref  bdAyp  fy  mA  tErD  lh  Alsyd  AlmbEwv  Al>mmy  ywm  >ms
+CLS_0023 hyp  bdAyp  fy  mA  tErD  lh  Alsyd  AlmbEwv  Al>mmy  ywm  >ms
+CLS_0023 op     C     C   C    C    C    C       C        C     C    C 
+CLS_0023 #csid 10 0 0 0
+CLS_0024 ref  wwSl  b>n  wSf  AlwDE  dAxl  TrAbls  AlEASmp  b>nh  tHkmh  myly$yAt
+CLS_0024 hyp  wwSl  b>n  wSf  AlwDE  dAxl  TrAbls  AlEASmp  b>nh  tHkmh  myly$yAt
+CLS_0024 op     C    C    C     C      C      C       C       C     C        C   
+CLS_0024 #csid 10 0 0 0
+CLS_0025 ref  wbAlwSf  Al*y  yqSdh  AnhA  mjmwEAt  mslHp  xArj  Al$rEyp  wxArj  Alm$rwEyp
+CLS_0025 hyp  wbAlwsT  Al*y  yqSdh  >nhA  mjmwEAt  mslHp  xArj  Al$rEyp  wxArj  Alm$rwEyp
+CLS_0025 op      S       C     C      S      C       C      C      C       C        C    
+CLS_0025 #csid 8 2 0 0
+CLS_0026 ref  fAls&Al  Al*y  yqdm  Al*yn  wqEwA  AtfAq  AlSxyrAt  hl  mEZmhm  ygAdrwn  TrAbls  mn  mTArAthA
+CLS_0026 hyp  fAls&Al  Al*y  yqdm  Al*yn  wqEwA  <tfAq    xyrAt   hl  mEZmhm  ygAdrwn  TrAbls  mn  mTArAthA
+CLS_0026 op      C       C     C     C      C      S        S      C     C       C        C     C      C   
+CLS_0026 #csid 11 2 0 0
+CLS_0027 ref  ***  wy>twn  <lY  TrAbls  fy  mrAfqhA  wm&ssAthA   wytwASlwn  mE  AhlhA  >m  Anhm  xArj  h*h  AlmEAdlp
+CLS_0027 hyp   wy   y>twn  <lY  TrAbls  fy  mrAfqhA  wm&ssAthA  wsytwASlwn  mE  >hlhA  >m  >nhm  xArj  h*h  AlmEAdlp
+CLS_0027 op    I      S     C      C     C     C         C           S       C    S     C    S     C    C       C   
+CLS_0027 #csid 10 4 1 0
+CLS_0028 ref  TAlmA  >nh  hnAk  myly$yAt  mslHp  xArj  Al$rEyp  wxArj  Alm$rwEyp
+CLS_0028 hyp  TAlmA  >nh  hnAk  myly$yAt  mslHp  xArj  Al$rEyp  wxArj  Alm$rwEyp
+CLS_0028 op     C     C     C       C       C      C      C       C        C    
+CLS_0028 #csid 9 0 0 0
+CLS_0029 ref  wAstgrb  >yDA  wh*A  Als&Al  lys  mqdmA  llsyd  AlmbEwv  Al>mmy  fqT
+CLS_0029 hyp  w>stgrb  >yDA  wh*A  Als&Al  lys  mqdmA  llsyd  AlmbEwv  Al>mmy  fqT
+CLS_0029 op      S       C     C      C     C     C      C       C        C     C 
+CLS_0029 #csid 9 1 0 0
+CLS_0030 ref  fAlmbEwv  Al>mmy  EndmA  yqwl  Anh  mwZf  ytbE  hy}p  Al>mm  AlmtHdp
+CLS_0030 hyp   AlmbEwv  Al>mmy  EndmA  yqwl  >nh  mwZf  ytbE  hy}p  Al>mm  AlmtHdp
+CLS_0030 op       S        C      C      C    S     C     C     C     C       C   
+CLS_0030 #csid 8 2 0 0
+CLS_0031 ref  w>n  ldyh  r}ys  hw  mjls  Al>mn  ymtvl  btElymAth  wynqAd  <lyh
+CLS_0031 hyp  w>n  ldyh  r}ys  hw  mjls  Al>mn  ymtvl   btElymAt  wynqAl  <lyh
+CLS_0031 op    C     C     C    C    C     C      C        S         S      C 
+CLS_0031 #csid 8 2 0 0
+CLS_0032 ref  f>nA  bdwry  >Hyy  mvl  h*h  Al$xSyp  Alty  tqdr  r&sA}hA  w>n  Anh  mwZf  fy  m&ssp  ldyhA  r}Asp
+CLS_0032 hyp  f>nA  bdwry  >Hyy  mvl  h*h  Al$xSyp  Alty  tqdr  r&sA&hA  w>n  >nh  mwZf  fy  m&ssp  ldyhA  r}Asp
+CLS_0032 op     C     C      C    C    C      C       C     C      S      C    S     C    C    C      C      C  
+CLS_0032 #csid 14 2 0 0
+CLS_0033 ref  wrbmA  h*A  Aldrs  yqdm  ll*yn  lm  y>x*wA  fy  *lk  bEyn  AlAEtbAr  An  ldyhm  r&sA'
+CLS_0033 hyp  wrbmA  h*A  Aldrs  yqdm  ll*yn  lm   y>x*   fy  *lk  bEyn  Al<EtbAr  >n  ldyhm  r&sA'
+CLS_0033 op     C     C     C      C     C     C     S     C   C     C       S      S    C      C  
+CLS_0033 #csid 11 3 0 0
+CLS_0034 ref  <*A  kAn  mn  wqE  AlbED  mnhm  ytbEwn  Alm&tmr  AlwTny  fhl  Alm&tmr  AlwTny  r}ysA  lhm  >m  lA
+CLS_0034 hyp  <*A  kAn  mn  wqE  AlbED  mnhm  ytbEwn  Alm&tmr  AlwTny  fhl  Alm&tmr  AlwTny  r}ysA  lhm  >m  lA
+CLS_0034 op    C    C    C   C     C      C      C       C        C     C      C        C      C     C    C   C
+CLS_0034 #csid 16 0 0 0
+CLS_0035 ref  hl   Hlfhm  Alymyn   bAHtrAmhm  ll<ElAn  Aldstwry
+CLS_0035 hyp  hl  HAlfhm  Alymyn  bAHtrAmhmA  ll<ElAn  Aldstwry
+CLS_0035 op    C     S       C         S         C         C   
+CLS_0035 #csid 4 2 0 0
+CLS_0036 ref  ***  wlmrAEAp  syAdp  AlwTn  wEdm  Altdxl  Al>jnby  wEdm  AlsmAH  l>y  tdxl  >jnby  llwTn    ***    wAmtvAlhm  lHkm  AlmHkmp  Aldstwryp
+CLS_0036 hyp  wlm   mrAEAp   syAdp  AlwTn  wEdm  Altdxl  Al>jnby  wEdm  AlsmAH  l>y  tdxl  >jnby  llwTn  wAmtvAl      hm     lHkm  AlmHkmp  Aldstwryp
+CLS_0036 op    I       S       C      C      C      C       C       C      C     C     C     C      C       I         S        C      C         C    
+CLS_0036 #csid 14 2 2 0
+CLS_0037 ref  wmA  tErDt  lh  lybyA  mn*  vlAvp   E$r   sbEp  Alfyn  wArbEp     E$r    wmA  ntj  bEd  >rbEp  vmAnyp  >lfyn  wArbEp     E$r  
+CLS_0037 hyp  wmA  tErDt  lh  lybyA  mn*   ***   vlTA$  sbEp   ***    >lfyn  wArbETA$  wmA  ntj  bEd  >rbEp  vmAnyp  >lfyn    ***   w>rbETA$
+CLS_0037 op    C     C     C    C     C     D      S      C     D       S        S      C    C    C     C       C      C       D        S   
+CLS_0037 #csid 12 4 0 3
+CLS_0038 ref  jmyEhm  yElm  >n  Alm&tmr  AlwTny  fy  $hr  ywnyw  >lfyn  w>rbEp     E$r    >qr  qAnwn  mjls  >w  AntxAb  mHls  AlnwAb
+CLS_0038 hyp  jmyEhm  yElm  >n  Alm&tmr  AlwTny  fy  $hr  ywnyw  >lfyn    ***   w>rbETA$  >qr  qAnwn  mjls  >w  AntxAb  mjls  AlnwAb
+CLS_0038 op      C      C    C     C        C     C   C     C      C       D        S      C     C      C    C     C      S      C  
+CLS_0038 #csid 15 2 0 1
+CLS_0039 ref  >w  bd>  fy  Emlyp  AntxAb  mjls  AlnwAb  wfy  $hr  ywlyw  >yDA  AEtmdt  bSfp  nhA}yp  AlntA}j  AlnhA}yp  lmjls  AlnwAb  bAntxAb   dymqrATy  Hr
+CLS_0039 hyp  >w  bd>  fy  Emlyp  AntxAb  mjls  AlnwAb  wfy  $hr  ywlyw  >yDA  <Etmdt  bSfp  nhA}yp  AlntA}j  AlnhA}yp  lmjls  AlnwAb   <ntxAb  dymwqrATy  Hr
+CLS_0039 op    C   C    C    C       C      C      C     C    C     C      C      S      C      C       C         C       C       C       S         S       C
+CLS_0039 #csid 18 3 0 0
+CLS_0040 ref  wtm  tHdyd  mwEd  lAnEqAd  mjls  AlnwAb  ywm  >rbEp  vmAnyp  >lfyn  w>rbEp     E$r  
+CLS_0040 hyp  wtm  tHdyd  mwEd   AnEqAd  mjls  AlnwAb  ywm  >rbEp  vmAnyp  >lfyn    ***   w>rbETA$
+CLS_0040 op    C     C      C      S       C      C     C     C       C      C       D        S   
+CLS_0040 #csid 9 2 0 1
+CLS_0041 ref  Hsb  mA  tnS  Elyh  ***  Alt$ryEAt  AlnAf*p  b>n  r}ys  Alm&tmr  AlwTny  AlEAm  hw  Al*y  yHdd  mwEd  wmkAn  AlAjtmAE
+CLS_0041 hyp  Hsb  mA  tnS  Elyh   Al  Alt$ryEAt  AlnAf*p  b>n  r}ys  Alm&tmr  AlwTny  AlEAm  hw  Al*y  yHdd  mwEd  wmkAn  AlAjtmAE
+CLS_0041 op    C    C   C     C    I       C         C      C     C      C        C      C     C    C     C     C     C        C   
+CLS_0041 #csid 17 0 1 0
+CLS_0042 ref  wmA  Al*y  Hdv  Alm&tmr  AlwTny  ywm  >rbEp  vmAnyp  AjtmE  bED  >EDA}h  wAstSdrwA  byAnA  fy  *lk  Alywm
+CLS_0042 hyp  wmA  Al*y  Hdv  Alm&tmr  AlwTny  ywm  >rbEp  vmAnyp  <jtmE  bED  >EDA}h   wAstSdr   byAnA  fy  *lk  Alywm
+CLS_0042 op    C     C    C      C        C     C     C       C      S     C      C        S        C     C   C     C  
+CLS_0042 #csid 14 2 0 0
+CLS_0043 ref  wr>wA  An  AnEqAd  mjls  AlnwAb  bTbrq  kAn  AnEqAdA  bATlA
+CLS_0043 hyp   wr>Y  >n  <nEqAd  mjls  AlnwAb  btmrq  kAn  AnEqAdA  bATlA
+CLS_0043 op     S     S     S      C      C      S     C      C       C  
+CLS_0043 #csid 5 4 0 0
+CLS_0044 ref  l>nh  lm  yltzm  bAl<jrA'At  AlmnSwS  ElyhA  fy  Al<ElAn  Aldstwry  wbljnp  fbrAyr
+CLS_0044 hyp  l>nh  lm  yltzm  bAl<jrA'At  AlmnSwS  ElyhA  fy  Al<ElAn  Aldstwry  wbljnp  fbrAyr
+CLS_0044 op     C    C    C         C         C       C     C     C         C        C       C  
+CLS_0044 #csid 11 0 0 0
+CLS_0045 ref  ***  w$Ark  kl  mn  wqE  fy  AtfAq  AlSxyrAt  h*A  Altwjh
+CLS_0045 hyp   w    sArk  kl  mn  wqE  fy  AtfAq  AlSgyrAt  h*A  Altwjh
+CLS_0045 op    I     S     C   C   C    C    C        S      C      C  
+CLS_0045 #csid 7 2 1 0
+CLS_0046 ref  vm  Sdr  Hkm  AlmHkmp  Aldstwryp  Al*y  qrr  AnEdAm  mjls  AlnwAb  wkl  mn  $Ark  fy  AtfAq  AlSxyrAt  >yDA  kAn  ldyh  h*A  Altwjh
+CLS_0046 hyp  vm  Sdr  Hkm  AlmHkmp  Aldstwryp  Al*y  qrr  <nEdAm  mjls  AlnwAb  wkl  mn  $Ark  fy  AtfAq    xyrAt   >yDA  kAn  ldyh  h*A  Altwjh
+CLS_0046 op    C   C    C      C         C        C    C      S      C      C     C    C    C    C    C        S       C    C     C    C      C  
+CLS_0046 #csid 19 2 0 0
+CLS_0047 ref  fmA  Al*y  Hdv  bEd  *lk
+CLS_0047 hyp  fmA  Al*y  Hdv  bEd  *lk
+CLS_0047 op    C     C    C    C    C 
+CLS_0047 #csid 5 0 0 0
+CLS_0048 ref  AnxrT  Alm&tmr  AlwTny  wr>ynAh  mn  wAjb  mn  bAb  AlwAjb  AnxrT  fy  AlHwAr
+CLS_0048 hyp  <nxrT  Alm&tmr  AlwTny  wr>ynAh  mn   bAb  mn  bAb  AlwAjb  <nxrT  fy  AlHwAr
+CLS_0048 op     S       C        C       C      C    S    C   C      C      S     C     C  
+CLS_0048 #csid 9 3 0 0
+CLS_0049 ref  wAl*y  kAn  AsAs  AlnS  Elyh  An  AlHwAr  yjb  >n  ykwn  lybyA  lybyA
+CLS_0049 hyp  wAl*y  kAn  >sAs  AlnS  Elyh  >n  AlHwAr  yjb  >n  ykwn  lybyA  lybyA
+CLS_0049 op     C     C     S     C     C    S     C     C    C    C     C      C  
+CLS_0049 #csid 10 2 0 0
+CLS_0050 ref  wkAn  mn  xlAl  fryq  AlHwAr  Almklf  fy  *lk  Alwqt  br}Asp  Aldktwr  SAlj  Almxzwm
+CLS_0050 hyp  wkAn  mn  xlAl  fryq  AlHwAr  Almklf  fy  *lk  Alwqt  br}Asp  Aldktwr  SAlH  Almxzwn
+CLS_0050 op     C    C    C     C      C       C     C   C     C       C       C       S      S   
+CLS_0050 #csid 11 2 0 0
+CLS_0051 ref  fy  jmyE  mTAlbAth  wjlsAth  wbyAnAth  kAn  yTAlb  b>n  yTAlb  b>n  ykn  >n  ykwn  AlHwAr  lybyA  lybyA
+CLS_0051 hyp  fy  jmyE  mTAlbAth   wjlsAt   wbyAnAt  kAn  yTAlb  b>n  yTAlb  b>n   yk  >n  ykwn  AlHwAr  lybyA  lybyA
+CLS_0051 op    C    C       C        S         S      C     C     C     C     C    S    C    C      C      C      C  
+CLS_0051 #csid 13 3 0 0
+CLS_0052 ref  wkAn  AlrfD  mn  jAnb  mjls  AlnwAb
+CLS_0052 hyp  wkAn  AlrfD  mn  jAnb  mjls  AlnwAb
+CLS_0052 op     C     C     C    C     C      C  
+CLS_0052 #csid 6 0 0 0
+CLS_0053 ref  bl  kAn  Al>kvr  wAl>dhY  An  sAHAt  AltjmE  rfDt  fy  *lk  Alwqt  >n  ykwn  AlHwAr  xArj  lybyA
+CLS_0053 hyp  bl  kAn  Al>kvr  wAl>dhY  >n  sAHAt  AltjmE  rfDt  fy  *lk  Alwqt  >n  ykwn  AlHwAr  xArj  lybyA
+CLS_0053 op    C   C      C       C      S    C       C      C    C   C     C     C    C      C      C     C  
+CLS_0053 #csid 15 1 0 0
+CLS_0054 ref  wTlbnA  b>n  ykwn  AlHwAr  dAxl  lybyA  wkAnt  hnAk  jlsp   ***   bgdAms
+CLS_0054 hyp  wTlbnA  b>n  ykwn  AlHwAr  dAxl  lybyA  wkAnt  hnAk  jlsp  bgdAd    >ms 
+CLS_0054 op      C     C     C      C      C     C      C      C     C     I       S  
+CLS_0054 #csid 9 1 1 0
+CLS_0055 ref  wbEdhA  lm  ytysr  Al>mr  Al>mr  fy  Altrtyb  lZrwf  ***  >w  l<jrA'At   ***   Amnyp  msttbp  lt>myn  AlbEvp  wh*A  Hsb  mA  Tlbh  Alsyd  lywn
+CLS_0055 hyp  wbEdhA  lm  yt>vr  Al>mr  Al>mr  fy  Altrtyb  lZrwf   >h  >w  l<jrA'At  >mnyp    >h   msttbp  lt>myn  AlbEvp  wh*A  Hsb  mA  Tlbh  Alsyd  lywn
+CLS_0055 op      C     C    S      C      C     C     C       C     I    C      C       I      S       C       C       C      C    C    C    C     C      C 
+CLS_0055 #csid 18 2 2 0
+CLS_0056 ref  fwAfqnA  ElY  >n  tkwn  AjtmAEAtnA  >w  AjtmAEAtnA   bSxyrAt
+CLS_0056 hyp  wwAfqnA  ElY  >n  tkwn  AjtmAEAtnA  >w  AjtmAEAtnA  bAlxyrAt
+CLS_0056 op      S      C    C    C        C       C       C          S   
+CLS_0056 #csid 6 2 0 0
+CLS_0057 ref  wsrEnA  wEzmnA  wAEtbrnA  An  AlHl  AlwHyd  wAlAstrAtyjy  fy  AlwSwl  AlY  HwAr  lyby  syAsy  ***  ***  wtwAfqy
+CLS_0057 hyp  wsmEnA  wEzmnA  wAEtbrnA  >n  AlHl  AlwHyd  wAl<strAtyjy  fy  AlwSwl  <lY  HwAr  lyby  syAsy   wb   w    twAfqy
+CLS_0057 op      S       C        C      S    C      C          S        C     C     S     C     C     C     I    I      S   
+CLS_0057 #csid 9 5 2 0
+CLS_0058 ref  wmA*A  Al*y  Hdv  bEd  *lk
+CLS_0058 hyp   wmdY  Al*y  Hdv  bEd  *lk
+CLS_0058 op     S      C    C    C    C 
+CLS_0058 #csid 4 1 0 0
+CLS_0059 ref  kAnt  ldynA  mTAlbAt  wkAn  ***  llmjls  AlnwAb  mTAlbAt
+CLS_0059 hyp  kAnt  ldynA  mTAlbAt  wkAn   ll   mjls   AlnwAb  mTAlbAt
+CLS_0059 op     C     C       C       C    I      S       C       C   
+CLS_0059 #csid 6 1 1 0
+CLS_0060 ref  w>qrynA  jmyEA  b>n  AlHl  fy  lybyA  lys  HlA  qAnwnyA
+CLS_0060 hyp   wqrynA  jmyEA  b>n  AlHl  fy  lybyA  lys  HlA  qAnwnyA
+CLS_0060 op      S       C     C     C    C    C     C    C      C   
+CLS_0060 #csid 8 1 0 0
+CLS_0061 ref  lw  tmsknA  bAlHl  AlqAnwny  fAlHkm  AlmHkmp  Aldstwryp  tmvl  ***  syAdp  AlwTn
+CLS_0061 hyp  lw   tmskh  bAlHl  AlqAnwny  fAlHkm  AlmHkmp  Aldstwryp  tmvl   >h  syAdp  AlwTn
+CLS_0061 op    C     S      C        C        C       C         C        C    I     C      C  
+CLS_0061 #csid 9 1 1 0
+CLS_0062 ref  wAlAmtvAl  lHkm  AlmHkmp  wllqDA'  yEtbr  wAjb  ElY  AljmyE
+CLS_0062 hyp  wAl<mtvAl  lHkm  AlmHkmp  wllqDA'  yEtbr  wAjb  ElY  AljmyE
+CLS_0062 op       S        C      C        C       C      C    C      C  
+CLS_0062 #csid 7 1 0 0
+CLS_0063 ref  wlkn  r>ynA  >n  ndxl  fy  Hl  syAsy
+CLS_0063 hyp  wlkn  r>ynA  >n  ndxl  fy  Hl  syAsy
+CLS_0063 op     C     C     C    C    C   C    C  
+CLS_0063 #csid 7 0 0 0
+CLS_0064 ref  wkAnt  ndA'AtnA  dA}mA  b>nh  lys  ldynA  $rT  b>n  ystmr  Alm&tmr  AlwTny  fy  >y  wfAq  syAsy  qAdm
+CLS_0064 hyp  wkAnt   ndA'At   dA}mA  b>nh  lys  ldynA  Srt  b>n  ystmr  Alm&tmr  AlwTny  fy  >y  wfAq  syAsy  qAdm
+CLS_0064 op     C        S       C      C    C     C     S    C     C       C        C     C   C    C     C      C 
+CLS_0064 #csid 14 2 0 0
+CLS_0065 ref  wlkn  <*A  mA  r>Y  Allybywn  wAl>TrAf  Alm$Arkp  fy  AlHwAr  b>nh  ykwn  Alm&tmr  wykwn  mjls  AlnwAb
+CLS_0065 hyp  wlkn  <*A  mA  r>Y   lybywn   wAl>TrAf  Alm$Arkp  fy  AlHwAr  b>nh  ykwn  Alm&tmr  wykwn  mjls  AlnwAb
+CLS_0065 op     C    C    C   C       S         C         C      C     C      C     C      C       C      C      C  
+CLS_0065 #csid 14 1 0 0
+CLS_0066 ref  ***  ftklmnA  wtHdvnA  ElY  AltwAzn  Alt$ryEy  ***  ***  llwSwl  <lY  mvl  h*A  AlAtfAq
+CLS_0066 hyp   f    tklmnA  wtHdvnA  ElY  AltwAzn  Alt$ryEy   l    >h  AlwSwl  <lY  mvl  h*A  Al<tfAq
+CLS_0066 op    I      S        C      C      C         C      I    I      S     C    C    C      S   
+CLS_0066 #csid 7 3 3 0
+CLS_0067 ref  rbmA  ***  Alkl  ydrk  bmsyrp  AlHwAr
+CLS_0067 hyp  rbmA   >l  Alkl  ydrk  bmsyrp  AlHwAr
+CLS_0067 op     C    I     C     C      C       C  
+CLS_0067 #csid 5 0 1 0
+CLS_0068 ref  w>n  bEvp  Al>mm  AlmtHdp  lm  trAEy  mn*  AlbdAyp  AxtyAr  |lyp  wtHdyd  lEnASr  AlHwAr
+CLS_0068 hyp  w>n  bEvp  Al>mm  AlmtHdp  lm  trAEy  mn*  AlbdAyp  <xtyAr  |lyp  wtHdyd  lEnASr  AlHwAr
+CLS_0068 op    C     C     C       C      C    C     C      C        S      C      C       C       C  
+CLS_0068 #csid 12 1 0 0
+CLS_0069 ref  qlnA  <*A  Alm$klp  syAsyp  byn  jsmyn  mwjwdyn
+CLS_0069 hyp  qlnA  <*A  Alm$klp  syAsyp  byn  qsmyn  mwjwdyn
+CLS_0069 op     C    C      C        C     C     S       C   
+CLS_0069 #csid 6 1 0 0
+CLS_0070 ref  jsm  whw  mjls  AlnwAb  AlmEtrf  bh  dwlyA  wAlm&tmr  AlwTny  wAl*y  >qrth  AlmHkmp  Aldstwryp  fymkn  ***  AlwSwl  <lY  Hl  twAfqy
+CLS_0070 hyp  jsm  whw  mjls  AlnwAb  AlmEtrf  bh  dwlyA  wAlm&tmr  AlwTny  wAl*y   >qrt  AlmHkmp  Aldstwryp  fymkn   >l  AlwSwl  <lY  Hl  twAfqy
+CLS_0070 op    C    C     C      C       C      C    C        C        C      C      S       C         C        C     I      C     C    C     C  
+CLS_0070 #csid 17 1 1 0
+CLS_0071 ref  wlkn  nhjt  bEvp  Al>mm  AlmtHdp  br}Asp  AlmbEwv  AlsAbq  fy  AstdEA'  wdEwp  >TrAf  mtEddp
+CLS_0071 hyp  wlkn  nhzt  bEvp  Al>mm  AlmtHdp  br}Asp  AlmbEwv  AlsAbq  fy  AstdEA'  wdEwp  >TrAf  mtEddp
+CLS_0071 op     C     S     C     C       C        C       C        C     C     C       C      C       C  
+CLS_0071 #csid 12 1 0 0
+CLS_0072 ref  lm  tDE  mEyArA  wADHA  lh&lA'  Al>TrAf
+CLS_0072 hyp  lm  tDE  mEyArA  wADHA  lh&lA'  Al>TrAf
+CLS_0072 op    C   C      C      C       C       C   
+CLS_0072 #csid 6 0 0 0
+CLS_0073 ref  ***  >HyAnA  ttHdv  En  Al>HzAb  w>HyAnA  ttHdv  En  m&ssAt   mjtmE   Almdny
+CLS_0073 hyp   >H  >HyAnA  ttHdv  En  Al>HzAb  w>HyAnA  ttHdv  En  m&ssAt  AlmjtmE  Almdny
+CLS_0073 op    I      C      C     C     C        C       C     C     C       S        C  
+CLS_0073 #csid 9 1 1 0
+CLS_0074 ref  w>HyAnA  ttHdv  En  EmdA'  bldyAt  ytm  AxtyArhA  mn  AlbEvp   fqT  dwn  AlrjwE  <lY  Alm&tmr  AlwTny  AlEAm
+CLS_0074 hyp  w>HyAnA  ttHdv  En  EmdA'  bldyAt  ytm  AxtyArhA  mn  AlbEvp  fqdt  dwn  AlrjwE  <lY  Alm&tmr  AlwTny  AlEAm
+CLS_0074 op      C       C     C    C       C     C       C      C     C      S    C      C     C      C        C      C  
+CLS_0074 #csid 15 1 0 0
+CLS_0075 ref  Alsyd  Alywn  >w  Alsyd  kwblr  fy  Hdyvh  AyDA
+CLS_0075 hyp  Alsyd  Alywm  >w  Alsyd  kwglr  fy  Hdyvh  >yDA
+CLS_0075 op     C      S     C    C      S     C    C      S 
+CLS_0075 #csid 5 3 0 0
+CLS_0076 ref  ***  tHdv  b>n  ***  ***  >n  >nh  HAwl  Al>sbwE  AlmADy  ***  <jrA'  mqAblp  >w  AlwSwl  <lY  TrAbls  lmqAblty
+CLS_0076 hyp   >h  tHdv  b>n   >h   H   >n  >nh  HAwl  Al>sbwE  AlmADy   >h  <jrA'  mqAblp  >w  AlwSwl  <lY  TrAbls   lmqAblp
+CLS_0076 op    I     C    C    I    I    C   C     C      C        C     I     C       C     C     C     C      C        S   
+CLS_0076 #csid 13 1 4 0
+CLS_0077 ref  wtm  rfDh  mn  Alsyd  r}ys  Hkwmp  Al<nqA*
+CLS_0077 hyp  wtm  rfDh  mn  Alsyd  r}ys  Hkwmp  Al<nqA*
+CLS_0077 op    C     C    C    C      C     C       C   
+CLS_0077 #csid 7 0 0 0
+CLS_0078 ref  wh*A  ***  ***  bAlmstndAt  Alty  ldy  lm  yHdv  *lk  wlA  ywjd  mA  ***  mbrr  mstndAt  tsnd   mA  mA  >dEAh
+CLS_0078 hyp  wh*A   >h  bAl   AlmstndAt  Alty  ldy  lm  yHdv  *lk  wlA  ywjd  mA   >h  mbrr  mstndAt  tsnd  ***  mA  mdEAp
+CLS_0078 op     C    I    I        S        C    C    C    C    C    C     C    C   I     C      C       C    D    C    S  
+CLS_0078 #csid 13 2 3 1
+CLS_0079 ref  ldy  xTAb  yTlb  fyh  Al>*n  lwSwl  fryq  >mny  br}Asp  Alsyd  bAwlw  syrA  AljnrAl  Al<yTAly
+CLS_0079 hyp  ldy  xTAb  yTlb  fyh  Al<*n  lwSwl  fryq  >mny  br}Asp  Alsyd  bAwlw  syrp  AljnrAl  Al<yTAly
+CLS_0079 op    C     C     C    C     S      C      C     C      C      C      C      S      C         C   
+CLS_0079 #csid 12 2 0 0
+CLS_0080 ref  wyTlb  AlHDwr  lTrAbls  wyTlb  AlA*n  AyDA  AlY  Al*hAb  <lY  AlzntAn
+CLS_0080 hyp  wyTlb  AlHDwr  lTrAbls  wyTlb  Al<*n  >yDA  <lY  Al*hAb  <lY   >zmtAn
+CLS_0080 op     C       C       C       C      S      S    S      C     C      S   
+CLS_0080 #csid 6 4 0 0
+CLS_0081 ref  wh*A  <jrA'  tnfy*y  Atfqt  fy  ftrp  sAbqp  ElY  *lk
+CLS_0081 hyp  wh*A  <jrA'   tnfy*  Atfqt  fy  ftrp  sAbqp  ElY  *lk
+CLS_0081 op     C     C       S      C     C    C     C     C    C 
+CLS_0081 #csid 8 1 0 0
+CLS_0082 ref  b>n  >y  rsA}l  yTlbhA  bh*A  AlxSwS  ytwjh  bhA  <lY  AlHkwmp  Altnfy*yp  wSwrp  lr}ys  Alm&tmr  ltfEyl  Al|lyp
+CLS_0082 hyp  b>n  >y  rsA}l  yTlbhA  bh*A  AlxSwS  ytwjh  bhA  <lY  AlHkwmp  Altnfy*yp  wSwrp  lr}ys  Alm&tmr  ltfEyl  Al|lyp
+CLS_0082 op    C    C    C       C      C      C      C     C    C      C         C        C      C       C        C       C  
+CLS_0082 #csid 16 0 0 0
+CLS_0083 ref  wkAn  *lk  fy  xlAl  lqA}y  bh  EndmA  qdm  <lY  TrAbls
+CLS_0083 hyp  wkAn  *lk  fy  xlAl   lqA'  bh  EndmA  qdm  <lY  TrAbls
+CLS_0083 op     C    C    C    C     S     C    C     C    C      C  
+CLS_0083 #csid 9 1 0 0
+CLS_0084 ref   Tlbt  mnh  >n  yrAEy  mvl  h*h  Al|lyp  wymkn  tfEylhA  mn  jAnby  ltysyr  wSwl  bEvp  Al>mm  AlmtHdp  ltmArs  mhAmhA  dAxl  TrAbls
+CLS_0084 hyp  wTlbt  mnh  >n  yrAEy  mvl  h*h  Al|lyp  wymkn  tfEylhA  mn   jAnb  ltysyr  wSwl  bEvp  Al>mm  AlmtHdp  ltmArs  mhAmhA   dxl  TrAbls
+CLS_0084 op     S     C    C    C     C    C      C      C       C      C    S       C      C     C     C       C        C       C      S      C  
+CLS_0084 #csid 17 3 0 0
+CLS_0085 ref  wlkn  >kdt  lh  mrArA  wtkrArA  lys  Altysyr  h*A  lys  ldyh  ElAqp  btysyr  AlwSwl  wSwl  Almjls  Alr}Asy  lTrAbls
+CLS_0085 hyp  wlkn  >kdt  lh  mrArA  wtkrArA  lys  Altysyr  h*A  lys  ldyh  ElAqp  btysyr  AlwSwl  wSwl  Almjls  Alr}Asy  lTrAbls
+CLS_0085 op     C     C    C    C       C      C      C      C    C     C     C       C       C      C      C       C        C   
+CLS_0085 #csid 17 0 0 0
+CLS_0086 ref  TAlmA  >n  Alm&tmr  AlwTny  lm  ywqE  ElY  h*A  AlAtfAq
+CLS_0086 hyp  TAlmA  >n  Alm&tmr  AlwTny  lm  ywqE  ElY  h*A  AlAtfAq
+CLS_0086 op     C     C     C        C     C    C    C    C      C   
+CLS_0086 #csid 9 0 0 0
+CLS_0087 ref  wEndmA  nSl  <lY  mvl  h*h  AlmrAHl  flA  yzEjnA  AbdA  b>n  nmkn  Alfryq  Al>mny
+CLS_0087 hyp  wEndmA  nSl  <lY  mvl  h*h  AlmrAHl  flA  yzEjny  >bdA  b>n  nmkn  Alfryq  Al>mny
+CLS_0087 op      C     C    C    C    C      C      C      S      S    C     C      C       C  
+CLS_0087 #csid 11 2 0 0
+CLS_0088 ref  >w  ndxl  fy  trtybAt  >mnyp   EnmA  n$Er  b>nnA  wSlnA  <lY  Hkwmp  twAfqyp  tEbr  En  <rAdp   Allybyyn   jmyEA
+CLS_0088 hyp  >w  ndxl  fy  trtybAt  >mnyp  EndmA  n$Er  b>nnA  wSlnA  <lY  Hkwmp  twAfqyp  tEbr  En  <rAdp  AllbnAnyyn  jmyEA
+CLS_0088 op    C    C    C     C       C      S      C     C      C     C     C       C       C    C    C         S        C  
+CLS_0088 #csid 15 2 0 0
+CLS_0089 ref  Al*y  >ryd  An  AHyT  bh  Alywm  ***  AlsAdp  AlmwATnyn  wAlmwATnAt
+CLS_0089 hyp  Al*y  >ryd  >n  >HyT  bh  Alywm   >h  AlsAdp  AlmwATnyn  wAlmwATnAt
+CLS_0089 op     C     C    S    S    C    C     I      C        C           C    
+CLS_0089 #csid 7 2 1 0
+CLS_0090 ref  b>n  mA  y$AE  En  Alm&tmr  AlwTny  AlEAm
+CLS_0090 hyp  b>n  mA  y$AE  En  Alm&tmr  AlwTny  AlEAm
+CLS_0090 op    C    C    C    C     C        C      C  
+CLS_0090 #csid 7 0 0 0
+CLS_0091 ref  b_>nh  >w  bED  AEDA}h  Hsb  mA  yEbr  Enhm  b>nhm  qlp  wmt$ddp  wmErqlwn  llHwAr
+CLS_0091 hyp   b>nh  >w  bED  >EDA}h  Hsb  mA  yEbr   Enh  b>nhm  qlp  wmtjddp  wmEtqlwn  llHwAr
+CLS_0091 op     S     C   C      S     C    C    C     S     C     C      S         S        C  
+CLS_0091 #csid 8 5 0 0
+CLS_0092 ref  nHn  lA  yzEjnA  AlwSf  nHn  nhtm  bAlHqyqp  wbAlwAqE
+CLS_0092 hyp  nHn  lA  yzEjhA  AlwSf  nHn  nhtm  bAlHqyqp  wbAlwAqE
+CLS_0092 op    C    C     S      C     C     C       C         C   
+CLS_0092 #csid 7 1 0 0
+CLS_0093 ref  nHn  >kdnA  mrArA  wtkrArA  bh*A  AlHl  b>n  AlHl  yhm  Allybyyn  w>n  Allybyyn  jmyEA  EAzmwn  ElY  AlwSwl  <lY  Hl  twAfqy
+CLS_0093 hyp  nHn  >kdnA  mrArA  wtkrArA  bh*A  AlHl  b>n  AlHl  yhm  Allybyyn  w>n  Allybyyn  jmyEA  EAzmwn  ElY  AlwSwl  <lY  Hl  twAfqy
+CLS_0093 op    C     C      C       C       C     C    C     C    C       C      C       C       C       C     C      C     C    C     C  
+CLS_0093 #csid 19 0 0 0
+CLS_0094 ref  wmn*  AltsrybAt  Alty  nsbt  llmbEwv  Al>mmy  AlsAbq
+CLS_0094 hyp  wmn*  AltsrybAt  Alty  nsbt  llmbEwv  Al>mmy  AlsAbq
+CLS_0094 op     C       C        C     C      C        C       C  
+CLS_0094 #csid 7 0 0 0
+CLS_0095 ref  twjhnA  <lY  Al>mm  AlmtHdp  w<lY  mjls  Al>mn
+CLS_0095 hyp  twjhnA  <lY  Al>mm  AlmtHdp  w<lY  mjls  Al>mn
+CLS_0095 op      C     C     C       C       C     C     C  
+CLS_0095 #csid 7 0 0 0
+CLS_0096 ref  wTlbnA  mnhm  fy  rsAlp  mwjhp  <lY  Alsyd  ***  ***  bAnkymwn  wAlsyd  r}ys  mjls  Al>mn  fy  *lk  Alywm  fy  fy  tAryx  sAbq
+CLS_0096 hyp  wTlbnA  mnhm  fy  rsAlp  mwjhp  <lY  Alsyd  bAn   ky     mwn    wAlsyd  r}ys  mjls  Al>mn  fy  *lk  Alywm  fy  fy  tAryx  sAbq
+CLS_0096 op      C      C    C    C      C     C     C     I    I       S        C      C     C     C     C   C     C     C   C    C      C 
+CLS_0096 #csid 18 1 2 0
+CLS_0097 ref  TlbnA  rbmA  ***  fHwY  AlrsAlp  >n  Alm&tmr  AlwTny  >kd  ElY  HrSh  wrgbth  Al>kydp  fy  AlmDy  qdmA  l<njAH  AlHwAr
+CLS_0097 hyp  TlbnA  rbmA   >h  fHwY  AlrsAlp  >n  Alm&tmr  AlwTny  >kd  ElY  HrSh  wrgbth  Al>kydp  fy  AlmDy  qdmA  l<njAH  AlHwAr
+CLS_0097 op     C      C    I     C      C      C     C        C     C    C     C      C       C      C    C      C      C       C  
+CLS_0097 #csid 17 0 1 0
+CLS_0098 ref  w*lk  mn  mnTlq  AlwAjb  AlwTny  wAl>xlAqy
+CLS_0098 hyp  w*lk  mn  mnTlq  AlwAjb  AlwTny  wAl>xlAqy
+CLS_0098 op     C    C    C       C       C        C    
+CLS_0098 #csid 6 0 0 0
+CLS_0099 ref  kmA  >kd  mrArA  wtkrArA  >n  ykwn  AlHwAr  lybyA  lybyA  wmbA$rA  byn  Al>TrAf  AlmEnyp  bh*A  AlHwAr
+CLS_0099 hyp  kmA  >kd  mrArA  wtkrArA  >n  ykwn  AlHwAr  lybyA  lybyA  wmbA$rA  byn  Al>TrAf  AlmEnyp  bh*A  AlHwAr
+CLS_0099 op    C    C     C       C      C    C      C      C      C       C      C      C        C       C      C  
+CLS_0099 #csid 15 0 0 0
+CLS_0100 ref  wfy  Alwqt  Al*y  nqdr  fyh  Aljhd  AlmtwASl  ll>mm  AlmtHdp  wmn  Aldwl  AlrAEyp  llHwAr  mn  xlAl  sfrA}hA  wmndwbyhA
+CLS_0100 hyp  wfy  Alwqt  Al*y  nqdr  fyh  Aljhd  AlmtwASl  ll>mm  AlmtHdp  wmn  Aldwl  AlrAEyp  AlHwAr  mn  xlAl  sfrA}hA   wmndwbhA
+CLS_0100 op    C     C      C     C    C     C        C       C       C      C     C       C        S     C    C      C         S    
+CLS_0100 #csid 15 2 0 0
+CLS_0101 ref  tfAj>nA  bxbr  tEyyn  Alsyd    brnAdynw   lywn  Almmvl  AlxAS  wr}ys  bEvp  Al>mm  AlmtHdp  kmdyr   l>kAdymyp  Al<mArAt   AldblwmAsyp   fy  dwlp  Al<mArAt  AlErbyp  AlmtHdp
+CLS_0101 hyp  tfAj>nA  bxbr  tEyyn  Alsyd  brwnAldynyw  lywn  Almmvl  AlxAS  wr}ys  bEvp  Al>mm  AlmtHdp  kmdyr  ll>kAdymyp  Al<mArAt  AldyblwmAsyp  wfy  dwlp  Al<mArAt  AlErbyp  AlmtHdp
+CLS_0101 op      C       C     C      C         S         C      C      C      C      C     C       C       C         S          C           S        S     C       C        C        C   
+CLS_0101 #csid 17 4 0 0
+CLS_0102 ref  wlA  >ryd  >n  Adxl  fy  tfASyl  h*A  AlmwDwE
+CLS_0102 hyp  wlA  >ryd  >n  >dxl  fy  tfASyl  h*A  AlmwDwE
+CLS_0102 op    C     C    C    S    C     C     C      C   
+CLS_0102 #csid 7 1 0 0
+CLS_0103 ref  Al*y  yhmnA  fy  h*A  AlxSwS  >nh  >y  AtfAq  mA  lm  yEbr  En  <rAdp  jmyE  Allybyyn  f<nh  yEtbr  AtfAq    lA    ymvl   AlHqyqp
+CLS_0103 hyp  Al*y  yhmnA  fy  h*A  AlxSwS  >nh  >y  AtfAq  mA  lm  yEbr  En  <rAdp  jmyE  Allybyyn  f<nh  yEtbr   ***   <tfAq  lAymvl  AlHqyqp
+CLS_0103 op     C     C     C   C      C     C    C    C     C   C    C    C    C      C       C       C     C      D      S       S       C   
+CLS_0103 #csid 18 2 0 1
+CLS_0104 ref  wlA    ymkn   >n  yEbr  En  ntA}j  fAElp
+CLS_0104 hyp  ***  wlAymkn  >n  yEbr  En  ntA}j  fAElp
+CLS_0104 op    D      S      C    C    C    C      C  
+CLS_0104 #csid 5 1 0 1
+CLS_0105 ref  xASp  b>n  Al>TrAf  Al*yn  wqEwA  hnAk  yjb  >n  nfrq  mn  ymvl  Alm&tmr  AlwTny  AlEAm  whw  SAHb  AlwlAyp  bAl<ElAn  Aldstwry  wbAlmHkmp  Aldstwryp
+CLS_0105 hyp  xASp  b>n  Al>TrAf  Al*yn  wqEwA  hnAk  yjb  >n  nfrq  mn  ymvl  Alm&tmr  AlwTny  AlEAm  whw  SAHb  AlwlAyp  bAl<ElAn   dstwry   wbAlmHkmp   dstwryp 
+CLS_0105 op     C    C      C       C      C      C    C    C    C    C    C      C        C      C     C     C      C         C         S         C          S    
+CLS_0105 #csid 19 2 0 0
+CLS_0106 ref  wmn  ymvl  mjls  AlnwAb  bAlAEtrAf  Aldwly
+CLS_0106 hyp  wmn  ymvl  mjls  AlnwAb  bAl<EtrAf  Aldwly
+CLS_0106 op    C     C     C      C        S         C  
+CLS_0106 #csid 5 1 0 0
+CLS_0107 ref  yA  <mA  >n  ykwn  mfwDA  bAltwqyE  wAl*yn  wqEwA  ***  bAtfAq  AlSxyrAt  lm  ykwnwA  ***  k*lk
+CLS_0107 hyp  yA  <mA  >n  ykwn  mfwDA  bAltwqyE  wAl*yn  wqEwA  bAl  b<tfAq    xyrAt   lm  ykwnwA   >h  k*lk
+CLS_0107 op    C   C    C    C     C        C        C      C     I      S        S      C     C     I     C 
+CLS_0107 #csid 11 2 2 0
+CLS_0108 ref  wk*lk  Al*yn  wqEwA  bAsm  mjls  AlnwAb  lm  ykwnwA  k*lk
+CLS_0108 hyp  wk*lk  Al*yn  wqEwA  bAsm  mjls  AlnwAb  lm  ykwnwA  k*lk
+CLS_0108 op     C      C      C      C     C      C     C     C      C 
+CLS_0108 #csid 9 0 0 0
+CLS_0109 ref  wdlyl  ElY  *lk  An  fy  jlsp  Tbrq  Al>xyrp  qrr  mjls  AlnwAb  bTbrq
+CLS_0109 hyp  wdlyl  ElY  *lk  >n  fy  jlsp  tmrq  Al>xyrp  qrr  mjls  AlnwAb  btmrq
+CLS_0109 op     C     C    C    S   C    C     S      C      C     C      C      S  
+CLS_0109 #csid 9 3 0 0
+CLS_0110 ref  ***  tgyyr  fryq  AlHwAr  w>Erb  HtY  fy  zmn  sAbq  b>n  Alfryq  Al*y  y*hb    llSxyrAt   lA  ymvlh
+CLS_0110 hyp   >h  tgyyr  fryq  AlHwAr  w>Erb  HtY  fy  zmn  sAbq  b>n  Alfryq  Al*y  y*hb  AlAstxbArAt  lA  ymvlh
+CLS_0110 op    I     C      C      C      C     C    C   C     C    C      C      C     C        S        C    C  
+CLS_0110 #csid 14 1 1 0
+CLS_0111 ref  hnAk  mwADyE  >xrY  yjb  >n  nEbr  EnhA  <*A  mA  ArdnA  An  nSl  <lY  Eyn  AlHqyqp
+CLS_0111 hyp  hnAk  mwADyE  >xrY  yjb  >n  nEbr  EnhA  <*A  mA  >rdnA  >n  nSl  <lY  Eyn  AlHqyqp
+CLS_0111 op     C      C      C    C    C    C     C    C    C    S     S   C    C    C      C   
+CLS_0111 #csid 13 2 0 0
+CLS_0112 ref  tHdv  Alsyd  Aldktwr  SAlH  Almxzwm  AlnA}b  AlvAny  lr}ys  Alm&tmr
+CLS_0112 hyp  tHdv  Alsyd  Aldktwr  SAlH  Almxzwn  AlnA}b  AlvAny  lr}ys  Alm&tmr
+CLS_0112 op     C     C       C       C      S        C       C      C       C   
+CLS_0112 #csid 8 1 0 0
+CLS_0113 ref  ***  wEbr  b>nh  fy  ftrp  mEynp  kAn  ***  r}ysA  lfryq  AlHwAr  wqdm  AstqAlth
+CLS_0113 hyp   w    Ebr  b>nh  fy  ftrp  mEynp  kAn   >h  r}ysA  lfryq  AlHwAr  wqdm  <stqAlth
+CLS_0113 op    I     S     C    C    C     C     C    I     C      C       C      C       S   
+CLS_0113 #csid 9 2 2 0
+CLS_0114 ref  wfhmt  mn  xlAl  tSryHh  Al>xyr  b>nh  kAn  Elyh  DgT  >w  <rDA'  lr}ys  Alm&tmr
+CLS_0114 hyp  wfhmt  mn  xlAl  tSryHh  Al>xyr  b>nh  kAn  Elyh  DgT  >w  <rDA'  lr}ys  Alm&tmr
+CLS_0114 op     C     C    C      C       C      C    C     C    C    C    C      C       C   
+CLS_0114 #csid 13 0 0 0
+CLS_0115 ref  rsAlth  kAnt  btAryx  stp  wE$ryn  vmAnyp  Alfyn  wxmsp    E$r  
+CLS_0115 hyp  rsAlth  kAnt  btAryx  stp  wE$ryn  vmAnyp   ***   >lfyn  wxmsTA$
+CLS_0115 op      C      C      C     C      C       C      D      S       S   
+CLS_0115 #csid 6 2 0 1
+CLS_0116 ref  qAl  fyhA  Alsyd  r}ys  Alm&tmr  AlwTny  AlEAm  tHyp  Tybp  wbEd  Atqdm  bAstqAlty  mn  r}Asp  wEDwyp  fryq  AlHwAr
+CLS_0116 hyp  qAl  fyhA  Alsyd  r}ys  Alm&tmr  AlwTny  AlEAm  tHyp  Tybp  wbEd  >tqdm   bAstqAlp  mn  r}Asp  wEDwyp  fryq  AlHwAr
+CLS_0116 op    C     C     C      C      C        C      C      C     C     C     S        S       C    C       C      C      C  
+CLS_0116 #csid 15 2 0 0
+CLS_0117 ref  Almmvl  llm&tmr  AlwTny  AlEAm  wHyv  An  tklyfy  tm  mn  qblkm  f<n  AstqAlty  h*h  lA  tHtAj  llErD  ElY  Alm&tmr  AlwTny  AlEAm
+CLS_0117 hyp  Almmvl  llm&tmr  AlwTny  AlEAm  wHyv  >n  tklyfy  tm  mn  qblkm  f<n   AstqAlp  h*h  lA  tHtAj  llErD  ElY  Alm&tmr  AlwTny  AlEAm
+CLS_0117 op      C       C        C      C      C    S     C     C   C    C     C       S      C    C    C      C     C      C        C      C  
+CLS_0117 #csid 18 2 0 0
+CLS_0118 ref  w<nhA  AstqAlp  nhA}yp  gyr  qAblp  llrjwE  fyhA  mn  jAnby  $AkrA  lkm  slfA  ***   Hsn   tfhmkm  wAlslAm  Elykm  wrHmp  Allh  wbrkAth
+CLS_0118 hyp  w<nhA  <stqAlp  nhA}yp  gyr   qAbl  llrjwE  fyhA  mn   jAnb  $AkrA  lkm  slfA  Hsm  tfhmk    lkm   wAlslAm  Elykm  wrHmp  Allh  wbrkAth
+CLS_0118 op     C       S        C     C     S       C      C    C    S      C     C     C    I     S       S       C       C      C      C      C   
+CLS_0118 #csid 14 5 1 0
+CLS_0119 ref  dktwr  SAlH  mHmd  Almxzwm  AlnA}b  AlvAny  lr}ys  Alm&tmr  AlwTny  AlEAm
+CLS_0119 hyp  dktwr  SAlH  mHmd  Almhzwm  AlnA}b  AlvAny  lr}ys  Alm&tmr  AlwTny  AlEAm
+CLS_0119 op     C      C     C      S        C       C      C       C        C      C  
+CLS_0119 #csid 9 1 0 0
+CLS_0120 ref  tm  Alt>$yr  mn  jAnby  ElY  AlrsAlp  fy  *lk  Alywm  qlt  fyhA  fy  Alwqt  Al*y  tmnyt  w>tmnY  lmvl  h*A  Al$xSyp  >n  tstmr  fy  >dA'  mhAmhA
+CLS_0120 hyp  tm  Alt>vyr  mn   jAnb  ElY  AlrsAlp  fy  *lk  Alywm  qlt  fyhA  fy  Alwqt  Al*y  tmnyt  w>tmnY  lmvl  h*h  Al$xSyp  >n  tstmr  fy  >dA'  mhAmhA
+CLS_0120 op    C     S      C    S     C      C      C   C     C     C     C    C    C      C     C       C      C    S      C      C    C     C    C      C  
+CLS_0120 #csid 21 3 0 0
+CLS_0121 ref  w$rf  llm&tmr  b>kmlh  ElY  njAHh   wtfAnyh  wlkn  AlDrwrp  tqdr  bqdrhA
+CLS_0121 hyp  wSrf  llm&tmr  b>kmlh  ElY  njAHh  wAltfAny  wlkn  AlDrwrp  tqdr  bqdrhA
+CLS_0121 op     S      C        C     C     C        S       C      C       C      C  
+CLS_0121 #csid 8 2 0 0
+CLS_0122 ref  Elyh  >wAfq  ElY  <EfA'  Aldktwr  SAlH  mn  r}Asp  fryq  AlHwAr  wEDwyth  bAlfryq  w>tmnY  lh  kl  Altwfyq
+CLS_0122 hyp  Elyh  >wAfq  ElY  <EfA'  Aldktwr  SAlH  mn  r}Asp  fryq  AlHwAr   EDwyth  bAlfryq  w>tmnY  lh  kl  Altwfyq
+CLS_0122 op     C     C     C     C       C       C    C    C      C      C       S        C        C     C   C     C   
+CLS_0122 #csid 15 1 0 0
+CLS_0123 ref  wfy  nfs  AltAryx   Sdr  tSryH  bxSwS  AstqAlp  Aldktwr  SAlH    ***    ***  Almxzwm  mn  tr>sh  lfryq  AlHwAr
+CLS_0123 hyp  wfy  nfs  AltAryx  Sdrt  tSryH  bxSwS  AstqAlp  Aldktwr  SAlH  Almxzwn   mn    *rAE   mn  tr>sh  lfryq  AlHwAr
+CLS_0123 op    C    C      C       S     C      C       C        C       C      I      I      S      C    C      C       C  
+CLS_0123 #csid 12 2 2 0
+CLS_0124 ref  SAdr  En  <dArp  Al<ElAm  bHzb  AlEdAlp  wAlbnA'  ywm  stp  wE$ryn  >gsTs
+CLS_0124 hyp  SAdr  En  <dArp  Al<ElAm  bHzb  AlEdAlp  wAlbnA'  ywm  stp  wE$ryn  >gsTs
+CLS_0124 op     C    C    C       C       C      C        C      C    C      C      C  
+CLS_0124 #csid 11 0 0 0
+CLS_0125 ref  jA'  fyh  tqdm   ***  Aldktwr  SAlH  Almxzwm  bAstqAlth  mn  r}Asp  fryq  AlHwAr  wkAnt   bnA'  ElY  rgbth
+CLS_0125 hyp  jA'  fyh  tqdm  AlmT  Aldktwr  SAlH  Almxzwn  bAstqAlth  mn  r}Asp  fryq  AlHwAr  wkAnt  bnA'A  ElY  rgbth
+CLS_0125 op    C    C     C     I      C       C      S         C       C    C      C      C      C      S     C     C  
+CLS_0125 #csid 13 2 1 0
+CLS_0126 ref  wbElm  qyAdp  Hzb  AlEdAlp  wAlbnA'  wjA't  bsbb  Edm  AnsjAm  Aldktwr  Almxzwm  mE  twjhAt  r}Asp  Alm&tmr  fymA  ytElq  b<dArp  AlHwAr
+CLS_0126 hyp  wbElm  qyAdp  Hzb  AlEdAlp  wAlbnA'  wjA't  bsbb  Edm  AnsjAm  Aldktwr  Almxzwn  mE  twjhAt  r}Asp  Alm&tmr  fymA  ytElq  b<dArp  AlHwAr
+CLS_0126 op     C      C     C      C        C       C      C    C      C       C        S      C     C      C       C       C     C       C       C  
+CLS_0126 #csid 18 1 0 0
+CLS_0127 ref  mmA  dEAny  wfy  nfs  Alywm  >yDA  <lY  An  AstSdr  h*A  AlrsAlp  mwjhp  lldktwr  SAlH
+CLS_0127 hyp  mmA  dEAny  wfy  nfs  Alywm  >yDA  <lY  >n   stSdr  h*h  AlrsAlp  mwjhp  lldktwr  SAlH
+CLS_0127 op    C     C     C    C     C      C    C    S     S     S      C       C       C       C 
+CLS_0127 #csid 11 3 0 0
+CLS_0128 ref  mEAly  Alsyd  AlmHtrm  AlnA}b  AlvAny  lr}ys  Alm&tmr  AlwTny  AlEAm   dktwr   SAlH  mHmd  Almxzwm
+CLS_0128 hyp  mEAly  Alsyd  AlmHtrm  AlnA}b  AlvAny  lr}ys  Alm&tmr  AlwTny  AlEAm  Aldktwr  SAlH  mHmd  Almxzwn
+CLS_0128 op     C      C       C        C       C      C       C        C      C       S       C     C      S   
+CLS_0128 #csid 11 2 0 0
+CLS_0129 ref  tHyp  Tybp  wbEd  bAlt>kyd  sy*kr  AltAryx  rjAlA  sTrwA  mwAqf  qd  trqY  <lY  mn  DHY  bnfsh  fy  myAdyn  AldfAE  En  AlwTn
+CLS_0129 hyp  tHyp  Tybp  wbEd  bAlt>kyd  sy*kr  AltAryx  rjAlA   sTr   mwAqf  qd  trqY  <lY  mn  DHY  bnfsh  fy  myAdyn  AldfAE  En  AlwTn
+CLS_0129 op     C     C     C       C       C       C       C      S      C     C    C    C    C   C     C     C     C       C     C    C  
+CLS_0129 #csid 19 1 0 0
+CLS_0130 ref  w>rtfE  <lY  Elyyn  bmnzlp  Al$hdA'  wAnny  Aqr  w>ftxr
+CLS_0130 hyp  wArtfE  <lY   Elyn  bmnzlp  Al$hdA'  w<nny  >qr  w>ftxr
+CLS_0130 op      S     C     S       C       C       S     S      C  
+CLS_0130 #csid 4 4 0 0
+CLS_0131 ref  b>nny  lmst  mn  Alsyd  AlnA}b  AlvAny  lr}ys  Alm&tmr  AlwTny  Tylp  EmlnA  bAlm&tmr
+CLS_0131 hyp  b>nny  lmst  mn  Alsyd  AlnA}b  AlvAny  lr}ys  Alm&tmr  AlwTny  Tylp  EmlnA  bAlm&tmr
+CLS_0131 op     C      C    C    C       C       C      C       C        C      C     C        C   
+CLS_0131 #csid 12 0 0 0
+CLS_0132 ref  swA'  EndmA  knt  mqrrA  llm&tmr  AlwTny  AlEAm  whw  nA}b   vAn  llr}ys  >w  EndmA  ASbHt  r}ysA  llm&tmr  AlwTny  AlEAm  wAHtfZ   bSfp  AlnA}b  AlvAny
+CLS_0132 hyp  swA'  EndmA  knt  mqrrA  llm&tmr  AlwTny  AlEAm  whw  nA}b  vAny  llr}ys  >w  EndmA  >SbHt  r}ysA  llm&tmr  AlwTny  AlEAm  wAHtfZ  bySyr  AlnA}b  AlvAny
+CLS_0132 op     C     C     C     C       C        C      C     C     C     S      C     C    C      S      C       C        C      C       C      S       C       C  
+CLS_0132 #csid 19 3 0 0
+CLS_0133 ref  msyrp  mHfwfp  bAlmHn  wAldrws  AlSEbp  kAnt  bmvAbp  AlAmtHAn  Al$Aq
+CLS_0133 hyp  msyrp  mHfwfp  bAlmHl  wAldrws  AlSEbp  kAnt  bmvAbp  Al<mtHAn  AlsAq
+CLS_0133 op     C       C       S       C        C      C      C        S       S  
+CLS_0133 #csid 6 3 0 0
+CLS_0134 ref  wEndmA  t$rft  btklyf  Aldktwr  SAlH  br}Asp  fryq  AlHwAr  Almmvl  llm&tmr  AlwTny  AlEAm
+CLS_0134 hyp  wEndmA  tSrft  btklyf  Aldktwr  SAlH  br}Asp  fryq  AlHwAr  Almmvl  Alm&tmr  AlwTny  AlEAm
+CLS_0134 op      C      S       C       C       C      C      C      C       C       S        C      C  
+CLS_0134 #csid 10 2 0 0
+CLS_0135 ref  >qr  w>Etz  b*lk  b>nh  njH  fy  h*h  Almhmp  bAqtdAr  wkAn  $rfA  lh  wllm&tmr  wll$Eb  Allyby
+CLS_0135 hyp  >qr  w>Etz  b*lk  b>nh  njH  fy  h*h  Almhmp  bAqtdAr  wkAn  SrfA  lh   llm&tmr  wll$Eb  Allyby
+CLS_0135 op    C     C      C     C    C    C   C      C       C       C     S    C      S        C       C  
+CLS_0135 #csid 13 2 0 0
+CLS_0136 ref  Al*y  AxtAr  AlHwAr  xyArA  Al*y  AxtAr  AlHwAr  xyArA  AstrAtyjyA  llHl  AlsyAsy  blybyA
+CLS_0136 hyp  Al*y  AxtAr  AlHwAr  xyArA  Al*y  AxtAr  AlHwAr  xyArA  AstrAtyjyA  llHl  AlsyAsy  blybyA
+CLS_0136 op     C     C       C      C      C     C       C      C         C        C      C        C  
+CLS_0136 #csid 12 0 0 0
+CLS_0137 ref  lqd  tqdm  Alsyd  AlnA}b  AlvAny  bAstqAlth  fy  ftrp  sAbqp
+CLS_0137 hyp  lqd  tqdm  Alsyd  AlnA}b  AlvAny  bAstqAlth  fy  ftrp  sAbqp
+CLS_0137 op    C     C     C       C       C        C       C    C     C  
+CLS_0137 #csid 9 0 0 0
+CLS_0138 ref  w>$hd  Allh  Anny  knt  mn  Al*yn  HAwlwA  bkl  Alsbl  bkl  Alsbl  mE  |xryn  mn  AlsAdp  Al>EDA'  fy  mjmlhm  w|xryn  mn  >TyAf  m&ssAt  AlmjtmE  Almdny
+CLS_0138 hyp  w>$hd  Allh  >nny  knt  mn  Al*yn  HAwlwA  bkl  Alsbl  bkl  Alsbl  mE  |xryn  mn  AlsAdp   >EDA'   fy  mjmlhA  w|xryn  mn  >TyAf  m&ssAt  AlmjtmE  Almdny
+CLS_0138 op     C      C     S    C    C    C       C     C     C     C     C     C    C     C     C       S      C     S       C     C    C       C       C        C  
+CLS_0138 #csid 21 3 0 0
+CLS_0139 ref  wAlnxb  AlsyAsyp  wAlmvqfp   <qnAEh  bAlEdwl  En  tlk  AlAstqAlp
+CLS_0139 hyp  wAlnxb  AlsyAsyp   wAlmvqf  l<qnAEh  bAlEdwl  En  tlk  AlAstqAlp
+CLS_0139 op      C        C         S        S        C      C   C       C    
+CLS_0139 #csid 6 2 0 0
+CLS_0140 ref  wfy  h*A  Alywm  wbEd  Alt$Awr  wAlHwAr  mEh  xlAl  kl  h*A  Al>sbwE  wjdt  nfsy   An   lA  Akwn  ZAlmA  lh  bEdm  qbwl  AstqAlth
+CLS_0140 hyp  wfy  h*A  Alywm  wbEd  Alt$Awr  wAlHwAr  mEh  xlAl  kl  h*A  Al>sbwE  wjdt  nfsy  ***  >lA  ykwn  ZAlmA  lh  bEdm  qbwl  AstqAlth
+CLS_0140 op    C    C     C      C      C        C      C     C    C   C      C       C     C    D    S     S     C     C    C     C       C   
+CLS_0140 #csid 18 2 0 1
+CLS_0141 ref  EndmA  t>kdt  wh*A  mA  AEtqdh  dA}mA  mn  Hsn  nyth  AlSAdqp
+CLS_0141 hyp  EndmA  t>kdt  wh*A  mA  >Etqdh  dA}mA  mn  Hsn  nyth  AlSAdqp
+CLS_0141 op     C      C      C    C     S      C     C   C     C      C   
+CLS_0141 #csid 9 1 0 0
+CLS_0142 ref  fy  sbyl  <ETA'  AlfrSp  lgyrh  l<mkAnyp  tkmlp  Alm$wAr  nHw  HwAr  hAdf  wbnA'  lA   tHkmh  >y  DgwT  mhmA  kAn  mSdrhA
+CLS_0142 hyp  fy  sbyl  <ETA'  AlfrSp  lgyrh  l<mkAnyp  tkmlp  Alm$wAr  nHw  HwAr  hAdf  wbnA'  lA  tHkmhm  >y  DgwT  mhmA  kAn  mSdrhA
+CLS_0142 op    C    C     C       C      C        C       C       C      C     C     C     C     C     S     C    C     C    C      C  
+CLS_0142 #csid 18 1 0 0
+CLS_0143 ref  wlA  >zAl  ElY  vqp  b>n  syAdth  sykwn  EwnA  lkl  mxlS  ysEY  <lY  wHdp  AlwTn  wAlmwATnyn  wfqkm  Allh  w>EAnkm  wAllh  mn  wrA'  AlqSd  wAlslAm  Elykm  wrHmp  Allh  wbrkAth
+CLS_0143 hyp  wlA  >zAl  ElY  vqp  b>n  syAdth  sykwn  EwnA  lkl  mxlS  ysEY  <lY  wHdp  AlwTn  wAlmwATnyn  wfqkm  Allh   wEnkm   wAllh  mn  wrA'  AlqSd  wAlslAm  Elykm  wrHmp  Allh  wbrkAth
+CLS_0143 op    C     C    C    C    C      C      C      C    C     C     C    C     C     C         C        C      C      S       C     C    C     C       C       C      C      C      C   
+CLS_0143 #csid 26 1 0 0
+CLS_0144 ref  wlA  >ryd  >n  AElq  kvyr  ElY  zmyl  w>x  kAn  nA}bA  ly  bAlm&tmr  AlwTny  w>trk  lh  AltElyq  fy  *lk
+CLS_0144 hyp  wlA  >ryd  >n  >Elq  kvyr  ElY  zmyl  w>x  kAn  nA}bA   l  bAlm&tmr  AlwTny  w>trk  lh  AltElyq  fy  *lk
+CLS_0144 op    C     C    C    S     C    C     C    C    C     C     S      C        C      C     C     C      C   C 
+CLS_0144 #csid 16 2 0 0
+CLS_0145 ref  rbmA  >ryd  w>twjh  wAltms  mn  AlsAdp  AlmtxSSyn  fy  AlqAnwn  Aldstwry
+CLS_0145 hyp  rbmA  >ryd  w>twjh   >ltms  mn  AlsAdp  AlmtxSSyn  fy  AlqAnwn  Aldstwry
+CLS_0145 op     C     C      C       S     C     C        C       C     C         C   
+CLS_0145 #csid 9 1 0 0
+CLS_0146 ref  Aryd  mnhm  >n  ywDHwA  ll$Eb  Allyby  tSrfAt  Al*yn  wqEwA  mn  >EDA'  Alm&tmr  AlwTny  wmn  >EDA'  mjls  AlnwAb
+CLS_0146 hyp  >ryd   mnk  >n  ywDHwA  ll$Eb  Allyby  tSrfAt  Al*yn  wqEwA  mn  >EDA'  Alm&tmr  AlwTny  wmn  >EDA'  mjls  AlnwAb
+CLS_0146 op     S     S    C     C      C       C       C      C      C     C    C       C        C     C     C      C      C  
+CLS_0146 #csid 15 2 0 0
+CLS_0147 ref  wmn  Al>$xAS  Al*yn  wqEwA  nyAbp  En  Al$Eb  Allyby  mA  hw  Altkyyf  AlqAnwny  xASp  ll*yn  >qsmwA  Alymyn  lAHtrAm  Al<ElAn  Aldstwry  Aldstwry
+CLS_0147 hyp  wmn  Al>$xAS  Al*yn  wqEwA  nyAbp  En  Al$Eb  Allyby  mA  hw  Altkyyf  AlqAnwny  xASp  ll*yn  >qsmwA  Alymyn  lAHtrAm  Al<ElAn   dstwry   Aldstwry
+CLS_0147 op    C      C       C      C      C     C    C       C     C   C     C         C       C     C       C       C       C        C         S         C   
+CLS_0147 #csid 19 1 0 0
+CLS_0148 ref  wAlAmtvAl  lHkm  AlmHkmp  Aldstwryp  wkAnwA  jz'A  mn  AlmnZwmp  AlsyAsyp  bAsm  Alm&tmr  AlwTny  AlEAm  bEd  ArbEp  vmAnyp  Alfyn  w>rbEp     E$r  
+CLS_0148 hyp  wAl<mtvAl   Hkm  AlmHkmp  Aldstwryp  wkAnwA   jz'  mn  AlmnZwmp  AlsyAsyp  bAsm  Alm&vmr  AlwTny  AlEAm  bEd  >rbEp  vmAnyp   ***    >lfyn  wArbETA$
+CLS_0148 op       S        S      C         C         C      S    C      C         C       C      S        C      C     C     S       C      D       S        S   
+CLS_0148 #csid 11 7 0 1
+CLS_0149 ref  wxASp  bEdmA  >Eln  AlEAlm  jmyEA  AEtrAfh  rsmyA  bmjls  AlnwAb  wAlHkwmp  Almnbvqp  Enh
+CLS_0149 hyp  wxASp  bEdmA  >Eln  AlEAlm  jmyEA  <EtrAfh  rsmyA  bmjls  AlnwAb  wAlHkwmp  Almnbvqp  Enh
+CLS_0149 op     C      C      C      C      C       S       C      C       C        C         C      C 
+CLS_0149 #csid 11 1 0 0
+CLS_0150 ref  kyf  ymkn  tkyyf  >fEAlhm  wtSrfAthm  qbl  twqyEhm  ElY  AtfAq   SxyrAt 
+CLS_0150 hyp  kyf  ymkn  tkyyf  >fEAlhm  wtSrfAthm  qbl  AltwqyE  ElY  AtfAq  AlSgyrAt
+CLS_0150 op    C     C     C       C         C       C      S      C     C        S   
+CLS_0150 #csid 8 2 0 0
+CLS_0151 ref  mA  Hdv  fy  lybyA  hl  yjwz  lnA  wnHn  lm  nSl  <lY  mSAlHp  tAmp
+CLS_0151 hyp  mA  Hdv  fy  lybyA  hl  yjwz  lnA  wnHn  lm  nSl  <lY  mSAlHp  tAmp
+CLS_0151 op    C   C    C    C     C    C    C     C    C   C    C      C      C 
+CLS_0151 #csid 13 0 0 0
+CLS_0152 ref  >n  nSl  <lY  AtfAq  syAsy  ywqEh  bES  Al>TrAf  wnxly  bh  ms&wlyp  kl  mn  sbb  Aw  tsbb  Aw  Hdvt  >$yA'  mn   mn   ywm  ArbEp  vmAnyp  Alfyn  w>rbEp   E$r      <lY     gAyp  h*A  AltAryx
+CLS_0152 hyp  >n  nSl  <lY  AtfAq  syAsy  ywqEh  bED  Al>TrAf  wnxly  bh  ms&wlyp  kl  mn  sbb  >w  tsbb  >w  Hdvt  >$yA'  mn  y&mn  ywm  >rbEp  vmAnyp   ***     ***   >lfyn  wArbETA$  lgAyp  h*A  AltAryx
+CLS_0152 op    C   C    C     C      C      C     S      C       C     C     C      C   C   C    S    C    S    C     C     C    S    C     S       C      D       D      S        S       S     C      C   
+CLS_0152 #csid 21 8 0 2
+CLS_0153 ref  mA  Hdv  mn  An$qAq  mA  Hdv  mn  t$Zy  mA  Hdv  mn  qtAl
+CLS_0153 hyp  mA  Hdv  mn  <n$qAq  mA  Hdv  mn  tSdy  mA  Hdv  mn  qtAl
+CLS_0153 op    C   C    C     S     C   C    C    S    C   C    C    C 
+CLS_0153 #csid 10 2 0 0
+CLS_0154 ref  mA  Hdv  mn  Drb  mdn  bkAmlhA  bngAzy  kklp  wr$fAnp
+CLS_0154 hyp  mA  Hdv  mn  Drb  mdn  bkAmlhA  bngAzy   kkl   >r$fnA
+CLS_0154 op    C   C    C   C    C      C        C      S      S   
+CLS_0154 #csid 7 2 0 0
+CLS_0155 ref  mA  Hdv  bAljnwb  mA  Hdv  bAlkfrp  mA  Hdv   bdrnp  hl  ymkn  An  ywSf  *lk  b>nh  AtfAq  syAsy  wnEfy  fyh  jmyE  Al>TrAf
+CLS_0155 hyp  mA  Hdv  bAljnwb  mA  Hdv  bAlkbrY  mA  Hdv  bAdrnA  hl  ymkn  >n  ywSf  *lk  b>nh  AtfAq  syAsy  wnETy  fyh  jmyE  Al>TrAf
+CLS_0155 op    C   C      C      C   C      S      C   C      S     C    C    S    C    C     C     C      C      S     C     C      C   
+CLS_0155 #csid 17 4 0 0
+CLS_0156 ref  Als&Al  Al>hm   mA   hy   ms&wlyp  bEvp  Al>mm  AlmtHdp  why}p  Al>mm  AlmtHdp  wmjls  Al>mn  bEd  rfDhm   llAEtdAd   bHkm  AlmHkmp  Aldstwryp
+CLS_0156 hyp  Als&Al  Al>hm  ***  mAhy  ms&wlyp  bEvp  Al>mm  AlmtHdp   why   Al>mm  AlmtHdp  wmjls  Al>mn  bEd  rfDhm  llAEtdA'At  bHkm  AlmHkmp  Aldstwryp
+CLS_0156 op      C      C     D     S      C       C     C       C       S      C       C       C      C     C     C         S        C      C         C    
+CLS_0156 #csid 15 3 0 1
+CLS_0157 ref  wAEtbAr  Alm&tmr  AlwTny  xArj  Al$rEyp  Aldwlyp  wAltEAml  fqT  mE  mjls  AlnwAb
+CLS_0157 hyp  wAEtbAr  Alm&tmr  AlwTny  xArj  Al$rEyp  Aldwlyp  wAltEAml  fqT  mE  mjls  AlnwAb
+CLS_0157 op      C        C        C      C      C        C         C      C    C    C      C  
+CLS_0157 #csid 11 0 0 0
+CLS_0158 ref  wfy  lHZp  mA  ytm  AltEAml  ytm  AltEAml  mE  >frAd  mn  Alm&tmr  gyr  mfwDyn  bAltwqyE  Aw  AltfAwD
+CLS_0158 hyp  wfy  lHZp  mA  ytm  AltEAml  ytm  AltEAml  mE  >frAd  mn  Alm&tmr  gyr  mfwDyn  bAltwqyE  >w  AltfAwD
+CLS_0158 op    C     C    C   C      C      C      C      C    C     C     C      C      C        C      S     C   
+CLS_0158 #csid 15 1 0 0
+CLS_0159 ref  wytm  <brAm  AtfAq  y>x*  Sfp  Aldwlyp  wAlmbArkp  mn  mjls  Al>mn
+CLS_0159 hyp  wytm  <brAm  <tfAq  y>x*  Sfp  Aldwlyp  wAlmbArkp  mn  mjls  Al>mn
+CLS_0159 op     C     C      S      C    C      C         C       C    C     C  
+CLS_0159 #csid 9 1 0 0
+CLS_0160 ref  >yDA  An$A'  mjls   AElY   lldwlp  EndmA  nqwl  mjls  >ElY  lldwlp  k>nh  hnAk  mjls  >dnY  lldwlp
+CLS_0160 hyp  >yDA  <n$A'  mjls  Al>ElY  lldwlp  EndmA  nqwl  mjls  >ElY  lldwlp  k>nh  hnAk  mjls  >dnY  lldwlp
+CLS_0160 op     C     S      C      S       C      C      C     C     C      C      C     C     C     C      C  
+CLS_0160 #csid 13 2 0 0
+CLS_0161 ref  qlnA  mrArA  wtkrArA  wmn  xlAl  fryqy  AlHwAr  Alfryq  Al*y   tr>sh  Aldktwr  SAlH  wAlfryq  Al*y   trAsh  Aldktwr  EwD
+CLS_0161 hyp  qlnA  mrArA  wtkrArA  wmn  xlAl  fryqy  AlHwAr   fryq   Al*y  tr>shA  Aldktwr  SAlH  wAlfryq  Alty  tr>shA  Aldktwr  EwD
+CLS_0161 op     C     C       C      C     C     C       C       S      C      S       C       C      C       S      S       C      C 
+CLS_0161 #csid 13 4 0 0
+CLS_0162 ref  b>nh  rgm  An  AstmrAr  Alm&tmr  AlwTny  kAn  bsbb  AnEqAd  mjls  AlnwAb  ywm  >rbEp  vmAnyp  AnEqAd  bATl
+CLS_0162 hyp  b>nh  rgm  >n  AstmrAr  Alm&tmr  AlwTny  kAn  bsbb  AnEqAd  mjls  AlnwAb  ywm  >rbEp  vmAnyp  AnEqAd  bATl
+CLS_0162 op     C    C    S     C        C        C     C     C      C      C      C     C     C       C       C      C 
+CLS_0162 #csid 15 1 0 0
+CLS_0163 ref  wh*A  mA  >kdth  Hkm  AlmHkmp  Aldstwryp  wlkn  bsbb  An  Al>mr  wSl  <lY  mstwY  gyr  EAdy  mn  AlAnqsAm  wAlt$dy  Alt$Zy  wAlqtAl
+CLS_0163 hyp  wh*A  mA  >kdth  Hkm  AlmHkmp  Aldstwryp  wlkn  bsbb  >n  Al>mr  wSl  <lY  mstwY  gyr  EAdy  mn  AlAnqsAm  wAltSdy  AltSdy  wAlqtAl
+CLS_0163 op     C    C    C     C      C         C        C     C    S    C     C    C     C     C     C    C      C        S        S       C   
+CLS_0163 #csid 17 3 0 0
+CLS_0164 ref  wh*A  mA  >kdth  Hkm  AlmHkmp  Aldstwryp  wlkn  bsbb  An  Al>mr  wSl  <lY  mstwY  gyr  EAdy  mn  AlAnqsAm  wAlt$dy  Alt$Zy  wAlqtAl
+CLS_0164 hyp  wh*A  mA  >kdth  Hkm  AlmHkmp  Aldstwryp  wlkn  bsbb  >n  Al>mr  wSl  <lY  mstwY  gyr  EAdy  mn  AlAnqsAm  wAltSdy  AltSdy  wAlqtAl
+CLS_0164 op     C    C    C     C      C         C        C     C    S    C     C    C     C     C     C    C      C        S        S       C   
+CLS_0164 #csid 17 3 0 0
+CLS_0165 ref  f<n  AlHl  fy  lybyA   lA   bd   An  ykwn  syAsyA  twAfqyA  wlkn  lA  >Hd  yEql  b>n  yn$>  jsm  bmsmY  Almjls  Al>ElY  lldwlp  kjsm   Ast$Ary
+CLS_0165 hyp  f<n  AlHl  fy  lybyA  ***  lAbd  >n  ykwn  syAsyA  twAfqyA  wlkn  lA  >Hd  yEql  b>n  yn$>  jsm  bmsmY  Almjls  Al>ElY  lldwlp  kjsm  AhtysAry
+CLS_0165 op    C     C    C    C     D     S    S    C      C       C       C    C   C     C    C     C    C     C       C       C       C      C       S   
+CLS_0165 #csid 19 3 0 1
+CLS_0166 ref  hl  hy  mkAf>p  l>EDA'  Alm&tmr  >m  r$wp  lltwqyE  ElY  AtfAq  syAsy
+CLS_0166 hyp  hl  hy  mkAfHp  l>EDA'  Alm&tmr  >m  rswm  lltwqyE  ElY  AtfAq  syAsy
+CLS_0166 op    C   C     S       C       C      C    S      C      C     C      C  
+CLS_0166 #csid 9 2 0 0
+CLS_0167 ref  kyf  ymkn  >n  ysmH  EDw  m&tmr  mntxb  qAnwn  bmwjb  Al<ElAn  Aldstwry  wmntxb  mn  dA}rth  An  ytnAzl  En  wZyfp  t$ryEyp  syAdyp  t>sysyp  rqAbyp
+CLS_0167 hyp  kyf  ymkn  >n  ysmH  EDw  m&tmr  mntxb  qAnwn  bmwjb  Al<ElAn  Aldstwry  wmntxb  mn  dA}rth  >n  ytnAzl  En  wZyfp  t$ryEyp  syAdyp  t>sysyp  rqAbyp
+CLS_0167 op    C     C    C    C    C     C      C      C      C       C         C        C     C     C     S     C     C    C       C        C       C        C  
+CLS_0167 #csid 21 1 0 0
+CLS_0168 ref  lykwn  fy  jsm  Ast$Ary  ly>x*  mzAyA  h*A  Aljsm  AlsAbq   mn  mkAf>p  wAlEDwyp  wAlHSAnp  wEdm  AlmlAHqp  lmdp  sntyn  qAdmtyn
+CLS_0168 hyp  lykwn  fy  jsm  Ast$Ary  ly>x*  mzAyA  h*A  Aljsm  AlsAbq  ***  mkAf>p  wAlEDwyp  wAlHSAnp  wEdm  AlmlAHqp  lmdp  sntyn  qAdmtyn
+CLS_0168 op     C     C   C      C       C      C     C     C       C     D      C        C         C       C       C       C     C       C   
+CLS_0168 #csid 17 0 0 1
+CLS_0169 ref  AnA  Al*y  >rAh  wxASp  bEd  AnEqAd  Aljlsp  bTbrq
+CLS_0169 hyp  >nA  Al*y  >rAh  wxASp  bEd  AnEqAd  Aljlsp  btbrE
+CLS_0169 op    S     C     C     C     C      C       C      S  
+CLS_0169 #csid 6 2 0 0
+CLS_0170 ref  wAl*yn  qAlwA  wAl*y  qAlwA  fyh  b>nhm  wAfqwA  ElY  AlAtfAq  AlsyAsy  b$rT  AlgA'  AlmAdp  AlvAmnp
+CLS_0170 hyp  wAl*yn  qAlwA  wAl*y   qAl   fyh  b>nhm  wAfqwA  ElY  AlAtfAq  AlsyAsy  b$rT  <lgA'  AlmAdp  AlvAmnp
+CLS_0170 op      C      C      C      S     C     C       C     C      C        C       C     S       C       C   
+CLS_0170 #csid 12 2 0 0
+CLS_0171 ref  wwAfqwA  ElY  wAfqwA  ElY  AlAtfAq  AlsyAsy  nEm   b$rT  AlgA'  AlmAdp  AlvAmnp  wwAfqwA  ElY  bqA'  Almjls  Alr}Asy  b$rT  <EAdp  t$kyl  ***  AlHkwmp
+CLS_0171 hyp  wwAfqwA  ElY  wAfqwA  ElY  AlAtfAq  AlsyAsy  nEm  bSArt  <lgA'  AlmAdp  AlvAmnp  wwAfqwA  ElY  bqA'  Almjls  Alr}Asy  b$rT  <EAdp  t$kyl   >h  AlHkwmp
+CLS_0171 op      C      C      C     C      C        C      C     S      S       C       C        C      C     C      C       C       C     C      C     I      C   
+CLS_0171 #csid 18 2 1 0
+CLS_0172 ref  wAlmAdp  AlvAmnp  dA}mA  ttHdv  wAlkl  yqwl  Alm&ssp  AlEskryp  Alty  yr>shA  Hftr  nHn  lA  nryd  >n  ybqY  Hftr
+CLS_0172 hyp  wAlmAdp  AlvAmnp  dA}mA  ttHdv  wAlkl  yqwl  Alm&ssp  AlEskryp  Alty  yr>shA   Hfr  nHn  lA  nryd  >n  ybqY  Hfkr
+CLS_0172 op      C        C       C      C      C      C      C         C       C      C      S    C    C    C    C    C     S 
+CLS_0172 #csid 15 2 0 0
+CLS_0173 ref  wlkn  Alm&ssp  AlEskryp  ymkn  tfEylhA  bDbAT  |xryn
+CLS_0173 hyp  wlkn  Alm&ssp  AlEskryp  ymkn  tfEylhA  bDbAT  |xryn
+CLS_0173 op     C      C         C       C      C       C      C  
+CLS_0173 #csid 7 0 0 0
+CLS_0174 ref  mA  AlDyr  b>n  ytqdm  >w  wyqdm  kl  mn  hw  $xSyp  jdlyp  nbd>  br}ys  Alm&tmr  AlwTny  wAl*y  yHml  Sfp  AlqA}d  Al>ElY  lljy$  Allyby  btfwyD  mn  Alm&tmr  AlwTny  AlEAm
+CLS_0174 hyp  mA  AlDyr  b>n  ytqdm  >w  wyqdm  kl  mn  hw  $xSyp  jdlyp  nbd>  br}ys  Alm&tmr  AlwTny  wAl*y  yHml  Sfp  AlqA}d  Al>ElY  lljy$  Allyby  btfwyD  mn  Alm&tmr  AlwTny  AlEAm
+CLS_0174 op    C    C     C     C     C    C     C   C   C    C      C      C     C       C        C      C      C    C      C       C      C       C       C     C     C        C      C  
+CLS_0174 #csid 27 0 0 0
+CLS_0175 ref  >n  yHDr  nfsh  mn  ywm  Algd  l>n  ykwn  >mAm  mHkmp  EAdlp
+CLS_0175 hyp  >n  yHDr  nfsh  mn  ywm  Algd   ln  ykwn  >mAm  mHkmp  EAdlp
+CLS_0175 op    C    C     C    C   C     C    S     C     C     C      C  
+CLS_0175 #csid 10 1 0 0
+CLS_0176 ref  wmn  yqAblh  fy  h*h  AlwZyfp  mn  mjls  AlnwAb  nqwl  Alsyd  Ekylp  bAEtbArh  r}ys  mjls  AlnwAb  wqA}d  >ElY  lljy$  Allyby
+CLS_0176 hyp  wmn  yqAblh  fy  h*h  AlwZyfp  mn  mjls  AlnwAb  nqwl  Alsyd  Eqylp  bAEtbArh  r}ys  mjls  AlnwAb  wqA}d  >ElY  lljy$  Allyby
+CLS_0176 op    C      C     C   C      C      C    C      C      C     C      S        C       C     C      C      C      C     C       C  
+CLS_0176 #csid 18 1 0 0
+CLS_0177 ref  wftrp  Alty  mrt  bhA  lybyA  ftrp  Hrjp  wdmrt  fyhA  mdn  wtErDt  ***  mmtlkAt  w>rwAH  llDrr
+CLS_0177 hyp  wftrp  Alty  mrt  bhA  lybyA  ftrp  Hrjp  wdmrt  fyhA  mdn  wtErDt   >h  mmtlkAt  w>rwAH  llDrr
+CLS_0177 op     C      C    C    C     C      C     C     C      C    C      C     I      C        C      C  
+CLS_0177 #csid 14 0 1 0
+CLS_0178 ref  <*A  mn  ywm  Algd  yqdmwn  <lY  mHAkmp  EAdlp
+CLS_0178 hyp  <*n  mn  ywm  Algd  yqdmwn  <lY  mHAkmp  EAdlp
+CLS_0178 op    S    C   C     C      C     C      C      C  
+CLS_0178 #csid 7 1 0 0
+CLS_0179 ref  wAy  $xSyp  jdlyp  AxrY  ytHdvwn  En   Hftr  wmnhm  Aw  mnA  ytHdv  En  SlAH  bADy  Aw  En  Ay  AsmA'  AxrY
+CLS_0179 hyp  w>y  $xSyp  jdlyp  >xrY  ytHdvwn  En  H>fTr  wmnhm  >w  mnA  ytHdv  En  SlAH  bAdy  >w  En  >y  <smyn  >xrY
+CLS_0179 op    S     C      C      S      C      C    S      C     S   C     C     C    C     S    S   C   S    S      S 
+CLS_0179 #csid 10 9 0 0
+CLS_0180 ref   lA   bd   An  yqdmwn  jmyEA  <lY  AlmHAk    <lY    AlmHAkmp
+CLS_0180 hyp  ***  lAbd  >n  yqdmwn  jmyEA  <lY    ***   AlmHAkm  AlmHAkmp
+CLS_0180 op    D     S    S     C      C     C      D       S         C   
+CLS_0180 #csid 4 3 0 2
+CLS_0181 ref  lmA*A  lA  nSl  mn  tAryx  Alywm  w>qwlhA  wb$dp  wTlbt  fy  jlsp  Aw  fy  Aljlsp  AlmADyp    ***    llm&tmr  AlwTny
+CLS_0181 hyp  lmA*A  lA  nSl  mn  tAryx  Alywm  w>qwlhA  wb$dp  wTlbt  fy  jlsp  >w  fy  Aljlsp  AlmADyp  llm&tmr  llm&tmr  AlwTny
+CLS_0181 op     C     C   C    C    C      C       C       C      C     C    C    S   C     C       C        I        C        C  
+CLS_0181 #csid 16 1 1 0
+CLS_0182 ref  wEndmA  Aqwl  AqwlhA  b$dp  lA  AEbr  En  ArAdty  Al$xSyp  wAEbr  En  ArAdp  mEZm  AEDA'  Alm&tmr  AlwTny  AlEAm
+CLS_0182 hyp  wEndmA  >qwl   >qwl   b$dp  lA  >Ebr  En   <rAdp  Al$xSyp  wnEbr  En  <rAdp  mEZm  >EDA'  Alm&tmr  AlwTny  AlEAm
+CLS_0182 op      C      S      S      C    C    S    C     S       C       S     C    S      C     S       C        C      C  
+CLS_0182 #csid 10 7 0 0
+CLS_0183 ref  yjb  An  nkwn  mstEdyn  kl  mn   Eml   bAlm&tmr  AlwTny  AlEAm  wkl  mn  Eml  bmjls  AlnwAb  wkl  mn  Eml  wyEml  bHkwmp  Al<nqA*
+CLS_0183 hyp  yjb  >n  nkwn  mstEdyn  kl  mn  EAmnA  bAlm&tmr  AlwTny  AlEAm  wkl  mn  Eml  bmjls  AlnwAb  wkl  mn  Eml  wyEml  bHkwmp  Al<nqA*
+CLS_0183 op    C    S    C      C      C   C    S        C        C      C     C    C   C     C       C     C    C   C     C       C       C   
+CLS_0183 #csid 19 2 0 0
+CLS_0184 ref  wkl  mn  Eml  wyEml  bAlHkwmp  Almnbvqp  En  mjls  AlnwAb  wAyDA  AlHkwmAt  AlsAbqp  mn  ywm  Algd  yqdm  jwAz  sfrh  <lY  AlnA}b  AlEAm  w<lY  AlmdEy  AlEAm  AlEskry
+CLS_0184 hyp  wkl  mn  Eml  wyEml  bAlHkwmp  Almnbvqp  En  mjls  AlnwAb  w>yDA  AlHkwmAt  AlsAbqp  mn  ywm  Algd  yqdm  jwAz  sfrh  <lY  AlnA}b  AlEAm  w<lY  AlmdEy  AlEAm  AlEskry
+CLS_0184 op    C    C   C     C        C         C      C    C      C      S        C        C      C   C     C     C     C     C    C      C      C      C      C      C       C   
+CLS_0184 #csid 24 1 0 0
+CLS_0185 ref  lltHqq  mn  Edm  wjwd  Ay  dEAwY  mrfwEp  Ddh  ttElq  bAlHq  AlEAm  wttElq  bAlHq  AlxAS
+CLS_0185 hyp  lltHqq  mn  Edm  wjwd  >y  dEAwY  mrfwEp  Ddh  ttElq  bAlHq  AlEAm  wttElq  bAlHq  AlxAS
+CLS_0185 op      C     C   C     C    S    C       C     C     C      C      C       C      C      C  
+CLS_0185 #csid 13 1 0 0
+CLS_0186 ref  Tlbt  >yDA  fy  Aljlsp  AlmADyp  wElY  AlhwA'  mbA$rp
+CLS_0186 hyp  Tlbt  >yDA  fy  Aljlsp  AlmADyp  wElY  AlhwA'  mbA$rp
+CLS_0186 op     C     C    C     C       C       C      C       C  
+CLS_0186 #csid 8 0 0 0
+CLS_0187 ref  Tlbt  mn  Alsyd  wzyr  AlmAlyp  An  ytHqq  mn  wjwd  AlnSwS  AlqAnwnyp
+CLS_0187 hyp  Tlbt  mn  Alsyd  wzyr  AlmAlyp  >n  ytHqq  mn  wjwd  AlnSwS  AlqAnwnyp
+CLS_0187 op     C    C    C      C      C      S    C     C    C      C        C    
+CLS_0187 #csid 10 1 0 0
+CLS_0188 ref  Alty  tDmn  Anh  qbl  mgAdrp  Ay  EDw  m&tmr  AlwTny  lljsm  Al*y  bh  ***  w>y  EDw  bAlmjls  AlnwAb  wAy  EDw  bAlHkwmAt  AlHAlyp  Aw  AlHkwmAt  AlsAbqp
+CLS_0188 hyp  Alty  tDmn  >nh  qbl  mgAdrp  >y  EDw  m&tmr   wTny   lljsm  Al*y  bh  wAl  w>y  EDw   Almjls  AlnwAb  w>y  EDw  bAlHkwmAt  AlHAlyp  >w  AlHkwmAt  AlsAbqp
+CLS_0188 op     C     C    S    C      C     S   C     C       S      C      C    C   I    C    C      S        C     S    C       C         C      S      C        C   
+CLS_0188 #csid 17 6 1 0
+CLS_0189 ref  >n  yqdm  ElY  tqdym  AqrArAt  mAlyp  bl  kAn  mn  AlwAjb  tqdym  AqrArAt  mAlyp  kl  vlAvp  >w  ArbEp  A$hr
+CLS_0189 hyp  >n  yqdm  ElY  tqdym  <qrArAh  mAlyp  bl  kAn  mn  AlwAjb  tqdym   qrArAt  mAlyp  kl  vlAvp  >w  >rbEp  >$hr
+CLS_0189 op    C    C    C     C       S       C     C   C    C     C      C       S       C     C    C     C    S      S 
+CLS_0189 #csid 14 4 0 0
+CLS_0190 ref  lm  nqdm  nHn  bAlm&tmr  AlwTny  AqrAr  bAl*mp  AlmAlyp  <lA  End   AltHAqnA  bAlm&tmr  AlwTny  mn*  AlbdAyp
+CLS_0190 hyp  lm  nqdm  nHn  bAlm&tmr  AlwTny  <qrAr   bAldm  AlmAlyp  <lA  End  AstHqAqnA  bAlm&tmr  AlwTny  mn*  AlbdAyp
+CLS_0190 op    C    C    C       C        C      S       S       C      C    C       S          C        C     C      C   
+CLS_0190 #csid 12 3 0 0
+CLS_0191 ref  fyjb  An  AljmyE  An  yqdm  <qrAr  bAl*mp  AlmAlyp  wyEAd   ***  tkrAr  tqdymh
+CLS_0191 hyp  fyjb  >n   jmyE   >n  nqdm  <qrAr   bAldm  AlmAlyp  wyEAd  tqr>  tkrAr  tqdymh
+CLS_0191 op     C    S     S     S    S     C       S       C       C      I     C       C  
+CLS_0191 #csid 6 5 1 0
+CLS_0192 ref  AyDA  ElY  kAfp  AlvwAr  Al*yn  AndmjwA  bAlm&ssAt  AlEskryp  wAl>mnyp  wAl*yn  yrgbwn  AyDA  bAlAndmAj  bAlm&ssAt  Almdnyp  wAlEskryp  wAl>mnyp
+CLS_0192 hyp  >yDA  ElY  kAfp  AlvwAr  Al*yn  <ndmjwA  bAlm&ssAt  AlEskryp  wAl>mnyp  wAl*yn  yrgbwn  >yDA  bAl<ndmAj  bAlm&ssAt  Almdnyp  wAlEskryp  wAl>mnyp
+CLS_0192 op     S    C     C      C      C       S         C          C         C        C       C      S       S          C         C         C          C   
+CLS_0192 #csid 13 4 0 0
+CLS_0193 ref  wAl*yn  yrgbwn  bmgAdrp  t$kylAthm  AlmslHp  wAlty  kAnt  tHt  Al$rEyp
+CLS_0193 hyp  wAl*yn  yrgbwn  bmgAdrp  t$kylAthA  AlmslHp  wAlty  kAnt  tHt  Al$rEyp
+CLS_0193 op      C       C       C         S         C       C      C    C      C   
+CLS_0193 #csid 8 1 0 0
+CLS_0194 ref  lAbd  ElY  AljmyE  An  yqdm  <qrArA   bAl*mp  AlmAlyp
+CLS_0194 hyp  lAbd  ElY  AljmyE  >n  yqdm  <qrArA  bAldmA'  AlmAlyp
+CLS_0194 op     C    C      C     S    C      C       S        C   
+CLS_0194 #csid 6 2 0 0
+CLS_0195 ref   w   wAl<qrAr  Al*mp  AlmAlyp  y$mlhm  jmyEA  w>yDA  yjb  An  nHdd  Alms&wlyp  fymA  Hdv  fy  lybyA
+CLS_0195 hyp  wAl  wAl<qrAr   Dmn    mAlyp   y$mlhm  jmyEA  w>yDA  yjb  >n  nHdd  Alms&wlyp  fymA  Hdv  fy  lybyA
+CLS_0195 op    S       C       S       S        C      C      C     C    S    C       C        C    C    C    C  
+CLS_0195 #csid 11 4 0 0
+CLS_0196 ref  ***  ***  btHt  mDlp  Emlyp  AlkrAmp  AlmzEwmp  Aw  tHt  mDlp  fjr  lybyA   lA   bd   mn  tHdyd  Alms&wlyAt
+CLS_0196 hyp   b    E    tHt  mZlp  Emlyp  AlkrAmp  AlmzEwmp  >w  tHt  mZlp  fjr  lybyA  ***  lAbd  mn  tHdyd  Alms&wlyAt
+CLS_0196 op    I    I     S     S     C       C         C      S   C     S    C     C     D     S    C    C         C    
+CLS_0196 #csid 9 5 2 1
+CLS_0197 ref  wlAbd  mn  wjwd  qAdp  Eskryyn  wqAdp  mn   AlvwAr  wqAdp  ytbEwn  Alm&tmr  AlwTny  AlEAm  wr}ys  Alm&tmr  AlwTny  AlEAm  bSfth  AlqA}d  Al>ElY  lljy$  Allyby
+CLS_0197 hyp  wlAbd  mn  wjwd  qAdp  Eskryyn  wqAdp  mn  AlTwAr}  wqAdp  ytbEwn  Alm&tmr  AlwTny  AlEAm  wr}ys  Alm&tmr  AlwTny  AlEAm  bSfth  AlqA}d    ***    ***   Allyby
+CLS_0197 op     C     C    C     C      C       C     C     S       C       C       C        C      C      C       C        C      C      C       C       D      D       C  
+CLS_0197 #csid 19 1 0 2
+CLS_0198 ref  w>EDA'  Alm&tmr  AlwTny  AlEAm  bSfthm  AlqA}d  Al>ElY  lljy$  Allyby
+CLS_0198 hyp  w>EDA'  Alm&tmr  AlwTny  AlEAm  bSfthm  AlqA}d  Al>ElY  Aljns  Allyby
+CLS_0198 op      C       C        C      C       C       C       C      S       C  
+CLS_0198 #csid 8 1 0 0
+CLS_0199 ref  w>EDA'  mjls  AlnwAb  AlmEtrf  bh  dwlyA  bAEtbArhm  AyDA  AlqA}d  AElY  wr}ysh  Alsyd  Ekylp  bAEtbArh  AlqA}d  Al>ElY  lljy$  Allyby
+CLS_0199 hyp  w>EDA'  mjls  AlnwAb  AlmEtrf  bh  dwlyA  bAEtbArhm  >yDA  AlqA}d  >ElY  wr}ysh  Alsyd  Eqylp   bAEtbAr  AlqA}d    ***    ***   Allyby
+CLS_0199 op      C      C      C       C      C    C        C        S      C      S      C      C      S        S        C       D      D       C  
+CLS_0199 #csid 12 4 0 2
+CLS_0200 ref  wkl  mn  nSbh  mjls  AlnwAb  bSfp  AlqA}d  AlEAm  AlEAm  Aw  r}ys  Al>rkAn  Aw  mdrA'  Al>rkAnAt  wkl   mn   nSbh  Alm&tmr  AlwTny  AlEAm  bSfp  r}ys  Al>rkAn
+CLS_0200 hyp  wkl  mn  nSbh  mjls  AlnwAb  bSfp  AlqA}d  AlEAm  AlEAm  >w  r}ys  Al>rkAn  >w  mdrA'    llqnAp   wkl  ***  mnSbh  Alm&tmr  AlwTny  AlEAm  bSfp  r}ys  Al>rkAn
+CLS_0200 op    C    C    C     C      C      C      C      C      C     S    C      C      S    C        S       C    D     S       C        C      C      C     C      C   
+CLS_0200 #csid 19 4 0 1
+CLS_0201 ref  >w  mdrA'  Al>rkAnAt  Aw  mdrA'  AlmnATq  AlEskryp  lAbd  An  ykwnwA  mstEdyn  ***  ***  llmsA}lp
+CLS_0201 hyp  >w  mdrA'  Al<mkAnAt  >w  mdrA'  AlmnATq  AlEskryp  lAbd  >n   ykwn   mstEdyn   l   tqD  llmsA'lp
+CLS_0201 op    C    C        S       S    C       C         C       C    S     S       C      I    I       S   
+CLS_0201 #csid 7 5 2 0
+CLS_0202 ref  wlmErfp  Hjm  AlDrr  Al*y   tlHq  bjmyE  Almdn  wbjmyE  AlmwATnyn  wbjmyE  AlmmtlkAt
+CLS_0202 hyp  wlmErfp  Hjm  AlDrr  Ally  tlAHq  bjmyE  Almdn  wbjmyE  AlmwATnyn  wbjmyE  AlmmtlkAt
+CLS_0202 op      C      C     C      S     S      C      C       C        C         C        C    
+CLS_0202 #csid 9 2 0 0
+CLS_0203 ref  wEndmA  AtHdv  En  AlmmtlkAt  AyDA  hnAk  mn  AEtdY  ElY  mmtlkAt  xASp    ***   ***  ***  wmmtlkAt  EAmp
+CLS_0203 hyp  wEndmA   tHdv  En  AlmmtlkAt  >yDA  hnAk  mn  AEtdY  ElY  mmtlkAt  xASp  wmEtdl   w    wm   mmtlkAt  EAmp
+CLS_0203 op      C      S     C      C        S     C    C    C     C      C       C      I     I    I       S       C 
+CLS_0203 #csid 10 3 3 0
+CLS_0204 ref  ***  ***  ***  bAstglAl  Sfp  AlvA}r   Aw  vwAr  sbEp    E$r    fbrAyr  Aw  vwAr  fjr  lybyA  >w   vwAr   AlkrAmp  Aw  vwAr  Aljy$  Allyby  AlmnDbT
+CLS_0204 hyp   b    >h   >h   <stglAl  Sfp  AlvA}r  ***   >w   TwAl  sbETA$r  fbrAyr  >w  TwAl  fjr  lybyA  >w  AlvwAr  AlkrAmp  >w  TwAl  Aljy$  Allyby  AlmnDbT
+CLS_0204 op    I    I    I       S      C      C     D     S     S      S        C     S    S    C     C     C     S       C      S    S     C       C       C   
+CLS_0204 #csid 10 9 3 1
+CLS_0205 ref  >w  bSygp  Aw  Sfp  mkAfHp  AlArhAb  wAltTrf  wAstwlwA  ElY  mmtlkAt  wAstwlwA  ElY  mmtlkAt  xASp  Aw  EAmp  Aw  mnqwlAt
+CLS_0205 hyp  >w  bSygp  >w  Sfp  mkAfHp  Al<rhAb  wAltTrf  wAstwlwA  ElY  mmtlkAt  wAstwlwA  ElY  mmtlkAt  xASp  >w  EAmp  >w  mnqw$At
+CLS_0205 op    C    C     S   C      C       S        C         C      C      C         C      C      C       C    S    C    S     S   
+CLS_0205 #csid 13 5 0 0
+CLS_0206 ref  lAbd  An  ykwnwA   mstEdyn  ltqdymhm  llmHAkmp  bl  ykwn  $rTA  ***  l>yp  Aldxwl  fy  AtfAq  syAsy
+CLS_0206 hyp  lAbd  >n   ykwn   mstEdyyn   ltqdym   AlmHAkmp  bl  ykwn  $rTA  l>y    t   Aldxwl  fy  AtfAq  syAsy
+CLS_0206 op     C    S     S        S         S         S      C    C     C    I     S      C     C    C      C  
+CLS_0206 #csid 8 6 1 0
+CLS_0207 ref  qbl  An  nqwl  An  ydxl  AlAtfAq  AlsyAsy  Hyz  Altnfy*  mA  AlmAnE  An  nslm  AnfsnA  llqDA'  bdAyp
+CLS_0207 hyp  qbl  >n  nqwl  >n  ydxl   AtfAq   AlsyAsy  Hyz  Altnfy*  mA  AlmAnE  >n  nslm  >nfsnA  llqDA'  bdAyp
+CLS_0207 op    C    S    C    S    C      S        C      C      C      C     C     S    C      S       C      C  
+CLS_0207 #csid 11 5 0 0
+CLS_0208 ref  wlybyA  bhA  mA  $A'  Allh  mn  AlEbqryAt  wmn  AlkfA'At  mn  ystTyE  An  ydxl  Hkwmp  qAdmp  wmn  ystTyE  An  ydxl  jsm  t$ryEy  qAdm  wjsm  tnfy*y  qAdm  wjsm  qDA}y  qAdm
+CLS_0208 hyp  wlybyA  bhA  mA  $A'  Allh  mn   EbqryAt   wmn  AlkfA'At  mn  ystTyE  >n  ydxl  Hkwmp  qAdmp  wmn  ystTyE  >n  ydxl  jsm   tsryE  qAdm  wjsm   tnfy*  qAdm  wjsm  qDA}y  qAdm
+CLS_0208 op      C     C    C   C     C    C      S       C       C      C     C     S    C     C      C     C      C     S    C    C      S      C     C      S      C     C     C      C 
+CLS_0208 #csid 23 5 0 0
+CLS_0209 ref  wbAlnsbp  l>EDA'  Alm&tmr  AlwTny  w>nA  bSfty  kr}ys  llm&tmr  AlwTny
+CLS_0209 hyp  wbAlnsbp  l>EDA'  Alm&tmr  AlwTny  w>nA  bSfty  kr}ys  Alm&tmr  AlwTny
+CLS_0209 op       C        C       C        C      C     C      C       S        C  
+CLS_0209 #csid 8 1 0 0
+CLS_0210 ref  tqdmt  mrArA  wtkrArA  ElY  AstEdAd  tAm  ElY   An  >kwn  ElY  r>s  Awl  mn  ys>l  fy  h*A  AlmwDwE
+CLS_0210 hyp  tqdmt  mrArA  wtkrArA  ElY  AstEdAd  tAm  ElY  ***  nkwn  ElY  r>s  >wl  mn  ys>l  fy  h*A  AlmwDwE
+CLS_0210 op     C      C       C      C      C      C    C    D     S    C    C    S    C    C    C   C      C   
+CLS_0210 #csid 14 2 0 1
+CLS_0211 ref  w<*A  fsrnA  AlmwDwE  b>n  hnAk  AnqsAm  AjtmAEy  whnAk  $rq  whnAk  grb  whnAk  jnwb  wrbmA  lA  tkwn   mHAkm  EAdlp  rgm  vqty  fy  AlqDA'  Allyby
+CLS_0211 hyp  w<*A  fsrnA  AlmwDwE  b>n  hnAk  <nqsAm   AstmAE  whnAk  srq  whnAk  grb  whnAk  jnwb  wrbmA  lA  tkwn  mHAkmp  EAdlp  rgm   vqp  fy  AlqDA'  Allyby
+CLS_0211 op     C     C       C      C     C      S       S       C     S     C     C     C      C     C     C    C      S      C     C     S    C     C       C  
+CLS_0211 #csid 18 5 0 0
+CLS_0212 ref  fnHn  TAlmA  ntEAml  mE  mjtmE  dwly  wmE  mnZwmp  dwlyp  lmA*A  lA  nqtrH  HtY  tkwyn  mHkmp  dwlyp  xASp  bkl  Alms&wlyn  Al*yn  xADwA  AlmrHlp  mn  >yAm  Almjls  AlAntqAly  AlY  h*A  Alywm
+CLS_0212 hyp  fnHn  TAlmA  ntEAml  mE  mjtmE  dwly  wmE  mnZwmp  dwlyp  lmA*A  lA  nqtrH  HtY  tkwyn  mHkmp  dwlyp  xASp  bkl  Alms&wlyn  Al*yn  xADwA  AlmrHlp  mn  >yAm  Almjls   AlAntqAl  <lY  h*A  Alywm
+CLS_0212 op     C     C       C     C    C      C    C      C      C      C     C    C     C     C      C      C      C    C       C        C      C       C      C    C      C        S       S    C     C  
+CLS_0212 #csid 27 2 0 0
+CLS_0213 ref  ky  nbr}  jmyEA  *mAtnA  Hyv  EbrnA  jmyEA  b>n  vwrp  sbEp    E$r    fbrAyr  kAnt  vwrp  ElY  AlAstbdAd
+CLS_0213 hyp  ky  nbrp  jmyEA  DbATnA  Hyv  EbrnA  jmyEA  b>n  vwrp   ***  sbETA$r  fbrAyr  kAnt  vwrp  ElY  Al<stbdAd
+CLS_0213 op    C    S     C       S     C     C      C     C     C     D      S        C      C     C    C       S    
+CLS_0213 #csid 11 4 0 1
+CLS_0214 ref  wkAnt   vwrp   ElY  AlZlm  wkAnt   vwrp   ElY  AlTgyAn  wkAnt   vwrp   wb<*n  Allh   wlA    tzAl   tdEw  <lY  AlHryp  wAlY  AlEdl  wAlY  AlAnSAf
+CLS_0214 hyp   wkAn  AlTwrp  ElY  AlZlm   wkAn  Alvwrp  ElY  AlTgyAn   wkAn  Alvwrp    wt   b<*n  Allh  wlAtzAl  tdEw  <lY  AlHryp  w<lY  AlEdl  w<lY  Al<nSAf
+CLS_0214 op     S       S     C     C      S       S     C      C       S       S      S      S     S      S       C    C      C      S     C      S      S   
+CLS_0214 #csid 8 13 0 0
+CLS_0215 ref  flA  ymkn  Alxrwj  mn  *lk  i<lA  bAlmsA}lp  wAlms&wlyp
+CLS_0215 hyp  flA  ymkn  Alxrwj  mn  *lk   <lA  bAlmsA'lp  wAlms&wlyp
+CLS_0215 op    C     C      C     C   C     S       S           C    
+CLS_0215 #csid 6 2 0 0
+CLS_0216 ref  AnA  $xSyA   EArDt  kvyrA  wAlsAdp  >EDA'  Alm&tmr  AlwTny  yErfwn  *lk  jydA
+CLS_0216 hyp  >nA  $xSyA  EArDth  kvyrA  wAlsAdp  >EDA'   Almktb  AlwTny  yErfwn  *lk  jydA
+CLS_0216 op    S     C       S      C       C       C       S        C       C     C     C 
+CLS_0216 #csid 8 3 0 0
+CLS_0217 ref  EArDt  ElY  AlnS  Al*y  jA'  fy  AlAtfAq  b>nh   lA   ymkn   mlAHqp  >y  mn  AlTrfyn
+CLS_0217 hyp   ErDt  ElY  AlnS  Al*y  jA'  fy  AlAtfAq  b>nh  ***  lAymkn  mlAHqp  >y  mn  AlTrfyn
+CLS_0217 op     S     C     C     C    C    C     C       C    D      S       C     C   C     C   
+CLS_0217 #csid 11 2 0 1
+CLS_0218 ref   fy   Ay  mlAHqp  jnA}yp  >w  tm  fElhA  xlAl   vwrp   sbEp  xlAl   mn   fjr   lybyA  Aw  mn  AlkrAmp  ***  llwSwl  <lY  AtfAq  syAsy
+CLS_0218 hyp  ***  f>y  mlAHqp  jnA}yp  >w  tm  fElhA  xlAl  Alvwrp  sbEp  xlAl  ***  mnfjr  lybyA  >w  mn  AlkrAmp   l   llwSwl  <lY  AtfAq  syAsy
+CLS_0218 op    D    S      C       C     C   C    C      C      S      C     C    D     S      C     S   C     C      I      C     C     C      C  
+CLS_0218 #csid 15 4 1 2
+CLS_0219 ref  lA  ymkn  Alqbwl  b*lk  mn  Al*y  ytHml  ms&wlyp  h*h  Al>rwAH  mn  Al*y  ytHml  ms&wlyp  AldmA'
+CLS_0219 hyp  lA  ymkn  Alqbwl  b*lk  mn  Al*y  ytHml  ms&wlyp  h*h  Al>rwAH  mn  Al*y   tHml  ms&wlyp  AldmA'
+CLS_0219 op    C    C      C      C    C    C     C       C      C      C      C    C     S       C        C  
+CLS_0219 #csid 14 1 0 0
+CLS_0220 ref  mn  Al*y  ytHml  ms&wlyp  AlytAmY  wAl>rAml  wAlvkAlY
+CLS_0220 hyp  mn  Al*y  ytHml  ms&wlyp  AlytAmY  wAl>rAml  wAlvkAlY
+CLS_0220 op    C    C     C       C        C         C         C   
+CLS_0220 #csid 7 0 0 0
+CLS_0221 ref  mn  Al*y  ytHml  ms&wlyp   thjyr   Almdn  wAlnAzHyn
+CLS_0221 hyp  mn  Al*y  ytHml  ms&wlyp  Althjyr  Almdn  wAlnAzHyn
+CLS_0221 op    C    C     C       C        S       C        C    
+CLS_0221 #csid 6 1 0 0
+CLS_0222 ref  wqSft  mdn  bHAlhA  bngAzy  mn  $hr  xmsp  Alfyn  wArbEp     E$r    kklp  mA  Hdv  bhA  drnp  mA  Hdv  bhA  gAt  wbAry  sbhh  srt
+CLS_0222 hyp  wqSft  mdn   bHAlp  bngAzy  mn  $hr  xmsp   ***    >lfyn  wArbETA$  ktlp  mA  Hdv  bhA  drnA  mA  Hdv  bhA  gAt  wbAry  sbhA  srt
+CLS_0222 op     C     C      S       C     C   C     C     D       S        S       S    C   C    C     S    C   C    C    C     C      S    C 
+CLS_0222 #csid 15 6 0 1
+CLS_0223 ref  wAn  wAnt$Ar  tnZym  Aldwlp  fy  srt  h*A  klh  sbbh  ms&wlwn  sbbh  ms&wlwn  mwjwdwn  bAldwlp  Allybyp
+CLS_0223 hyp   wn  wAntSAr  tnZym  Aldwlp  fy  srt  h*A  klh  sbbh  ms&wlwn  sbbh  ms&wlwn  mwjwdwn  bAldwlp  Allybyp
+CLS_0223 op    S      S       C       C     C   C    C    C     C      C       C      C        C        C        C   
+CLS_0223 #csid 13 2 0 0
+CLS_0224 ref  wmn  hw  mwjwd  xArj  Aldwlp  Allybyp  yjb  ***  wyryd  Al<qAmp  xArj  Aldwlp  Allybyp  yjb  An  lA  ytHdv  En  Alt$Zy  wEn  AlmEAnAp
+CLS_0224 hyp  wmn  hw  mwjwd  xArj  Aldwlp  Allybyp  yjb   w   wyryd  Al<qAmp  xArj   dwlp   Allybyp  yjb  >n  lA  ytHdv  En  AltSdy  wEn  AlmEAnAp
+CLS_0224 op    C    C    C      C      C       C      C    I     C       C       C      S       C      C    S   C    C     C     S     C       C   
+CLS_0224 #csid 17 3 1 0
+CLS_0225 ref  mn  hw  mqym  fy  trkyA  wmn  hw  mqym  fy  AyTAlyA  wmn  hw  mqym  fy  AlwlAyAt  AlmtHdp  Al>mrykyp  wmn  hw  mqym  fy  bryTAnyA
+CLS_0225 hyp  mn  hw  mqym  fy  trkyA  wmn  hw  mqym  fy  <yTAlyA  wmn  hw  mqym  fy  AlwlAyAt  AlmtHdp  Al>mrykyp  wmn  hw  mqym  fy  bryTAnyA
+CLS_0225 op    C   C    C    C    C     C    C    C    C     S      C    C    C    C      C        C         C       C    C    C    C      C   
+CLS_0225 #csid 21 1 0 0
+CLS_0226 ref  nHtrm  nHn  fy  ftrp  mEynp  Algrbp  wnHtrm  mEArDyn  lnA  kAn  mEmr  Alq*Afy  yTArdhm  mn  mkAn  AlY   |xr
+CLS_0226 hyp  nHtrm  nHn  fy  ftrp  mEynp   Algrb  wnHtrm  mEArDyn  lnA  kAn  mEmr  AlqdAfy  yTArdhm  mn  mkAn  ***  l|xr
+CLS_0226 op     C     C    C    C     C       S       C       C      C    C     C      S        C      C    C    D     S 
+CLS_0226 #csid 13 3 0 1
+CLS_0227 ref  wlkn  lA  ysmH  lhm  b>n  yqrrwA  mSyr  Al$Eb  Allyby  lm  yHDrwA  AlkrAmp  wlm  yHDrwA   fjr  lybyA  wlm  yHDrwA  AHdAv  AlHkwmp  AlwAHdp
+CLS_0227 hyp  wlkn  lA  ysmH  lhm  b>n  yqrrwA  mSyr  Al$Eb  Allyby  lm  yHDrwA  AlkrAmp  wlm   yHDr   fAzt  lybyA  wlm   yHDr   wHdAt  AlHkwmp  AlwAHdp
+CLS_0227 op     C    C    C    C    C      C      C     C       C     C     C       C      C      S      S     C     C      S      S       C        C   
+CLS_0227 #csid 17 4 0 0
+CLS_0228 ref  kAnt  ldynA  Hkwmp  wAHdp  ytr>shA  Alsyd  Ely  zydAn  wkAn  lnA  m&tmr  wAHd  AvnA'  Ely  Alsyd  Ely   zydAn   wAlsyd  Ebd  Allh   tnyn
+CLS_0228 hyp  kAnt  ldynA  Hkwmp  wAHdp  ytr>shA  Alsyd  Ely  zydAn  wkAn  lnA  m&tmr  wAHd  >vnA'  Ely  Alsyd  Ely  AlzydAn  wAlsyd  Ebd  Allh  Avnyn
+CLS_0228 op     C     C      C      C       C       C     C     C      C    C     C      C     S     C     C     C      S        C     C     C     S  
+CLS_0228 #csid 18 3 0 0
+CLS_0229 ref  wlkn  Srft  mlyArAt  sbEyn  mlyAr  wsbEyn  mlyAr  lA  Athm  AHdA  wlkn  Ayn  *hbt  wmn  Alms&wl  En  Edm  Ant$Ar  Al>mn
+CLS_0229 hyp  wlkn  Srft  mlyArAt  sbEyn  mlyAr  wsbEyn  mlyAr  lA  >thm  >HdA  wlkn  >yn  *hbt  wmn  Alms&wl  En  Edm  AntSAr  Al>mn
+CLS_0229 op     C     C      C       C      C       C      C     C    S     S     C    S     C    C      C      C   C      S      C  
+CLS_0229 #csid 15 4 0 0
+CLS_0230 ref  mn  Alms&wl  En  Edm  AsttbAb  Al>mn  fy  bngAzy
+CLS_0230 hyp  mn  Alms&wl  En  Edm  AstvbAb  Al>mn  fy  bngAzy
+CLS_0230 op    C     C      C   C      S       C     C     C  
+CLS_0230 #csid 7 1 0 0
+CLS_0231 ref  mEZm  AlqAdp  Al|n  AlEskryyn  Al*yn  fy  AlkrAmp  hm  Al*yn  kAnwA  fy  bngAzy
+CLS_0231 hyp  mEZm  AlqAdp  Al|n  AlEskryyn  Al*yn  fy  AlkrAmp  hm  Al*yn  kAnwA  fy  bngAzy
+CLS_0231 op     C      C      C       C        C     C     C      C    C      C     C     C  
+CLS_0231 #csid 12 0 0 0
+CLS_0232 ref   wnys  bwxmAdp  kAn  |mr  AlSAEqp  Almhdy  Albrgvy  kAn  fy  Alktybp  mA}tAn  wArbEp     E$r  
+CLS_0232 hyp  wnsbp    mA*A   kAn  |mr  AlSAEqp  Almhdy   AlbArH  kAn  fy  Alktybp    ***   mA}tyn  wArbETA$
+CLS_0232 op     S       S      C    C      C        C       S      C    C     C        D       S        S   
+CLS_0232 #csid 7 5 0 1
+CLS_0233 ref  AlnAZwry  kAn  mwjwd  Aljrw$y  kAn  mwjwd   Albrgvy  kAn  wzyrA  lldfAE
+CLS_0233 hyp   Aln*wr   kAn  mwjwd   Aldrws  kAn  mwjwd  Albrgwty  kAn  wzyrA  lldfAE
+CLS_0233 op       S      C     C       S      C     C        S      C     C       C  
+CLS_0233 #csid 7 3 0 0
+CLS_0234 ref  EA$wr  $wAyl  kAn  wzyrA  lldAxlyp  sAlm  AlHAsy  kAn  mdyrA  llmxAbrAt  $Eyb  AlSAbr  kAn  mdyrA  llAstxbArAt  AlEskryp  wklhm  mn  mnTq  ***  mnTqp   brqp
+CLS_0234 hyp   ESwr  swA}l  kAn  wzyrA  lldAxlyp  sAlm  AlHAsb  kAn  mdyrA  llmxAbrAt  $Eyb   SAbr   kAn  mdyrA  llAstxbArAt  AlEskryp   wkl   mn  mnTq   mn  mnTqp  bwrqp
+CLS_0234 op     S      S     C     C        C       C      S     C     C        C        C      S     C     C         C           C       S     C    C    I     C      S  
+CLS_0234 #csid 15 6 1 0
+CLS_0235 ref  lmA*A  nHAwl  AqnAE  AlEAlm  fy  ftrp  mEynp  b>n  mA  ysmY  bEmlyp  AlkrAmp  AnhA  Dd  Al<rhAb
+CLS_0235 hyp  lmA*A  nHAwl  <qnAE  AlEAlm  fy  ftrp  mEynp  b>n  mA  ysmY  bEmlyp  AlkrAmp  <nhA  Dd  Al<rhAb
+CLS_0235 op     C      C      S       C     C    C     C     C    C    C      C       C       S    C     C   
+CLS_0235 #csid 13 2 0 0
+CLS_0236 ref  nEm  ywjd  ArhAb  wnEm  ywjd  mtTrfwn  km  kAn  Eddhm  wlmA*A  lm  ***  lm  yEAljwA  A*A   kAn   ynfEhm  AlElAj  wlmA*A  lm  yqDY  Elyhm  A*A   kAn   ynfEhm  AlEqAb
+CLS_0236 hyp  nEm  ywjd  <rhAb  wnEm  ywjd  mtTrfwn  km  kAn  Eddhm  wlmA*A  lm   l   lm  yEAljwA  <*A  kAnwA  ynfEhm  AlElAj  wlmA*A  lm  yqDY  Elyhm  <*A  kAnwA  ynfEhm  AlEqAb
+CLS_0236 op    C     C     S      C     C      C      C   C     C       C     C   I    C     C      S     S       C       C       C     C    C     C     S     S       C       C  
+CLS_0236 #csid 20 5 1 0
+CLS_0237 ref  A*A  Al*y  Aryd  An  Anwh  Elyh  w>n  Anbh  Alyh  $EbnA  Alkrym
+CLS_0237 hyp  <*n  Al*y  >ryd  >n  >nwh  Elyh  w>n  nnbh   lys  $EbnA  Alkrym
+CLS_0237 op    S     C     S    S    S     C    C     S     S     C       C  
+CLS_0237 #csid 5 6 0 0
+CLS_0238 ref  AnnA  lA  ntrk  AlfrSp  lmn  yzAyd  wysAwm
+CLS_0238 hyp  >nnA  lA  ntrk  AlfrSp  lmn  yzAyd  wysAhm
+CLS_0238 op     S    C    C      C     C     C       S  
+CLS_0238 #csid 5 2 0 0
+CLS_0239 ref  wyHrS  ElY  tqsym  HSS  ***  wmgAnm  wmnASb  syAdyp  wmnASb  gyrhA  lky  y$Er  Al$Eb  Allyby  b>nh  yntql  mn  mrHlp  <lY  mrHlp  AxrY  dwn  EqAb  wdwn  HsAb
+CLS_0239 hyp  wyHrS  ElY  tqsym  HSS  wmA   gAnm   wmnASb  syAdyp  wmnASb   gyr   lky  y$Er  Al$Eb  Allyby  b>nh  yntql  mn  mrHlp  <lY  mrHlp  >xrY  dwn  EqAb  wdwn  HsAb
+CLS_0239 op     C     C     C     C    I      S       C       C       C      S     C     C     C       C      C     C     C    C     C     C      S    C     C     C     C 
+CLS_0239 #csid 21 3 1 0
+CLS_0240 ref  yjb  An  nntbh  jmyEA  An  AlHl  byd  Allybyyn
+CLS_0240 hyp  yjb  >n  nntbh  jmyEA  >n  AlHl  byd  Allybyyn
+CLS_0240 op    C    S    C      C     S    C    C       C   
+CLS_0240 #csid 6 2 0 0
+CLS_0241 ref  AmA  bn>x*  AyjAbyAt  kl  AlmrAHl  AlsAbqp
+CLS_0241 hyp  <mA  bn>x*  <yjAbyAt  kl  AlmrAHl  AlsAbqp
+CLS_0241 op    S     C        S      C     C        C   
+CLS_0241 #csid 4 2 0 0
+CLS_0242 ref  A*A  wjdt  AlAyjAbyAt  fy  mrAHl   SxyrAt   fnEm  bhA  wA*A  wjdt  AyjAbyAt  fy  AlHwAr  Allyby  Allyby  wAl*y  knA  ndEw  Alyh  mn*  AlbdAyp  wtHqqt  bED  mlAmHh  Al|n  fn>x*  bhA
+CLS_0242 hyp  <*A  wjdt  Al<yjAbyAt  fy  mrAHl  AlSgyrAt  fnEm  bhA  w<*A  wjdt  <yjAbyAt  fy  AlHwAr  Allyby  Allyby  wAl*y  knA  ndEw  <lyh  mn*  AlbdAyp  wtHqqt  bED  mlAmHh  Al|n  fn>x*  bhA
+CLS_0242 op    S     C        S       C    C        S       C    C     S     C       S      C     C       C       C      C     C     C     S    C      C        C     C      C      C     C     C 
+CLS_0242 #csid 21 6 0 0
+CLS_0243 ref  hnAk  >xyAr  fy  m&ssAt  AlmjtmE  Almdny
+CLS_0243 hyp  hnAk  >xyAr  fy  m&ssAt  AlmjtmE  Almdny
+CLS_0243 op     C     C     C     C       C        C  
+CLS_0243 #csid 6 0 0 0
+CLS_0244 ref  m&ssAt  AlmjtmE  Almdny  wmnZmAt  AlmjtmE  Almdny  wmjAls  Al>EyAn  wmjAls  AlHkmA'  wm&tmrAt  llwfAq
+CLS_0244 hyp  m&ssAt  AlmjtmE  Almdny  wmnZmAt  AlmjtmE  Almdny  wmjAls  Al>EyAn  wmjAls  AlHkmA'  wm&tmrAt  llwfAq
+CLS_0244 op      C       C        C       C        C        C       C       C        C       C         C        C  
+CLS_0244 #csid 12 0 0 0
+CLS_0245 ref  ***  qdmt  Edp  m$AryE   wnxb  syAsyp  w>xyAr  AyDA  mn  AfADl  fy  AHzAb  mEynp  ***   hmhA  AlwTn  ***  wmwjwdp  tEAy$  Alm$Akl  dAxl  AlwTn
+CLS_0245 hyp   >h  qdmt  Edp  m$AryE  wnxbA  syAsyp   wxyAr  >yDA  mn  >fADl  fy  >HzAb  mEynp   >h  >hmhA  AlwTn  w>h   mwjwdp  tEAy$  Alm$Akl  dAxl  AlwTn
+CLS_0245 op    I     C    C      C      S       C       S      S    C    S     C    S      C     I     S      C     I      S       C       C       C     C  
+CLS_0245 #csid 12 7 3 0
+CLS_0246 ref  fh*A  AlqrAr  yhmhm  jmyEA  wyhmnA  ***  jmyEA
+CLS_0246 hyp  fh*A  AlqrAr  yhmnA  jmyEA  wyhmnA   >h  jmyEA
+CLS_0246 op     C      C      S      C       C     I     C  
+CLS_0246 #csid 5 1 1 0
+CLS_0247 ref  wAl*y  Aryd  An  >&kd  Elyh  bAn  mn  ybrm  AtfAqA  syAsyA  wyHrS   An  ykwn  fyh  hw
+CLS_0247 hyp  wAl*y  >ryd  >n  >&kd  Elyh  b>n  mn  ybrm  <tfAqA  syAsyA  wyHrS  ***  ykwn  fyh  hw
+CLS_0247 op     C      S    S    C     C    S    C    C      S       C      C     D     C    C    C
+CLS_0247 #csid 10 4 0 1
+CLS_0248 ref  mn  hw  fy  fryq  AlHwAr  mE  AHtrAmy  lmn  kAn  fy  fryq  AlHwAr  Aw  mn  hw  fy  Alm&tmr  AlwTny   w    >w   mn  hw  fy  mjls  AlnwAb  wnqTp  Altmsk  tkwn  EndmA  y*kr  Asmh
+CLS_0248 hyp  mn  hw  fy  fryq  AlHwAr  mE  AHtrAmy  lmn  kAn  fy  fryq  AlHwAr  >w  mn  hw  fy  Alm&tmr  AlwTny  ***  ***  wmn  hw  fy  mjls  AlnwAb  wnqTp  Altmsk  tkwn  EndmA  y*kr  <smh
+CLS_0248 op    C   C   C    C      C     C     C      C    C    C    C      C     S   C   C   C     C        C     D    D    S    C   C    C      C      C       C      C     C      C     S 
+CLS_0248 #csid 26 3 0 2
+CLS_0249 ref  nHn  Al*y  *kr  fy  Almjls  Alr}Asy  bAlm&tmr  AlwTny  lm  nbHv  fy  |lyp  Al>$xAS   >w   AxtyAr  AlmEAyyr  wlm  ysmY  Ay  EDw  mnA  fy  Alm&tmr  AlwTny  lky  ykwn  EDwA  fy  Almjls  Alr}Asy
+CLS_0249 hyp  nHn  Al*y  *kr  fy  Almjls  Alr}Asy  bAlm&tmr  AlwTny  lm  nbHv  fy  |lyp  Al>$xAS  ***  wAxtyAr    mEyd    wlm  ysmY  >y  EDw  mnA  fy  Alm&tmr  AlwTny  lky  ykwn  EDwA  fy  Almjls  Alr}Asy
+CLS_0249 op    C     C    C    C     C       C         C        C     C    C    C    C      C      D      S         S      C     C    S   C    C    C     C        C     C     C     C    C     C       C   
+CLS_0249 #csid 26 3 0 1
+CLS_0250 ref  rgm  rbmA  nHtrmh  fy   $xSh  Aw  fy  vwAbth  fy  vwAbth  wlkn  EndmA  yxtAr  mn  gyrnA  Aw  yxtAr  mn  mbEwv  Al>mm  AlmtHdp  >w  mn  bEvp  Al>mm  AlmtHdp  >w  mn  >TrAf  AxrY  fhw  lA  ymvl  Alm&tmr  AlwTny
+CLS_0250 hyp  rgm  rbmA  nHtrmh  fy  $xSyp  >w  fy  vwAbth  fy  vwAbth  wlkn  EndmA  yxtAr  mn  gyrnA  >w  yxtAr  mn  mbEwv  Al>mm  AlmtHdp  >w  mn  bEvp  Al>mm  AlmtHdp  >w  mn  >TrAf  >xrY  fhw  lA  ymvl  Alm&tmr  AlwTny
+CLS_0250 op    C     C      C     C    S     S   C     C     C     C      C     C      C     C    C     S    C     C    C      C       C      C   C    C     C       C      C   C    C      S    C    C    C      C        C  
+CLS_0250 #csid 31 4 0 0
+CLS_0251 ref  wEndmA  nqwl  lA  ymvl  Alm&tmr  AlwTny  lA  ymvl  Al$Eb  Allyby
+CLS_0251 hyp  wEndmA  nqwl  lA  ymvl  Alm&tmr  AlwTny  lA  ymvl  Al$Eb  Allyby
+CLS_0251 op      C      C    C    C      C        C     C    C     C       C  
+CLS_0251 #csid 10 0 0 0
+CLS_0252 ref  l>nnA  nHn  bAlAntxAb  ***  wbqsmnA  llymyn  nHn  fy  >rq   fy    rqAbnA  wfy  AEnAqnA  yjb   An  nkwn  mmvlyn  ll$Eb  Allyby  jmyEA
+CLS_0252 hyp  l>nnA  nHn  bAlAntxAb   wb   qsmnA   Alymyn  nHn  fy  ***  >rqY  brqAbnA  wfy  >EnAqnA  yjb  <nh  ykwn  mmvlyn  ll$Eb  Allyby  jmyEA
+CLS_0252 op     C     C       C       I      S        S     C    C   D     S      S      C      S      C    S     S      C      C       C      C  
+CLS_0252 #csid 11 7 1 1
+CLS_0253 ref  >y  wAHd  mnA  ymvl  Al$Eb  Allyby  jmyEA  wk*lk  yqE  ElY  EAtq  AlsAdp  b>EDA'  mjls  AlnwAb  TAlmA  ntHml    h*h    Alms&wlyp
+CLS_0253 hyp  >y  wAHd  mnA  ymvl  Al$Eb  Allyby  jmyEA  wk*lk  yqE  ElY  EAtq  AlsAdp  b>EDA'  mjls  AlnwAb  TAlmA    >n   ytHmlwA  Alms&wlyp
+CLS_0253 op    C    C    C     C     C       C      C      C     C    C     C      C       C      C      C      C      S       S         C    
+CLS_0253 #csid 17 2 0 0
+CLS_0254 ref  nfAj>  AxyrA  An  bED  >EDA'  mjls  AlnwAb  rgm   Atklm  bAlSfp  wlA  bAl>$xAS  ytgybwn  En  mjls  AlnwAb  lmdp  snp  wnSf  wyqwlwn  Anhm  mqATEyn  mA*A  yEny  mqATEyn
+CLS_0254 hyp  nfAj>  >xyrA  >n  bED  >EDA'  mjls  AlnwAb  ***  tklmwA   bSfp   wlA  bAl>$xAS  ytgyrwn  En  mjls  AlnwAb  lmdp  snp  wnSf  wyqwlwn  <nhm  mqATEyn  mA*A  yEny  mqATEyn
+CLS_0254 op     C      S     S   C     C      C      C     D      S       S     C       C        S      C    C      C      C    C     C      C       S      C       C     C      C   
+CLS_0254 #csid 18 6 0 1
+CLS_0255 ref  yA  AmA  An  ykwn  AnEqAd  bATlA  wAnthY  mjls  AlnwAb   ***  whw  y>x*  Hkm  AlmnEdm  wyrjE  <lY  HAlth  AlTbyEyp
+CLS_0255 hyp  yA  <mA  >n  ykwn  AnEqAd  bATlA  wAnthY  mjls  AlnwAb  wAlj  whw  y>x*  Hkm   mnEdm   wyrjE  <lY   HAlp   TbyEyp 
+CLS_0255 op    C   S    S    C      C      C       C      C      C      I    C     C    C      S       C     C     S        S   
+CLS_0255 #csid 12 5 1 0
+CLS_0256 ref  yA  AmA   An  ykwn  mqSrA  fy  Edm  HDwrh   fy  mjls  ljlsAt  mjls  AlnwAb  whw  Al*y  sbb  bEdm  AnEqAd  mjls  AlnwAb  AnEqAdA  SHyHA  Aw  An  ynEqd  fy  wqth
+CLS_0256 hyp  yA  ***  <mA  ykwn  mqSrA  fy  Edm   ***   ***  HDwr   jlsAt  mjls  AlnwAb  whw  Al*y  sbb  bEdm  AnEqAd  mjls  AlnwAb  AnEqAdA  SHyHA  >w  >n  ynEqd  fy  wqth
+CLS_0256 op    C   D    S     C     C     C   C     D     D     S      S      C      C     C     C    C     C      C      C      C       C       C     S   S    C     C    C 
+CLS_0256 #csid 19 5 0 3
+CLS_0257 ref  wfy  jAnb  yHtrm  AlmHkmp  Aldstwryp  wlkn   EnmA  ySl  Al>mr  AlY  AtfAq  syAsy  hw  $ryk  fyh  >w  AHd  EnASrh  wytm   AxtyArh  mn  bEvp  Al>mm  AlmtHdp
+CLS_0257 hyp  wfy  jAnb  yHtrm  AlmHkmp  Aldstwryp  wlkn  EndmA  ySl  Al>mr  <lY  AtfAq  syAsy  hw  $ryk  fyh  >w  >Hd  EnASrh  wytm  <xtyArhm  mn  bEvp  Al>mm  AlmtHdp
+CLS_0257 op    C     C     C       C         C        C     S     C     C     S     C      C     C    C    C    C   S      C      C       S      C    C     C       C   
+CLS_0257 #csid 20 4 0 0
+CLS_0258 ref  yHzm  Amrh  wy*hb  <lY  Tbrq  wyqsm  Alymyn  bEd  snp  wnSf  wybArk  *lk  Alsyd  kwblr  wbEvp  Al>mm  AlmtHdp
+CLS_0258 hyp  yHsm  >mrh  wy*hb  <lY  tbr>  wyqsm  Alymyn  bEd  snp  wnSf  wybArk  *lk  Alsyd  kwglr  wbEvp  Al>mm  AlmtHdp
+CLS_0258 op     S     S     C     C     S     C       C     C    C     C      C     C     C      S      C      C       C   
+CLS_0258 #csid 13 4 0 0
+CLS_0259 ref  bAllh   yA  AlsAdp  AlqAnwnyyn  Al*yn    ***    ysmEwnny  wAjlhm  wAqdrhm  wAlmtxSSyn  fy  AlHkm  fy  AlmHAkm  Aldstwryp  wfy  AlqAnwn  Aldstwry  yETwnA  r>yhm  fy  h*A  AlmwDwE
+CLS_0259 hyp  bAllh  ***  AlsAdp  AlqAnwnyyn  Al*yn  ysmEwny    wjlhm    w>qdr     hm    wAlmtxSSyn  fy  AlHkm  fy  AlmHAkm  Aldstwryp  wfy  AlqAnwn  Aldstwry  yETwnA  r>yhm  fy  h*A  AlmwDwE
+CLS_0259 op     C     D      C         C        C       I         S        S       S          C       C    C     C     C         C       C      C         C        C      C     C   C      C   
+CLS_0259 #csid 18 3 1 1
+CLS_0260 ref  lyxrj  lnA  AnsAn  mtxSS  mn  bEvp  Al>mm  AlmtHdp  fy  AlqAnwn  Aldstwry  >w  fy  AlElAqAt  Aldwlyp
+CLS_0260 hyp  lyxrj  lnA  <nsAn  mtxSS  bn  bEvp  Al>mm  AlmtHdp  fy  AlqAnwn  Aldstwry  >w  fy  AlElAqAt  Aldwlyp
+CLS_0260 op     C     C     S      C     S    C     C       C      C     C         C      C   C      C        C   
+CLS_0260 #csid 13 2 0 0
+CLS_0261 ref  wbqwl  mA  ytm  Ali|n  SnyEth  bbEvp  Al>mm  AlmtHdp  wfbrkth  llwSwl  <lY  AtfAq
+CLS_0261 hyp  wyqwl  mA  ytm   Al|n   SnEth  bbEvp  Al>mm  AlmtHdp   wfbrkp  llwSwl  <lY  AtfAq
+CLS_0261 op     S     C   C     S       S      C      C       C        S        C     C     C  
+CLS_0261 #csid 8 4 0 0
+CLS_0262 ref  wyEbr  Alsyd  kwblr  dA}mA  b>n  AlATrAf  wb>n  AlAkvryp  wDHnA  lh  Edd  Al>smA'
+CLS_0262 hyp  wyEbr  Alsyd  kwglr  dA}mA  b>n  Al>TrAf  wb>n  Al>kvryp  wDHnA  lh  Edd  Al>smA'
+CLS_0262 op     C      C      S      C     C      S       C       S       C     C   C      C   
+CLS_0262 #csid 9 3 0 0
+CLS_0263 ref  EqdnA  jlsAt  ElY  AlhwA'  mbA$rp  wSlt  <lY  Avnyn  wvmAnwn  EDw
+CLS_0263 hyp  EqdnA  jlsAt  ElY  AlhwA'  mbA$rp  wSlt  <lY  Avnyn  wvmAnyn  EDw
+CLS_0263 op     C      C     C      C       C      C    C     C       S      C 
+CLS_0263 #csid 9 1 0 0
+CLS_0264 ref  yxrj  bED  Al>EDA'  fy  fDA}yAt  wyqwl  AnA  ElY  AtSAl  bmEZm  AEDA'  Alm&tmr  AlwTny  wAlbqyp  Almt$ddp  wAlty  trfD  AlAtfAq  lA  ymkn  An  tfwt  Edd  AlASbE  Alyd  AlwAHdp
+CLS_0264 hyp  yxrj  bED  Al>EDA'  fy  fDA}yAt  wyqwl  lnA  ElY  AtSAl  bmEZm  >EdA'  Alm&tmr  AlwTny  wAlbqyp  Almt$ddp  wAlty  trfD  AlAtfAq  lA  ymkn  >n  tfwt  Edd  l>sbwE  Alyd  AlwAHdp
+CLS_0264 op     C    C      C      C     C       C     S    C     C      C      S       C        C       C         C       C      C      C      C    C    S    C    C      S      C      C   
+CLS_0264 #csid 22 4 0 0
+CLS_0265 ref  fTAlmA  An  Al>kvryp  mwAfqp  ElY  mjls  ElY  AlHkwmp  AlwfAq   wmwAfqp   ElY  Almjls   ***   Alr}Asy  wmwAfqp  ElY  mjls  Aldwlp
+CLS_0265 hyp  fTAlmA  <n  Al>kvryp  mwAfqp  ElY  mjls  ElY  AlHkwmp  AlwfAq  wAlmwAfqp  ElY  Almjls  Alr>y  Alr}Asy  wmwAfqp  ElY  mjls  Aldwlp
+CLS_0265 op      C     S      C        C     C     C    C      C        C        S       C      C      I       C        C      C     C      C  
+CLS_0265 #csid 15 2 1 0
+CLS_0266 ref  wAlvwAr  jmyEhm  mwAfqwn  ElY  mjls  Aldwlp  wElY  ***    ***    ntyjp  AlSxyrAt  flmA*A  Alt>xyr
+CLS_0266 hyp  wAlTwAf  jmyEhm  mwAfqwn  ElY  mjls  Aldwlp  wElY   >n  Alntyjp  xyrAt      f     flmA*A  Alt>xyr
+CLS_0266 op      S        C       C      C     C      C      C    I      I       S        S        C       C   
+CLS_0266 #csid 8 3 2 0
+CLS_0267 ref  lmA*A  Altfkyr  fy  wDE  trtybAt  Amnyp  lldxwl  AlY  TrAbls  lw  qdr  b>n  qyl  An  AlHkwmp  mqrhA  fy  Tbrq  Aw  fy   AlbyDp  Aw  fy   Almrj
+CLS_0267 hyp  lmA*A  Altfkyr  fy  wDE  trtybAt  >mnyp  lldxwl  <lY  TrAbls  lw  qdr  b>n  qyl  >n  AlHkwmp  mqrhA  fy  tmrq  >w  fy  AlbyDA'  >w  fy  Almrkz
+CLS_0267 op     C       C      C   C      C       S       C     S      C     C   C    C    C    S     C       C     C    S    S   C     S      S   C     S  
+CLS_0267 #csid 16 8 0 0
+CLS_0268 ref  hl  ymkn  An  tdrj  nqTp  mtElqp  bAltrtybAt  Al>mnyp  mn  AlmstHyl
+CLS_0268 hyp  hl  ymkn  >n  tdrs  nqTp  mtElqp  bAltrtybAt  Al>mnyp  mn  AlmstHyl
+CLS_0268 op    C    C    S    S     C      C         C         C      C      C   
+CLS_0268 #csid 8 2 0 0
+CLS_0269 ref  lmA*A  l>n  AlEAlm  mEtrf  bmjls  AlnwAb  wmjls  AlnwAb  Eyn  Alsyd  Hftr   qA}d    EAm   lljy$  Allyby  wAlm&ssp  AlEskryp  ***  wmtbny  Emlyp  AlkrAmp  fklhm  tHt  Alm$rwEyp
+CLS_0269 hyp  lmA*A  l>n  AlEAlm  mEtrf  bmjls  AlnwAb  wmjls  AlnwAb  Eyn  Alsyd   ***  AlqA}d  AlEAm  lljy$  Allyby  wAlm&ssp  AlEskryp   w    mtbny  Emlyp  AlkrAmp  fklhm  tHt  Alm$rwEyp
+CLS_0269 op     C     C      C      C      C       C      C       C     C     C      D      S      S      C       C        C         C      I      S      C       C       C     C       C    
+CLS_0269 #csid 19 3 1 1
+CLS_0270 ref  >mA  TrAbls  Alty  Hmt  AlsAdp  mn  AEDA'  Alm&tmr  AlwTny  wAlsAdp  mn  Al>HzAb  wAlsAdp  mn  Al>TrAf  Al*yn  ydEwA  Anhm  mn   fjr   lybyA  wtHt  HmAyp   fjr   lybyA
+CLS_0270 hyp  >mA  TrAbls  Alty  Hmt  AlsAdp  mn  >EDA'  Alm&tmr  AlwTny  wAlsAdp  mn  Al>HzAb  wAlsAdp  mn  Al>TrAf  Al*yn  ydEwn  >nhm  mn  fryzr  lybyA  wtHt  HmAyp  fryzr  lybyA
+CLS_0270 op    C      C      C    C      C     C    S       C        C       C      C     C        C      C     C       C      S      S    C    S      C      C     C      S      C  
+CLS_0270 #csid 20 5 0 0
+CLS_0271 ref  Hmwhm   AlvwAr   wySfhm  kwblr  btDlyl  llr>y  AlEAm  wbkl  tbjH  b>n  TrAbls  tHkmhA    mly$yAt 
+CLS_0271 hyp   hmwm  AlTwAr}  wySrfhm  kwglr  btDlyl  llr>y  AlEAm  wbkl  tbjH  b>n  TrAbls   tHkm   Almyly$yAt
+CLS_0271 op     S       S        S       S       C      C      C      C     C    C      C       S         S    
+CLS_0271 #csid 7 6 0 0
+CLS_0272 ref  whw  EndmA  qdm  <lY  TrAbls  zAr  AlnAzHyn   wzAr  AswAq  wAstqbl  fy  mTAr  mEtykp  wAlsyd   lywn  Astqbl  Akvr  mn  E$r  mrAt  wAlsyd  ***  ***  bAnkymwn   dxl  TrAbls  fy  bdAyp  fjr  lybyA
+CLS_0272 hyp  whw  EndmA  qdm  <lY  TrAbls  zAr  AlnAzHyn  wzArp  >swAq  wAstqbl  fy  mTAr   Etyq   wAlsyd  Alywm  <stqbl  >kvr  mn  E$r  mrAt  wAlsyd  bAn   ky     mwn    dxlt  TrAbls  fy  bdAyp  fjr  lybyA
+CLS_0272 op    C     C     C    C      C     C       C       S      S       C      C    C      S       C      S       S      S    C   C     C      C     I    I       S       S      C     C    C     C     C  
+CLS_0272 #csid 20 8 2 0
+CLS_0273 ref  ***  wAlAEDA'  Alfryq  Al>mny  AlmSAHb  llsyd   lywn  >w  Alsyd  kwblr  ydxlwn  TrAbls  kmA  ydxlwn  bywthm  ***  fy  fy  fy  mdnhm
+CLS_0273 hyp  w>l    >EDA'   Alfryq   Al>mn  AlmSAHb  llsyd  Allwn  >w  Alsyd   kbrY  ydxlwn  TrAbls  kmA  ydxlwn  bywthm   fy  fy  fy  fy   mdn 
+CLS_0273 op    I       S        C       S       C       C      S     C    C      S       C       C     C      C       C     I    C   C   C    S  
+CLS_0273 #csid 13 5 2 0
+CLS_0274 ref  bl  b>mn  Akvr  w>mAn  lA  AHd  ydEy  b>n  lys  hnAk  bED  AlAnflAt  Aw  bED  AlAxtTAf
+CLS_0274 hyp  bl  b>mn   ***  w>mAn  lA  >Hd  ydEy  b>n  lys  hnAk  bED  Al<nflAt  >w  bED  AlAxtTAf
+CLS_0274 op    C    C     D     C     C   S     C    C    C     C    C       S      S   C       C   
+CLS_0274 #csid 11 3 0 1
+CLS_0275 ref  yqwl  Alsyd  kwblr  ywm  Ams  b>n  TrAbls  ykvr  fyhA  AlAgtyAl  wAlxTf  wAn  AlmdArs  mwqwfp  w>n  AlTlbp  w>n  Edd  AlnAzHyn  ySl  <lY  Almlywn  wnSf
+CLS_0275 hyp  yqwl  Alsyd  kwglr  ywm  >ms  b>n  TrAbls  ykvr  fyhA  Al<gtyAl  wAlxTf  w>n  AlmdArs  mwqwfp  w>n  AlTlbp  w>n  Edd  AlnAzHyn  ySl  ***   mlywn    wnS
+CLS_0275 op     C     C      S     C    S    C      C      C     C       S        C     S      C        C     C      C     C    C       C      C    D      S       S 
+CLS_0275 #csid 16 6 0 1
+CLS_0276 ref  w>n  Edd  Al*yn  yHtAjwn  <lY  mwAd  g*A}yp  Avnyn  mlywn  Edd  skAn  lybyA  stp  mlywn
+CLS_0276 hyp  w>n  Edd  Al*yn  yHtAjwn  <lY  mwAd  g*A}yp  Avnyn  mlywn  Edd  skAn  lybyA  stp  mlywn
+CLS_0276 op    C    C     C       C      C     C      C      C      C     C     C     C     C     C  
+CLS_0276 #csid 14 0 0 0
+CLS_0277 ref  fy  ywm  mn  Al>yAm  EndmA  knt  fy  m&tmr  rwmA  Alsyd  wzyr  AlxArjyp  Altwnsy  AlsAbq  >w  Al>sbq  dAxl  Alm&tmr  yqwl  An  Edd  AlnAzHyn  Allybyyn  fy  twns  mlywn  wvmAnmA}p  Alf
+CLS_0277 hyp  fy  ywm  mn  Al>yAm  EndmA  knt  fy  m&tmr  rwmA  Alsyd  wzyr  AlxArjyp  Altwnsy  AlsAbq  >w  Al>sbq  dAxl  Alm&tmr  yqwl  >n  Edd  AlnAzHyn  Allybyyn  fy  twns  mlywn  wvmAnmA}p  >lf
+CLS_0277 op    C   C    C     C      C     C    C    C      C     C      C       C        C        C     C     C      C      C       C    S   C       C         C      C    C     C        C       S 
+CLS_0277 #csid 26 2 0 0
+CLS_0278 ref  tSwrwA   An  fy  twns  mlywn  wvmAnmA}p  Alf  mEnAhA  fy  mSr  km  wrAjEt  Alsyd  wzyr  AlxArjyp  Allyby  fy  *lk  Alwqt  Alsyd  mHmd  Ebd  AlEzyz  lmrAjEp  Alsyd  wzyr  Altwnsy  mn  Ayn  lk  h*h  AlmElwmAt
+CLS_0278 hyp    ***   Swr  fy  twns  mlywn   wstmA}p   >lf   mEnA   fy  mSr  km   wrjEt  Alsyd  wzyr  AlxArjyp  Allyby  fy  *lk  Alwqt   syd   mHmd  Ebd  AlEzyz  lmrAjEp  Alsyd  wzyr  Altwnsy  mn  >yn  lk  h*h  AlmElwmAt
+CLS_0278 op      D     S    C    C     C        S       S      S     C   C    C     S      C      C       C        C     C   C     C      S      C    C      C       C       C      C      C      C   S    C   C       C    
+CLS_0278 #csid 24 7 0 1
+CLS_0279 ref  wlknhm  bAlt>kyd  yZhrwn  h*A  Al>rqAm  lky  ynAlwA  ElyhA  mkAf}At  wmzAyA  wHwAfz  wdEm  ldwlhm  wtHsb  ElY  AlxyAm  wtHsb  ElY  AlmrDY  wtHsb  ElY  Altg*yp
+CLS_0279 hyp  wlknhm  bAlt>kyd  yZhrwn  h*h  Al>rqAm  lky  ynAlwA  ElyhA   mkAf|t  wmzAyA  wHwAfz  wdEm  ldwlhm  wtHsb  ElY  AlxyAm  wtHsb  ElY  AlmrDY  wtHsb  ElY  Altg*yp
+CLS_0279 op      C        C        C     S      C      C      C      C       S        C       C      C      C      C     C      C      C     C      C      C     C      C   
+CLS_0279 #csid 20 2 0 0
+CLS_0280 ref  wtdxl  fyhA  AlEmwlp  wtdxl  fyhA  Alr$AwY  wydxl  fyhA  wtdxl  fyhA  Alsmsrp
+CLS_0280 hyp  wtdxl  fyhA  AlEmwlp  wtdxl  fyhA  Alr$AwY  wydxl  fyhA  wtdxl  fyhA  Alsmsrp
+CLS_0280 op     C      C      C       C      C      C       C      C     C      C      C   
+CLS_0280 #csid 11 0 0 0
+CLS_0281 ref  lybyA  dA}mA  kb$  fdA'  ltnZym  Al<rhAb  kmA  ydEy  Alms&wlwn  >w  bED  Alms&wlyn  fy  twns  b>n  lybyA  dA}mA  mlA*  Al<rhAb
+CLS_0281 hyp  lybyA  dA}mA  kb$  fdA'  ltnZym  Al<rhAb  kmA  ydEy  Alms&wlwn  >w  bED  Alms&wlyn  fy  twns  b>n  lybyA  dA}mA  mlA*  Al<rhAb
+CLS_0281 op     C      C     C     C      C       C      C     C       C       C   C       C       C    C    C     C      C      C      C   
+CLS_0281 #csid 19 0 0 0
+CLS_0282 ref  wAn  HtY  mA  Hdv  ***  bEdmA  yxrj  Alr}ys  Altwnsy  wyqwl  b>n  Edd  AlbTAlp  dAxl  twns  ySl  <lY   st    m}p   >lf  nsmp  mA}tAn  wxmswn  >lf  nsmp  ***  fqT  mn  xryjy  AlmEAhd  AlElyA
+CLS_0282 hyp  w>n  HtY  mA  Hdv  bEd    mA   yxrj  Alr}ys  Altwnsy  wyqwl  b>n  Edd  AlbTAlp  dAxl  twns  ySl  ***  ***  stmA}p  >lf  nsmp  mA}tyn  wxmsyn  >lf  nsmp   >h  fqT  mn  xryjy  AlmEAhd  AlElyA
+CLS_0282 op    S    C    C   C    I     S      C      C       C       C     C    C      C       C     C    C    D    D      S     C     C      S       S     C     C    I    C    C    C       C        C  
+CLS_0282 #csid 22 5 2 2
+CLS_0283 ref  wyErj  ElY  *lk  b>n  hnAk  fyh  m&vrAt  xArjyp  why  dAE$  ElY  AlHdwd  Allybyp
+CLS_0283 hyp  wyErD  ElY  *lk  b>n  hnAk  fyh  m&vrAt  xArjyp  why  bAEv  ElY  AlHdwd  Allybyp
+CLS_0283 op     S     C    C    C     C    C      C       C     C     S    C      C       C   
+CLS_0283 #csid 11 2 0 0
+CLS_0284 ref  wk>n  twns   st    m}p   Alf  bTAlp  lys  lhA  ElAqp  bAlm$klp  dAxl  twns  <lA  bdAE$  wfy  AHd  xTAbAth  yqwl  ldynA  xmsp  >lAf  twnsy  xArj  twns  dAE$yyn
+CLS_0284 hyp  wk>n   ***  ***  stmA}p  >lf  bTAlp  lys  lhA  ElAqp  bAlm$klp  dAxl  twns  <lA  bdh$p  wfy  >Hd  xTAbAth  yqwl  ldynA  xmsp   ***  twnsy  xArj  twns   tdAE$y
+CLS_0284 op     C     D    D      S     S     C     C    C     C        C       C     C    C     S     C    S      C       C     C      C     D     C      C     C      S   
+CLS_0284 #csid 17 5 0 3
+CLS_0285 ref  wkl  mn  tm  AlqbD  Elyh  fy  TrAbls  Aw  mEZmhm  Aw  fy  zlyTn  Aw  fy  mdn  mxtlfp  dAxl  lybyA   Aw   fy   srt   hm  twnsywn      Ay     fqT  wbED  AljnsyAt  Al>xrY
+CLS_0285 hyp  wkl  mn  tm  AlqbD  Elyh  fy  TrAbls  >w  mEZmhm  >w  fy   ***   >w  fy  mdn  mxtlfp  dAxl  lybyA  ***  ***  wfsrt  hm    ***    Altwnsywn  fqT  wbED  AljnsyAt  Al>xrY
+CLS_0285 op    C    C   C    C      C    C     C     S     C     S   C    D     S   C   C      C      C     C     D    D     S     C     D         S       C     C       C        C  
+CLS_0285 #csid 19 5 0 4
+CLS_0286 ref  wlm  yqbD  ElY  Ay  lyby  dAxl  twns  wnHn  h*A  nqwlh  mn  bAb  AltHdy    ***    ll>jhzp  Al>mnyp  wAlmxAbrAtyp  wAlAstxbArAtyp  fy  twns  An  tZhr  lnA  *lk
+CLS_0286 hyp  wlm  yqbD  ElY  >y  lyby  dAxl  twns  wnHn  h*A  nqwlh  mn  bAb  AltHdy  Al>jhzp  Al>mnyp  Al>mnyp  wAlmxAbrAtyp  wAlAstxbArAtyp  fy  twns  >n  tZhr  lnA  *lk
+CLS_0286 op    C     C    C    S    C     C     C     C    C     C     C   C      C       I        S        C           C              C         C    C    S    C    C    C 
+CLS_0286 #csid 20 3 1 0
+CLS_0287 ref  wTlbnA  mn  Al>$qA'  fy  twns  An  yqdmwA  lnA  dlylA
+CLS_0287 hyp  wTlbnA  mn  Al>$qA'  fy  twns  >n   yqdm   lnA  dlylA
+CLS_0287 op      C     C     C      C    C    S     S     C     C  
+CLS_0287 #csid 7 2 0 0
+CLS_0288 ref  TlbnA  mnhm  An  yzAwrwnA  ms&wlyhm  fy  Al>mn  Aw  fy  AljmArk  Aw  fy  AldAxlyp  Aw  fy  AlAstxbArAt  Aw  fy  AlmxAbrAt  wlm  yqwmwA  b*lk
+CLS_0288 hyp  TlbnA  mnhm  >n   yzwrwn   ms&wlyhm  fy  Al>mn  >w  fy  AljmArk  >w  fy  AldAxlyp  >w  fy  AlAstxbArAt  >w  fy  AlmxAbrAt  wlm  yqwmwA  b*lk
+CLS_0288 op     C      C    S      S         C      C    C     S   C     C      S   C      C      S   C       C        S   C      C       C      C      C 
+CLS_0288 #csid 16 6 0 0
+CLS_0289 ref  mjml  Hdyvy  fy  h*A  Alywm  Aryd  An  >&kd  llEAlm  AjmE  wh*A  lys  mn  bAb  AlmzAydp  wlA  Alxwf
+CLS_0289 hyp  mzml   Hdyv  fy  h*A  Alywm  >ryd  >n  >&kd  llEAlm  >jmE  wh*A  lys  mn  bAb  AlmzAydp  wlA  Alxwf
+CLS_0289 op     S     S     C   C     C      S    S    C      C      S     C    C    C   C       C      C     C  
+CLS_0289 #csid 12 5 0 0
+CLS_0290 ref  f<nnA  lA  nx$Y  <lA  Allh  sbHAnh  wtEAlY  nTm}n  bdAyp  kl   AlvwAr
+CLS_0290 hyp  f<nnA  lA  nx$Y  <lY  Allh  sbHAnh  wtEAlY   nTmn  bdAyp  kl  AlTwA}f
+CLS_0290 op     C     C    C    S     C      C       C      S      C     C     S   
+CLS_0290 #csid 8 3 0 0
+CLS_0291 ref  wm&ssAt  AlmjtmE  Almdny  Al*yn  ASdrwA  byAnAt
+CLS_0291 hyp  wm&ssAt  AlmjtmE  Almdny  Al*yn  >SdrwA  byAnAt
+CLS_0291 op      C        C        C      C       S       C  
+CLS_0291 #csid 5 1 0 0
+CLS_0292 ref  b>nnA  bHkm  EDwytnA  bAlm&tmr  AlwTny  ln  nqbl  >y  $y'  yms  Al$ryEp  Al<slAmyp  wAlsyAdp  AlwTnyp
+CLS_0292 hyp  b>nnA  bHkm  EDwytnA  bAlm&tmr  AlwTny  ln  nqbl  >y  $y'  yms  Al$ryEp  Al<slAmyp  wAlsyAdp  AlwTnyp
+CLS_0292 op     C      C      C         C        C     C    C    C   C    C      C         C          C        C   
+CLS_0292 #csid 14 0 0 0
+CLS_0293 ref  nTm}n  Al$ArE  b>n  AlmlAHZAt  Alty  tmsknA  bhA  fy  Alm&tmr  AlwTny  xlAl  jwlAt  AlHwAr   k$rwT  lqbwl  AlAtfAq  hy  mHddp  wwADHp
+CLS_0293 hyp  nTm}n   sArE   b>n  AlmlAHZAt  Alty  tmsknA  bhA  fy  Alm&tmr  AlwTny  xlAl  jwlAt  AlHwAr  ksrwhn  lqbwl  AlAtfAq  hy  mHddp  wwADHp
+CLS_0293 op     C       S     C       C        C      C     C    C     C        C      C     C       C       S      C       C      C    C       C  
+CLS_0293 #csid 17 2 0 0
+CLS_0294 ref  wlw  tm  Al>x*  bhA  lmA  |lt  AlAmwr  <lY  mA  wSlt  Alyh  Al|n
+CLS_0294 hyp  wlw  tm  Al>x*  bhA  lmA  |lt  Al>mwr  <lY  mA  wSlt  <lyh  Al|n
+CLS_0294 op    C    C    C     C    C    C      S     C    C    C     S     C 
+CLS_0294 #csid 10 2 0 0
+CLS_0295 ref  mlAHZAt  Alm&tmr  lyst  nfEyp  Aw  mSlHyp  bl  hy  lHfZ  AlsyAdp  wAl$ryEp
+CLS_0295 hyp  mlAHZAt  Alm&tmr  lyst  nfEyp  >w  mSlHyp  bl  hy  lHfZ  AlsyAdp  wAlsryEp
+CLS_0295 op      C        C       C     C     S     C     C   C    C      C         S   
+CLS_0295 #csid 9 2 0 0
+CLS_0296 ref  wnTm}n  fElA  AnnA  *hbnA  llAstqrAr
+CLS_0296 hyp  wnTm}n  fElA  >nnA  *hbnA  AlAstqrAr
+CLS_0296 op      C      C     S     C        S    
+CLS_0296 #csid 3 2 0 0
+CLS_0297 ref  lw  knA  nbHv  bAlm&tmr  AlwTny  En  dwr  Aw  mnSb  ***  lqblnA  mbA$rp  Al*hAb  AlY  mjls  Aldwlp  wtm  Altmdyd  lnA  lmdp  sntyn
+CLS_0297 hyp  lw  knA  nbHv  bAlm&tmr  AlwTny  En  dwr  >w  mnSb  lqb    lnA   mbA$rp  Al*hAb  <lY  mjls  Aldwlp  wtm  Altmdyd  lnA  lmdp  sntyn
+CLS_0297 op    C   C     C       C        C     C   C    S    C    I      S       C       C     S     C      C     C      C      C     C     C  
+CLS_0297 #csid 17 3 1 0
+CLS_0298 ref  AwDHnA  mrArA  wtkrArA  Anh  mn  AlwAjb  ElynA  AlHwAr  Allyby  Allyby  whw  AlxyAr  Al>wHd  wAlAstrAtyjy
+CLS_0298 hyp  >wDHnA  mrArA  wtkrArA  >nh  mn   wAjb   ElynA  AlHwAr  Allyby  Allyby  whw  AlxyAr  Al>wHd  wAlAstrAtyjy
+CLS_0298 op      S      C       C      S    C     S      C       C       C       C     C      C       C          C     
+CLS_0298 #csid 11 3 0 0
+CLS_0299 ref  wk*lk  mn  AlwAjb  ElynA  t$ryEyA  Edm  qbwl  Ay  mxrjAt  mfrwDp  dwn  ArAdtnA
+CLS_0299 hyp  wk*lk  mn  AlwAjb  ElynA  t$ryEyA  Edm  qbwl  >y  mxrjAt  mfrwDp  dwn  <rAdtnA
+CLS_0299 op     C     C     C      C       C      C     C    S     C       C     C      S   
+CLS_0299 #csid 10 2 0 0
+CLS_0300 ref  bl  kAnt  mxrjAt  bsbb  Edm  mwAfqtnA  ElY  h*h  AlmdxlAt
+CLS_0300 hyp  bl  kAnt  mxrjAt  bsbb  Edm  mwAfqtnA  ElY  h*h  AlmdxlAt
+CLS_0300 op    C    C      C      C    C       C      C    C       C   
+CLS_0300 #csid 9 0 0 0
+CLS_0301 ref  jmyE  byAnAtnA  jmyE  byAnAtnA  bAlm&tmr  AlwTny  AlEAm  wAlqrArAt  Almtx*p  bAlxSwS  wfy  jmyE  lqA'AtnA
+CLS_0301 hyp  jmyE   bynAtnA  jmyE   bynAtnA  bAlm&tmr  AlwTny  AlEAm  wAlqrArAt  Almtx*p  bAlxSwS  wfy  jmyE  lqA'AtnA
+CLS_0301 op     C       S       C       S         C        C      C        C         C        C      C     C       C   
+CLS_0301 #csid 11 2 0 0
+CLS_0302 ref  AZhrnA  tEAwnA  mE  bEvp  Al>mm  AlmtHdp  fy  mrHlp  r}Asp  AlmbEwv  AlsAbq  >w  AlHAly
+CLS_0302 hyp  >ZhrnA  tEAwnA  mE  bEvp  Al>mm  AlmtHdp  fy  mrHlp  r}Asp  AlmbEwv  AlsAbq  >w  AlHAly
+CLS_0302 op      S       C     C    C     C       C      C    C      C       C        C     C     C  
+CLS_0302 #csid 12 1 0 0
+CLS_0303 ref  wbAltwAzy  tmsknA  b>n   lA   ymtd  dwrhA  lgyr  mA  hw  mnAT  lhA  mn  dwr  fny  wlwjsty
+CLS_0303 hyp  wbAltwAzy  tmsknA  ***  b>lA  ymtd  dwrhA  lgyr  mA  hw  mnAT  lhA  mn  dwr  fny  wlwjsty
+CLS_0303 op       C         C     D     S     C     C      C    C   C    C    C    C   C    C      C   
+CLS_0303 #csid 13 1 0 1
+CLS_0304 ref  wtysyr  llqA'  Al>TrAf   AlmtHAwrp
+CLS_0304 hyp  wtysyr  llqA'  Al>TrAf  AlmtHAwryn
+CLS_0304 op      C      C       C          S    
+CLS_0304 #csid 3 1 0 0
+CLS_0305 ref  >kdnA  wn&kd  b>n  >y  Hl  llwSwl  <lY  Hkwmp  twAfqyp  tEbr  En  <rAdp  kl  Allybyyn  fy  Alxrwj  mn  Alm>zq
+CLS_0305 hyp  >kdnA  wn&kd  b>n  >y  Hl  llwSwl  <lY  Hkwmp  twAfqyp  tEbr  En  <rAdp  kl  Allybyyn  fy  Alxrwj  mn  Alm>zq
+CLS_0305 op     C      C     C    C   C     C     C     C       C       C    C    C     C      C      C     C     C     C  
+CLS_0305 #csid 18 0 0 0
+CLS_0306 ref  swA'  kAnt  trjmp  l<yjAbyAt  mrAHl  AlHwAr  tHt  rEAyp  Al>mm  AlmtHdp  >w  <yjAbyAt  AllqA'At  AlmbA$rp  fy  AlHwAr  Allyby  Allyby
+CLS_0306 hyp  swA'  kAnt  trjmp  l<yjAbyAt  mrAHl  AlHwAr  tHt  rEAyp  Al>mm  AlmtHdp  >w  <yjAbyAt  AllqA'At  AlmbA$rp  fy  AlHwAr  Allyby  Allyby
+CLS_0306 op     C     C     C        C        C       C     C     C      C       C      C      C         C         C      C     C       C       C  
+CLS_0306 #csid 18 0 0 0
+CLS_0307 ref  wAl*y  kAn  hdfnA  mn*  AlbdAyp  wlm  tkn  AlErqlp  mn  jAnbnA  >w  Aljhd  Al*y  tb*lh  mnZmAt  wm&ssAt  AlmjtmE  Almdny
+CLS_0307 hyp  wAl*y  kAn  hdfnA  mn*  AlbdAyp  wlm  tkn  AlErqlp  mn  jAnbnA  >w  Aljhd  Al*y  tb*lh  mnZmAt  wm&ssAt  AlmjtmE  Almdny
+CLS_0307 op     C     C     C     C      C      C    C      C      C     C     C    C      C     C       C       C        C        C  
+CLS_0307 #csid 18 0 0 0
+CLS_0308 ref  wmjAls  Al>EyAn  wAlHkmA'  wrwAbT  Al$hdA'  wkAfp  Alxyryn  lm  wln  nmAnE  b>n  tkwn  AsAsA  l>y  Hl  EAjl
+CLS_0308 hyp  wmjAls  Al>EyAn  wAlHkmA'  wrwAbT  Al$hdA'  wkAfp  Alxyryn  lm  wln  nmAnE  b>n  tkwn  >sAsA  l>y  Hl  EAjl
+CLS_0308 op      C       C         C        C       C       C       C      C   C     C     C     C     S     C    C    C 
+CLS_0308 #csid 15 1 0 0
+CLS_0309 ref  wll>mm  AlmtHdp  >n  ykwn  dwr  dwrA  lhA  dwr  fAEl  wmwDwEy  wEqlAny
+CLS_0309 hyp  wll>mm  AlmtHdp  >n  ykwn  dwr  dwrA  lhA  dwr  fAEl  wmwDwEy  wEqlAny
+CLS_0309 op      C       C      C    C    C     C    C    C     C      C        C   
+CLS_0309 #csid 11 0 0 0
+CLS_0310 ref  ykwn   mtqyd  bAlmwAvyq  wAl>ErAf  Aldwlyp  fy  <TAr  AHtrAm  syAdp  AlqAnwn  wAHtrAm  AlqDA'  wEdm  AlsmAH  l>y  tdxl  >jnby
+CLS_0310 hyp  ykwn  mtqydp  bAlmwAvyq   Al>ErAf  Aldwlyp  fy  <TAr  <HtrAm  syAdp  AlqAnwn  wAHtrAm  AlqDA'  wEdm  AlsmAH  l>y  tdxl  >jnby
+CLS_0310 op     C      S        C          S        C      C    C      S      C       C        C        C      C      C     C     C     C  
+CLS_0310 #csid 14 3 0 0
+CLS_0311 ref  ***   <*A  mjml  AlHdyv  lA  ymlk  >Hd  ESA  sHryp  fy  ydh
+CLS_0311 hyp  <*n  mzml    >   AlHdyv  lA  ymlk  >Hd  ESA  sHryp  fy  ydh
+CLS_0311 op    I     S     S      C     C    C    C    C     C     C   C 
+CLS_0311 #csid 8 2 1 0
+CLS_0312 ref  nHn    ***   ntfhm  HAjp  AlmwATn  <lY  AlEy$  Alkrym  wnHn  ntmnY  >n  nstEjl  fy  wDE   Hl   EAjl   llnAzHyn  bAldAxl  wAlxArj
+CLS_0312 hyp  nHn  ntfAhm    >h   HAjp  AlmwATn  <lY  AlEy$  Alkrym  wnHn  ntmnY  >n  nstEjl  fy  ***  wDH  AlEAzl  llnAzHyn  bAldAxl  wAlxArj
+CLS_0312 op    C      I      S      C      C      C     C       C      C     C     C     C     C   D    S      S        C        C        C   
+CLS_0312 #csid 14 3 1 1
+CLS_0313 ref  nHn  ntmnY  >n  nkwn  xArj  Alm$hd  AlsyAsy  AlqAdm  bAlm&tmr  AlwTny  AlEAm  <*A  mA  tHqq  lnA  vwAbt  ***  nSl  bhA  <lY  >y  Hl
+CLS_0313 hyp  nHn  ntmnY  >n  nkwn  xArj  Alm$hd  AlsyAsy  AlqAdm  bAlm&tmr  AlwTny  AlEAm  <*A  mA  tHqq  lnA  vwAbt   >h  nSl  bhA  <lY  >y  Hl
+CLS_0313 op    C     C     C    C     C      C       C        C        C        C      C     C    C    C    C     C     I    C    C    C    C   C
+CLS_0313 #csid 21 0 1 0
+CLS_0314 ref  ***  ytrjm  mA  nSbwA  <lyh  jmyEA  <lY  $kl  >w  AtfAq  syAsy
+CLS_0314 hyp   >h  ytrjm  mA   nSbw  <lyh  jmyEA  <*A  $kl  >w  AtfAq  syAsy
+CLS_0314 op    I     C     C    S      C     C     S    C    C    C      C  
+CLS_0314 #csid 8 2 1 0
+CLS_0315 ref  mADwn  b<*n  Allh  tEAlY  ltrjmp  <rAdp  AlvwAr  Al$rfA'  ***  ***  ltfEyl  Alm&ssAt  Al>mnyp  wAlEskryp
+CLS_0315 hyp  mADwn  b<*n  Allh  tEAlY  ltrjmp  <rAdp  AlvwAr  Al$rfA'   l    >h   tfEyl  Alm&ssAt  Al>mnyp  wAlEskryp
+CLS_0315 op     C      C     C     C       C      C       C       C      I    I      S        C        C         C    
+CLS_0315 #csid 11 1 2 0
+CLS_0316 ref  ***  wllAnTlAq  <lY  bnA'  Aldwlp  AlHdyvp  ***  wlmkAfHp  Al<rhAb  wAlglw  wAltTrf  bkAfp  >nwAEh  w>$kAlh
+CLS_0316 hyp  wlA   AlAnTlAq  <lY  bnA'  Aldwlp  AlHdyvp   w    lmkAfHp  Al<rhAb  wAlglw  wAltTrf  bkAfp  >nwAEh  w>$kAlh
+CLS_0316 op    I       S       C     C      C       C      I       S        C        C       C       C       C       C   
+CLS_0316 #csid 10 2 2 0
+CLS_0317 ref  mkAfHp  Alhjrp  Algyr  $rEyp  tr$yd  AlAsthlAk  wAl<nfAq  tqdyr  mwArd  Aldwlp
+CLS_0317 hyp  mkAfHp  Alhjrp  Algyr  $rEyp  tr$yd  AlAsthlAk  wAl<nfAq  tqdyr  mwArd  Aldwlp
+CLS_0317 op      C       C      C      C      C        C          C       C      C       C  
+CLS_0317 #csid 10 0 0 0
+CLS_0318 ref  AltsryE  fy  tHryr  AlHqwl  AlnfTyp  wmHAsbp  kl  mn  sAhm  fy  xsrAn  ***  dwlAr  wAHd  >w  dynAr  wAHd
+CLS_0318 hyp  AltsryE  fy  tHryr  AlHqwl  AlnfTyp  wmHAsbp  kl  mn  sAhm  fy  xsrAn   dy  dwlAr  wAHd  >w  dynAr  wAHd
+CLS_0318 op      C      C    C       C       C        C      C   C    C    C    C     I     C      C    C    C      C 
+CLS_0318 #csid 16 0 1 0
+CLS_0319 ref  lyst  AlmlyArAt  Alty  *AEt  DAEt  bsbb  mA  tErDt  lh  AlHqwl  wAlmwAn}  ***  AlnfTyp
+CLS_0319 hyp  lyst  AlmlyArAt  Alty   dEt  DAEt  bsbb  mA  tErDt  lh  AlHqwl  wAlmwAn}   >h  AlnfTyp
+CLS_0319 op     C       C        C     S     C     C    C    C     C     C        C      I      C   
+CLS_0319 #csid 11 1 1 0
+CLS_0320 ref  >Eyd  w>krr  b>nnA  EndmA  nqwl  mADwn  y>x*nA  fy  *lk  kbryA'  AlwTn  wdfAEnA  En  Aldyn
+CLS_0320 hyp  >Eyd  w>krr  b>nnA  EndmA  nqwl  mADwn  y>x*nA  fy  *lk  kbryA'  AlwTn  wdfAEnA  En  Aldyn
+CLS_0320 op     C     C      C      C      C     C       C     C   C      C      C       C      C    C  
+CLS_0320 #csid 14 0 0 0
+CLS_0321 ref  wlys  Alkbr  wlys  AlkbryA'  Al$xSy  nHn   mwATnwn  EAdywn  j}nA  lmvl  h*h  Almhmp  wsnrjE  <lY  AhlynA  b<*n  Allh  sbHAnh  wtEAlY
+CLS_0321 hyp  wlys  Alkbr  wlys  AlkbryA'  Al$xSy  nHn  wmwATnwn  EAdywn  j}nA  lmvl  h*h  Almhmp  wsnrfE  <lY   >hlyn  b<*n  Allh  sbHAnh  wtEAlY
+CLS_0321 op     C     C      C       C        C     C       S        C      C     C    C      C       S     C      S      C     C      C       C  
+CLS_0321 #csid 16 3 0 0
+CLS_0322 ref  lky  nxdm  wTnnA  fy  mwAqE  >xrY  AHtrAmA  l>jyAl  qAdmp  wwfA'  lEhwd   qTEnAhA  ElY  >nfsnA
+CLS_0322 hyp  lky  nxdm   wTnA  fy  mwAqE  >xrY  <HtrAmA  l>jyAl  qAdmp  wwfA'  lEhwd  wqTEnAhA  ElY  >nfsnA
+CLS_0322 op    C     C     S     C    C      C      S        C      C      C      C        S      C      C  
+CLS_0322 #csid 11 3 0 0
+CLS_0323 ref  ***  ***  wtrHmA  ElY  $hdA}nA  Al>brAr  wtHyp  ljrHAnA  fy  kl  mkAn
+CLS_0323 hyp   w    >   TrHhmA  ElY  $hdA}nA  Al>brAr  wtHyp  ljrHAnA  fy  kl  mkAn
+CLS_0323 op    I    I      S     C      C        C       C       C      C   C    C 
+CLS_0323 #csid 8 1 2 0
+CLS_0324 ref  wns>l  Allh  sbHAnh  wtEAlY  >n  yjmE  $ml  $ml  Allybyyn  jmyEA
+CLS_0324 hyp  wns>l  Allh  sbHAnh  wtEAlY  >n  yjmE  sbl  vmn  Allybyyn  jmyEA
+CLS_0324 op     C      C      C       C     C    C    S    S       C       C  
+CLS_0324 #csid 8 2 0 0
+CLS_0325 ref  rbnA  lA  t&Ax*nA  <n  nsynA  >w  AxT>nA
+CLS_0325 hyp  rbnA  lA  t&Ax*nA  <n  nsynA  >w  >xT>nA
+CLS_0325 op     C    C     C      C    C     C     S  
+CLS_0325 #csid 6 1 0 0
+CLS_0326 ref  rbnA  wlA  tHml  ElynA  <zrA  kmA  Hmlth  ElY  Al*yn  mn  qblnA  rbnA  wlA  tHmlnA  mA  lA  TAqp  lnA  bh  wAEfwA  EnA  wAgfr  lnA  wArHmnA
+CLS_0326 hyp  rbnA  wlA  tHml  ElynA  <SrA  kmA  Hmlth  ElY  Al*yn  mn  qblnA  rbnA  wlA  tHmlnA  mA  lA  TAqp  lnA  bh   wAEfw  EnA  wAgfr  lnA  wArHmnA
+CLS_0326 op     C    C     C     C      S    C     C     C     C     C    C      C    C      C     C   C    C    C    C     S     C     C     C      C   
+CLS_0326 #csid 22 2 0 0
+CLS_0327 ref  >nt  mwlAnA  fAnSrnA  ElY  Alqwm  AlkAfryn  >Hyykm  wAlslAm  Elykm  wrHmp  Allh  wbrkAth
+CLS_0327 hyp  >nt  mwlAnA  fAnSrnA  ElY  Alqwm  AlkAfryn  yHyykm  wAlslAm  Elykm  wrHmp  Allh  wbrkAth
+CLS_0327 op    C      C       C      C     C        C        S       C       C      C      C      C   
+CLS_0327 #csid 11 1 0 0
+LFI_001 ref  bsm  Allh   AlrHmn  AlrHym  byAn  lybyAt  mn  >jl  AlslAm
+LFI_001 hyp  bsm  Allh  AlrHmAn  AlrHym  byAn   lbyAn  mn  >jl  AlslAm
+LFI_001 op    C     C      S        C      C      S     C   C      C  
+LFI_001 #csid 7 2 0 0
+LFI_002 ref  nHn  nsA'  lybyAt  dAEmAt  llslAm  wAlHwAr  wAlslm  AlAjtmAEy  mn  >jl  bnA'  dwlp  lybyA   AldymqrATyp
+LFI_002 hyp  nHn  nsA'   lybyp   dAEmp  llslAm  wAlHwAr  wAlslm  AlAjtmAEy  mn  >jl  bnA'  dwlp  lybyA  AldymwqrATyp
+LFI_002 op    C     C      S       S       C       C        C        C       C   C     C     C     C          S     
+LFI_002 #csid 11 3 0 0
+LFI_003 ref  nnthz  h*h  AlfrSp  AltAryxyp  llHwAr  AlwTny   ***  Allyby
+LFI_003 hyp  nnthz  h*h  AlfrSp  AltAryxyp  llHwAr  AlwTny  Ally     b  
+LFI_003 op     C     C      C        C         C       C      I      S  
+LFI_003 #csid 6 1 1 0
+LFI_004 ref  ltwjyh  >nZAr  AllybyAt   wAllybyyn  wAlEAlm  >jmE  <lY  AlHwAr  bAEtbArh  AlmlA*  Al>xyr  llxrwj  bAlwTn  mn  Al>zmp  wAlwSwl  blybyA  <lY  AlslAm
+LFI_004 hyp  ltwjyh  >nZAr   Allybyp  wAlSlybyyn  wAlEAlm  >jmE  <lY  AlHwAr  bAEtbArh  AlmlA*  Al>xyr  llxrwj  bAlwTn  mn  Al>zmp  wAlwSwl  blybyA  <lY  AlslAm
+LFI_004 op      C      C        S          S         C       C    C      C        C        C       C       C       C     C     C       C        C     C      C  
+LFI_004 #csid 17 2 0 0
+LFI_005 ref  wAst$EArA  mnA  bAlxTr  Al*y  yhdd  wHdp  AlblAd  w>mn  mwATnyhA  w<hdAr  vrwAthA
+LFI_005 hyp  w<st$EArA  mnA  bAlxTr  Al*y  yhdd  wHdp  AlblAd  w>mn  mwATnyhA  w<HDAr  vrwAthA
+LFI_005 op       S       C      C      C     C     C      C      C       C        S       C   
+LFI_005 #csid 9 2 0 0
+LFI_006 ref  w<ymAnA  mnA  bAldwr  Al*y  lEbth  AlnsA'  AllybyAt  fy  vwrp  sbEp    E$r   fbrAyr  w<rsA'  mbAd}hA
+LFI_006 hyp  w<ymAnA  mnA  bAldwr  Al*y  lEbth  AlnsA'  AllwbyAt  fy   ***  twrT  sbEtA$  fbrAyr  w<rsA'  mbAd}hA
+LFI_006 op      C      C      C      C     C       C        S      C    D     S      S       C       C       C   
+LFI_006 #csid 10 3 0 1
+LFI_007 ref  wt>kydA  ElY  An  AlnzAE  AlmslH  kAn  lh  Akbr  Al>vr  ElY  AlnsA'  t$rydA  wnzwHA  wthjyrA  wEnfA
+LFI_007 hyp  wt>kydA  ElY  >n  AlnzAE  AlmslH  kAn  lh  >kbr  Al>vr  ElY  AlnsA'  t$rydA   wnzwH   wthjyr  wEnfA
+LFI_007 op      C      C    S     C       C     C    C    S     C     C      C       C       S       S       C  
+LFI_007 #csid 11 4 0 0
+LFI_008 ref  wAnTlAqA  mn  mbd>  AlmwATnp  w$rAkp  AlnsA'  fy  blwrp  msyrp  AlslAm  wbnA'  dwlp  lybyA   AldymqrATyp  dwlp  Alm&ssAt  wAlqAnwn  wAHtrAm  Hqwq  Al<nsAn
+LFI_008 hyp  wAnTlAqA  mn  mbd>  AlmwATnp  w$rAkp  AlnsA'  fy  blwrt  msyrp  AlslAm  wbnA'  dwlp  lybyA  AldymwqrATyp  dwlp  Alm&ssAt  wAlqAnwn  wAHtrAm  Hqwq  Al<nsAn
+LFI_008 op       C      C    C       C        C       C     C    S      C       C      C      C     C          S         C       C         C        C       C      C   
+LFI_008 #csid 18 2 0 0
+LFI_009 ref  Elyh  mn  h*h  AlmnTlqAt  nTAlb  bAl|ty  >wlA  wqf  <TlAq  AlnAr  wAldfE  bAlHwAr  Alslmy  wEmlyp  AlslAm  wtHsyn  AlwDE  Al<nsAny
+LFI_009 hyp  Elyh  mn  h*h  AlmnTlqAt  nTAlb  bAl|ty  >wlA  wqf  <TlAq  AlnAr  wAldfE  bAlHwAr  Alslmy  wEmlyp  AlslAm  wtHsyn  AlwDE  Al<nsAny
+LFI_009 op     C    C   C       C        C       C      C    C     C      C       C       C        C       C       C       C      C        C   
+LFI_009 #csid 18 0 0 0
+LFI_010 ref  vAnyA  mnA$dp  Al>TrAf  Almxtlfp  ElY  AHtrAm  qwAEd  AlqAnwn  Aldwly  Al<nsAny  ltxfyf  AlmEAnAp  wHmAyp   DHAyA   AlnzAEAt  AlmslHp  wxASp  AlnsA'  wAl>TfAl
+LFI_010 hyp  vAnyA  mnA$dp  Al>TrAf  Almxtlfp  ElY  <HtrAm  qwAEd  AlqAnwn  Aldwly  Al<nsAny  ltxfyf  AlmEAnAp  wHmAyp  AlDHAyA  AlnzAEAt  AlmslHp  wxASp  AlnsA'  wAl>TfAl
+LFI_010 op     C       C       C         C      C      S      C       C        C        C        C        C        C       S         C        C       C       C        C   
+LFI_010 #csid 17 2 0 0
+LFI_011 ref  vAlvA  AlmsAhmp  fy  SnE  AstrAtyjyp  ltfEyl  tdAbyr  Alvqp  Alty  twSlt  <lyhA  Aljwlp  Al>wlY  llHwAr
+LFI_011 hyp  vAlvA  AlmsAhmp  fy  SnE  <strAtyjyp  ltfEyl  tdAbyr  Alvqp  Alty  twSlt  <lyhA  Aljwlp  Al>wlY  llHwAr
+LFI_011 op     C        C      C   C        S         C       C      C      C     C      C       C       C       C  
+LFI_011 #csid 13 1 0 0
+LFI_012 ref  wwDE  Al|lyAt  AllAzmp  wAlbrAmj  Altnfy*yp  ElY  kAfp  AlmstwyAt
+LFI_012 hyp  wwDE  Al|lyAt  AllAzmp  wAlbrAmj  Altnfy*yp  ElY  kAfp  AlmstwyAt
+LFI_012 op     C      C        C         C         C       C     C       C    
+LFI_012 #csid 8 0 0 0
+LFI_013 ref  rAbEA  AltzAm  Al>TrAf  Alm$Arkp  b<$rAk  Almr>p  fy  AlHwAr  lHl  AlnzAE  w<EAdp  AlbnA'  fy  Alftrp  AlAntqAlyp  wbEdhA
+LFI_013 hyp  rAbEA  <ltzAm  Al>TrAf  Alm$Arkp  b<$rAk  Almr>p  fy  AlHwAr  lHl  AlnzAE  w<EAdp  AlbnA'  fy  Alftrp  Al<ntqAlyp  wbEdhA
+LFI_013 op     C       S       C         C        C       C     C     C     C      C       C       C     C     C         S         C  
+LFI_013 #csid 14 2 0 0
+LFI_014 ref  wtfEyl  qrArAt  mjls  Al>mn  vlAvp   E$r   xmsp  wE$ryn  vmAnyp    E$r   E$ryn  vmAnyp    E$r    vmAnyp  wvmAnyn  vmAnyp    E$r   tsEp  wvmAnyn  tsEp    E$r   tsEyn  >vnA   E$r   Sfr  stp  wAHd  wE$ryn  >vnyn  wE$ryn
+LFI_014 hyp  wtfEyl  qrArAt  mjls  Al>mn   ***   vlTA$  xmsp  wE$ryn    ***   vmnTA$  E$ryn    ***   vmnTAE$  vmAnyp  wvmAnyn    ***   vmnTA$  tsEp  wvmAnyn   ***  tsEtA$  tsEyn   ***  ATnA$  Sfr  stp  wAHd  wE$ryn  Avnyn  wE$ryn
+LFI_014 op      C       C      C     C      D      S      C      C       D       S      C       D       S        C       C        D       S      C      C       D      S      C      D     S     C    C     C      C      S       C  
+LFI_014 #csid 17 7 0 6
+LFI_015 ref  wAlqADyp  btmvyl  AlnsA'  fy  jmyE  mstwyAt  SnE  AlqrAr  w<dArp  wHl  AlnzAEAt  wHmAythn
+LFI_015 hyp  wAlqADyp  btmvyl  AlnsA'  fy  jmyE  mstwyAt  SnE  AlqrAr  w<dArp  wHl  AlnzAEAt  wHmAythn
+LFI_015 op       C        C       C     C    C      C      C      C       C     C       C         C   
+LFI_015 #csid 12 0 0 0
+LFI_016 ref  wtmkyn  wt>hyl  nA$TAt  AlmjtmE  Almdny  mn  mhArAt  AltfAwD  wbnA'  AlslAm  wtnfy*  jmyE   tdAbyr   bnA'  Alvqp  Almtfq  ElyhA
+LFI_016 hyp  wtmkyn  wt>hyl  nA$TAt  AlmjtmE  Almdny  mn  mhArAt  AltfAwD  wbnA'  AlslAm  wtnfy*  jmyE  AltdAbyr  bnA'  Alvqp  Almtfq  ElyhA
+LFI_016 op      C       C       C       C        C     C     C       C       C       C       C      C       S       C     C       C      C  
+LFI_016 #csid 16 1 0 0
+LFI_017 ref  xAmsA  tsryE  Ewdp  jmyE  AlmhjrAt  wAlmhAjryn  fy  AlxArj  wAlnAzHAt  wAlnAzHyn  fy  AldAxl
+LFI_017 hyp  xAmsA  tsryE  Ewdp  jmyE  Almhjryn  wAlmhAjryn  fy  AlxArj  wAlnAzHyn  wAlnAzHyn  fy  AldAxl
+LFI_017 op     C      C      C     C       S          C       C     C        S          C       C     C  
+LFI_017 #csid 10 2 0 0
+LFI_018 ref  wfk  >sr  AlmEtqlAt  wAlmEtqlyn  b$kl  gyr  $rEy  wAEtmAd  AltdAbyr  AllAzmp  lDmAn  *lk
+LFI_018 hyp  wfk  >sr  AlmEtqlAt  wAlmEtqlyn  b$kl  gyr  $rEy  w<EtmAd  AltdAbyr  AllAzmp  lDmAn  *lk
+LFI_018 op    C    C       C           C        C    C     C      S         C        C       C     C 
+LFI_018 #csid 11 1 0 0
+LFI_019 ref  sAdsA  <SdAr  AlqwAnyn  wAtxA*  AltdAbyr  AllAzmp  lbd'  EmlyAt  AlEdAlp  AlAntqAlyp
+LFI_019 hyp  sAdsA  <SdAr  AlqwAnyn  w<txA*  AltdAbyr  AllAzmp  lbd'  EmlyAt  AlEdAlp  Al<ntqAlyp
+LFI_019 op     C      C        C        S        C        C       C      C       C          S    
+LFI_019 #csid 8 2 0 0
+LFI_020 ref  ltEzyz  AlmSAlHp  w<HlAl  Alslm  AlAjtmAEy  wAlHfAZ  Elyh  mE  DmAn  Alm$Arkp  AlkAmlp  llnsA'
+LFI_020 hyp  ltEzyz  AlmSAlHp  w<HlAl  Alslm  Al<jtmAEy  wAlHfAZ  Elyh  mE  DmAn  Alm$Arkp  AlkAmlp  llnsA'
+LFI_020 op      C        C        C      C        S         C       C    C    C       C        C        C  
+LFI_020 #csid 11 1 0 0
+LFI_021 ref  sAbEA  twZyf  AlxTAb  Al<ElAmy  wAldyny  AlmEtdl  lDmAn  m$Arkp  AlnsA'  wEdm  tfwyD  jhwd  AlmSAlHp
+LFI_021 hyp  sAbEA  twZyf  AlxTAb  Al<ElAmy  wAldyny  AlmEtdl  lDmAn  m$Arkp  AlnsA'  wEdm  tfwyD  jhwd  AlmSAlHp
+LFI_021 op     C      C       C        C        C        C       C       C       C      C     C      C       C   
+LFI_021 #csid 13 0 0 0
+LFI_022 ref  ***  wltrsyx  qym  AltsAmH  wAlwHdp  AlwTnyp  wnb*  Alfrqp  wtEzyz  jhwd  AlqDA'  ElY  AlEnf  Dd  Almr>p  wdwrhA  fy  AHlAl  AlslAm  w<$rAkhA  fy  AlHwAr
+LFI_022 hyp   w    ltrsyx  qym  AltsAmH  wAlwHdp  AlwTnyp  wnb*  Alfrqp  wtEzyz  jhwd  AlqDA'  ElY  AlEnf  Dd  Almr>p  wdwrhA  fy  <HlAl  AlslAm  w<$rAkhA  fy  AlHwAr
+LFI_022 op    I      S      C      C        C        C       C      C       C      C      C     C     C     C     C       C     C    S       C        C      C     C  
+LFI_022 #csid 19 2 1 0
+LFI_023 ref  vAmnA  H$d  AljAmEp  AlErbyp  lkAfp  jhwd  >EDA}hA  AllAzmp  wAlfEAlp  ldEm  AlHwAr  AlwTny  Allyby  wlDmAn  m$Arkp  AlnsA'  AllybyAt  fy  kl  mrAHl  AlHwAr
+LFI_023 hyp  vAmnA  H$d  AljAmEp  AlErbyp  lkAfp  jhwd  >EDA}hA  AllAzmp  wAlfEAlp  ldEm  AlHwAr  AlwTny  Allyby  wlDmAn  m$Arkp  AlnsA'   Allybyp  fy  kl  mrAHl  AlHwAr
+LFI_023 op     C     C      C        C       C      C      C        C         C       C      C       C       C       C       C       C        S      C   C    C       C  
+LFI_023 #csid 20 1 0 0
+LFI_024 ref  wbnA'  Aldwlp  w<HlAl  AlslAm  wtEzyz  qdrthn   ***   wjhwdhn  fy  dEm  wn$r  vqAfp  AlHwAr  wAlEdAlp  AlAntqAlyp  wAlmSAlHp
+LFI_024 hyp  wbnA'  Aldwlp  w<HlAl  AlslAm  wtEzyz  qdrthn  wjhwd    whn    fy  dEm  wn$r  vqAfp  AlHwAr  wAlEdAlp  Al<ntqAlyp  wAlmSAlHp
+LFI_024 op     C       C       C       C       C       C      I       S      C   C     C     C       C        C          S          C    
+LFI_024 #csid 13 2 1 0
+LFI_025 ref  tAsEA  mTAlbp  mjls  AlslAm  wAl>mn   fy  fy  AlAtHAd  Al>fryqy  bmsAndp  <EAdp  bnA'  wt>sys  AlslAm  fy  lybyA  wdEm  AlHwAr
+LFI_025 hyp  tAsEp  mTAlbp  mjls  AlslAm  wAl>mn  ***  fy  AlAtHAd  Al<fryqy  bmsAndp  <EAdp  bnA'  wt>sys  AlslAm  fy  lybyA  wdEm  AlHwAr
+LFI_025 op     S       C      C      C       C     D    C     C         S        C       C      C      C       C     C    C      C      C  
+LFI_025 #csid 15 2 0 1
+LFI_026 ref  EA$rA  mTAlbp  AtHAd  Almgrb  AlErby  fy  dEm  AlHwAr  wAlslAm  fy  lybyA   bnA'  ElY  >hm  mbAd}h  dEm  AlslAm  fy  dwl  Almgrb  AlErby
+LFI_026 hyp  EA$rA  mTAlbp  AtHAd  Almgrb  AlErby  fy  dEm  AlHwAr  wAlslAm  fy  lybyA  bnA'A  ElY  >hm  mbAd}h  dEm  AlslAm  fy  dwl  Almgrb  AlErby
+LFI_026 op     C       C      C       C       C     C   C      C       C      C    C      S     C    C      C     C      C     C   C      C       C  
+LFI_026 #csid 20 1 0 0
+LFI_027 ref  Sdr  h*A  AlbyAn   fy   Aljmhwryp  Altwnsyp  btAryx  E$ryn  ynAyr  >lfyn  wxmsp    E$r  
+LFI_027 hyp  Sdr  h*A  AlbyAn  ***  bAljmhwryp  Altwnsyp  btAryx  E$ryn  ynAyr  >lfyn   ***   wxmsTA$
+LFI_027 op    C    C      C     D        S          C        C      C      C      C      D       S   
+LFI_027 #csid 8 2 0 2
+mbt_0001 ref  $krA  Alklmp  End  Alsydp  mbArkp  Ewynyp
+mbt_0001 hyp  $krA  Alklmp  ***  llsydp  mbArkA   Ewynp
+mbt_0001 op     C      C     D      S       S       S  
+mbt_0001 #csid 2 3 0 1
+mbt_0002 ref  vmAnyp  dqA}q
+mbt_0002 hyp   vmAny  dqA}q
+mbt_0002 op      S      C  
+mbt_0002 #csid 1 1 0 0
+mbt_0003 ref  $krA  sydty  Alr}ysp  tHyp  lsyAdp  Alwzyr  wlmsAEdyh
+mbt_0003 hyp  $krA   sydy   Alr}ys  tHyp  lsyAdp  Alwzyr   wlmsAEdp
+mbt_0003 op     C     S       S       C      C       C        S    
+mbt_0003 #csid 4 3 0 0
+mbt_0004 ref  w>rjw  sydy  >n  ytsE  Sdrkm  lmA  s>qwl
+mbt_0004 hyp  w>rjw  sydy  >n  ytsE   Sdrk  lmA  s>qwl
+mbt_0004 op     C      C    C    C     S     C     C  
+mbt_0004 #csid 6 1 0 0
+mbt_0005 ref  >nA  dwn  mqdmAt  >qwl  lkm  An  h*h  AlwzArp  ASbHt  Eb}A  ElY  AlmjmwEp  AlwTnyp
+mbt_0005 hyp  >nA  dwn  mqdmAt  >qwl  lkm  <n  h*h  AlwzArp  >SbHt  Eb}A  ElY  AlmjmwEp  AlwTnyp
+mbt_0005 op    C    C      C      C    C    S   C      C       S      C    C       C        C   
+mbt_0005 #csid 11 2 0 0
+mbt_0006 ref  w>Etqd  An  AlmyzAnyp  Alty  tSrf  lhA  Hry  An  t*hb  <lY  AlbHv  AlElmy  Aw  AstSlAH  AlmnATq  AlqAHlp  >w  HtY  <lY  tnmyp  mhArAt  Al$bAb  wAlTfwlp
+mbt_0006 hyp  w>Etqd  >n  AlmyzAnyp  Alty  tSrf  lhA  Hry  >n  t*hb  <lY  AlbHv  AlElmy  >w  AstSlAH  AlmnATq  AlqAHlp  >w  HtY  <lY  tnmyp  mhArAt  Al$bAb  wAlTfwlp
+mbt_0006 op      C     S      C        C     C    C    C    S    C    C     C       C     S     C        C        C      C   C    C     C       C       C        C   
+mbt_0006 #csid 20 3 0 0
+mbt_0007 ref   l>n  bSrAHp  Alsyd  wzyr  AlxArjyp  AlsEwdy  ASbH  hw  AlmHdd  llsyAsp  AlxArjyp  lblAdnA
+mbt_0007 hyp  l>nh  bSrAHp  Alsyd  wzyr  AlxArjyp  AlsEwdy  >SbH  hw  AlmHdd  llsyAsp  AlxArjyp  lblAdnA
+mbt_0007 op     S      C      C      C       C        C       S    C     C       C         C        C   
+mbt_0007 #csid 10 2 0 0
+mbt_0008 ref  wsyAdtkm  AmA  tbArk  >w  ttwArY  xlfh  wh*A  m&sf  jdA  wtwns  lA  tstHq  mnkm  h*A
+mbt_0008 hyp  wsyAdthm  <mA  tbArk  >w  ttwArY  xlfh  wh*A  m&sf  jdA  wtwns  lA  tstHq  mnkm  h*A
+mbt_0008 op       S      S     C     C     C      C     C     C    C     C     C    C      C    C 
+mbt_0008 #csid 12 2 0 0
+mbt_0009 ref  fy  Ehdkm  AlsEyd  tm  AlAEtdA'  ElY  qrArnA  AlsyAdy   bAlzj   bnA  fy  AlHlf  AlsEwdy  AlAsrA}yly  dwn  >n  nElm
+mbt_0009 hyp  fy  Ehdkm  AlsEyd  tm  Al<EtdA'  ElY  qrArnA  AlsyAdy  bAlzjl  bnA'  fy  AlHlf  AlsEwdy  Al<srA}yly  dwn  >n  nElm
+mbt_0009 op    C    C       C     C      S      C      C       C        S      S    C    C       C          S       C    C    C 
+mbt_0009 #csid 13 4 0 0
+mbt_0010 ref  mvlmA  zj  sAbqwkm  bnA   sAbq  bnA  sAbqA  fy  AlHlf  AlqTry  Altrky  dwn  An  nElm  AyDA
+mbt_0010 hyp  mvlmA  zj  sAbqwhA  bnA  sAbqA  bnA  sAbqA  fy  AlHlf   AlqTr  Altrky  dwn  >n  nElm  >yDA
+mbt_0010 op     C     C     S      C     S     C     C     C    C       S       C     C    S    C     S 
+mbt_0010 #csid 10 5 0 0
+mbt_0011 ref  wsyAdtk  lA  tstTyE  An  tnfy  Aw  t&kd  AnxrATnA  fy  h*A  AlHzb  ***  EfwA  AlHlf  Al*y  s>Hdvk  Enh  lAHqA  l>nh  ElY  mA  ybdw  xArjytnA  lA  tElm   ElY  Enh  $y}A
+mbt_0011 hyp  wsyAdth  lA  tstTyE  >n  tnfy  >w  t&kd  AnxrATnA  fy  h*A  AlHzb   >l  EfwA  AlHlf  Al*y  s>tHdv  Enh  lAHqA  l>nh  ElY  mA  ybdw  xArjytnA  lA  tElm  wElY  Enh  $y}A
+mbt_0011 op      S      C     C     S    C    S    C       C      C   C     C     I     C     C      C      S     C     C      C    C    C    C       C      C    C     S    C     C 
+mbt_0011 #csid 22 5 1 0
+mbt_0012 ref  vm  tm  AltEdy  ElY  qrArnA  AlwTny  btSnyf  Hzb  Allh  tnZymA  ArhAbyA  mn  qbl  wzyr  AldAxlyp  AlsEwdy  AyDA
+mbt_0012 hyp  vm  tm  AltEdy  ElY  qrArnA  AlwTny  btSnyf  Hzb  Allh  tnZymA  <rhAbyA  mn  qbl  wzyr  AldAxlyp  AlsEwdy  >yDA
+mbt_0012 op    C   C     C     C      C       C       C     C     C      C       S      C   C     C       C        C       S 
+mbt_0012 #csid 15 2 0 0
+mbt_0013 ref  ElY  ArDnA  wfy  wTnnA  wwzArp  AlxArjyp  mtAEnA  twm}  br>shA
+mbt_0013 hyp  ElY  >rDnA  wfy  wTnnA  wwzArp  AlxArjyp  tmtEnA  twmy  br>shA
+mbt_0013 op    C     S     C     C       C        C        S      S      C  
+mbt_0013 #csid 6 3 0 0
+mbt_0014 ref  vm  AEtdY  AlmwsAd  AlAsrA}yly  ElY  blAdnA   wAgtAl  mwATnA  twnsyA  rmyA  bAlrSAS  AmAm  mnzlh  hw  Al$hyd  mHmd   zwyry 
+mbt_0014 hyp  vm  AEtdY  AlmwsAd  Al<srA}yly  ElY  blAdnA  wAgtAlt  mwATnA  twnsyA  rmyA  bAlrSAS  >mAm  mnzlh  hw  Al$hyd  mHmd  Alzwyry
+mbt_0014 op    C    C       C          S       C      C       S        C       C      C      C       S     C     C     C      C      S   
+mbt_0014 #csid 13 4 0 0
+mbt_0015 ref  wlm  nsmE  SwtA  lA  lkm  wlA  lr}ys  Aljmhwryp  wqd  SdEtm  A*AnnA  wr&wsnA  b>nkm  tlAmy*  Alr}ys  AlrAHl  AlHbyb  bwrqybp
+mbt_0015 hyp  wlm  nsmE  SwtA  lA  lkm  wlA  lr}ys  Aljmhwryp  wqd  Sdqtm  |*AnnA   r&wsnA  b>nkm  tlAmy*  Alr}ys  AlrAHl  AlHbyb  bwrqybp
+mbt_0015 op    C     C     C    C   C    C     C        C       C     S       S       S       C       C       C       C       C       C   
+mbt_0015 #csid 15 3 0 0
+mbt_0016 ref  >rAh  bwrqybp   sydy  Alwzyr  lmA  tm  AlAEtdA'  ElY  mqr  mnZmp  AltHryr  AlflsTynyp  bHmAm  Al$T
+mbt_0016 hyp  >rAh  bwrqybp  Alsyd  Alwzyr  lmA  tm  Al<EtdA'  ElY  mqr  mnZmp  AltHryr  AlflsTynyp  bHmAm  Al$T
+mbt_0016 op     C      C       S       C     C    C      S      C    C     C       C          C        C      C 
+mbt_0016 #csid 12 2 0 0
+mbt_0017 ref  hdd  AmrykA  bqTE  AlElAqAt  mEhA  A*A  AstEmlt  Alfytw  Dd  qrAr  ydyn  AsrA}yl
+mbt_0017 hyp  hdd  >mrykA  bqTE  AlElAqAt  mEhA  <*A  AstEmlt  Alfytw  Dd  qrAr  ydyn  <srA}yl
+mbt_0017 op    C      S      C       C       C    S      C        C     C    C     C      S   
+mbt_0017 #csid 9 3 0 0
+mbt_0018 ref  >mA  Antm  flA  mwqf  lkm
+mbt_0018 hyp  >mA  >ntm  flA  mwqf  lkm
+mbt_0018 op    C     S    C     C    C 
+mbt_0018 #csid 4 1 0 0
+mbt_0019 ref  wymkn  AyDA  AEtbAr  m$Arktkm  fy  fDyHp  mA  smy  bAjtmAE  wzrA'  AlxArjyp  AlErb  Al>xyr  fy  AlqAhrp  AqSY  drjAt  Almhzlp
+mbt_0019 hyp  wymkn  >yDA  <EtbAr  m$Arktkm  fy  fDyHp  mA  smy  bAjtmAE  wzrA'  AlxArjyp  AlErb  Al>xyr  fy  AlqAhrp  >qSY  drjAt  Almhzlp
+mbt_0019 op     C      S      S        C      C    C     C   C      C       C        C       C       C     C     C       S     C       C   
+mbt_0019 #csid 15 3 0 0
+mbt_0020 ref  fqd  AjtmEtm  l<dAnp  SArwx  ymny  sqT  fy  AlSHrA'  wfy  AlmqAbl  sktm  En  qtl  wt$ryd   $Eb    Alymn  b>kmlh
+mbt_0020 hyp  fqd  AjtmEtm  l<dAnp  SArwx  ymny  sqT  fy  AlSHrA'  wfy  AlmqAbl  sktm  En  qtl  wt$ryd  Al$Eb  Alymny  b>kmlh
+mbt_0020 op    C      C        C      C      C    C    C     C      C      C       C    C   C      C      S       S       C  
+mbt_0020 #csid 15 2 0 0
+mbt_0021 ref  flm  tstHwA  mn  >$lA'  ATfAl  Alymn  wAntm  ttDAmnwn  mE  Aldwlp  AlmEtdyp
+mbt_0021 hyp  flm   tstH   mn  >$lA'  >TfAl  Alymn  w>ntm   ttDAmn   mE  Aldwlp  AlmEtdyp
+mbt_0021 op    C      S     C    C      S      C      S        S      C     C        C   
+mbt_0021 #csid 7 4 0 0
+mbt_0022 ref  Antm  wjAmEtkm  AlErbyp  sArEtm  <lY  tjrym  Hzb  Allh  AlmqAwm  HAml  Albndqyp  AlwHyd  fy  wjh  AlkyAn  AlShywny
+mbt_0022 hyp  >ntm   jAmEtkm  AlErbyp  sArEtm  <lY  tjrym  Hzb  Allh  AlmqAwm  HAml  Albndqyp  AlwHyd  fy  wjh  AlkyAn  AlShywny
+mbt_0022 op     S       S        C        C     C     C     C     C      C       C       C        C     C   C      C        C   
+mbt_0022 #csid 14 2 0 0
+mbt_0023 ref  fy  Hyn  lm  tnbs  h*h  AljAmEp  bbnt  $fAh  EndmA  ytElq  Al>mr  bAltnZymAt  Al<rhAbyp  Alty  Awglt  fy  dmA'  AlErb  wAlmslmyn
+mbt_0023 hyp  fy  Hyn  lm  tnbv  h*h  AljAmEp  bbnt  $fAp  EndmA  ytElq  Al>mr  bAltnZymAt  Al<rhAbyp  Alty  >wklt  fy  dmA'  AlErb  wAlmslmyn
+mbt_0023 op    C   C    C    S    C      C       C     S     C      C      C         C          C        C     S     C    C     C        C    
+mbt_0023 #csid 16 3 0 0
+mbt_0024 ref  ElY  $Aklp  TAlbAn   wdAE$  wjbhp  AlnSrp  wjnd  Al$Am  wAljy$  AlHr  wgyrhA  kvyr
+mbt_0024 hyp  ElY  $Aklp  TAlbAn  wHdAE$  wjbhp  AlnSrp  wjnd  Al$Am  wAljy$  AlHr  wgyrhA  kvyr
+mbt_0024 op    C     C       C       S      C       C      C     C       C      C      C      C 
+mbt_0024 #csid 11 1 0 0
+mbt_0025 ref   zd  ElY  *lk  f$lkm  fy  Al>zmp  Allybyp  wEjzkm  En  AEAdp  AlElAqAt  mE  swryA
+mbt_0025 hyp  zyd  ElY  *lk  f$lhm  fy  Al>zmp  Allybyp  wEjzhA  En  <EAdp  AlElAqAt  mE  swryA
+mbt_0025 op    S    C    C     S     C     C       C        S     C    S        C      C    C  
+mbt_0025 #csid 9 4 0 0
+mbt_0026 ref  Hyv  ymnEkm  AlnZAm  AlsEwdy  wAmrykA  wAsrA}yl  mn   ***  ttx*wA  h*A  Almwqf
+mbt_0026 hyp  Hyv  ymnEkm  AlnZAm  AlsEwdy  w>myrkA  w<srA}yl  mn  ttx*    >h    h*A  Almwqf
+mbt_0026 op    C      C       C       C        S         S      C    I      S     C      C  
+mbt_0026 #csid 7 3 1 0
+mbt_0027 ref  syAdp  Alwzyr  An  mA  ysmY  k*bA  bAlHlf  AlAslAmy  hw  Hlf  bgdAd  Aljdyd
+mbt_0027 hyp  syAdp  Alwzyr  <n  mA  ysmY  k*bA  bAlHlf  Al<slAmy  hw  Hlf  bgdAd  Aljdyd
+mbt_0027 op     C       C     S   C    C     C      C        S      C   C     C       C  
+mbt_0027 #csid 10 2 0 0
+mbt_0028 ref  wAmynh  AlEAm  hw  bnyAmyn  ntAnyAhw  wqA}d  jy$h  hw   Aznkwt  qA}d  mA  ysmY  bjy$  AldfAE  AlAsrA}yly
+mbt_0028 hyp  w>mynh  AlEAm  hw  bnyAmyn   ntnyAhw  wqA}d  jy$h  hw  >yznkwt  qA}d  mA  ysmY  bjy$  AldfAE  Al<srA}yly
+mbt_0028 op      S      C     C     C         S       C      C    C     S       C    C    C     C      C         S    
+mbt_0028 #csid 11 4 0 0
+mbt_0029 ref  wAl$Eb  Altwnsy  Al*y  dfE  Al$hdA'  fy  kl  AlmEArk  AlErbyp  ln  ykwn  jz'A  mn  tHAlf  Shywny  Amryky  rjEy
+mbt_0029 hyp  wAl$Eb  Altwnsy  Al*y  dfE  Al$hdA'  fy  kl  AlmEArk  AlErbyp  ln  ykwn  jz'A  mn  tHAlf  Shywny  >mryky  rjEy
+mbt_0029 op      C       C       C    C      C      C   C     C        C      C    C     C    C    C       C       S      C 
+mbt_0029 #csid 16 1 0 0
+mbt_0030 ref  ElAwp  ElY  Anh  Hlf  llmhzwmyn  wmn  yrAhn  Elyh  mSyrh  AlsqwT  wAlhzymp
+mbt_0030 hyp  ElAwp  ElY  >nh  Hlf   llmhtmyn  wmn  yrAhn  Elyh  mSyrh  AlsqwT  wAlhzymp
+mbt_0030 op     C     C    S    C       S       C     C      C     C       C        C   
+mbt_0030 #csid 9 2 0 0
+mbt_0031 ref  h*A  $Eb   sbEp    E$r    dysmbr  Al$Eb  Al*y  rfE  $EArAt  Al$Eb  yryd  tHryr  flsTyn  wAl$Eb  yryd  tjrym  AltTbyE  h*A  Al$Eb  tsy'  Alyh  wzArp  AlxArjyp
+mbt_0031 hyp  h*A  ***  Al$Eb  sbETA$r  dysmbr   $Eb   Al*y  rfE  $EArAt  Al$Eb  yryd  tHryr  flsTyn  wAl$Eb  yryd  tjrym  AltTbyE  h*A  Al$Eb  tsy'  <lyh  wzArp  AlxArjyp
+mbt_0031 op    C    D     S       S        C      S      C    C      C      C      C     C       C       C      C     C       C      C     C      C     S     C        C   
+mbt_0031 #csid 18 4 0 1
+mbt_0032 ref  bxSwS  tSnyf  Hzb  Allh  Hzb  ArhAby  f<nnA  ElY  yqyn  An  h*A  AltSnyf  jA'  mbytA
+mbt_0032 hyp  bxSwS  tSnyf  Hzb  Allh  Hzb  <rhAby  f<nnA  ElY  yqyn  >n  h*A  AltSnyf  jA'  mbytp
+mbt_0032 op     C      C     C     C    C      S      C     C     C    S   C      C      C     S  
+mbt_0032 #csid 11 3 0 0
+mbt_0033 ref  wAjtmAE  AljAmEp  AlErbyp  jA'  mn  A*l  A*l  Ajl  *lk  wh*A  ln  yxdm  AlA  mSAlH  AlkyAn  AlShywny  AlmtDrr  AlwHyd  mn  tnAmy  AlmqAwmp  AlErbyp  lwjwdh  wmn  AntSArAt  AlmqAwmp
+mbt_0033 hyp  wAjtmAE  AljAmEp  AlErbyp  jA'  mn  >jl   mn  >jl  *lk  wh*A  ln  yxdm  <lA  mSAlH  AlkyAn  AlShywny  AlmtDrr  AlwHyd  mn  tnAmy  AlmqAwmp  AlErbyp  lwjwdh  wmn  <ntSArAt  AlmqAwmp
+mbt_0033 op      C        C        C      C    C   S    S    S    C     C    C    C    S     C       C        C        C        C     C    C        C        C        C     C       S         C   
+mbt_0033 #csid 21 5 0 0
+mbt_0034 ref  wlA  ttEb  HAlk  syAdp  Alwzyr  Ant  wzmlA}k  fy  AljAmEp  AlErbyp
+mbt_0034 hyp  wlA  ttEb  HAlk  syAdp  Alwzyr  >nt  wzmlA&k  fy  AljAmEp  AlErbyp
+mbt_0034 op    C     C     C     C       C     S      S      C     C        C   
+mbt_0034 #csid 8 2 0 0
+mbt_0035 ref  l>n  mA  lm  tqdr  Elyh  AsrA}yl  wmA  lm  tqdr  Elyh  dAE$  ln  tqdrwA  Elyhm  Elyh  Antm  mjtmEyn
+mbt_0035 hyp  l>n  mA  lm  tqdr  Elyh  <srA}yl  wmA  lm  tqdr  Elyh   dA$  ln   tqdr   Elyhm  Elyh  >ntm  mjtmEyn
+mbt_0035 op    C    C   C    C     C      S      C    C    C     C     S    C     S      C      C     S      C   
+mbt_0035 #csid 13 4 0 0
+mbt_0036 ref  wqd  qlt  fy  Alsnp  AlfArTp  An  mA  qbl  Hlb  lys  mA  bEd  Hlb
+mbt_0036 hyp  wqd  qlt  fy  Alsnp  AlfArTp  >n  mA  qbl  Hlb  lys  mA  bEd  Hlb
+mbt_0036 op    C    C    C    C       C      S   C   C    C    C    C   C    C 
+mbt_0036 #csid 12 1 0 0
+mbt_0037 ref  wAl|n  swryA  tntSr  nSrA  mbynA  wqrybA   stqfwn  fy  AlTAbwr  wqd  ***  tntZrwn  TwylA
+mbt_0037 hyp  wAl|n  swryA  tntSr  nSrA  mbynA  wqrybA  stqfzwn  fy  AlTAbwr  wqd  tmt  yntZrwn  TwylA
+mbt_0037 op     C      C      C      C     C       C       S      C     C      C    I      S       C  
+mbt_0037 #csid 10 2 1 0
+mbt_0038 ref  whnA  AHd  AlzmlA'  s>l  mtY  stEydwn  AlElAqAt  mE  swryA  Aqwl  lh  zmyly  AlEzyz  EndmA  y$yr  Elykm  b*lk  AlnZAm  AlsEwdy
+mbt_0038 hyp  whnA  >Hd  AlzmlA'  s>l  mtY  stEydwn  AlElAqAt  mE  swryA  >qwl  lh  zmyly  AlEzyz  EndmA  y$yr  Elykm  b*lk  AlnZAm  AlsEwdy
+mbt_0038 op     C    S      C      C    C      C         C      C    C      S    C    C       C      C      C     C      C      C       C   
+mbt_0038 #csid 17 2 0 0
+mbt_0039 ref  sydy  Alwzyr  kl  mlfAt  AlArhAb  wAltsfyr  hnAk  fy  swryA
+mbt_0039 hyp   syd  Alwzyr  kl  mlfAt  Al<rhAb  wAltkfyr  hnAk  fy  swryA
+mbt_0039 op     S      C     C    C       S         S       C    C    C  
+mbt_0039 #csid 6 3 0 0
+mbt_0040 ref  An  knt  mEnyA  bmqAwmp  AlArhAb    Ally    gATsp   fyh  twns  llEnkw$  w<EAdp  Al<EmAr  hnAk
+mbt_0040 hyp  <n  knt  mEnyA  bmqAwmp    ***    Al<rhAb  AllgAt  SfyH  tsll   Endkw$  w<EAdp  Al<EmAr  hnAk
+mbt_0040 op    S   C     C       C        D        S        S      S     S      S        C       C       C 
+mbt_0040 #csid 6 6 0 1
+mbt_0041 ref  An  kntm  mEnyyn  bAlAqtSAd  whnAk  fy  Al$Am  ySAg  AlEAlm  Aljdyd  An  kntm  mEnyyn  b*lk
+mbt_0041 hyp  <n  kntm  mEnyyn  bAl<qtSAd  whnAk  fy  Al$Am  ySAg  AlEAlm  Aljdyd  <n  kntm  mEnyyn  b*lk
+mbt_0041 op    S    C      C        S        C     C    C      C      C       C     S    C      C      C 
+mbt_0041 #csid 11 3 0 0
+mbt_0042 ref  whnAk  twld  AlErwbp  mn  jdyd  rgmA  ElY  AljAmEp  AlErbyp  AlEmylp  AljbAnp
+mbt_0042 hyp  whnAk  twld  AlErwbp  mn  jdyd  rgmA   En  AljAmEp  AlErbyp  AlEmylp  AljbAnp
+mbt_0042 op     C      C      C      C    C     C    S      C        C        C        C   
+mbt_0042 #csid 10 1 0 0
+mbt_0043 ref  sydy  Alwzyr  lybyA  hy  EmqnA  why  qDyp  twns  AmnyA  wAnsAnyA  wAqtSAdyA
+mbt_0043 hyp   syd  Alwzyr  lybyA  hy  EmqnA  why  qDyp  twns  >mnyA  w<nsAnyA  wAqtSAdyA
+mbt_0043 op     S      C      C     C    C     C     C     C     S        S         C    
+mbt_0043 #csid 8 3 0 0
+mbt_0044 ref  A*A  Ardtm  fAjElwA  h*A  Almlf  Awlwyp  lkm   wdEkm  mn  AltEAml  mE   Almly$yAt   wtjAr  Alrqyq  wAlmxdrAt
+mbt_0044 hyp  <*A  >rdtm   fjElwA  h*A  Almlf  >wlwyp  lkm  wdEwkm  mn  AltEAml  mE  Almyly$yAt  wtjArp  Alrqyq  wAlmxdrAt
+mbt_0044 op    S     S       S      C     C       S     C      S     C     C      C       S         S       C        C    
+mbt_0044 #csid 8 7 0 0
+mbt_0045 ref  wtHAwrwA  mE  Al$Eb  Allyby
+mbt_0045 hyp  wtHAwrwA  mE  Al$Eb  Allyby
+mbt_0045 op       C      C    C       C  
+mbt_0045 #csid 4 0 0 0
+mbt_0046 ref  fHl  Alhjrp  Alsryp  wAlArhAb  wtHsyn  AlwDE  AlAqtSAdy  ymr  HtmA  Ebr  syAsp  xArjyp  qwyp  w$jAEp  w$jAEp  lHl  AlAzmp  fy  lybyA
+mbt_0046 hyp  fHl  Alhjrp  Alsryp  wAl<rhAb  wtHsyn  AlwDE  Al<qtSAdy  ymr  HtmA  Ebr  syAsp  xArjyp  qwyp  w$jAEp  w$jAEp  lHl  Al>zmp  fy  lybyA
+mbt_0046 op    C      C       C        S        C      C        S       C     C    C     C       C      C      C       C     C      S     C    C  
+mbt_0046 #csid 16 3 0 0
+mbt_0047 ref  wA*A  kntm  jAdyn   fy   DmAn  mstqbl  AlmnTqp  Elykm  AEAdp  AlHyAp  lm$rwE  ***   wHdp   Almgrb  AlErby  Alkbyr  Ally  hw  AlAml  Almtbqy  lmnTqtnA
+mbt_0047 hyp  w<*A  kntm  jAdyn  ***  lDmAn  mstqbl  AlmnTqp  Elykm  <EAdp  AlHyAp  lm$rwE  Alm  AlwHdp  Almgrb  AlErby  Alkbyr  Ally  hw  Al>ml  Almtbqy  lmnTqtnA
+mbt_0047 op     S     C     C     D     S       C       C       C      S       C       C     I      S       C       C       C      C    C    S       C         C   
+mbt_0047 #csid 14 5 1 1
+mbt_0048 ref  AfryqyA  syAdp  Alwzyr  hy  mydAn  AlSrAE  AlAqtSAdy  AlAn  wfyhA  mstqbl  AlEAlm
+mbt_0048 hyp  <fryqyA  syAdp  Alwzyr  hy  mydAn  AlSrAE  Al<qtSAdy  Al|n  wfyhA  mstqbl  AlEAlm
+mbt_0048 op      S       C       C     C    C       C        S        S     C       C       C  
+mbt_0048 #csid 8 3 0 0
+mbt_0049 ref  wAtmnY  An  ntrAjE  qlylA  ***    ***   ***  An  ttrAjEwA   wAn  tdEwA  xdmp  AlAnZmp  h*h  AlbAlyp  Ally  hy  fy  AlASl  xAdmp  llShAynp
+mbt_0049 hyp  w>tmnY  >n  ntrAjE  qlylA   >n  ttrAjE  w>n  tt     tt     tdEw    >h   xdmp  Al>nZmp  h*h  AlbAlyh  Ally  hy  fy  Al>Sl  xAdmp  llShAynp
+mbt_0049 op      S     S     C      C     I      I     I    S      S       S     S      C      S      C      S       C    C   C    S      C        C   
+mbt_0049 #csid 9 9 3 0
+mbt_0050 ref   wAn  nntbh  jmyEA  lbldnA  wmnTqtnA  l>n  mSlHp  twns  w$EbhA  wmSlHp  AlAmp  AlErbyp  wAlAnsAnyp  mE  mn  yqAwm  AlAHtlAl  wAlZlm  wAlAstglAl
+mbt_0050 hyp  wAnt  nntbh  jmyEA  lbldnA  wmnTqtnA  l>n  mSlHp  twns  w$EbhA  wmSlHp  Al>mp  AlErbyp  wAl<nsAnyp  mE  mn  yqAwm  Al<HtlAl  wAlZlm  wAl<stglAl
+mbt_0050 op     S     C      C       C        C      C     C      C      C       C      S       C          S       C   C    C        S        C         S    
+mbt_0050 #csid 14 5 0 0
+mbt_0051 ref  fnHn  jz'  mn  Al$Ewb  AlmDThdp  wAlmnhwbp  wAlmstqbl  llmqAwmyn
+mbt_0051 hyp  fnHn  jz'  mn  Al$Ewb  AlmDThdp   Almnhwbp  wAlmstqbl  llmqAwmyn
+mbt_0051 op     C    C    C     C        C         S          C          C    
+mbt_0051 #csid 7 1 0 0
+mbt_0052 ref   wvq  An  Drybp  AlmwAjhp  Aql    tk   tklfp  mn  Drybp  Al*l   wAltbEyp  w$krA  $krA  Alkl
+mbt_0052 hyp  wvqy  >n  Drybp  AlmwAjhp  >ql  tklfp  tklfp  mn  Drybp  AlZl  wAltAbEyn   w$kr  $krA   ***
+mbt_0052 op     S    S    C        C      S     S      C     C    C      S       S        S      C     D 
+mbt_0052 #csid 6 7 0 1
+srj_001 ref  bsm  Allh   AlrHmn  AlrHym  wAlSlAp  wAlslAm  ElY  A$rf  Al>nbyA'  wAlmrslyn
+srj_001 hyp  bsm  Allh  AlrHmAn  AlrHym  wAlSlAp  wAlslAm  ElY  >$rf  Al>nbyA'  wAlmrslyn
+srj_001 op    C     C      S        C       C        C      C     S       C         C    
+srj_001 #csid 8 2 0 0
+srj_002 ref  qAl  tEAlY  w>EdwA  lhm  mA  AstTEtm  mn  qwp  wmn  rbAT  Alxyl  trhbwn     bh      Edw  Allh  wEdwkm  w|xryn  mn  dwnhm  lA  tElmwnhm  wAllh  yElmhm  wmA  tnfqwA  mn  $y'  fy  sbyl  Allh  ywfY   <lykm  wAntm  lA  tZlmwn  Sdq  Allh  AlEZym
+srj_002 hyp  qAl  tEAlY    wEd   lhm  mA  AstTEtm  mn  qwp  wmn  rbAT  Alxyl    ***   trhbwnnA  bEdw  Allh  wEdwkm  w|xryn  mn  dwnhm  lA  tElmwnhm   Allh  yElmhm  wmA   tnfq   mn  $y'  fy  sbyl  Allh   ***  w<lykm  w>ntm  lA  yElmwn  Sdq  Allh  AlEZym
+srj_002 op    C     C       S     C    C     C      C   C    C     C     C       D        S       S     C      C       C     C    C     C      C       S       C     C      S     C   C    C    C     C     D      S      S     C     S     C     C      C  
+srj_002 #csid 28 8 0 2
+srj_003 ref  >yhA  AlmwATnwn  >ythA  AlmwATnAt  AlslAm  Elykm  wrHmp  Allh  wbrkAth
+srj_003 hyp  >yhA  AlmwATnwn  |yAth   AlmwATnp  AlslAm  Elykm  wrHmp  Allh  wbrkAth
+srj_003 op     C       C        S        S         C      C      C      C      C   
+srj_003 #csid 7 2 0 0
+srj_004 ref  >Hdvkm  Alywm  wnHn  nwAjh  jmyEA  AlEdyd  mn  AltHdyAt  wAlSEwbAt
+srj_004 hyp  wHdtkm  Alywm  wnHn  nwAjh  jmyEA  AlEdyd  mn  AltHdyAt  wAlSEwbAt
+srj_004 op      S      C      C     C      C       C     C      C         C    
+srj_004 #csid 8 1 0 0
+srj_005 ref  kmA  tElmwn  <n  Almjls  Alr}Asy   wld  mn  rHm  AtfAq  syAsy  $Aq  wwEr    byn    Allybyyn  |mlyn  An  ynhy  Hqbp  m&lmp  mn  tAryx  lybyA  AlmEASr
+srj_005 hyp  kmA  tElmwn  <n  Almjls  Alr}Asy  wldY  mn  rHm  AtfAq  syAsy  $Aq   ***  w>rbEyn   Allyby   |mlyn  >n  ynhy  Hqbp  m&lmp  mn  tAryx  lybyA  AlmEASr
+srj_005 op    C      C     C     C       C       S    C   C     C      C     C     D      S         S       C     S    C     C     C     C    C      C       C   
+srj_005 #csid 18 4 0 1
+srj_006 ref  An  mEAnAp  $EbnA  dxlt  mnETfA  xTyrA  b>zmAt  AnsAnyp  wAqtSAdyp  w>mnyp  ASbHt  jz'  mn  tfASyl  AlHyAp  Alywmyp  llmwATn  Allyby
+srj_006 hyp  <n  mEAnAp  $EbnA  dxlt  mnETfA  xTyrA  b>zmAt  <nsAnyp  wAqtSAdyp  w>mnyp  >SbHt  jz'  mn  tfASyl  AlHyAp  Alywmyp  llmwATn  Allyby
+srj_006 op    S     C      C      C      C      C       C       S         C         C      S     C    C     C       C       C        C        C  
+srj_006 #csid 15 3 0 0
+srj_007 ref  wfwq  h*A  klh  y>ty  srTAn  Al<rhAb  Almtmvl  fy  tnZym  Aldwlp  dAE$
+srj_007 hyp   wfq  h*A  klh  y>ty  srTAn  Al<rhAb  Almtmvl  fy  tnZym  Aldwlp   dA$
+srj_007 op     S    C    C     C     C       C        C      C    C       C      S 
+srj_007 #csid 9 2 0 0
+srj_008 ref  ytwgl   wytmdd  fy  AlblAd  lyqTE  >wSAl  AlwTn  mstfydA  mn  AlSrAE  wAlAqttAl  byn  >bnA'  AlwTn  AlwAHd
+srj_008 hyp  ytwgl  wytmAdY  fy  AlblAd  lyqTE  >wSAl  AlwTn  mstfydA  mn  AlSrAE  wAl<qttAl  byn  >bnA'  AlwTn  AlwAHd
+srj_008 op     C       S      C     C      C      C      C       C      C     C        S       C     C      C       C  
+srj_008 #csid 13 2 0 0
+srj_009 ref  h*h  Al>zmAt  hy  Alty  tdEwnA  Alywm  <lY  AltHrk   wAlEml  sryEA  lltSdy  lh*h  AltHdyAt  wln  nnjH  fy  *lk  dwn  bnA'  $rAkp  qwyp  wmtynp
+srj_009 hyp  h*h  Al>zmAt  hy  Alty  tdEwnA  Alywm  <lY   tHrk   wAlEAml  sryEA  lltSdy  lh*h  AltHdyAt  wln  nnjH  fy  *lk  dwn  bnA'  $rAkp  qwyp  wmtynp
+srj_009 op    C      C      C    C      C      C     C      S       S       C       C      C       C      C     C    C   C    C     C     C      C      C  
+srj_009 #csid 20 2 0 0
+srj_010 ref  wmn  hnA  Ajdd  AldEwp   lkl   Al*yn  lm  ynZmwA   lrkb  AlwfAq  AlwTny  >n  yDEwA  AlxlAfAt  jAnbA  wntHd  ltxlyS  $EbnA  mn  h*A  AldA'
+srj_010 hyp  wmn  hnA   ***   mjddA  wlkl  All*yn  lm  ynDmwA  lrqbp  AlwfAq  AlwTny  >n  yDEwA  AlxlAfAt  jAnbA  wntHd  ltxlyS  $EbnA  mn  h*A  AldA'
+srj_010 op    C    C     D      S      S      S     C     S      S       C       C     C    C        C       C      C       C      C     C   C     C  
+srj_010 #csid 15 5 0 1
+srj_011 ref  AltAryx  ln  yrHm  wdmA'  >bnA}nA  Alty  tsqT  kl  ywm  hw  bsbb  t$tt  Aljhwd  wxlAfAt  syAsyp  Dyqp  mn  AlbED
+srj_011 hyp  AltAryx  ln  yrHm  wdmA'  >bnA&nA  Alty  tsqT  kl  ywm  hw  bsbb  t$tt  Aljhwd  wxlAfAt  syAsyp  Dyqp  mn  AlbED
+srj_011 op      C      C    C     C       S       C     C    C   C    C    C     C      C       C        C      C    C    C  
+srj_011 #csid 17 1 0 0
+srj_012 ref  kfAnA  Ebv  fklnA  $rkA'  AlwTn  wyjmEnA  mSyr  wAHd
+srj_012 hyp  kfAnA  Ebv  fqlnA  $rkA'  AlwTn  wAjmEnA  mSyr  wAHd
+srj_012 op     C     C     S      C      C       S       C     C 
+srj_012 #csid 6 2 0 0
+srj_013 ref  mn  h*A  AlmnTlq  wmn  bAb  Alms&wlyp  AlwTnyp  wAl>xlAqyp  Alty  ArtDyt     An    AtHmlhA  >nA  wzmlA}y  bAlmjls  Alr}Asy
+srj_013 hyp  mn  h*A  AlmnTlq  wmn  bAb  Alms&wlyp  AlwTnyp  wAl>xlAqyp  Alty    ***   <rtDytw   HmlhA   >nA  wzmlA}y   bmjls    r}Asy 
+srj_013 op    C   C      C      C    C       C         C          C        C      D       S        S      C      C        S        S   
+srj_013 #csid 11 4 0 1
+srj_014 ref  wldfE  AlDrr  wHmAyp  Almdnyyn  wlwqf  AstnzAf  >rwAH  AbnA}nA  fy  mdn  lybyA  wbAl>xS  mdynp  srt  AljryHp  wAlty  kAn  |xrhA  sqwT  AvnA  E$r  $hydA  dfEp  wAHdp
+srj_014 hyp  wldfE   Drr   wHmAyp  Almdnyyn  wlwqf  AstnzAf  >rwAH  >bnA'nA  fy  ***  lybyA  wbAl>xS  mdynp  ***   jryHA   wAlty  kAn  |xrhA  sqwT  <vnY  E$r  $hydA  dfEp  wAHdp
+srj_014 op     C      S       C        C       C       C       C       S      C   D     C       C       C     D      S       C     C     C      C     S    C     C      C     C  
+srj_014 #csid 18 4 0 2
+srj_015 ref  nZrA  lAstEmAl  AlEdw   tqnyAt  wmEdAt  ftAkp  wmtTwrp   ***  wtmtrsh  fy  >mAkn  Hywyp  wAstrAtyjyp
+srj_015 hyp  nZrp  lAstEmAl  AlEdw  ltqnyAt  wmEdAt  ftAkp  wmtTwrp  wtmt    r>sh   fy  >mAkn  Hywyp  wAstrAtyjyp
+srj_015 op     S       C       C       S        C      C       C       I      S      C    C      C         C     
+srj_015 #csid 9 3 1 0
+srj_016 ref  wAltzAmA  mnA  bmA  wrd  fy  AlAtfAq  AlsyAsy  Allyby  wAlSlAHyAt  AlmmnwHp  lnA  b$>n  mkAfHp   ArhAb   h*A  AltnZym  bAltEAwn  mE  AlmjtmE  Aldwly
+srj_016 hyp  wAltzAmn  mnA  bmA  wrd  fy  AlAtfAq  AlsyAsy  Allyby  wAlSlAHyAt  AlmmnwHp  lnA  b$>n  mkAfHp  Al<rhAb  h*A  AltnZym  bAltEAwn  mE  AlmjtmE  Aldwly
+srj_016 op       S      C    C    C    C     C        C        C         C          C      C     C      C       S      C      C         C      C     C        C  
+srj_016 #csid 18 2 0 0
+srj_017 ref  fqd  qrrnA  tfEyl  m$ArktnA  fy  AltHAlf     ***     AlAslAmy  wAlAnDmAm  lltHAlf  Aldwly  lmHArbp  tnZym  Aldwlp  dAE$
+srj_017 hyp  fqd  qrrnA  tfEyl  m$ArktnA  fy  AltHAlf  Al<slAmy  wAl<nDmAm     <lY     AltHAlf  Aldwly  lmHArbp  tnZym  Aldwlp   dA$
+srj_017 op    C     C      C        C      C     C         I         S          S         S        C       C       C       C      S 
+srj_017 #csid 10 4 1 0
+srj_018 ref  h*An  AltHAlfAn  All*An  yDmAn  Akvr  mn  sbEyn  dwlp  Erbyp  wAslAmyp  wAjnbyp
+srj_018 hyp  h*An  AltHAlfAt  All*An   DmAn  >kvr  mn  sbEyn  dwlp  Erbyp  w<slAmyp  w>jnbyp
+srj_018 op     C       S         C      S      S    C    C      C     C        S        S   
+srj_018 #csid 6 5 0 0
+srj_019 ref  Hyv  t>ty  h*h  AlxTwp  l<ymAnnA  b>nh  HAn  Alwqt   lwfA'  AlmjtmE  Aldwly  lwEwdh  wAltzAmAth  ll$Eb  Allyby  wHkwmp  AlwfAq  AlwTny
+srj_019 hyp  Hyv  t>ty  h*h  AlxTwp  l<ymAnnA  b>nh  HAn  Alwqt  llwfA'  AlmjtmE  Aldwly   lwEwd  wAltzAmAth  ll$Eb  Allyby   Hkwmp  AlwfAq  AlwTny
+srj_019 op    C     C    C      C        C       C    C     C       S       C        C       S         C        C       C       S       C       C  
+srj_019 #csid 15 3 0 0
+srj_020 ref  fy  h*A  AlSdd  wAstjAbp  lTlb  qyAdp  grfp  EmlyAt  AlbnyAn  AlmrSwS  wbAlt$Awr  mE  wzyr  AldfAE
+srj_020 hyp  fy  h*A  AlSdd   AstjAbp  lTlb  qyAdp  grfp  EmlyAt  AlbnyAn  AlmrSwS   wAlt$Awr  mE  wzyr  AldfAE
+srj_020 op    C   C     C        S       C     C      C      C       C        C         S       C    C      C  
+srj_020 #csid 12 2 0 0
+srj_021 ref  wqd  qrr  Almjls  Alr}Asy  bSfth  AlqA}d  Al>ElY  lljy$  Allyby  ElY  Tlb  dEm  mbA$r  mn  AlwlAyAt  AlmtHdp  Al>mrykyp  ltwjyh  DrbAt  jwyp  mHddp  lmEAql  tnZym  Aldwlp  dAE$  fy  mdynp  srt  wDwAHyhA
+srj_021 hyp  fqd  qrr  Almjls  Alr}Asy  bSfth  AlqA}d  Al>ElY   ljy$  Allyby  ElY  Tlb  dEm  mbA$r  mn  AlwlAyAt  AlmtHdp  Al>mrykyp  ltwjyh  DrbAt  jwyp  mHddp  bmEAql  tnZym  Aldwlp   dA$  fy  mdynp  srt  wDwAHyhA
+srj_021 op    S    C      C       C       C       C       C      S       C     C    C    C     C     C      C        C         C         C      C      C     C       S      C       C      S    C    C     C       C   
+srj_021 #csid 25 4 0 0
+srj_022 ref  bAltnsyq  AlmbA$r  mE  Almjls  Alr}Asy  wqyAdp  grfp  AlEmlyAt
+srj_022 hyp  bAltnsyq  AlmbA$r  mE  Almjls  Alr}Asy  wqyAdp  grfp  AlEmlyAt
+srj_022 op       C        C      C     C       C        C      C       C   
+srj_022 #csid 8 0 0 0
+srj_023 ref  wbAlfEl  fqd  bd>t  AwlY  h*h  AlDrbAt  h*A  Alywm  ElY  mwAqE  mHddp  fy  mdynp  srt  mHdvp  xsA}r  fAdHp  fy  Sfwf  AlEdw  w|lyAth
+srj_023 hyp  wbAlfEl  fqd  bd>t  >wlY  h*h  AlDrbAt  h*A  Alywm  ElY  mwAqE  mHddp  fy  mdynp  srt  mHddp  xsA}r  fAdHp  fy  Sfwf  AlEdw  w|lyAth
+srj_023 op      C      C     C     S    C      C      C     C     C     C      C     C    C     C     S      C      C     C    C     C       C   
+srj_023 #csid 19 2 0 0
+srj_024 ref  wb*lk  AstTAEt  qwAtnA  AlmydAnyp  AlsyTrp  ElY  mwAqE  mhmp  wAstrAtyjyp  lttqdm  bxTY  vAbtp  wAlHfAZ  ElY  ArwAH  mqAtlynA  Al>$Aws
+srj_024 hyp  wb*lk  AstTAEt  qwAtnA  AlmydAnyp  AlsyTrp  ElY  mwAqE  mhmp  wAstrAtyjyp  lttqdm  bxTY  vAbtp  wAlHfAZ  ElY  >rwAH   mqAtlyn   >$Aws 
+srj_024 op     C       C        C        C         C      C     C      C        C          C      C     C       C      C     S        S        S   
+srj_024 #csid 14 3 0 0
+srj_025 ref  wsyqwm  Almktb  AlAElAmy  lgrfp  AlbnyAn  AlmrSwS  bmwAfAtkm  btfASyl  Akvr  En  h*h  AlEmlyAt  wntA}jhA
+srj_025 hyp  wsyqwm  Almktb  Al<ElAmy  lgrfp  AlbnyAn  AlmrSwS   lmwAftkm  btfASyl  >kvr  En  h*h  AlEmlyAt  wntA}jhA
+srj_025 op      C       C        S       C       C        C         S         C       S    C   C       C         C   
+srj_025 #csid 10 3 0 0
+srj_026 ref  AyhA  AlmwATnwn    AythA     AlmwATnAt  Awd  bh*h  AlmnAsbp  Alt>kyd  bmA  lA  ydEw  ll$k  An  AlEmlyAt  fy  h*h  AlmrHlp  t>ty  fy  ATAr  zmny  mHdd  wln  ttjAwz  mdynp  srt  wDwAHyhA
+srj_026 hyp   ***     >yhA    AlmwATnyn  wAlmwATnAt  >wd  bh*h  AlmnAsbp   t>kyd   bmA  lA   ydE  ll$k  >n  AlEmlyAt  fy  h*h  AlmrHlp  t>ty  fy  <TAr  zmny  mHdd  wln  ttjAwz  mdynp  srt  wDwAHyhA
+srj_026 op     D       S          S           S       S     C       C        S      C    C    S     C    S      C      C   C      C       C    C    S     C     C    C      C      C     C       C   
+srj_026 #csid 18 8 0 1
+srj_027 ref  wnHn   A*   TlbnA  h*A  AldEm  Aljwy   mn  AltHAlf  Aldwly  wElY  r>shA  AlwlAyAt  AlmtHdp  Al>mrykyp
+srj_027 hyp  wnHn  ***  TAlbnA  h*A  AldEm   Aljw  byn  AltHAlf  Aldwly  wElY  r>shA  AlwlAyAt  AlmtHdp  Al>mrykyp
+srj_027 op     C    D      S     C     C      S     S      C        C      C     C        C        C         C    
+srj_027 #csid 10 3 0 1
+srj_028 ref  >&kd  Anh  ln  ykwn  hnAk  Ay  twAjd  Eskry  qtAly  ElY  Al>rD  wsyqtSr  Ay  twAjd   An  AHtAj  Al>mr  AldEm  Alfny  wAllwjsty  fqT
+srj_028 hyp  >&kd  >nh  ln  ykwn  hnAk  >y  twAjd  Eskry  qtAly  ElY  Al>rD  wsyqtSr  >y  twAjd  ***  AHtAj  Al>mr  AldEm  Alfny   wlwjsty   fqT
+srj_028 op     C    S    C    C     C    S    C      C      C     C     C       C      S    C     D     C      C      C      C        S       C 
+srj_028 #csid 16 4 0 1
+srj_029 ref  wnkrr  mn  hnA  rfDnA  AltAm  ltdxl  Ay  dwlp   Ay  kAnt  Aw  mHAwlp  AnthAk  AlsyAdp  AlwTnyp
+srj_029 hyp  wnkrr  mn  hnA  rfDhA  AltAm  btdxl  >y  dwlp  >yA  kAnt  >w  mHAwlp  <nthAk  AlsyAdp  AlwTnyp
+srj_029 op     C     C   C     S      C      S     S    C    S     C    S     C       S       C        C   
+srj_029 #csid 9 6 0 0
+srj_030 ref  wAn  Ay  dEm  mqdm  yjb  An   ykwn   bTlb  mbA$r  mn  Hkwmp  AlwfAq  AlwTny  wlA  nsmH  b>y  Eml  yqdm  ljhAt  xArjp  En  h*h  Al$rEyp  tHt  Ay  msmY  HtY  lw  kAn  fy  ATAr  mkAfHp  tnZym  Aldwlp
+srj_030 hyp  w>n  >y  dAE  mqdm  yjb  >n  ykwnwA  bTlb  mbA$r  mn  Hkwmp  AlwfAq  AlwTny  wlA  nsmH  b>y  Eml  yqdm  ljhAt  xArjp  En  h*h  Al$rEyp  tHt  >y  msmY  HtY  lw  kAn  fy  <TAr  mkAfHp  tnZym  Aldwlp
+srj_030 op    S    S   S     C    C    S     S      C     C     C    C       C       C     C     C    C    C     C     C      C     C   C      C      C    S    C    C    C   C    C    S      C      C       C  
+srj_030 #csid 27 7 0 0
+srj_031 ref  An  lybyA  lyst  bmEzl  En  AlEAlm  wklnA  y$hd  kyf  An  dwl  bkl  AmkAnyAthA  wEtAdhA  twAjh  h*A  AltnZym  wlm  tstTyE  bEd  AlqDA'  Elyh
+srj_031 hyp  <n  lybyA  lyst  bmEzl  En  AlEAlm  wqlnA  y$hd  kyf  <n  dwl  bkl  <mkAnyAthA  wEtAdhA  twAjh  h*A  AltnZym  wlm   tstTE  bEd  AlqDA'  Elyh
+srj_031 op    S    C      C     C     C     C      S      C    C    S   C    C        S         C       C     C      C      C      S     C      C      C 
+srj_031 #csid 17 5 0 0
+srj_032 ref   An  hdfnA  AlwHyd  mn  h*h  AlHrb  hw  AlqDA'  ElY  h*A  AltnZym  AlwAfd  ElynA  mn  AlxArj  wAjtvAvh
+srj_032 hyp  ***  hdfnA  AlwHyd  mn  h*h  AlHrb  hw  AlqDA'  ElY  h*A  AltnZym  AlwAfd  ElynA  mn  AlxArj  wAjtvAvh
+srj_032 op    D     C       C     C   C     C     C     C     C    C      C        C      C     C     C        C   
+srj_032 #csid 15 0 0 1
+srj_033 ref  wl*A   wjb  ElY  kl  Aldwl  AyDA  Edm  trk  $bAb  lybyA  ywAjh  h*A  AlEdw  bmfrdh  wnyAbp  Enh
+srj_033 hyp  wldY  wjbp  ElY  kl  Aldwl  >yDA  Edm  trk  $bAb  lybyA  ywAjh  h*A  AlEdw  bmfrdh  wnyAbp  Enh
+srj_033 op     S     S    C    C    C      S    C    C     C     C      C     C     C       C       C     C 
+srj_033 #csid 13 3 0 0
+srj_034 ref  mn  hnA  Ajdd  AltHyp  wAltqdyr   lkl  Aldwl  Alty  tsAnd  Al$Eb  Allyby  fy  h*h  AlmHnp
+srj_034 hyp  mn  hnA  >jdd  AltHyp  wAltqdyr  dxwl  Aldwl  Alty  tsAnd  Al$Eb  Allyby  fy  h*h  AlmHnp
+srj_034 op    C   C     S      C        C       S     C      C     C      C       C     C   C      C  
+srj_034 #csid 12 2 0 0
+srj_035 ref  fnHn  lA  nrgb  An  tSbH  bldnA  b&rp   twtr   Aw  HADnp  wmSdrp  ll<rhAb  fthdd  AlAmn  Alqwmy  ldwl  AljwAr  wAlEAlm
+srj_035 hyp  fnHn  lA  nrgb  >n  tSbH  bldnA  b&rp  Altwtr  >w  HADnp   wmSdr  Al<rhAb  fthdd  Al>mn  Alqwmy  ldwl  AljwAr  wAlEAlm
+srj_035 op     C    C    C    S    C     C      C      S     S    C       S       S       C      S       C      C      C       C   
+srj_035 #csid 12 6 0 0
+srj_036 ref  fy  AlxtAm  AtrHm   ElY    ArwAH  kl  $hdA}nA  wAtmnY  Al$fA'  AlEAjl  ljrHAnA  fy  AnHA'  lybyA  $rqA  wgrbA  $mAlA  wjnwbA
+srj_036 hyp  fy  AlxtAm   ***   ntrHm  l>rwAH  kl   $hdA'   w>tmnY  Al$fA'  AlEAjl  ljrHAnA  fy  >nHA'  lybyA  $rqA  wgrbA  $mAlA  wjnwbA
+srj_036 op    C     C      D      S       S     C     S        S       C       C       C      C    S      C      C     C      C       C  
+srj_036 #csid 12 5 0 1
+srj_037 ref  Al*yn   ysTrwn  mlAHm  AlEzp  wAlbTwlp  wAlAntSAr  fy  mwAjhp  h*A  AltnZym  AlbAgy  Aldxyl  ElY  AmtnA  AlErbyp  wAlAslAmyp
+srj_037 hyp  Al*yn  ysyTrwn  mlAHm  AlEzp  wAlbTwlp  wAlAntSAr  fy  mwAjhp  h*A  AltnZym  AlbAgy   dxyl   ElY  >mtnA  AlErbyp  wAl<slAmyp
+srj_037 op     C       S       C      C        C         C       C     C     C      C        C       S     C     S       C          S    
+srj_037 #csid 12 4 0 0
+srj_038 ref   wfqk   wfqnA  Allh  jmyEA   wsdd  xTAnA  wHtY   nSr  qryb  wAlslAm  Elykm  wrHmp  Allh  wbrkAth
+srj_038 hyp  wfArgp  wfqnA  Allh  jmyEA  wysdd  xTAnA  wHtY  nSrA  qryb  wAlslAm  Elykm  wrHmp  Allh  wbrkAth
+srj_038 op      S      C      C     C      S      C      C     S     C      C       C      C      C      C   
+srj_038 #csid 11 3 0 0
