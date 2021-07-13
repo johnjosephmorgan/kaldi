@@ -93,7 +93,7 @@ if [ $stage -le 7 ]; then
   steps/align_si.sh \
     --cmd "$train_cmd" \
     --nj $num_jobs \
-    data/train.20k \
+    data/train.20K \
     data/lang \
     exp/mono \
     exp/mono_ali || exit 1;
@@ -102,7 +102,7 @@ if [ $stage -le 7 ]; then
   steps/train_deltas.sh \
     --cmd "$train_cmd" \
     2500 30000 \
-    data/train.20k \
+    data/train.20K \
     data/lang \
     exp/mono_ali \
     exp/tri1 || exit 1;
@@ -113,7 +113,7 @@ if [ $stage -le 8 ] && $decode_gmm; then
   steps/align_si.sh \
     --cmd "$train_cmd" \
     --nj $num_jobs \
-    data/train.30k \
+    data/train.30K \
     data/lang \
     exp/tri1 \
     exp/tri1_ali || exit 1;
@@ -121,7 +121,7 @@ if [ $stage -le 8 ] && $decode_gmm; then
   steps/train_lda_mllt.sh \
     --cmd "$train_cmd" \
     4000 50000 \
-    data/train.30k \
+    data/train.30K \
     data/lang \
     exp/tri1_ali \
     exp/tri2b || exit 1;
@@ -132,7 +132,7 @@ if [ $stage -le 10 ] && $decode_gmm; then
   steps/align_si.sh \
     --cmd "$train_cmd" \
     --nj $num_jobs \
-    data/train.50k \
+    data/train.50K \
     data/lang \
     exp/tri2b \
     exp/tri2b_ali || exit 1;
@@ -140,7 +140,7 @@ if [ $stage -le 10 ] && $decode_gmm; then
   steps/train_sat_basis.sh \
     --cmd "$train_cmd" \
     5000 100000 \
-    data/train.50k \
+    data/train.50K \
     data/lang \
     exp/tri2b_ali \
     exp/tri3b || exit 1;
@@ -148,7 +148,7 @@ if [ $stage -le 10 ] && $decode_gmm; then
   steps/align_fmllr.sh \
     --cmd "$train_cmd" \
     --nj $num_jobs \
-    data/train.100k \
+    data/train.100K \
     data/lang \
     exp/tri3b \
     exp/tri3b_ali || exit 1;
