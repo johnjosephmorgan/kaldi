@@ -3,7 +3,7 @@
 set -e -o pipefail
 stage=0
 nj=30
-train_set=train.30k
+train_set=train.30K
 test_set=dev
 gmm=tri3b        # this is the source gmm-dir that we'll use for alignments; it
                  # should have alignments for the specified training data.
