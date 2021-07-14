@@ -1,0 +1,142 @@
+﻿001	Bienvenue ! Est-ce que ceci est votre premier voyage au centre de formation régional ?
+002	Oui, c'est notre premier voyage au Niger.
+003	Nous devrions prendre un moment pour voir l'école et les salles de classe si vous avez le temps.
+004	Oui, nous voulons voir les salles de classe en particulier.
+005	Voici la plus grande des deux salles de classe.
+006	Je ne peux pas m'empêcher de remarquer qu'il n'y a pas assez de chaises et de tables pour tous les élèves.
+007	Nous attendons dix-huit étudiants dans cette salle.
+008	Nous pourrions avoir besoin d'espace pour deux ou trois autres personnes.
+009	Pas de problème. Nous allons ajouter trois stations supplémentaires.
+010	Où pouvons-nous obtenir de l’électricité pour un ordinateur et un projecteur ?
+011	Nous utilisons cette prise électrique.
+012	Avez-vous un transformateur, parce que la tension est de 240 ?
+013	Oui, nous en avons un avec nous.
+014	Où pouvons-nous projeter les images ?
+015	Dans la matinée nous utilisons cet écran, mais plus tard dans la journée nous utilisons le mur.
+016	Peut-on voir la deuxième salle de classe ?
+017	Oui bien sûr.
+018	Elle est à l'autre bout du couloir.
+019	Si vous le souhaitez, nous pouvons ajouter trois postes de travail dans cette salle de classe.
+020	Quelles sont les règles concernant l’usage de tabac ici ?
+021	Nous ne sommes pas supposés fumer dans cet immeuble, mais tout le monde le fait. 
+022	Que font les étudiants à midi pour déjeuner ?
+023	La plupart des étudiants rentrent chez eux pour déjeuner.
+024	Il y a une cantine pour les étudiants en face de ce bâtiment.
+025	Mais c'est rare de trouver plus de cinq ou six étudiants à la cantine.
+026	Les étudiants se plaignent constamment de la qualité de la nourriture à la cantine !
+027	Y a-t-il un endroit pour prendre un café ?
+028	Nous avons une machine à café dans le couloir.
+029	Si nous avons besoin d'un taxi, que devons-nous faire ?
+030	Il y a une station de taxis devant l'entrée principale.
+031	Même le soir ?
+032	Oui, jusqu'à 10h du soir.
+033	Je vous suggère de négocier le prix du taxi avec le conducteur avant de quitter la station de taxi.
+034	Merci pour la suggestion et merci aussi pour la visite des installations.
+035	Nous devons utiliser ce bâtiment comme un hôpital d'urgence.
+036	Le chef de la police m'a dit que vous seriez ici.
+037	Êtes-vous en charge de cette école ?
+038	Oui, je suis le directeur.
+039	Je m'appelle Jean et je suis le responsable d'un groupe spécialisé dans les urgences médicales.
+040	Il y a plus de 50 personnes blessées à cause du pont ferroviaire qui s'est effondré.
+041	Je suis à votre disposition.
+042	J'attends toujours des nouvelles de ce qui est arrivé à ma femme qui était dans le train.
+043	Je suis très désolé, mais ne perdez pas l'espoir.
+044	Vous comptez rester ici pendant combien de temps ?
+045	Nous prévoyons rester deux semaines.
+046	Nous avons suspendu les cours jusqu'à ce que les choses reviennent à la normale.
+047	Mon équipe a besoin de mettre en place des salles de traitement.
+048	Les salles de classe les plus proches de l'entrée principale sont probablement les meilleures.
+049	Nous avons besoin de suffisamment de place pour une zone d'atterrissage en hélicoptère.
+050	Je vous suggère d'utiliser le terrain de sport.
+051	Où est le terrain de football ?
+052	Il se trouve derrière le campus.
+053	Malheureusement, il n'y a qu'un petit chemin à travers les bois pour y accéder.
+054	Il va falloir élargir ce chemin.
+055	Est-ce que nous pouvons couper les arbres ?
+056	C'est dommage, mais je ne vois pas d'autre solution.
+057	Cette petite allée servira d’entrée pour les ambulances. 
+058	Le problème c'est qu'il n'y a pas de sortie dans cette petite allée.
+059	A mon avis, l'entrée principale devant l'école sera plus pratique pour les ambulances.
+060	Vous avez raison. Donc il faut préparer un panneau qui indique que l'entrée principale est strictement réservée aux ambulances.
+061	Le poste de police se trouve près d'ici ?
+062	Malheureusement non, le commissariat de police se trouve à plus d'un kilomètre dans cette direction.
+063	Où se trouve la caserne de pompiers ?
+064	Les pompiers sont tout près.
+065	Regardez dans cette direction. 
+066	La caserne de pompiers se trouve dans ce bâtiment rouge.
+067	Et vous-même, monsieur, habitez-vous loin d’ici ?
+068	Non. Ma maison est à seulement quelques minutes d'ici.
+069	Merci pour votre aide.
+070	Je serai de retour avant 11h avec mon équipe.
+071	Nous avons besoin d'assistance pour retirer un camion qui est tombé dans un fossé. 
+072	Bien, qu’est-ce qui s’est passé avec le véhicule ? 
+073	Le camion était sur une petite route et il a glissé dans la boue.
+074	C’est quel type de véhicule ?
+075	C'est un camion de livraison commercial. 
+076	J'espère que le camion était vide !
+077	Non, il apportait deux conteneurs d’expédition à l’aéroport.
+078	De quelles tailles sont les conteneurs ?
+079	Ce sont des conteneurs en acier d’une capacité de neuf mètres cubes.
+080	Où est le camion actuellement ?
+081	Il est sur le côté de l'autoroute qui mène à l'aéroport. 
+082	J'ai entendu à la radio aujourd'hui qu'il y a eu beaucoup d'accidents à cause de la pluie.
+083	Avez-vous un camion de remorquage disponible ?
+084	Nous en avons un qui travaille actuellement dans la zone de l’aéroport.
+085	Les conteneurs doivent être livrés aujourd’hui.
+086	Est-ce que quelqu’un est là avec le camion ? 
+087	Oui, mon collègue est resté avec le camion.
+088	Pouvez-vous le contacter par téléphone ?
+089	Oui, je viens de lui parler.
+090	Vous pouvez lui dire d'attendre une dépanneuse rouge.
+091	Quand pensez-vous que la dépanneuse arrivera ?
+092	Elle arrivera vers midi.
+093	Je vais retourner au camion pour attendre avec mon collègue.
+094	Appelez-moi sur ce numéro si la dépanneuse n'est pas arrivée avant 13h.
+095	Je n’ai rien fait de mal, monsieur.
+096	Ce sac à dos, ces lunettes et ces chaussures appartiennent au cycliste.
+097	Je ne suis pas un voleur !
+098	Calmez-vous, s’il vous plaît.  
+099	Avez-vous vu l’incident qui vient de se passer ici ?
+100	Oui, j’étais ici au moment de l'accident avec le camion.
+101	Je suis le gendarme responsable ici.
+102	Je vais vous poser quelques questions. 
+103	Est-ce que vous m’accusez d’un crime ?
+104	Non, vous n’êtes pas accusé.  
+105	Je veux seulement vous interroger comme témoin.
+106	Bien monsieur, je comprends.  
+107	Je dois vous demander une copie de votre rapport.
+108	Vous aurez une copie de votre témoignage.  
+109	D’où venez-vous ?
+110	J’habite à la ville de Québec.  Je suis canadien.
+111	Depuis quand êtes-vous ici à Libreville ?
+112	Je suis au Gabon depuis le début du mois.
+113	Que faites-vous ici, à ce carrefour ?
+114	Je conduisais ma voiture vers l’ambassade américaine.    
+115	Je me suis arrêté ici pour attendre le feu de circulation.
+116	Rappelez-vous de l'heure précise quand vous êtes arrivés ici au carrefour ?
+117	Cela était à huit heures moins le quart, à peu près.
+118	Qu’est-ce qui s’est passé dans le carrefour pendant que vous attendiez ?
+119	J'ai vu cet énorme camion qui renversait un cycliste.
+120	Dans quelle direction allait le camion ?
+121	Le camion se dirigeait vers le stade de football.
+122	Et de quelle direction venait le cycliste ?
+123	Le cycliste descendait la rue principale et il est arrivé au carrefour en même temps que le camion.
+124	Qui a brûlé le feu rouge ? 
+125	Le cycliste ou le camion ?
+126	Le camion n'a pas freiné du tout et je sais qu'il avait le feu rouge.
+127	Est-ce que vous avez vu que le camion renversait le cycliste ?
+128	Oui, malheureusement j'ai tout vu.
+129	C'était vraiment horrible.
+130	Qu'est-ce que vous avez vu, exactement ?
+131	Le cycliste est tombé et je l'ai vu passer sous le camion.
+132	Est-ce que le camion s’est arrêté ?
+133	Au moment de l'impact il a freiné un peu.
+134	Le camion a ralenti, mais il ne s'est jamais arrêté.
+135	Avez-vous vu la personne qui conduisait le camion ?
+136	J’ai vu un homme africain avec les cheveux gris, presque blancs.
+137	Avez-vous vu s'il y avait des passagers dans le camion ?
+138	Non, il n’y avait personne d’autre que le conducteur.
+139	Merci pour votre coopération. Vos réponses sont très utiles.
+140	Veuillez écrire votre numéro de téléphone sur ce papier dans le cas où je devrais vous poser d'autres questions.
+141	Finalement, s'il vous plaît, donnez-moi toutes les affaires que vous avez ramassées.
+142	Avec plaisir, mais rappelez-vous que j'aimerais bien avoir une copie de ce rapport.
