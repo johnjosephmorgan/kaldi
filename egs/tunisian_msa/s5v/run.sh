@@ -47,7 +47,7 @@ num_jobs_final=2
 num_jobs_initial=2
 srand=-1
 stage=-1
-train_set=train
+train_set=train.30K
 train_stage=-10
 xent_regularize=0.1
 # done setting variables
@@ -116,7 +116,7 @@ if [ $stage -le 0 ]; then
     cd data/gale_arabic
     [ -L lang ] || ln -s ../../../../gale_arabic/s5f/data/lang ./;
     [ -L lang_test ] || ln -s ../../../../gale_arabic/s5f/data/lang_test ./;
-    [ -L train ] || ln -s ../../../../gale_arabic/s5f/data/train ./;
+    [ -L train ] || ln -s ../../../../gale_arabic/s5f/data/train.30K train;
   )
 
   # link gale_arabic exp directories
