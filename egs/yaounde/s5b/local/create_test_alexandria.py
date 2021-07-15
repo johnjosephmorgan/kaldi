@@ -25,36 +25,36 @@ import argparse
 ### global variables ###
 
 spkrs = [] # list for speakers
-linetext = [] # list for Transcription text content without line numbers
-linenumbers = [] # list for transcription line numbers only without the text
-textcontent = [] # list includes the content for text output file
-wavscp = [] # list includes the content for wav.scp file
+line_text = [] # list for Transcription text content without line numbers
+line_numbers = [] # list for transcription line numbers only without the text
+text_content = [] # list includes the content for text output file
+wav_scp = [] # list includes the content for wav.scp file
 utt2spk = [] # list includes the content for utt2spk  file
     
 ''' This function reads transcription text file with UTF-8-BOM encoding'''
-def readfile(file):
+def read_file(file):
     with open (file, 'r', encoding="utf-8-sig") as test_read: #opening the transcription file
         content = test_read.readlines()
         return list(content)
     
-''' This function appends lines to textcontent 
+''' This function appends lines to text_content 
 to be used in output file "text" 
 '''
-def addtext(uterranceid, uterranceindex): 
-    textcontent.append(uterranceid + " " + linetext[uterranceindex])
+def add_text(uterrance_id, uterrance_index): 
+    text_content.append(uterrance_id + " " + line_text[uterrance_index])
 
-''' This function appends lines ro wavscp list to be used in wav.scp
+''' This function appends lines to wav_scp list to be used in wav.scp
 including adding sox command '''
-def newwavscp(uterranceid, dirpath, filename): 
-    wavscpcommand = "sox -r 22050 -e signed -b 16 " + dirpath + filename + " -r 16000 -t wav - |" # sox command 
-    wavscpline = uterranceid + " " + wavscpcommand 
-    wavscp.append(wavscpline)
+def new_wav_scp(uterrance_id, dir_path, file_name): 
+    wav_scp_command = "sox -r 22050 -e signed -b 16 " + dir_path + file_name + " -r 16000 -t wav - |" # sox command 
+    wav_scp_line = uterrance_id + " " + wav_scp_command 
+    wav_scp.append(wav_scp_line)
 
 '''This function appends lines to utt2spk list 
 to be used in utt2spk file
 '''
-def newutt2spk(uterranceid, speaker): #
-    utt2spk.append(uterranceid + " " + speaker)
+def new_utt2spk(uterrance_id, speaker): 
+    utt2spk.append(uterrance_id + " " + speaker)
 
 ''' This function create the three requested files:
 text, utt2spk and wav.scp for kaldi /yaounde 
@@ -63,71 +63,79 @@ if data directory does not exist the function will create it
 if any of the three files already exist in test_alexandria directory 
 the function will skip the file and won't create or append to it
 '''   
-def createkalditest(datadir, filename):
-    textfile = datadir + "/" + filename # transcription file name and path
-    testing = readfile(textfile) # reading transcription content
+def create_kaldi_test(data_dir, transcript_path, file_name):
+    text_file = transcript_path + "/" + file_name # transcription file name and path
+    testing = read_file(text_file) # reading transcrtiption content
     for item in testing: # iterate through transcription content lines
-        splitontab = item.split('\t')
-        line1 = splitontab[0].rstrip("\n")
-        line2 = splitontab[1].rstrip("\n")
-        linenumbers.append(line1) # first column in transcription file
-        linetext.append(line2) # second column in transcription file
-        splitontab.clear() 
-    dirpath = datadir + "/" # adding "/" to data directory  
-    dir_contents = os.listdir(dirpath)
-    datafolder = "./data"
-    testfolder = datafolder + "/" + "test_alexandria"
-    if not os.path.exists(datafolder):
-        os.mkdir(datafolder)
-    if not os.path.exists(testfolder):
-        os.mkdir(testfolder)
+        split_on_tab = item.split('\t')
+        line1 = split_on_tab[0].rstrip("\n")
+        line2 = split_on_tab[1].rstrip("\n")
+        line_numbers.append(line1) # first column in transcroption file
+        line_text.append(line2) # second column in transcroption file
+        split_on_tab.clear() 
+    dir_path = data_dir + "/" # adding "/" to data directory  
+    dir_contents = os.listdir(dir_path)
+    data_folder = "./data"
+    test_folder = data_folder + "/" + "test_alexandria"
+    if not os.path.exists(data_folder):
+        os.mkdir(data_folder)
+    if not os.path.exists(test_folder):
+        os.mkdir(test_folder)
     
-    newtextfile = testfolder + "/text"
-    newutt2spkfile = testfolder + "/utt2spk"
-    newwavscpfile = testfolder + "/wav.scp"
+    new_text_file = test_folder + "/text"
+    new_utt2spk_file = test_folder + "/utt2spk"
+    new_wav_scp_file = test_folder + "/wav.scp"
     
     for item in dir_contents: # iterate through each file and directory
-        path = dirpath+item
+        path = dir_path + item
         if os.path.isdir(path): # checking the item is directory not file
             spkrs.append(item) # append to speakers list
 
     for item in spkrs:  # iterate through each speaker
-        spkrpath = dirpath + item
-        spkr_content = os.listdir(spkrpath)
+        spkr_path = dir_path + item
+        spkr_content = os.listdir(spkr_path)
         for f in spkr_content: # iterate through each speaker directory
                 try:
-                    uterranceid = f[:-4] 
-                    uterranceindex = linenumbers.index(f.strip(item + "_")[:-4])
-                    wavscpcommand = "sox -r 22050 -e signed -b 16 " + dirpath + f + " -r 16000 -t wav - |"
-                    addtext(uterranceid, uterranceindex)
-                    newwavscp(uterranceid, dirpath, f)
-                    newutt2spk(uterranceid, item)
+                    uterrance_id = f[:-4] 
+                    uterrance_index = line_numbers.index(f.strip(item + "_")[:-4])
+                    wav_scp_command = "sox -r 22050 -e signed -b 16 " + dir_path + f + " -r 16000 -t wav - |"
+                    add_text(uterrance_id, uterrance_index)
+                    new_wav_scp(uterrance_id, dir_path, f)
+                    new_utt2spk(uterrance_id, item)
                 except IndexError:
-                    print (f"couln't match speaker {speakername} for wav file {filename} with text")
+                    print (f"couln't match speaker {item} for wav file {f} with text")
                 
     try:
-        with open (newtextfile, 'x', newline='', encoding='utf-8') as testfile:
-            testfile.write('\n'.join(textcontent))
+        with open (new_text_file, 'x', newline='', encoding='utf-8') as test_file:
+            test_file.write('\n'.join(text_content))
     except FileExistsError:
-        print (f'file{newtextfile} already exist, will not create this file')
+        print (f'file{new_text_file} already exist, will not create this file')
         
     try:
-        with open (newwavscpfile, 'x', newline='', encoding='utf-8') as wscp:
-            wscp.write('\n'.join(wavscp))
+        with open (new_wav_scp_file, 'x', newline='', encoding='utf-8') as wscp:
+            wscp.write('\n'.join(wav_scp))
     except FileExistsError:
-        print (f'file{newwavscpfile} already exist, will not create this file')
+        print (f'file{new_wav_scp_file} already exist, will not create this file')
         
     try:
-        with open (newutt2spkfile, 'x', newline='', encoding='utf-8') as ut2sp:
+        with open (new_utt2spk_file, 'x', newline='', encoding='utf-8') as ut2sp:
             ut2sp.write('\n'.join(utt2spk))
     except FileExistsError:
-        print (f'file{newutt2spkfile} already exist, will not create this file')
+        print (f'file{new_utt2spk_file} already exist, will not create this file')
 
 if __name__=='__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--path', help='Path to Data Directory ', required=True)
-    parser.add_argument('--file', help='Transcription Text file name including file extension', required=True)
+    default_path = "/mnt/corpora/ARTI_Cameroon_242_fr"
+    default_transcript = "Recordings_French_utf8.txt"
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument('--path', default=default_path, help='Path to Data Directory if not stated will use default', required=False)
+    parser.add_argument('--tpath', default=default_path, help='Transcription Text file path if not stated will use default', required=False)
+    parser.add_argument('--file', default=default_transcript, help='Transcription Text file name including file extension if not stated will use default', required=False)
+    parser.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS, 
+                       help='Usage example (default) : python3 create_test_alexandria.py --path /mnt/corpora/ARTI_Cameroon_242_fr --tpath /mnt/corpora/ARTI_Cameroon_242 --file Recordings_French_utf8.txt'
+                       )
+    
     args=parser.parse_args()
     path = args.path
+    tpath = args.tpath
     file = args.file
-    createkalditest(path, file)
+    create_kaldi_test(path, tpath, file)
