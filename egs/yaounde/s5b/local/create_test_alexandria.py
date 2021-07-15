@@ -1,6 +1,6 @@
 ''' This script will create test_alexandria files :
 text, utt2spk and wav.scp for kaldi /yaounde
-Version = 1.02
+Version = 1.03
 '''
 ''' 
 keyword argument:- 
@@ -41,21 +41,22 @@ def read_file(file):
 ''' This function appends lines to text_content 
 to be used in output file "text" 
 '''
-def add_text(utterrance_id, utterrance_index): 
-    text_content.append(utterrance_id + " " + line_text[utterrance_index])
+def add_text(utterance_id, utterance_index): 
+    text_content.append(utterance_id + " " + line_text[utterance_index])
 
 ''' This function appends lines ro wav_scp list to be used in wav.scp
 including adding sox command '''
-def new_wav_scp(utterrance_id, dir_path, file_name): 
-    wav_scp_command = "sox -r 22050 -e signed -b 16 " + dir_path + file_name + " -r 16000 -t wav - |" # sox command 
-    wav_scp_line = utterrance_id + " " + wav_scp_command 
+def new_wav_scp(utterance_id, dir_path, speaker_name, file_name): 
+    wav_path_name = dir_path + speaker_name + "/" + file_name
+    wav_scp_command = "sox -r 22050 -e signed -b 16 " + wav_path_name + " -r 16000 -t wav - |" # sox command 
+    wav_scp_line = utterance_id + " " + wav_scp_command 
     wav_scp.append(wav_scp_line)
 
 '''This function appends lines to utt2spk list 
 to be used in utt2spk file
 '''
-def new_utt2spk(utterrance_id, speaker): 
-    utt2spk.append(utterrance_id + " " + speaker)
+def new_utt2spk(utterance_id, speaker): 
+    utt2spk.append(utterance_id + " " + speaker)
 
 ''' This function create the three requested files:
 text, utt2spk and wav.scp for kaldi /yaounde 
@@ -97,12 +98,11 @@ def create_kaldi_test(data_dir, transcript_path, file_name):
         spkr_content = os.listdir(spkr_path)
         for f in spkr_content: # iterate through each speaker directory
                 try:
-                    utterrance_id = f[:-4] 
-                    utterrance_index = line_numbers.index(f.strip(item + "_")[:-4])
-                    wav_scp_command = "sox -r 22050 -e signed -b 16 " + dir_path + f + " -r 16000 -t wav - |"
-                    add_text(utterrance_id, utterrance_index)
-                    new_wav_scp(utterrance_id, dir_path, f)
-                    new_utt2spk(utterrance_id, item)
+                    utterance_id = f[:-4] 
+                    utterance_index = line_numbers.index(f.strip(item + "_")[:-4])
+                    add_text(utterance_id, utterance_index)
+                    new_wav_scp(utterance_id, dir_path, item, f)
+                    new_utt2spk(utterance_id, item)
                 except IndexError:
                     print (f"couln't match speaker {item} for wav file {f} with text")
                 
