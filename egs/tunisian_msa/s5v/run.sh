@@ -563,7 +563,7 @@ fi
 if [ $stage -le 20 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   # Extract high resolution MFCCs from dev and test data
-  for f in devtest test; do
+  for f in test; do
     utils/copy_data_dir.sh \
       data/tunisian_msa/$f \
       data/tunisian_msa/${f}_hires || exit 1;
@@ -614,7 +614,7 @@ if [ $stage -le 21 ]; then
     $tree_dir \
     $tree_dir/graph || exit 1;
   # copy utf8 test directory to a buckwalter test directory
-  for f in devtest test; do
+  for f in test; do
     utils/copy_data_dir.sh \
       data/tunisian_msa/${f}_hires \
       data/tunisian_msa/${f}_hires_bw || exit 1;
@@ -665,7 +665,7 @@ if [ $stage -le 24 ]; then
     data/lang_test \
     $tree_dir \
     $tree_dir/graph || exit 1;
-  for f in devtest test; do
+  for f in test; do
     # Decode Tunisian MSA using Tunisian MSA with GALE LM
     (
       nspk=$(wc -l <data/tunisian_msa/${f}_hires/spk2utt)
